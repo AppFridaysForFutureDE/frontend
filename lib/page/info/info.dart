@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:app/app.dart';
 
 class InfoPage extends StatefulWidget {
   @override
@@ -8,7 +8,7 @@ class InfoPage extends StatefulWidget {
 class _InfoPageState extends State<InfoPage> {
   @override
   Widget build(BuildContext context) {
-     return Center(
+    return Center(
       child: Text(
         'Die Infos Seite',
       ),
