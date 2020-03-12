@@ -5,10 +5,17 @@ import 'package:app/pages/map/map.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-void main() => runApp(MaterialApp(
+void main() => runApp(App());
+
+class App extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       title: 'FFF App DE',
       home: Home(),
-    ));
+    );
+  }
+}
 
 class Home extends StatefulWidget {
   @override
