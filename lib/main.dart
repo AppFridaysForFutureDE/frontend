@@ -1,7 +1,7 @@
-import 'package:app/pages/about/about.dart';
-import 'package:app/pages/feed/feed.dart';
-import 'package:app/pages/info/info.dart';
-import 'package:app/pages/map/map.dart';
+import 'package:app/page/about/about.dart';
+import 'package:app/page/feed/feed.dart';
+import 'package:app/page/info/info.dart';
+import 'package:app/page/map/map.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
