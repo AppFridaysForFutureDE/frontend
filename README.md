@@ -9,3 +9,7 @@ Dies ist das Frontend bzw. die Mobile App der FFF App DE.
 3. Dieses Repo lokal clonen
 4. Ins Verzeichnis wechseln
 5. `flutter run` ausführen
+
+## Code neu generieren (JSON-Serialisierung)
+
+`flutter pub run build_runner build` ausführen.
