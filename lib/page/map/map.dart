@@ -8,9 +8,14 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Hier befindet sich die Karte',
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Karte'),
+      ),
+      body: Center(
+        child: Text(
+          'Hier befindet sich die Karte',
+        ),
       ),
     );
   }

@@ -1,38 +1,64 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import 'tag.dart';
 import 'author.dart';
 
+part 'post.g.dart';
+
+@JsonSerializable()
 class Post {
   String slug;
   String id;
   String uuid;
   String title;
   String html;
+  @JsonKey(name: 'comment_id')
   String commentId;
+  @JsonKey(name: 'feature_image')
   String featureImage;
   bool featured;
   String visibility;
-  String createdAt;
-  String updatedAt;
-  String publishedAt;
+  @JsonKey(name: 'created_at')
+  DateTime createdAt;
+  @JsonKey(name: 'updated_at')
+  DateTime updatedAt;
+  @JsonKey(name: 'published_at')
+  DateTime publishedAt;
+  @JsonKey(name: 'custom_excerpt')
   String customExcerpt;
+  @JsonKey(name: 'codeinjection_head')
   String codeinjectionHead;
+  @JsonKey(name: 'codeinjection_foot')
   String codeinjectionFoot;
+  @JsonKey(name: 'custom_template')
   String customTemplate;
+  @JsonKey(name: 'canonical_url')
   String canonicalUrl;
   List<Tag> tags;
   List<Author> authors;
+  @JsonKey(name: 'primary_author')
   Author primaryAuthor;
+  @JsonKey(name: 'primary_tag')
   Tag primaryTag;
   String url;
   String excerpt;
+  @JsonKey(name: 'reading_time')
   int readingTime;
+  @JsonKey(name: 'og_image')
   String ogImage;
+  @JsonKey(name: 'og_title')
   String ogTitle;
+  @JsonKey(name: 'og_description')
   String ogDescription;
+  @JsonKey(name: 'twitter_image')
   String twitterImage;
+  @JsonKey(name: 'twitter_title')
   String twitterTitle;
+  @JsonKey(name: 'twitter_description')
   String twitterDescription;
+  @JsonKey(name: 'meta_title')
   String metaTitle;
+  @JsonKey(name: 'meta_description')
   String metaDescription;
 
   Post(
@@ -69,97 +95,6 @@ class Post {
       this.metaTitle,
       this.metaDescription});
 
-  Post.fromJson(Map<String, dynamic> json) {
-    slug = json['slug'];
-    id = json['id'];
-    uuid = json['uuid'];
-    title = json['title'];
-    html = json['html'];
-    commentId = json['comment_id'];
-    featureImage = json['feature_image'];
-    featured = json['featured'];
-    visibility = json['visibility'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    publishedAt = json['published_at'];
-    customExcerpt = json['custom_excerpt'];
-    codeinjectionHead = json['codeinjection_head'];
-    codeinjectionFoot = json['codeinjection_foot'];
-    customTemplate = json['custom_template'];
-    canonicalUrl = json['canonical_url'];
-    if (json['tags'] != null) {
-      tags =  List<Tag>();
-      json['tags'].forEach((v) {
-        tags.add( Tag.fromJson(v));
-      });
-    }
-    if (json['authors'] != null) {
-      authors =  List<Author>();
-      json['authors'].forEach((v) {
-        authors.add( Author.fromJson(v));
-      });
-    }
-    primaryAuthor = json['primary_author'] != null
-        ?  Author.fromJson(json['primary_author'])
-        : null;
-    primaryTag = json['primary_tag'] != null
-        ?  Tag.fromJson(json['primary_tag'])
-        : null;
-    url = json['url'];
-    excerpt = json['excerpt'];
-    readingTime = json['reading_time'];
-    ogImage = json['og_image'];
-    ogTitle = json['og_title'];
-    ogDescription = json['og_description'];
-    twitterImage = json['twitter_image'];
-    twitterTitle = json['twitter_title'];
-    twitterDescription = json['twitter_description'];
-    metaTitle = json['meta_title'];
-    metaDescription = json['meta_description'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
-    data['slug'] = this.slug;
-    data['id'] = this.id;
-    data['uuid'] = this.uuid;
-    data['title'] = this.title;
-    data['html'] = this.html;
-    data['comment_id'] = this.commentId;
-    data['feature_image'] = this.featureImage;
-    data['featured'] = this.featured;
-    data['visibility'] = this.visibility;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['published_at'] = this.publishedAt;
-    data['custom_excerpt'] = this.customExcerpt;
-    data['codeinjection_head'] = this.codeinjectionHead;
-    data['codeinjection_foot'] = this.codeinjectionFoot;
-    data['custom_template'] = this.customTemplate;
-    data['canonical_url'] = this.canonicalUrl;
-    if (this.tags != null) {
-      data['tags'] = this.tags.map((v) => v.toJson()).toList();
-    }
-    if (this.authors != null) {
-      data['authors'] = this.authors.map((v) => v.toJson()).toList();
-    }
-    if (this.primaryAuthor != null) {
-      data['primary_author'] = this.primaryAuthor.toJson();
-    }
-    if (this.primaryTag != null) {
-      data['primary_tag'] = this.primaryTag.toJson();
-    }
-    data['url'] = this.url;
-    data['excerpt'] = this.excerpt;
-    data['reading_time'] = this.readingTime;
-    data['og_image'] = this.ogImage;
-    data['og_title'] = this.ogTitle;
-    data['og_description'] = this.ogDescription;
-    data['twitter_image'] = this.twitterImage;
-    data['twitter_title'] = this.twitterTitle;
-    data['twitter_description'] = this.twitterDescription;
-    data['meta_title'] = this.metaTitle;
-    data['meta_description'] = this.metaDescription;
-    return data;
-  }
+  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
+  Map<String, dynamic> toJson() => _$PostToJson(this);
 }

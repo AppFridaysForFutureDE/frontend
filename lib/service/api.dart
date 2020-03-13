@@ -38,7 +38,7 @@ class ApiService {
 
   Future<List<Post>> getPosts() async {
     var res = await client.get(
-        '$baseUrl/posts?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,excerpt,reading_time&key=$ghostApiKey');
+        '$baseUrl/posts?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt&key=$ghostApiKey');
 
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);

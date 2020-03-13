@@ -1,12 +1,19 @@
+import 'package:json_annotation/json_annotation.dart';
 
+part 'tag.g.dart';
+
+@JsonSerializable()
 class Tag {
   String id;
   String name;
   String slug;
   String description;
+  @JsonKey(name: 'feature_image')
   String featureImage;
   String visibility;
+  @JsonKey(name: 'meta_title')
   String metaTitle;
+  @JsonKey(name: 'meta_description')
   String metaDescription;
   String url;
 
@@ -21,29 +28,8 @@ class Tag {
       this.metaDescription,
       this.url});
 
-  Tag.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    slug = json['slug'];
-    description = json['description'];
-    featureImage = json['feature_image'];
-    visibility = json['visibility'];
-    metaTitle = json['meta_title'];
-    metaDescription = json['meta_description'];
-    url = json['url'];
-  }
+  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['slug'] = this.slug;
-    data['description'] = this.description;
-    data['feature_image'] = this.featureImage;
-    data['visibility'] = this.visibility;
-    data['meta_title'] = this.metaTitle;
-    data['meta_description'] = this.metaDescription;
-    data['url'] = this.url;
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$TagToJson(this);
 }
+
