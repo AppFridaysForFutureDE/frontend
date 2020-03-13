@@ -3,14 +3,14 @@ class Author {
   String name;
   String slug;
   String profileImage;
-  Null coverImage;
-  Null bio;
+  String coverImage;
+  String bio;
   String website;
   String location;
   String facebook;
   String twitter;
-  Null metaTitle;
-  Null metaDescription;
+  String metaTitle;
+  String metaDescription;
   String url;
 
   Author(

@@ -14,11 +14,11 @@ class Post {
   String createdAt;
   String updatedAt;
   String publishedAt;
-  Null customExcerpt;
-  Null codeinjectionHead;
-  Null codeinjectionFoot;
-  Null customTemplate;
-  Null canonicalUrl;
+  String customExcerpt;
+  String codeinjectionHead;
+  String codeinjectionFoot;
+  String customTemplate;
+  String canonicalUrl;
   List<Tag> tags;
   List<Author> authors;
   Author primaryAuthor;
@@ -26,14 +26,14 @@ class Post {
   String url;
   String excerpt;
   int readingTime;
-  Null ogImage;
-  Null ogTitle;
-  Null ogDescription;
-  Null twitterImage;
-  Null twitterTitle;
-  Null twitterDescription;
-  Null metaTitle;
-  Null metaDescription;
+  String ogImage;
+  String ogTitle;
+  String ogDescription;
+  String twitterImage;
+  String twitterTitle;
+  String twitterDescription;
+  String metaTitle;
+  String metaDescription;
 
   Post(
       {this.slug,

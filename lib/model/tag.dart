@@ -3,11 +3,11 @@ class Tag {
   String id;
   String name;
   String slug;
-  Null description;
-  Null featureImage;
+  String description;
+  String featureImage;
   String visibility;
-  Null metaTitle;
-  Null metaDescription;
+  String metaTitle;
+  String metaDescription;
   String url;
 
   Tag(
