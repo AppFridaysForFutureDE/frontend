@@ -9,3 +9,9 @@ Dies ist das Frontend bzw. die Mobile App der FFF App DE.
 3. Dieses Repo lokal clonen
 4. Ins Verzeichnis wechseln
 5. `flutter run` ausführen
+
+## App-Icons neu generieren
+
+`flutter pub run flutter_launcher_icons:main`
+
+Die Android Icons werden aus den Bildern in `assets/icon` generiert.
