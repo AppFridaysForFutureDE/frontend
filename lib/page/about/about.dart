@@ -10,7 +10,7 @@ class _AboutPageState extends State<AboutPage> {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        'Über die Bewegung und allgemeines',
+        'Über die Bewegung und Allgemeines',
       ),
     );
   }
