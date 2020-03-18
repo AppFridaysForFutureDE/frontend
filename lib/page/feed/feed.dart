@@ -16,7 +16,7 @@ class _FeedPageState extends State<FeedPage> {
 
   _loadData() async {
     posts = await api.getPosts();
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   List<Post> posts;
