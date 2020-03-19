@@ -1,5 +1,6 @@
 import 'package:app/app.dart';
 import 'package:app/model/post.dart';
+import 'package:app/page/feed/post.dart';
 import 'package:app/util/time_ago.dart';
 
 class FeedPage extends StatefulWidget {
@@ -71,7 +72,13 @@ class _FeedPageState extends State<FeedPage> {
 
   Widget _buildFeedItem(Post item) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => PostPage(item),
+          ),
+        );
+      },
       child: Stack(
         children: <Widget>[
           Padding(

@@ -49,7 +49,8 @@ class ApiService {
   }
 
   Future<Post> getPostById(String id) async {
-    var res = await client.get('$baseUrl/posts/$id?fields=html');
+    var res =
+        await client.get('$baseUrl/posts/$id?fields=html&key=$ghostApiKey');
 
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);
