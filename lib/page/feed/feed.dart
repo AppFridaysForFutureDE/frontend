@@ -41,9 +41,7 @@ class _FeedPageState extends State<FeedPage> {
           ),
         ),
         body: posts == null
-            ? Center(
-                child: LinearProgressIndicator()
-            )
+            ? LinearProgressIndicator()
             : RefreshIndicator(
               onRefresh: () => _loadData(),
               notificationPredicate: (bool) {
