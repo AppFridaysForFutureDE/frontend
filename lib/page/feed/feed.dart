@@ -41,13 +41,21 @@ class _FeedPageState extends State<FeedPage> {
           ),
         ),
         body: posts == null
-            ? LinearProgressIndicator()
-            : TabBarView(
-                physics: NeverScrollableScrollPhysics(),
+            ? Center(
+                child: CircularProgressIndicator()
+            )
+            : RefreshIndicator(
+              onRefresh: () => _loadData(),
+              notificationPredicate: (bool) {
+                return true;
+              },
+              child: TabBarView(
+                physics: const AlwaysScrollableScrollPhysics(),
                 children: [
                   for (var cat in categories) _buildListView(cat),
                 ],
               ),
+            ),
       ),
     );
   }
