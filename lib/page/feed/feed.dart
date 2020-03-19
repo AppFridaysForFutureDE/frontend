@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:app/app.dart';
 
 class FeedPage extends StatefulWidget {
   @override

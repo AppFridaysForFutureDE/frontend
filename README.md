@@ -10,6 +10,10 @@ Dies ist das Frontend bzw. die Mobile App der FFF App DE.
 4. Ins Verzeichnis wechseln
 5. `flutter run` ausführen
 
+## Code neu generieren (JSON-Serialisierung)
+
+`flutter pub run build_runner build` ausführen.
+
 ## App-Icons neu generieren
 
 `flutter pub run flutter_launcher_icons:main`
