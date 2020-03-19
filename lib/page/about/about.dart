@@ -8,9 +8,14 @@ class AboutPage extends StatefulWidget {
 class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Über die Bewegung und Allgemeines',
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Über uns'),
+      ),
+      body: Center(
+        child: Text(
+          'Über die Bewegung und allgemeines',
+        ),
       ),
     );
   }

@@ -33,7 +33,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(_currentIndex),
       body: _buildPage(_currentIndex),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -77,29 +76,6 @@ class _HomeState extends State<Home> {
         return AboutPage();
       default:
         return Container();
-    }
-  }
-
-  Widget _buildAppBar(int index) {
-    switch (index) {
-      case 0:
-        return AppBar(
-          title: Text('Newsfeed'),
-        );
-      case 1:
-        return AppBar(
-          title: Text('Karte'),
-        );
-      case 2:
-        return AppBar(
-          title: Text('Aktuelle Infos'),
-        );
-      case 3:
-        return AppBar(
-          title: Text('Über uns'),
-        );
-      default:
-        return AppBar();
     }
   }
 }

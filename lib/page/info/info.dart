@@ -8,9 +8,14 @@ class InfoPage extends StatefulWidget {
 class _InfoPageState extends State<InfoPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Die Infos Seite',
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Aktuelle Infos'),
+      ),
+      body: Center(
+        child: Text(
+          'Die Infos Seite',
+        ),
       ),
     );
   }
