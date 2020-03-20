@@ -18,6 +18,10 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'FFF App DE',
       home: Home(),
+      theme: ThemeData(
+        primaryColor: Color(0xff1DA64A),
+        accentColor: Color(0xff1B7340),
+      ),
     );
   }
 }

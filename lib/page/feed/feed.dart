@@ -14,7 +14,7 @@ class _FeedPageState extends State<FeedPage> {
     super.initState();
   }
 
-  _loadData() async {
+  Future _loadData() async {
     posts = await api.getPosts();
     if (mounted) setState(() {});
   }
@@ -43,7 +43,6 @@ class _FeedPageState extends State<FeedPage> {
         body: posts == null
             ? LinearProgressIndicator()
             : TabBarView(
-                physics: NeverScrollableScrollPhysics(),
                 children: [
                   for (var cat in categories) _buildListView(cat),
                 ],
@@ -57,14 +56,17 @@ class _FeedPageState extends State<FeedPage> {
         .where((p) => p.tags.indexWhere((t) => t.name == category) != -1)
         .toList();
 
-    return ListView.separated(
-      itemCount: catPosts.length,
-      itemBuilder: (context, index) {
-        return _buildFeedItem(catPosts[index]);
-      },
-      separatorBuilder: (context, index) => Container(
-        height: 0.5,
-        color: Theme.of(context).hintColor,
+    return RefreshIndicator(
+      onRefresh: _loadData,
+      child: ListView.separated(
+        itemCount: catPosts.length,
+        itemBuilder: (context, index) {
+          return _buildFeedItem(catPosts[index]);
+        },
+        separatorBuilder: (context, index) => Container(
+          height: 0.5,
+          color: Theme.of(context).hintColor,
+        ),
       ),
     );
   }
