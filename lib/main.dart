@@ -13,15 +13,34 @@ void main() {
 }
 
 class App extends StatelessWidget {
+
+
+  /*
+
+  Aktives Theme umschalten
+  
+  DynamicTheme.of(context).setBrightness(
+         Theme.of(context).brightness == Brightness.dark
+                    ? Brightness.light
+                    : Brightness.dark);
+
+   */
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'FFF App DE',
-      home: Home(),
-      theme: ThemeData(
+    return new DynamicTheme(
+      defaultBrightness: Brightness.light,
+      data: (brightness) => new ThemeData(
         primaryColor: Color(0xff1DA64A),
         accentColor: Color(0xff1B7340),
+        brightness: brightness,
       ),
+      themedWidgetBuilder: (context, theme) {
+        return MaterialApp(
+          title: 'FFF App DE',
+          home: Home(),
+          theme: theme,
+        );
+      },
     );
   }
 }

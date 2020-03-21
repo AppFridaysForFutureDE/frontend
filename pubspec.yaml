@@ -28,6 +28,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   material_design_icons_flutter: ^3.4.5045
   flutter_html: ^0.11.1
+  dynamic_theme: ^1.0.1
 
 dev_dependencies:
   flutter_test:
