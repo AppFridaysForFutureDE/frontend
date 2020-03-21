@@ -44,7 +44,7 @@ class _AboutPageState extends State<AboutPage> {
             padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: Text(
               title,
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.title,
             ),
           );
   }
