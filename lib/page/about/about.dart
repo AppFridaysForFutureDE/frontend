@@ -6,16 +6,25 @@ import 'package:app/page/about/about-subpage/selbstvertaendnis.dart';
 import 'package:app/page/about/about-subpage/verhalten.dart';
 //import 'package:url_launcher/url_launcher.dart';
 
+/*
+The About Page
+ */
 class AboutPage extends StatefulWidget {
   @override
   _AboutPageState createState() => _AboutPageState();
 }
 
 class _AboutPageState extends State<AboutPage> {
+  /*
+  The style of the Sub Headings.
+   */
   final TextStyle _styleSubHeading =  TextStyle(
     letterSpacing: 3,
     color: Colors.black54,
   );
+  /*
+  The Background of the Sub headings
+   */
   final Color _colorSubHeadingBackground = Colors.grey[100];
   @override
  /* _launchURL() async {
@@ -46,6 +55,7 @@ class _AboutPageState extends State<AboutPage> {
               onTap: () {
                 Navigator.push(
                   context,
+                  //Pushes the Sub Page on the Stack
                   MaterialPageRoute(builder: (context) => DemoPage()),
                 );
               },
