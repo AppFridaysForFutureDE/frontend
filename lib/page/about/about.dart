@@ -1,9 +1,7 @@
 import 'package:app/app.dart';
-import 'package:app/page/about/about-subpage/demo.dart';
-import 'package:app/page/about/about-subpage/forderungen.dart';
-import 'package:app/page/about/about-subpage/impressum.dart';
-import 'package:app/page/about/about-subpage/selbstvertaendnis.dart';
-import 'package:app/page/about/about-subpage/verhalten.dart';
+import 'package:app/page/about/about_subpage/about_subpage.dart';
+import 'package:app/page/about/about_subpage/demo.dart';
+
 //import 'package:url_launcher/url_launcher.dart';
 
 /*
@@ -22,6 +20,8 @@ class _AboutPageState extends State<AboutPage> {
     letterSpacing: 3,
     color: Colors.black54,
   );
+
+
   /*
   The Background of the Sub headings
    */
@@ -65,7 +65,7 @@ class _AboutPageState extends State<AboutPage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ForderungenPage()),
+                  MaterialPageRoute(builder: (context) => AboutSubpage('Forderungen', Text('Unsere Forderungen'))),
                 );
               },
             ),
@@ -74,7 +74,7 @@ class _AboutPageState extends State<AboutPage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SelbstvertaendnisPage()),
+                  MaterialPageRoute(builder: (context) => AboutSubpage('Selbstvertändnis', Text('Selbstverständnissssssss'))),
                 );
               },
             ),
@@ -83,7 +83,7 @@ class _AboutPageState extends State<AboutPage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => VerhaltenPage()),
+                  MaterialPageRoute(builder: (context) => AboutSubpage('Verhalten auf Demos', Text('Hier kommt ein toller Text über tolle Demos'))),
                 );
               },
             ),
@@ -113,7 +113,7 @@ class _AboutPageState extends State<AboutPage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ImpressumPage()),
+                  MaterialPageRoute(builder: (context) => AboutSubpage('Impressum', Text('Gaaaaanz viel Impressum .... '))),
                 );
               },
             ),
