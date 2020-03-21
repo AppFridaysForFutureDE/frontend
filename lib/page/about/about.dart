@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/app.dart';
 import 'package:app/page/about/about_subpage/about_subpage.dart';
 import 'package:app/page/about/about_subpage/demo.dart';
@@ -16,18 +18,39 @@ class _AboutPageState extends State<AboutPage> {
   /*
   The style of the Sub Headings.
    */
-  final TextStyle _styleSubHeading =  TextStyle(
+  final TextStyle _styleSubHeading = TextStyle(
     letterSpacing: 3,
     color: Colors.black54,
   );
-
 
   /*
   The Background of the Sub headings
    */
   final Color _colorSubHeadingBackground = Colors.grey[100];
+
+  Widget _buildTitle(String title) {
+    return Platform.isIOS
+        ? Material(
+            color: _colorSubHeadingBackground,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+              child: Text(
+                title,
+                style: _styleSubHeading,
+              ),
+            ),
+          )
+        : Padding(
+            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+            child: Text(
+              title,
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          );
+  }
+
   @override
- /* _launchURL() async {
+  /* _launchURL() async {
     const url = 'https://flutter.io';
     if (await canLaunch(url)) {
       await launch(url);
@@ -43,13 +66,7 @@ class _AboutPageState extends State<AboutPage> {
       body: Center(
         child: ListView(
           children: <Widget>[
-            Material(
-              color: _colorSubHeadingBackground,
-              child: Text(
-                'Die Bewegung',
-                style: _styleSubHeading,
-              ),
-            ),
+            _buildTitle('Die Bewegung'),
             ListTile(
               title: Text('Demosprüche 🗣'),
               onTap: () {
@@ -61,66 +78,59 @@ class _AboutPageState extends State<AboutPage> {
               },
             ),
             ListTile(
-              title: Text('Forderungen✊'),
+              title: Text('Forderungen ✊'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AboutSubpage('Forderungen', Text('Unsere Forderungen'))),
+                  MaterialPageRoute(
+                      builder: (context) => AboutSubpage(
+                          'Forderungen', Text('Unsere Forderungen'))),
                 );
               },
             ),
             ListTile(
-              title: Text('Selbstverständnis🥰'),
+              title: Text('Selbstverständnis 🥰'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AboutSubpage('Selbstvertändnis', Text('Selbstverständnissssssss'))),
+                  MaterialPageRoute(
+                      builder: (context) => AboutSubpage('Selbstvertändnis',
+                          Text('Selbstverständnissssssss'))),
                 );
               },
             ),
             ListTile(
-              title: Text('Verhalten auf Demos📣'),
+              title: Text('Verhalten auf Demos 📣'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AboutSubpage('Verhalten auf Demos', Text('Hier kommt ein toller Text über tolle Demos'))),
+                  MaterialPageRoute(
+                      builder: (context) => AboutSubpage('Verhalten auf Demos',
+                          Text('Hier kommt ein toller Text über tolle Demos'))),
                 );
               },
             ),
-            Material(
-              color: _colorSubHeadingBackground,
-              child: Text(
-                'Wichtige Links',
-                style: _styleSubHeading,
-              ),
-            ),
-
+            _buildTitle('Wichtige Links'),
             ListTile(
-              title: Text('Website🌐'),
+              title: Text('Website 🌐'),
             ),
             ListTile(
-              title: Text('Spenden💵'),
+              title: Text('Spenden 💵'),
             ),
-            Material(
-              color: _colorSubHeadingBackground,
-              child: Text(
-                'Sonstiges',
-                style: _styleSubHeading,
-              ),
-            ),
+            _buildTitle('Sonstiges'),
             ListTile(
-              title: Text('Impressum📖'),
+              title: Text('Impressum 📖'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AboutSubpage('Impressum', Text('Gaaaaanz viel Impressum .... '))),
+                  MaterialPageRoute(
+                      builder: (context) => AboutSubpage(
+                          'Impressum', Text('Gaaaaanz viel Impressum .... '))),
                 );
               },
             ),
-
           ],
         ),
-
       ),
     );
   }
