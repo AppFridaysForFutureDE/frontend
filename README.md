@@ -24,7 +24,7 @@ Die Android Icons werden aus den Bildern in `assets/icon` generiert.
 
 1. Ghost Server starten (Siehe [Backend Anleitung](https://github.com/AppFridaysForFutureDE/backend/blob/master/README.md) oder [Offizielle Doku](https://ghost.org/docs/install/local/)
 2. [CMS Einrichten](https://github.com/AppFridaysForFutureDE/backend/blob/master/README.md#einrichten-des-cms)
-3. [Conten API Key erstellen](https://ghost.org/docs/api/v3/content/#key)
+3. [Content API Key erstellen](https://ghost.org/docs/api/v3/content/#key)
 4. API Key in der Datei `lib/service/api.dart` in die Variable `ghostApiKey` eintragen
 5. Falls ein echtes Android Device per USB-Debugging verwendet wird (Dieser Schritt ist NICHT notwendig, wenn man einen Android Emulator verwendet)
    * Weil es kompliziert ist, eine direkte Verbindung zwischen Smartphone und localhost herzustellen, verwenden wir einen Ngrok Tunnel.
