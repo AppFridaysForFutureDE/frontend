@@ -4,6 +4,7 @@ import 'package:app/page/about/about-subpage/forderungen.dart';
 import 'package:app/page/about/about-subpage/impressum.dart';
 import 'package:app/page/about/about-subpage/selbstvertaendnis.dart';
 import 'package:app/page/about/about-subpage/verhalten.dart';
+//import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatefulWidget {
   @override
@@ -17,6 +18,14 @@ class _AboutPageState extends State<AboutPage> {
   );
   final Color _colorSubHeadingBackground = Colors.grey[100];
   @override
+ /* _launchURL() async {
+    const url = 'https://flutter.io';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }*/
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
