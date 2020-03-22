@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
 import 'package:app/page/about/about_subpage/about_subpage.dart';
 import 'package:app/page/about/about_subpage/demo.dart';
@@ -50,14 +50,13 @@ class _AboutPageState extends State<AboutPage> {
   }
 
   @override
-  /* _launchURL() async {
-    const url = 'https://flutter.io';
+  _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
       throw 'Could not launch $url';
     }
-  }*/
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -113,9 +112,15 @@ class _AboutPageState extends State<AboutPage> {
             _buildTitle('Wichtige Links'),
             ListTile(
               title: Text('Website 🌐'),
+              onTap: (){
+                _launchURL('https://fridaysforfuture.de');
+              },
             ),
             ListTile(
-              title: Text('Spenden 💵'),
+              title: Text('Unterstützung 💵'),
+              onTap: (){
+                _launchURL('https://fridaysforfuture.de/spenden/');
+              },
             ),
             _buildTitle('Sonstiges'),
             ListTile(
