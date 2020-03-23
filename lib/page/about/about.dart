@@ -116,12 +116,6 @@ class _AboutPageState extends State<AboutPage> {
                 _launchURL('https://fridaysforfuture.de');
               },
             ),
-            ListTile(
-              title: Text('Unterstützung 💵'),
-              onTap: (){
-                _launchURL('https://fridaysforfuture.de/spenden/');
-              },
-            ),
             _buildTitle('Sonstiges'),
             ListTile(
               title: Text('Impressum 📖'),
