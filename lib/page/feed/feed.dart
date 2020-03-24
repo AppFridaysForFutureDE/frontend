@@ -1,7 +1,10 @@
 import 'package:app/app.dart';
 import 'package:app/model/post.dart';
 import 'package:app/page/feed/post.dart';
+import 'package:app/util/share.dart';
 import 'package:app/util/time_ago.dart';
+
+import 'filter.dart';
 
 class FeedPage extends StatefulWidget {
   @override
@@ -60,7 +63,13 @@ class _FeedPageState extends State<FeedPage> {
             if (!searchActive)
               IconButton(
                 icon: Icon(MdiIcons.filterVariant),
-                onPressed: () {},
+                onPressed: () async {
+                  var newFilter = await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => FilterPage(),
+                    ),
+                  );
+                },
               ),
             IconButton(
               icon: Icon(searchActive ? Icons.close : MdiIcons.magnify),
@@ -138,6 +147,8 @@ class _FeedItemState extends State<FeedItem> {
   @override
   Widget build(BuildContext context) {
     bool read = Hive.box('post_read').get(post.id) ?? false;
+    bool marked = Hive.box('post_mark').get(post.id) ?? false;
+
     var textTheme = Theme.of(context).textTheme;
 
     if (read) {
@@ -235,14 +246,51 @@ class _FeedItemState extends State<FeedItem> {
           ),
           Align(
             alignment: Alignment.topRight,
-            child: PopupMenuButton(
-              icon: Icon(
-                Icons.more_vert,
-                color: textTheme.body1.color,
-              ),
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  child: Text('Mehr'),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                if (marked)
+                  Icon(
+                    MdiIcons.bookmark,
+                    color: Theme.of(context).accentColor,
+                  ),
+                PopupMenuButton(
+                  icon: Icon(
+                    Icons.more_vert,
+                  ),
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child:
+                          Text(marked ? 'Markierung entfernen' : 'Markieren'),
+                      value: 'mark',
+                    ),
+                    PopupMenuItem(
+                      child: Text('Teilen...'),
+                      value: 'share',
+                    ),
+                    if (read)
+                      PopupMenuItem(
+                        child: Text('Als ungelesen kennzeichnen'),
+                        value: 'unread',
+                      ),
+                  ],
+                  onSelected: (value) {
+                    switch (value) {
+                      case 'mark':
+                        setState(() {
+                          Hive.box('post_mark').put(post.id, !marked);
+                        });
+                        break;
+                      case 'share':
+                        ShareUtil.sharePost(post);
+                        break;
+                      case 'unread':
+                        setState(() {
+                          Hive.box('post_read').put(post.id, false);
+                        });
+                        break;
+                    }
+                  },
                 ),
               ],
             ),
