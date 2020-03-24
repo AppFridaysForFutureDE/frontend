@@ -24,6 +24,9 @@ class _FeedPageState extends State<FeedPage> {
 
   final List<String> categories = ['Wissenschaft', 'Intern', 'Politik'];
 
+  bool searchActive = false;
+  String searchText = '';
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -31,31 +34,79 @@ class _FeedPageState extends State<FeedPage> {
       initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Newsfeed'),
-          bottom: TabBar(
-            tabs: [
-              for (var cat in categories)
-                Tab(
-                  text: cat,
+          title: searchActive
+              ? TextField(
+                  autofocus: true,
+                  cursorColor: Colors.white,
+                  style: TextStyle(color: Colors.white),
+                  onChanged: (s) {
+                    setState(() {
+                      searchText = s;
+                    });
+                  },
+                )
+              : Text('Newsfeed'),
+          bottom: searchActive
+              ? null
+              : TabBar(
+                  tabs: [
+                    for (var cat in categories)
+                      Tab(
+                        text: cat,
+                      ),
+                  ],
                 ),
-            ],
-          ),
+          actions: <Widget>[
+            if (!searchActive)
+              IconButton(
+                icon: Icon(MdiIcons.filterVariant),
+                onPressed: () {},
+              ),
+            IconButton(
+              icon: Icon(searchActive ? Icons.close : MdiIcons.magnify),
+              onPressed: () {
+                setState(() {
+                  if (searchActive) {
+                    searchText = '';
+                    searchActive = false;
+                  } else {
+                    searchActive = true;
+                  }
+                });
+              },
+            ),
+          ],
         ),
         body: posts == null
             ? LinearProgressIndicator()
-            : TabBarView(
-                children: [
-                  for (var cat in categories) _buildListView(cat),
-                ],
-              ),
+            : (searchActive
+                ? _buildListView(text: searchText.toLowerCase())
+                : TabBarView(
+                    children: [
+                      for (var cat in categories) _buildListView(category: cat),
+                    ],
+                  )),
       ),
     );
   }
 
-  Widget _buildListView(String category) {
-    var catPosts = posts
-        .where((p) => p.tags.indexWhere((t) => t.name == category) != -1)
-        .toList();
+  Widget _buildListView({String category, String text}) {
+    List<Post> catPosts;
+
+    if (category != null) {
+      catPosts = posts
+          .where((p) => p.tags.indexWhere((t) => t.name == category) != -1)
+          .toList();
+    } else {
+      catPosts = posts
+          .where((p) => (p.title +
+                  p.customExcerpt +
+                  p.tags.map((t) => t.name).toString() +
+                  (p.primaryAuthor?.name ?? ''))
+              .toLowerCase()
+              .contains(text))
+          .toList();
+    }
 
     return RefreshIndicator(
       onRefresh: _loadData,
