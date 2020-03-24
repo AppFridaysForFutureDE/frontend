@@ -71,11 +71,11 @@ class _FeedPageState extends State<FeedPage> {
                       builder: (context) => FilterPage(filterState),
                     ),
                   );
-                  if (newFilterState != null) {
+
+                  if (newFilterState != null)
                     setState(() {
                       filterState = newFilterState;
                     });
-                  }
                 },
               ),
             IconButton(
@@ -95,26 +95,53 @@ class _FeedPageState extends State<FeedPage> {
         ),
         body: posts == null
             ? LinearProgressIndicator()
-            : (searchActive
-                ? _buildListView(text: searchText.toLowerCase())
-                : TabBarView(
-                    children: [
-                      for (var cat in categories) _buildListView(category: cat),
-                    ],
-                  )),
+            : Column(
+                children: <Widget>[
+                  if (filterState.filterActive)
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(8),
+                      color: Colors.yellow,
+                      alignment: Alignment.center,
+                      child: Text('Es sind Filter aktiv'),
+                    ),
+                  Expanded(
+                      child: searchActive
+                          ? _buildListView(text: searchText.toLowerCase())
+                          : TabBarView(
+                              children: [
+                                for (var cat in categories)
+                                  _buildListView(category: cat),
+                              ],
+                            )),
+                ],
+              ),
       ),
     );
   }
 
   Widget _buildListView({String category, String text}) {
-    List<Post> catPosts;
+    List<Post> shownPosts = List.from(posts);
+
+    if (filterState.filterActive) {
+      if (filterState.onlyShowMarked) {
+        var markBox = Hive.box('post_mark');
+        shownPosts =
+            shownPosts.where((p) => (markBox.get(p.id) ?? false)).toList();
+      }
+      if (filterState.onlyShowUnread) {
+        var readBox = Hive.box('post_read');
+        shownPosts =
+            shownPosts.where((p) => !(readBox.get(p.id) ?? false)).toList();
+      }
+    }
 
     if (category != null) {
-      catPosts = posts
+      shownPosts = shownPosts
           .where((p) => p.tags.indexWhere((t) => t.name == category) != -1)
           .toList();
     } else {
-      catPosts = posts
+      shownPosts = shownPosts
           .where((p) => (p.title +
                   p.customExcerpt +
                   p.tags.map((t) => t.name).toString() +
@@ -127,9 +154,9 @@ class _FeedPageState extends State<FeedPage> {
     return RefreshIndicator(
       onRefresh: _loadData,
       child: ListView.separated(
-        itemCount: catPosts.length,
+        itemCount: shownPosts.length,
         itemBuilder: (context, index) {
-          return FeedItem(catPosts[index]);
+          return FeedItem(shownPosts[index]);
         },
         separatorBuilder: (context, index) => Container(
           height: 0.5,

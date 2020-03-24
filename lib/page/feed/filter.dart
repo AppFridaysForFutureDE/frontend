@@ -1,4 +1,5 @@
 import 'package:app/app.dart';
+import 'package:app/widget/title.dart';
 
 class FilterPage extends StatefulWidget {
   final FilterState state;
@@ -9,10 +10,11 @@ class FilterPage extends StatefulWidget {
 }
 
 class _FilterPageState extends State<FilterPage> {
-  FilterState state;
+  FilterState state = FilterState();
   @override
   void initState() {
-    state = widget.state;
+    state.onlyShowMarked = widget.state.onlyShowMarked;
+    state.onlyShowUnread = widget.state.onlyShowUnread;
     super.initState();
   }
 
@@ -22,8 +24,42 @@ class _FilterPageState extends State<FilterPage> {
       appBar: AppBar(
         title: Text('Filter'),
       ),
+      body: ListView(
+        children: <Widget>[
+          TitleWidget('Status'),
+          SwitchListTile(
+              value: state.onlyShowUnread,
+              title: Text('Nur ungelesene Artikel anzeigen'),
+              onChanged: (val) {
+                setState(() {
+                  state.onlyShowUnread = val;
+                });
+              }),
+          TitleWidget('Markierung'),
+          SwitchListTile(
+              value: state.onlyShowMarked,
+              title: Text('Nur markierte Artikel anzeigen'),
+              onChanged: (val) {
+                setState(() {
+                  state.onlyShowMarked = val;
+                });
+              }),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.check),
+        onPressed: () {
+          Navigator.of(context).pop(state);
+        },
+      ),
     );
   }
 }
 
-class FilterState {}
+class FilterState {
+  bool onlyShowMarked = false;
+
+  bool onlyShowUnread = false;
+
+  bool get filterActive => onlyShowMarked || onlyShowUnread;
+}

@@ -16,9 +16,6 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
-
- 
-
   @override
   /* _launchURL() async {
     const url = 'https://flutter.io';
