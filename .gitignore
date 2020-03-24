@@ -38,3 +38,6 @@ lib/generated_plugin_registrant.dart
 
 #Ios Runner workspace
 ios/Runner.xcworkspace
+
+# App Konfiguration (Endpunkte und Keys)
+assets/config.yaml

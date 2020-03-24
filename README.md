@@ -8,7 +8,8 @@ Dies ist das Frontend bzw. die Mobile App der FFF App DE.
 2. Unterstützte IDE installieren und einrichten (z.B. [VS Code](https://flutter.dev/docs/get-started/editor?tab=vscode))
 3. Dieses Repo lokal clonen
 4. Ins Verzeichnis wechseln
-5. `flutter run` ausführen
+5. `assets/config.base.yaml` kopieren und konfigurieren
+6. `flutter run` ausführen
 
 ## Code neu generieren (JSON-Serialisierung)
 
