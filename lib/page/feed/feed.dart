@@ -30,6 +30,8 @@ class _FeedPageState extends State<FeedPage> {
   bool searchActive = false;
   String searchText = '';
 
+  var filterState = FilterState();
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -64,11 +66,16 @@ class _FeedPageState extends State<FeedPage> {
               IconButton(
                 icon: Icon(MdiIcons.filterVariant),
                 onPressed: () async {
-                  var newFilter = await Navigator.of(context).push(
+                  var newFilterState = await Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => FilterPage(),
+                      builder: (context) => FilterPage(filterState),
                     ),
                   );
+                  if (newFilterState != null) {
+                    setState(() {
+                      filterState = newFilterState;
+                    });
+                  }
                 },
               ),
             IconButton(

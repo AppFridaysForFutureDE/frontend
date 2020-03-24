@@ -15,18 +15,6 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
-  /*
-  The style of the Sub Headings.
-   */
-  final TextStyle _styleSubHeading = TextStyle(
-    letterSpacing: 3,
-    color: Colors.black54,
-  );
-
-  /*
-  The Background of the Sub headings
-   */
-  final Color _colorSubHeadingBackground = Colors.grey[100];
 
   Widget _buildTitle(String title) {
     return Platform.isIOS
