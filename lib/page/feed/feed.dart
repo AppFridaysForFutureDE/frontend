@@ -142,8 +142,8 @@ class _FeedPageState extends State<FeedPage> {
           .toList();
     } else {
       shownPosts = shownPosts
-          .where((p) => (p.title +
-                  p.customExcerpt +
+          .where((p) => ((p.title??'') +' '+
+                  (p.customExcerpt??'') +
                   p.tags.map((t) => t.name).toString() +
                   (p.primaryAuthor?.name ?? ''))
               .toLowerCase()
