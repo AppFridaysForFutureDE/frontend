@@ -20,12 +20,13 @@ class _PostPageState extends State<PostPage> {
   void initState() {
     super.initState();
 
-    api.getPostById(post.id).then((p) {
-      if (mounted)
-        setState(() {
-          html = p.html;
-        });
-    });
+    if (post.id != null)
+      api.getPostById(post.id).then((p) {
+        if (mounted)
+          setState(() {
+            html = p.html;
+          });
+      });
   }
 
   @override

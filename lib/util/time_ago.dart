@@ -1,6 +1,8 @@
 class TimeAgoUtil {
-  static String render(DateTime time) {
-    int diffInSeconds = DateTime.now().difference(time).inSeconds;
+  static String render(DateTime time, {DateTime now}) {
+    now ??= DateTime.now();
+
+    int diffInSeconds = now.difference(time).inSeconds;
     if (diffInSeconds < 60) {
       return '$diffInSeconds Sek.';
     } else if (diffInSeconds < 60 * 60) {
