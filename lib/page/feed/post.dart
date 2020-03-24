@@ -25,6 +25,8 @@ class _PostPageState extends State<PostPage> {
         setState(() {
           html = p.html;
         });
+
+      Hive.box('post_read').put(post.id, true);
     });
   }
 

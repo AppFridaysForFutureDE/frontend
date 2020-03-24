@@ -6,15 +6,17 @@ import 'package:app/service/api.dart';
 
 import 'package:app/app.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+
+  await Hive.openBox('post_read');
+
   api = ApiService();
 
   runApp(App());
 }
 
 class App extends StatelessWidget {
-
-
   /*
 
   Aktives Theme umschalten

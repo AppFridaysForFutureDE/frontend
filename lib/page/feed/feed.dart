@@ -113,7 +113,7 @@ class _FeedPageState extends State<FeedPage> {
       child: ListView.separated(
         itemCount: catPosts.length,
         itemBuilder: (context, index) {
-          return _buildFeedItem(catPosts[index]);
+          return FeedItem(catPosts[index]);
         },
         separatorBuilder: (context, index) => Container(
           height: 0.5,
@@ -122,15 +122,38 @@ class _FeedPageState extends State<FeedPage> {
       ),
     );
   }
+}
 
-  Widget _buildFeedItem(Post item) {
+class FeedItem extends StatefulWidget {
+  final Post item;
+  FeedItem(this.item);
+
+  @override
+  _FeedItemState createState() => _FeedItemState();
+}
+
+class _FeedItemState extends State<FeedItem> {
+  Post get post => widget.item;
+
+  @override
+  Widget build(BuildContext context) {
+    bool read = Hive.box('post_read').get(post.id) ?? false;
+    var textTheme = Theme.of(context).textTheme;
+
+    if (read) {
+      textTheme = textTheme.apply(
+        bodyColor: Colors.grey,
+      );
+    }
+
     return InkWell(
-      onTap: () {
-        Navigator.of(context).push(
+      onTap: () async {
+        await Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => PostPage(item),
+            builder: (context) => PostPage(post),
           ),
         );
+        setState(() {});
       },
       child: Stack(
         children: <Widget>[
@@ -141,11 +164,13 @@ class _FeedPageState extends State<FeedPage> {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    if (item.authors.isNotEmpty)
-                      Text('Quelle/Autor'
-                          //item.authors.first.name,
+                    if (post.authors.isNotEmpty)
+                      Text(
+                        'Quelle/Autor',
 
-                          ),
+                        //item.authors.first.name,,
+                        style: textTheme.body1,
+                      ),
                     Spacer(),
                   ],
                 ),
@@ -160,22 +185,23 @@ class _FeedPageState extends State<FeedPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            item.title,
-                            style: Theme.of(context).textTheme.subhead,
+                            post.title,
+                            style: textTheme.subhead,
                           ),
-                          if (item.customExcerpt != null)
+                          if (post.customExcerpt != null)
                             Text(
-                              item.customExcerpt,
+                              post.customExcerpt,
+                              style: textTheme.body1,
                             ),
                         ],
                       ),
                     ),
-                    if (item.featureImage != null) ...[
+                    if (post.featureImage != null) ...[
                       SizedBox(
                         width: 16,
                       ),
                       Image.network(
-                        item.featureImage ?? '',
+                        post.featureImage ?? '',
                         width: 80,
                       ),
                     ]
@@ -188,16 +214,20 @@ class _FeedPageState extends State<FeedPage> {
                       child: Wrap(
                         spacing: 8,
                         children: <Widget>[
-                          for (var tag in item.tags)
+                          for (var tag in post.tags)
                             Chip(
                               label: Text(
                                 tag.name,
+                                style: textTheme.body1,
                               ),
                             ),
                         ],
                       ),
                     ),
-                    Text('vor ' + TimeAgoUtil.render(item.publishedAt)),
+                    Text(
+                      'vor ' + TimeAgoUtil.render(post.publishedAt),
+                      style: textTheme.body1,
+                    ),
                   ],
                 ),
               ],
@@ -206,7 +236,10 @@ class _FeedPageState extends State<FeedPage> {
           Align(
             alignment: Alignment.topRight,
             child: PopupMenuButton(
-              icon: Icon(Icons.more_vert),
+              icon: Icon(
+                Icons.more_vert,
+                color: textTheme.body1.color,
+              ),
               itemBuilder: (context) => [
                 PopupMenuItem(
                   child: Text('Mehr'),
