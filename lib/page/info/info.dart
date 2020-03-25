@@ -12,9 +12,9 @@ class _InfoPageState extends State<InfoPage> {
   List<OgTileSave> ogSaveL;
   _InfoPageState(){
     ogL = [
-      _cOG('123','KielerOGXtreem','Kiel','Schleswig Holstein', 22223344344,7766767877,'Pleeeenumm ist wichtig für ...', 'facebook.com','instagram.com','twitter.com/','fridaysforfuture.de'),
-      _cOG('123566','Kieler','Kiel','Schleswig Holstein', 22223344344,7766767877,'Pleeeenumm ist wichtig für ...', 'facebook.com','instagram.com','twitter.com/','fridaysforfuture.de'),
-      _cOG('123566','München zu faul zum eintragen',null,'Bayern', 22223344344,7766767877,null, 'facebook.com',null,'twitter.com','fridaysforfuture.de'),
+      _cOG('123','KielerOGXtreem','Kiel','Schleswig Holstein', 22223344344,7766767877,'Pleeeenumm ist wichtig für ...', 'https://facebook.com','https://instagram.com','https://twitter.com/','https://fridaysforfuture.de'),
+      _cOG('123566','Kieler','Kiel','Schleswig Holstein', 22223344344,7766767877,'Pleeeenumm ist wichtig für ...', 'https://facebook.com','https://instagram.com','twitter.com/','https://fridaysforfuture.de'),
+      _cOG('123566','München zu faul zum eintragen',null,'Bayern', 22223344344,7766767877,null, 'https://facebook.com',null,'https://twitter.com','https://fridaysforfuture.de'),
     ];
     ogSaveL = ogL.map((og) { return OgTileSave(og);}).toList();
   }
