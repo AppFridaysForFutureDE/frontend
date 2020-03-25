@@ -1,26 +1,32 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/services.dart' show rootBundle;
+
 import 'package:app/model/og.dart';
 import 'package:app/model/post.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:yaml/yaml.dart';
 
 /// Definition: https://github.com/AppFridaysForFutureDE/backend/blob/master/swagger.yaml
 class ApiService {
   http.Client client;
 
-  // TODO Im Debug Mode auch durch den NodeJS-Endpunkt routen, sobald verfügbar
-  final baseUrl = kReleaseMode
-      ? 'https://app.fridaysforfuture.de/api/v1'
-      : 'http://10.0.2.2:2368/ghost/api/v3/content';
-
-  // Temporär, siehe oben
-  // ! WICHTIG: Eigenen API Key definieren !
-  final ghostApiKey = 'a80913c8c299b9dd96253b1763';
+  String baseUrl;
+  String ghostBaseUrl;
+  String ghostApiKey;
 
   ApiService() {
     client = http.Client();
+  }
+
+  loadConfig() async {
+    var doc = loadYaml(await rootBundle.loadString('assets/config.yaml'));
+
+    baseUrl = doc['baseUrl'];
+    ghostBaseUrl = doc['ghostBaseUrl'];
+    ghostApiKey = doc['ghostApiKey'];
   }
 
   // TODO Caching und Offline-Support hinzufügen
@@ -38,7 +44,7 @@ class ApiService {
 
   Future<List<Post>> getPosts() async {
     var res = await client.get(
-        '$baseUrl/posts?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt&key=$ghostApiKey');
+        '$ghostBaseUrl/content/posts?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt&key=$ghostApiKey');
 
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);
@@ -49,8 +55,8 @@ class ApiService {
   }
 
   Future<Post> getPostById(String id) async {
-    var res =
-        await client.get('$baseUrl/posts/$id?fields=html&key=$ghostApiKey');
+    var res = await client
+        .get('$ghostBaseUrl/content/posts/$id?fields=html&key=$ghostApiKey');
 
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);
