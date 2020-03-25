@@ -12,7 +12,7 @@ import 'package:app/main.dart';
 void main() {
   api = ApiService();
 
-  testWidgets('BottomNavigationBar und grundlegende Navigation',
+  /* testWidgets('BottomNavigationBar und grundlegende Navigation',
       (WidgetTester tester) async {
     await tester.pumpWidget(App());
 
@@ -28,7 +28,7 @@ void main() {
 
     expect(find.text('Newsfeed'), findsNothing);
     expect(find.text('Aktuelle Infos'), findsOneWidget);
-  });
+  }); */
 
   testWidgets('FeedPage', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(
