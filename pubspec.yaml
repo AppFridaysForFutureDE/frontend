@@ -42,6 +42,7 @@ dev_dependencies:
   json_serializable: ^3.2.5
 
   flutter_launcher_icons: "^0.7.0"
+  test: any
   hive_generator: ^0.7.0+2
 
 flutter_icons:

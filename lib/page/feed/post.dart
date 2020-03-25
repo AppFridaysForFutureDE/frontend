@@ -21,19 +21,21 @@ class _PostPageState extends State<PostPage> {
   void initState() {
     super.initState();
 
-    api.getPostById(post.id).then((p) {
-      if (mounted)
-        setState(() {
-          html = p.html;
-        });
+    if (post.id != null)
+      api.getPostById(post.id).then((p) {
+        if (mounted)
+          setState(() {
+            html = p.html;
+          });
 
-      Hive.box('post_read').put(post.id, true);
-    });
+        Hive.box('post_read').put(post.id, true);
+      });
   }
 
   @override
   Widget build(BuildContext context) {
-    bool marked = Hive.box('post_mark').get(post.id) ?? false;
+    bool marked =
+        post.id == null ? false : Hive.box('post_mark').get(post.id) ?? false;
 
     return Scaffold(
       body: Scrollbar(

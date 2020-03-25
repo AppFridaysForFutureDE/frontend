@@ -33,3 +33,7 @@ Die Android Icons werden aus den Bildern in `assets/icon` generiert.
    * Ngrok starten: `ngrok http 2368`
    * URL in der Datei `lib/service/api.dart` in die Variable `baseUrl` eintragen:
    * Beispiel: ```final baseUrl = 'http://82a26a90.ngrok.io/ghost/api/v3/content';```
+
+## Tests ausführen
+
+`flutter test` ausführen.
