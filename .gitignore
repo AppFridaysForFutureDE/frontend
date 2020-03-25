@@ -33,8 +33,14 @@
 # Web related
 lib/generated_plugin_registrant.dart
 
+# Test related
+coverage/
+
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 #Ios Runner workspace
 ios/Runner.xcworkspace
+
+# App Konfiguration (Endpunkte und Keys)
+assets/config.yaml

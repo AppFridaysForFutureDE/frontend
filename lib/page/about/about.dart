@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
 import 'package:app/page/about/about_subpage/about_subpage.dart';
 import 'package:app/page/about/about_subpage/demo.dart';
+import 'package:app/widget/title.dart';
 
 //import 'package:url_launcher/url_launcher.dart';
 
@@ -16,40 +17,6 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
-  /*
-  The style of the Sub Headings.
-   */
-  final TextStyle _styleSubHeading = TextStyle(
-    letterSpacing: 3,
-    color: Colors.black54,
-  );
-
-  /*
-  The Background of the Sub headings
-   */
-  final Color _colorSubHeadingBackground = Colors.grey[100];
-
-  Widget _buildTitle(String title) {
-    return Platform.isIOS
-        ? Material(
-            color: _colorSubHeadingBackground,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-              child: Text(
-                title,
-                style: _styleSubHeading,
-              ),
-            ),
-          )
-        : Padding(
-            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-            child: Text(
-              title,
-              style: Theme.of(context).textTheme.title,
-            ),
-          );
-  }
-
   @override
   _launchURL(String url) async {
     if (await canLaunch(url)) {
@@ -77,7 +44,7 @@ class _AboutPageState extends State<AboutPage> {
       body: Center(
         child: ListView(
           children: <Widget>[
-            _buildTitle('Die Bewegung'),
+            TitleWidget('Die Bewegung'),
             ListTile(
               title: Text('Demosprüche 🗣'),
               onTap: () {
@@ -121,14 +88,14 @@ class _AboutPageState extends State<AboutPage> {
                 );
               },
             ),
-            _buildTitle('Wichtige Links'),
+            TitleWidget('Wichtige Links'),
             ListTile(
               title: Text('Website 🌐'),
               onTap: () {
                 _launchURL('https://fridaysforfuture.de');
               },
             ),
-            _buildTitle('Sonstiges'),
+            TitleWidget('Sonstiges'),
             ListTile(
               title: Text('Impressum 📖'),
               onTap: () {

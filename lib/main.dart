@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:app/page/about/about.dart';
 import 'package:app/page/feed/feed.dart';
 import 'package:app/page/info/info.dart';
@@ -6,8 +8,17 @@ import 'package:app/service/api.dart';
 
 import 'package:app/app.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+
+  await Hive.openBox('post_read');
+  await Hive.openBox('post_mark');
+
   api = ApiService();
+
+  await api.loadConfig();
 
   runApp(App());
 }
@@ -19,7 +30,7 @@ class App extends StatelessWidget {
       defaultBrightness: Brightness.light,
       data: (brightness) => new ThemeData(
         primaryColor: Color(0xff1DA64A),
-        accentColor: Color(0xff1B7340),
+        accentColor: Color(0xfff5333f),
         brightness: brightness,
       ),
       themedWidgetBuilder: (context, theme) {
