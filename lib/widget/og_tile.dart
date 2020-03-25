@@ -1,4 +1,3 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../app.dart';
@@ -22,7 +21,7 @@ class OgTile extends StatelessWidget{
         ? Container()
         : Row(
       children: <Widget>[
-        FaIcon(icon),
+        Icon(icon),
         FlatButton(
           onPressed: () => _launchURL(url),
           child: Text(
@@ -64,10 +63,10 @@ class OgTile extends StatelessWidget{
 
                 _buildLocation(),
                 (og.zusatzinfo == null || og.zusatzinfo == '')? Container() : Text(og.zusatzinfo),
-                _buildSocialMedia(FontAwesomeIcons.globe, og.website),
-                _buildSocialMedia(FontAwesomeIcons.facebookSquare, og.facebook),
-                _buildSocialMedia(FontAwesomeIcons.twitterSquare, og.twitter),
-                _buildSocialMedia(FontAwesomeIcons.instagram, og.instagram),
+                _buildSocialMedia(MdiIcons.web, og.website),
+                _buildSocialMedia(MdiIcons.facebook, og.facebook),
+                _buildSocialMedia(MdiIcons.twitter, og.twitter),
+                _buildSocialMedia(MdiIcons.instagram, og.instagram),
 
               ],
             ),
