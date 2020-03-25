@@ -1,5 +1,6 @@
 import 'package:app/app.dart';
 import 'package:app/model/post.dart';
+import 'package:app/util/share.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -25,11 +26,15 @@ class _PostPageState extends State<PostPage> {
         setState(() {
           html = p.html;
         });
+
+      Hive.box('post_read').put(post.id, true);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    bool marked = Hive.box('post_mark').get(post.id) ?? false;
+
     return Scaffold(
       body: Scrollbar(
         child: CustomScrollView(
@@ -62,12 +67,23 @@ class _PostPageState extends State<PostPage> {
                             title: Text(post.title),
                             actions: <Widget>[
                               IconButton(
-                                icon: Icon(Icons.favorite),
-                                onPressed: () {},
+                                icon: Icon(marked
+                                    ? MdiIcons.bookmark
+                                    : MdiIcons.bookmarkOutline),
+                                color: marked
+                                    ? Theme.of(context).accentColor
+                                    : null,
+                                onPressed: () {
+                                  setState(() {
+                                    Hive.box('post_mark').put(post.id, !marked);
+                                  });
+                                },
                               ),
                               IconButton(
                                 icon: Icon(Icons.share),
-                                onPressed: () {},
+                                onPressed: () {
+                                  ShareUtil.sharePost(post);
+                                },
                               ),
                             ],
                           )),
