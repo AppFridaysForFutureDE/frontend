@@ -13,18 +13,6 @@ void main() {
 }
 
 class App extends StatelessWidget {
-
-
-  /*
-
-  Aktives Theme umschalten
-  
-  DynamicTheme.of(context).setBrightness(
-         Theme.of(context).brightness == Brightness.dark
-                    ? Brightness.light
-                    : Brightness.dark);
-
-   */
   @override
   Widget build(BuildContext context) {
     return new DynamicTheme(

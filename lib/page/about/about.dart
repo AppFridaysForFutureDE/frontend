@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:app/page/about/settings.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
 import 'package:app/page/about/about_subpage/about_subpage.dart';
@@ -57,10 +58,21 @@ class _AboutPageState extends State<AboutPage> {
       throw 'Could not launch $url';
     }
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Über uns'),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
+              })
+        ],
       ),
       body: Center(
         child: ListView(
@@ -112,7 +124,7 @@ class _AboutPageState extends State<AboutPage> {
             _buildTitle('Wichtige Links'),
             ListTile(
               title: Text('Website 🌐'),
-              onTap: (){
+              onTap: () {
                 _launchURL('https://fridaysforfuture.de');
               },
             ),
