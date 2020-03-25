@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:app/page/about/about.dart';
 import 'package:app/page/feed/feed.dart';
 import 'package:app/page/info/info.dart';
@@ -7,12 +9,16 @@ import 'package:app/service/api.dart';
 import 'package:app/app.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await Hive.initFlutter();
 
   await Hive.openBox('post_read');
   await Hive.openBox('post_mark');
 
   api = ApiService();
+
+  await api.loadConfig();
 
   runApp(App());
 }
