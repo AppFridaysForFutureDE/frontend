@@ -2,7 +2,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../app.dart';
 /*
-A Tile wich displays a OG
+A Tile wich displays a OG in  a Scroll View and is extandable
  */
 class OgTile extends StatelessWidget{
 
@@ -23,7 +23,7 @@ class OgTile extends StatelessWidget{
   }
   /*
   Takes a icon and a url String
-  and Builds a Row with a Icon and a social Media Link
+  and Builds a Row with a Icon and a social Media Link which is clickable
    */
   Widget _buildSocialMedia(IconData icon,String url){
     return (url == null || url == '')
@@ -42,7 +42,7 @@ class OgTile extends StatelessWidget{
   }
   /*
   Builds the Location Text Widgets
-  Depending on wich filds are set
+  Depending on which filds are set
    */
   Widget _buildLocation(){
     if(og.stadt == null || og.stadt == ''){
