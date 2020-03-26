@@ -14,7 +14,6 @@ class _InfoPageState extends State<InfoPage> {
   List<OG> ogAllL;
   List<OG> ogL;
   _InfoPageState(){
-    print("Init Info Page");
     //Dummy Data
     ogAllL = [
       _cOG('123','Kieler OG 1','Kiel','Schleswig Holstein', 22223344344,7766767877,'Pleeeenumm ist wichtig für ... München', 'https://facebook.com','https://instagram.com','https://twitter.com/','https://fridaysforfuture.de'),
@@ -86,7 +85,6 @@ class _InfoPageState extends State<InfoPage> {
               style: TextStyle(color: Colors.white),
               onChanged: (searchInputP) {
                 setState(() {
-                  print("State changed"+searchInputP);
                   _searchInput = searchInputP;
                   ogL = [];
                   ogL.addAll(ogAllL); // copies the List in order to not currupt the All list
