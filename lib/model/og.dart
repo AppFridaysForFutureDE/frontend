@@ -2,11 +2,23 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'og.g.dart';
 
+/*     "Stadt": "Bad Homburg",
+    "WhatsApp": "https:\/\/chat.whatsapp.com\/FGSXU0Zug478xjTJ2J2zb0",
+    "eMail": null,
+    "Instagram": null,
+    "Twitter": null,
+    "Facebook": null,
+    "Website": null,
+    "WhatsApp Studis": null,
+    "Telegram": "" */
+
 @JsonSerializable()
 class OG {
   String id;
-
+  
   String name;
+
+  @JsonKey(name: 'Stadt')
   String stadt;
   String bundesland;
 
