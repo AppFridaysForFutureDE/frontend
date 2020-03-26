@@ -5,15 +5,12 @@ import '../app.dart';
 A Tile wich displays a OG
  */
 class OgTile extends StatelessWidget{
-  OgTileSave ogSave;
+
   OG og;
-  Function delegateSetState;
   /*
-  The Contructor take a OgTileSave and the setState Method of the Delegate
+  The Contructor takes an og Object
    */
-  OgTile(this.ogSave, this.delegateSetState){
-    og = ogSave.og;
-  }
+  OgTile(this.og);
   /*
   Launches a URl or throws an Error
    */
@@ -64,47 +61,31 @@ class OgTile extends StatelessWidget{
    */
   @override
   Widget build(BuildContext context){
-    return ogSave.tapped ? //If Activated show extended View of the og
-        Container(
+    return ExpansionTile(
 
-          padding: EdgeInsets.fromLTRB(0.0,15.0,10.0,0.0),
-          child: FlatButton(
-            onPressed: (){delegateSetState((){
-              ogSave.tapped = !ogSave.tapped;
-            });},
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text(
-                  og.name,
-                  style: Theme.of(context).textTheme.title,
-                ),
+      title:Text(
+        og.name,
+        style: Theme.of(context).textTheme.title,
+      ),
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.fromLTRB(30, 0.0, 0.0, 0.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
 
-                _buildLocation(),
-                (og.zusatzinfo == null || og.zusatzinfo == '')? Container() : Text(og.zusatzinfo),
-                _buildSocialMedia(MdiIcons.web, og.website),
-                _buildSocialMedia(MdiIcons.facebook, og.facebook),
-                _buildSocialMedia(MdiIcons.twitter, og.twitter),
-                _buildSocialMedia(MdiIcons.instagram, og.instagram),
+              _buildLocation(),
+              (og.zusatzinfo == null || og.zusatzinfo == '')? Container() : Text(og.zusatzinfo),
+              _buildSocialMedia(MdiIcons.web, og.website),
+              _buildSocialMedia(MdiIcons.facebook, og.facebook),
+              _buildSocialMedia(MdiIcons.twitter, og.twitter),
+              _buildSocialMedia(MdiIcons.instagram, og.instagram),
 
-              ],
-            ),
+            ],
           ),
-        )
-        : ListTile( // Else shows if not Activated
-      title: Text(ogSave.og.name),
-      onTap: (){delegateSetState((){
-        ogSave.tapped = !ogSave.tapped;
-      });},
+        ),
+      ],
     );
   }
 }
 
-/*
-A class wich represent a Tile without the need of have one loaded
- */
-class OgTileSave{
-  OG og;
-  bool tapped = false;
-  OgTileSave(this.og);
-}

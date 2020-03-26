@@ -5,11 +5,12 @@ class InfoPage extends StatefulWidget {
   @override
   _InfoPageState createState() => _InfoPageState();
 }
-
+/*
+The Page Shows the Information to all marked OGs
+ */
 class _InfoPageState extends State<InfoPage> {
 
   List<OG> ogL;
-  List<OgTileSave> ogSaveL;
   _InfoPageState(){
     //Dummy Data
     ogL = [
@@ -17,8 +18,6 @@ class _InfoPageState extends State<InfoPage> {
       _cOG('123566','Kieler OG 2','Kiel','Schleswig Holstein', 22223344344,7766767877,'Pleeeenumm ist wichtig für ...', 'https://facebook.com','https://instagram.com','twitter.com/','https://fridaysforfuture.de'),
       _cOG('123566','München zu faul zum eintragen',null,'Bayern', 22223344344,7766767877,null, 'https://facebook.com',null,'https://twitter.com','https://fridaysforfuture.de'),
     ];
-    // Maps the data of the OG into a OgTileSave which represents a OgTile without have a widget loaded
-    ogSaveL = ogL.map((og) { return OgTileSave(og);}).toList();
   }
   //Only to create the Dummy data
   static OG _cOG(String id, String name, String stadt, String bundesland, num long, num lat, String zusatzinfo,  String facebook,String instagram,String twitter,String website){
@@ -48,14 +47,10 @@ class _InfoPageState extends State<InfoPage> {
         title: Text('Ortsgruppen Infos'),
       ),
       body: Center(
-        child: ListView.separated( // the seperator of the Croll view
+        child: ListView.builder( // a Standard List View
           padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-
-          separatorBuilder: (context, index) => Divider(// the seperator of the Croll view
-            color: Colors.black,
-          ),
-          itemCount: ogSaveL.length,
-          itemBuilder: (context, index) => OgTile(ogSaveL[index],setState), // creates a ogTile from a OgTileSave
+          itemCount: ogL.length,
+          itemBuilder: (context, index) => OgTile(ogL[index]), //creates a OgTile from an Og
 
         )
       ),
