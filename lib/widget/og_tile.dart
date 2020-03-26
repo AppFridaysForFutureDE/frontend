@@ -1,6 +1,6 @@
 import 'package:url_launcher/url_launcher.dart';
 
-import '../app.dart';
+import 'package:app/app.dart';
 /*
 A Tile wich displays a OG in  a Scroll View and is extandable
  */
