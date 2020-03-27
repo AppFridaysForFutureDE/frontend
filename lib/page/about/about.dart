@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:app/model/post.dart';
 import 'package:app/page/about/settings.dart';
+import 'package:app/page/feed/post.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
 import 'package:app/page/about/about_subpage/about_subpage.dart';
@@ -17,6 +19,12 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
+  Post verhalten = null;
+
+  _AboutPageState(){
+    //_loadAllSubpages();
+  }
+
   @override
   _launchURL(String url) async {
     if (await canLaunch(url)) {
@@ -61,8 +69,10 @@ class _AboutPageState extends State<AboutPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AboutSubpage(
-                          'Forderungen', Text('Unsere Forderungen'))),
+                    //loads a Post page except that the title is at the Top
+                    //the post loaded has the SLUG forderungen
+                    builder: (context) => AboutSubpage('forderungen'),
+                  )
                 );
               },
             ),
@@ -72,8 +82,8 @@ class _AboutPageState extends State<AboutPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AboutSubpage('Selbstvertändnis',
-                          Text('Selbstverständnissssssss'))),
+                      builder: (context) => AboutSubpage('selbstverstaendnis'),
+                  )
                 );
               },
             ),
@@ -83,8 +93,13 @@ class _AboutPageState extends State<AboutPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AboutSubpage('Verhalten auf Demos',
-                          Text('Hier kommt ein toller Text über tolle Demos'))),
+                      builder: (context) {
+                        if(verhalten != null){
+                          return PostPage(verhalten);
+                        }else {
+                          return AboutSubpage('verhalten-auf-demos');
+                        }
+                      }),
                 );
               },
             ),
@@ -102,8 +117,8 @@ class _AboutPageState extends State<AboutPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AboutSubpage(
-                          'Impressum', Text('Gaaaaanz viel Impressum .... '))),
+                      builder: (context) => AboutSubpage('impressum'),
+                  )
                 );
               },
             ),
