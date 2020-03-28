@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "350740343111",
-    "firebase_url": "https://fff-app-c6cf3.firebaseio.com",
-    "project_id": "fff-app-c6cf3",
-    "storage_bucket": "fff-app-c6cf3.appspot.com"
+    "project_number": "141094606536",
+    "firebase_url": "https://fff-app-de.firebaseio.com",
+    "project_id": "fff-app-de",
+    "storage_bucket": "fff-app-de.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:350740343111:android:d0516717c6cc5f182d4462",
+        "mobilesdk_app_id": "1:141094606536:android:9c8a8ae13e019fcd4277fd",
         "android_client_info": {
           "package_name": "de.fridaysforfuture.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "350740343111-0rln33ghplqgameclf6c4fimv21kmndl.apps.googleusercontent.com",
+          "client_id": "141094606536-cl9ni88q0s5v9h6mpqv76osj1t2ki9ah.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDIHFXUKlvPxgtjewUt5RnOHKxVO4_ogt4"
+          "current_key": "AIzaSyDj_4kgTjtYuF_2Fid0RAuTSfzUUBO9B0M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "350740343111-0rln33ghplqgameclf6c4fimv21kmndl.apps.googleusercontent.com",
+              "client_id": "141094606536-cl9ni88q0s5v9h6mpqv76osj1t2ki9ah.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
