@@ -2,41 +2,33 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'og.g.dart';
 
-/*     "Stadt": "Bad Homburg",
-    "WhatsApp": "https:\/\/chat.whatsapp.com\/FGSXU0Zug478xjTJ2J2zb0",
-    "eMail": null,
-    "Instagram": null,
-    "Twitter": null,
-    "Facebook": null,
-    "Website": null,
-    "WhatsApp Studis": null,
-    "Telegram": "" */
-
 @JsonSerializable()
 class OG {
+  @JsonKey(name: '_id')
   String id;
-  
+
   String name;
 
-  @JsonKey(name: 'Stadt')
-  String stadt;
   String bundesland;
 
-  num long;
-  num lat;
+  double lat;
+  double lon;
 
-  String zusatzinfo;
+  String whatsApp;
+  String whatsAppStud;
 
-  String facebook;
+  String email;
   String instagram;
   String twitter;
+  String facebook;
   String website;
+  String telegram;
 
   OG();
 
   @override
   String toString() {
-    return 'OG[id=$id, name=$name, stadt=$stadt, bundesland=$bundesland, long=$long, lat=$lat, zusatzinfo=$zusatzinfo, facebook=$facebook, instagram=$instagram, twitter=$twitter, website=$website]';
+    return 'OG${toJson()}';
   }
 
   factory OG.fromJson(Map<String, dynamic> json) => _$OGFromJson(json);

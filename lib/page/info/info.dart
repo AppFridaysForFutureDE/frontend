@@ -29,13 +29,11 @@ class _InfoPageState extends State<InfoPage> {
     og.id = id;
 
     og.name = name;
-    og.stadt = stadt ;
     og.bundesland = bundesland;
 
-    og.long = long;
-    og.lat = lat;
+    og.lon = long+0.0;
+    og.lat = lat+0.0;
 
-    og.zusatzinfo = zusatzinfo;
 
     og.facebook = facebook;
     og.instagram = instagram;
@@ -52,7 +50,7 @@ class _InfoPageState extends State<InfoPage> {
     if(og.name != null && (og.name.toLowerCase().contains(_searchInput.toLowerCase()))){
       return false;
     }
-    if(og.stadt != null && (og.stadt.toLowerCase().contains(_searchInput.toLowerCase()))){
+    if(og.name != null && (og.name.toLowerCase().contains(_searchInput.toLowerCase()))){
       return false;
     }
     if(og.bundesland != null && (og.bundesland.toLowerCase().contains(_searchInput.toLowerCase()))){
@@ -68,9 +66,9 @@ class _InfoPageState extends State<InfoPage> {
    * this list gets appended to the first result because its less relevant then a direct match with the name/city name
    */
   bool _removeSecondPriority(OG og){
-    if(og.zusatzinfo != null && (og.zusatzinfo.toLowerCase().contains(_searchInput.toLowerCase()))){
+  /*   if(og.zusatzinfo != null && (og.zusatzinfo.toLowerCase().contains(_searchInput.toLowerCase()))){
       return false;
-    }
+    } */
     return true;
   }
   //the main Build function
