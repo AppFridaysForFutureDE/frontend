@@ -1,0 +1,11 @@
+# Config.yaml Basis
+# In `config.yaml` kopieren und nach Bedarf konfigurieren
+# TODO Produktion und Entwicklung trennen
+
+baseUrl: https://app.fffutu.re/api/v1
+
+# Zur Entwicklung im Android Emulator `http://10.0.2.2:2368/ghost/api/v3`
+ghostBaseUrl: https://app.fffutu.re/ghost/api/v3
+
+# Lässt sich im Ghost Admin Web Interface generieren
+ghostApiKey: INSERT_HERE
