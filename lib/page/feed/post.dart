@@ -6,15 +6,18 @@ import 'package:url_launcher/url_launcher.dart';
 
 class PostPage extends StatefulWidget {
   final Post post;
+  //indicates whenever a Title bar schould be shown
+  bool showTitleBar = true;
   PostPage(this.post);
-
+  //the Contructor for a PostPage for a about Page
+  PostPage.aboutPage(this.post, this.showTitleBar);
   @override
   _PostPageState createState() => _PostPageState();
 }
 
 class _PostPageState extends State<PostPage> {
   Post get post => widget.post;
-
+  bool get showTitleBar => widget.showTitleBar;
   String html;
 
   @override
@@ -30,6 +33,17 @@ class _PostPageState extends State<PostPage> {
 
         Hive.box('post_read').put(post.id, true);
       });
+    else if (post.slug != null) {
+      api.getPostBySlug(post.slug)
+        ..then((p) {
+          if (mounted)
+            setState(() {
+              html = p.html;
+            });
+
+          //Hive.box('post_read').put(post.id, true);
+        });
+    }
   }
 
   @override
@@ -41,61 +55,68 @@ class _PostPageState extends State<PostPage> {
       body: Scrollbar(
         child: CustomScrollView(
           slivers: <Widget>[
-            SliverAppBar(
-              leading: SizedBox(),
-              flexibleSpace: SafeArea(
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: <Widget>[
-                    SizedBox(
-                      width: double.infinity,
-                      child: post.featureImage == null
-                          ? Container(
-                              color: Colors.blue,
-                            )
-                          : Image.network(
-                              post.featureImage,
-                              fit: BoxFit.cover,
-                            ),
-                    ),
-                    SizedBox(
-                      height: 56,
-                      width: double.infinity,
-                      child: Material(
-                          color: Colors.black.withOpacity(0.4),
-                          child: AppBar(
-                            elevation: 0,
-                            backgroundColor: Colors.transparent,
-                            title: Text(post.title),
-                            actions: <Widget>[
-                              IconButton(
-                                icon: Icon(marked
-                                    ? MdiIcons.bookmark
-                                    : MdiIcons.bookmarkOutline),
-                                color: marked
-                                    ? Theme.of(context).accentColor
-                                    : null,
-                                onPressed: () {
-                                  setState(() {
-                                    Hive.box('post_mark').put(post.id, !marked);
-                                  });
-                                },
+            if (showTitleBar)
+              SliverAppBar(
+                leading: SizedBox(),
+                flexibleSpace: SafeArea(
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: <Widget>[
+                      SizedBox(
+                        width: double.infinity,
+                        child: post.featureImage == null
+                            ? Container(
+                                color: Colors.blue,
+                              )
+                            : Image.network(
+                                post.featureImage,
+                                fit: BoxFit.cover,
                               ),
-                              IconButton(
-                                icon: Icon(Icons.share),
-                                onPressed: () {
-                                  ShareUtil.sharePost(post);
-                                },
-                              ),
-                            ],
-                          )),
-                    ),
-                  ],
+                      ),
+                      SizedBox(
+                        height: 56,
+                        width: double.infinity,
+                        child:
+                            showTitleBar //checks if the Title bar schould be Shown
+                                ? Material(
+                                    color: Colors.black.withOpacity(0.4),
+                                    child: AppBar(
+                                      elevation: 0,
+                                      backgroundColor: Colors.transparent,
+                                      title: post.title != null
+                                          ? Text(post.title)
+                                          : Text(""),
+                                      actions: <Widget>[
+                                        IconButton(
+                                          icon: Icon(marked
+                                              ? MdiIcons.bookmark
+                                              : MdiIcons.bookmarkOutline),
+                                          color: marked
+                                              ? Theme.of(context).accentColor
+                                              : null,
+                                          onPressed: () {
+                                            setState(() {
+                                              Hive.box('post_mark')
+                                                  .put(post.id, !marked);
+                                            });
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.share),
+                                          onPressed: () {
+                                            ShareUtil.sharePost(post);
+                                          },
+                                        ),
+                                      ],
+                                    ))
+                                : Container(),
+                      ),
+                    ],
+                  ),
                 ),
+                expandedHeight: 200,
+                pinned: true,
               ),
-              expandedHeight: 200,
-              pinned: true,
-            ),
             SliverList(
               delegate: SliverChildListDelegate.fixed(
                 [

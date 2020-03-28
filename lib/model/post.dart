@@ -61,6 +61,7 @@ class Post {
   @JsonKey(name: 'meta_description')
   String metaDescription;
 
+  Post.slug(this.slug);
   Post(
       {this.slug,
       this.id,
