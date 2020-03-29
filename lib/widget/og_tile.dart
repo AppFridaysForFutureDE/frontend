@@ -36,7 +36,7 @@ class _OgTileState extends State<OgTile> {
   @override
   void initState() {
     super.initState();
-    strikes = Hive.box('strikes').get(og.ogId).cast<Strike>();
+    strikes = (Hive.box('strikes').get(og.ogId) ?? []).cast<Strike>();
     _loadData();
   }
 
