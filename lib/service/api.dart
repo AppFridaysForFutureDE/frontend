@@ -65,21 +65,7 @@ class ApiService {
     }
   }
 
-  /**
-   * Takes the Slug of a article and returns the Title.
-   * or throws a Http Status Exception if no matching Article found.
-   */
-  Future<String> getPostTitleBySlug(String name) async{
-    var res = await client
-        .get('$ghostBaseUrl/content/posts/slug/$name?fields=title&key=$ghostApiKey');
-    if (res.statusCode == HttpStatus.ok) {
-      var data = json.decode(res.body);
-      Post post = Post.fromJson(data['posts'].first);
-      return post.title;
-    } else {
-      throw Exception('HTTP Status ${res.statusCode}');
-    }
-  }
+
 
   /**
    * Takes the Slug of a Page and returns the Title.
@@ -97,21 +83,6 @@ class ApiService {
     }
   }
 
-  /**
-   * Takes a SLUG from a Ghost article and returns the Post with only slug and html and the ID
-   * or throws a HTTP Status exception if there is no matching article in the backend
-   */
-  Future<Post> getPostBySlug(String name) async {
-    var res = await client
-        .get('$ghostBaseUrl/content/pages/slug/$name?fields=html&key=$ghostApiKey');
-
-    if (res.statusCode == HttpStatus.ok) {
-      var data = json.decode(res.body);
-      return Post.fromJson(data['posts'].first);
-    } else {
-      throw Exception('HTTP Status ${res.statusCode}');
-    }
-  }
 
   /**
    * Takes a SLUG from a Ghost Page and returns the Page with only slug and html and the ID

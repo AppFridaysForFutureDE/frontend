@@ -39,9 +39,7 @@ class _PostPageState extends State<PostPage> {
       });
     else if (post.slug != null) {
       Future<Post> postF;
-      if(this.isPost){
-        postF = api.getPostBySlug(post.slug);
-      }else{
+      if(!this.isPost){
         postF = api.getPageBySlug(post.slug);
       }
       

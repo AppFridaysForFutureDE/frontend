@@ -97,7 +97,7 @@ class _AboutPageState extends State<AboutPage> {
                         if(verhalten != null){
                           return PostPage(verhalten);
                         }else {
-                          return AboutSubpage('verhalten-auf-demos');
+                          return AboutSubpage('verhalten-auf-demos'); 
                         }
                       }),
                 );
