@@ -10,6 +10,8 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:yaml/yaml.dart';
 
+const feedCategories = const ['Wissenschaft', 'Intern', 'Politik'];
+
 /// Definition: https://github.com/AppFridaysForFutureDE/backend/blob/master/swagger.yaml
 class ApiService {
   http.Client client;
