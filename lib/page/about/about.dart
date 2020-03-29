@@ -53,7 +53,7 @@ class _AboutPageState extends State<AboutPage> {
         child: ListView(
           children: <Widget>[
             TitleWidget('Die Bewegung'),
-            ListTile(
+          /*  ListTile(
               title: Text('Demosprüche 🗣'),
               onTap: () {
                 Navigator.push(
@@ -62,7 +62,7 @@ class _AboutPageState extends State<AboutPage> {
                   MaterialPageRoute(builder: (context) => DemoPage()),
                 );
               },
-            ),
+            ),*/
             ListTile(
               title: Text('Forderungen ✊'),
               onTap: () {
