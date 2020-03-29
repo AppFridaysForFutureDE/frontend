@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app/model/strike.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:app/model/og.dart';
@@ -37,6 +38,17 @@ class ApiService {
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);
       return data['ogs'].map<OG>((m) => OG.fromJson(m)).toList();
+    } else {
+      throw Exception('HTTP Status ${res.statusCode}');
+    }
+  }
+
+  Future<List<Strike>> getStrikesByOG(String ogId) async {
+    var res = await client.get('$baseUrl/strikes?ogId=$ogId');
+
+    if (res.statusCode == HttpStatus.ok) {
+      var data = json.decode(res.body);
+      return data['strikes'].map<Strike>((m) => Strike.fromJson(m)).toList();
     } else {
       throw Exception('HTTP Status ${res.statusCode}');
     }

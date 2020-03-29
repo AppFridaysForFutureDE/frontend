@@ -1,5 +1,6 @@
 import 'package:app/app.dart';
 import 'package:app/widget/og_social_buttons.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
@@ -14,7 +15,7 @@ class _MapPageState extends State<MapPage> {
 
   Future _loadData() async {
     ogs = await api.getOGs();
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   @override
@@ -49,9 +50,6 @@ class _MapPageState extends State<MapPage> {
                 ),
               ],
             ),
-      /*   floatingActionButton: FloatingActionButton(onPressed: () {
-        FirebaseMessaging().subscribeToTopic('topic');
-      }), */
     );
   }
 
@@ -63,7 +61,9 @@ class _MapPageState extends State<MapPage> {
         builder: (context) => new Container(
               child: IconButton(
                 icon: Icon(Icons.location_on),
-                color: Theme.of(context).primaryColor,
+                color: Hive.box('subscribed_ogs').containsKey(og.ogId)
+                    ? Theme.of(context).accentColor
+                    : Theme.of(context).primaryColor,
                 iconSize: 45.0,
                 onPressed: () {
                   showOGDetails(og);
@@ -73,6 +73,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   showOGDetails(OG og) {
+    bool subscribed = Hive.box('subscribed_ogs').containsKey(og.ogId);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -83,12 +84,24 @@ class _MapPageState extends State<MapPage> {
             onPressed: Navigator.of(context).pop,
             child: Text('Abbrechen'),
           ),
-          FlatButton(
-            onPressed: () {
-              // TODO Subscribe to ID and save
-            },
-            child: Text('Abonnieren'),
-          ),
+          subscribed
+              ? FlatButton(
+                  onPressed: () async {
+                    await FirebaseMessaging()
+                        .unsubscribeFromTopic('og_${og.ogId}');
+                    Hive.box('subscribed_ogs').delete(og.ogId);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Deabonnieren'),
+                )
+              : FlatButton(
+                  onPressed: () async {
+                    await FirebaseMessaging().subscribeToTopic('og_${og.ogId}');
+                    Hive.box('subscribed_ogs').put(og.ogId, og);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Abonnieren'),
+                ),
         ],
       ),
     );

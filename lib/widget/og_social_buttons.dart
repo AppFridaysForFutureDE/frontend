@@ -21,7 +21,10 @@ class OGSocialButtons extends StatelessWidget {
             onTap: () => _launchURL(url),
           )
         : ListTile(
-            leading: Icon(icon),
+            leading: Icon(
+              icon,
+              color: Theme.of(ctx).textTheme.body1.color,
+            ),
             title: Text(url),
             onTap: () => _launchURL(url),
           );
@@ -35,8 +38,11 @@ class OGSocialButtons extends StatelessWidget {
     }
   }
 
+  BuildContext ctx;
+
   @override
   Widget build(BuildContext context) {
+    ctx = context;
     return compact
         ? Wrap(
             children: _buildChildren(),
@@ -48,13 +54,13 @@ class OGSocialButtons extends StatelessWidget {
   }
 
   _buildChildren() => <Widget>[
+        _buildSocialMedia(MdiIcons.telegram, og.telegram),
         _buildSocialMedia(MdiIcons.whatsapp, og.whatsApp),
         _buildSocialMedia(MdiIcons.whatsapp, og.whatsAppStud),
-        _buildSocialMedia(MdiIcons.email, og.email),
         _buildSocialMedia(MdiIcons.instagram, og.instagram),
         _buildSocialMedia(MdiIcons.twitter, og.twitter),
         _buildSocialMedia(MdiIcons.facebook, og.facebook),
+        _buildSocialMedia(MdiIcons.email, og.email),
         _buildSocialMedia(MdiIcons.web, og.website),
-        _buildSocialMedia(MdiIcons.telegram, og.telegram),
       ];
 }
