@@ -18,6 +18,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: ListView(
         children: <Widget>[
+          TitleWidget('Design'),
           // TODO TitleWidget when merged `App Theme`
           // TODO Add `System-gesteuert`
           // TODO Pref Management über Hive
@@ -29,6 +30,19 @@ class _SettingsPageState extends State<SettingsPage> {
                   val ? Brightness.dark : Brightness.light,
                 );
               }),
+          TitleWidget('Abonnierte OGs'),
+          for (OG og in Hive.box('subscribed_ogs').values)
+            ListTile(
+              title: Text(og.name),
+              leading: IconButton(
+                  icon: Icon(MdiIcons.closeBox),
+                  onPressed: () async {
+                    await FirebaseMessaging()
+                        .unsubscribeFromTopic('og_${og.ogId}');
+                    Hive.box('subscribed_ogs').delete(og.ogId);
+                    setState(() {});
+                  }),
+            ),
           TitleWidget('Newsfeed Benachrichtigungen'),
           for (String s in feedCategories)
             SwitchListTile.adaptive(
