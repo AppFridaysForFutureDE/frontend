@@ -1,6 +1,7 @@
 import 'package:app/app.dart';
 import 'package:app/model/post.dart';
 import 'package:app/page/feed/post.dart';
+import 'package:app/service/api.dart';
 import 'package:app/util/share.dart';
 import 'package:app/util/time_ago.dart';
 
@@ -24,8 +25,6 @@ class _FeedPageState extends State<FeedPage> {
   }
 
   List<Post> posts;
-
-  final List<String> categories = ['Wissenschaft', 'Intern', 'Politik'];
 
   bool searchActive = false;
   String searchText = '';
@@ -55,7 +54,7 @@ class _FeedPageState extends State<FeedPage> {
               ? null
               : TabBar(
                   tabs: [
-                    for (var cat in categories)
+                    for (var cat in feedCategories)
                       Tab(
                         text: cat,
                       ),
@@ -110,7 +109,7 @@ class _FeedPageState extends State<FeedPage> {
                           ? _buildListView(text: searchText.toLowerCase())
                           : TabBarView(
                               children: [
-                                for (var cat in categories)
+                                for (var cat in feedCategories)
                                   _buildListView(category: cat),
                               ],
                             )),
