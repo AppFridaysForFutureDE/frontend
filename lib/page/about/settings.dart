@@ -37,10 +37,10 @@ class _SettingsPageState extends State<SettingsPage> {
               leading: IconButton(
                   icon: Icon(MdiIcons.closeBox),
                   onPressed: () async {
-                    await FirebaseMessaging()
-                        .unsubscribeFromTopic('og_${og.ogId}');
                     Hive.box('subscribed_ogs').delete(og.ogId);
                     setState(() {});
+                    await FirebaseMessaging()
+                        .unsubscribeFromTopic('og_${og.ogId}');
                   }),
             ),
           TitleWidget('Newsfeed Benachrichtigungen'),
@@ -49,14 +49,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: Text(s),
                 value: data.get('feed_$s') ?? false,
                 onChanged: (val) async {
+                  setState(() {
+                    data.put('feed_$s', val);
+                  });
                   if (val) {
                     await FirebaseMessaging().subscribeToTopic('feed_$s');
                   } else {
                     await FirebaseMessaging().unsubscribeFromTopic('feed_$s');
                   }
-                  setState(() {
-                    data.put('feed_$s', val);
-                  });
                 }),
         ],
       ),

@@ -81,7 +81,7 @@ class _MapPageState extends State<MapPage> {
                 )
               : FlutterMap(
                   options: MapOptions(
-                      center: LatLng(51.5167, 9.9167),
+                      center: LatLng(51.3867, 9.9167),
                       zoom: 5.7,
                       minZoom: 4,
                       maxZoom: 19),
@@ -134,18 +134,18 @@ class _MapPageState extends State<MapPage> {
           subscribed
               ? FlatButton(
                   onPressed: () async {
-                    await FirebaseMessaging()
-                        .unsubscribeFromTopic('og_${og.ogId}');
                     Hive.box('subscribed_ogs').delete(og.ogId);
                     Navigator.of(context).pop();
+                    await FirebaseMessaging()
+                        .unsubscribeFromTopic('og_${og.ogId}');
                   },
                   child: Text('Deabonnieren'),
                 )
               : FlatButton(
                   onPressed: () async {
-                    await FirebaseMessaging().subscribeToTopic('og_${og.ogId}');
                     Hive.box('subscribed_ogs').put(og.ogId, og);
                     Navigator.of(context).pop();
+                    await FirebaseMessaging().subscribeToTopic('og_${og.ogId}');
                   },
                   child: Text('Abonnieren'),
                 ),
