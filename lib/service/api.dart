@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app/model/strike.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:app/model/og.dart';
@@ -36,7 +37,18 @@ class ApiService {
 
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);
-      return data.map<OG>((m) => OG.fromJson(m)).toList();
+      return data['ogs'].map<OG>((m) => OG.fromJson(m)).toList();
+    } else {
+      throw Exception('HTTP Status ${res.statusCode}');
+    }
+  }
+
+  Future<List<Strike>> getStrikesByOG(String ogId) async {
+    var res = await client.get('$baseUrl/strikes?ogId=$ogId');
+
+    if (res.statusCode == HttpStatus.ok) {
+      var data = json.decode(res.body);
+      return data['strikes'].map<Strike>((m) => Strike.fromJson(m)).toList();
     } else {
       throw Exception('HTTP Status ${res.statusCode}');
     }
@@ -53,6 +65,7 @@ class ApiService {
       throw Exception('HTTP Status ${res.statusCode}');
     }
   }
+
   Future<Post> getPostById(String id) async {
     var res = await client
         .get('$ghostBaseUrl/content/posts/$id?fields=html&key=$ghostApiKey');
@@ -74,6 +87,7 @@ class ApiService {
   Future<String> getPageTitleBySlug(String name) async{
     var res = await client
         .get('$ghostBaseUrl/content/pages/slug/$name?fields=title&key=$ghostApiKey');
+  
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);
       Post post = Post.fromJson(data['pages'].first);
@@ -88,9 +102,11 @@ class ApiService {
    * Takes a SLUG from a Ghost Page and returns the Page with only slug and html and the ID
    * or throws a HTTP Status exception if there is no matching article in the backend
    */
+
   Future<Post> getPageBySlug(String name) async {
     var res = await client
         .get('$ghostBaseUrl/content/pages/slug/$name?fields=html&key=$ghostApiKey');
+
 
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);

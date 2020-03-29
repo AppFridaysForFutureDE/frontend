@@ -3,34 +3,101 @@
 part of 'og.dart';
 
 // **************************************************************************
+// TypeAdapterGenerator
+// **************************************************************************
+
+class OGAdapter extends TypeAdapter<OG> {
+  @override
+  final typeId = 1;
+
+  @override
+  OG read(BinaryReader reader) {
+    var numOfFields = reader.readByte();
+    var fields = <int, dynamic>{
+      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return OG()
+      ..ogId = fields[0] as String
+      ..name = fields[1] as String
+      ..bundesland = fields[2] as String
+      ..lat = fields[3] as double
+      ..lon = fields[4] as double
+      ..whatsApp = fields[5] as String
+      ..whatsAppStud = fields[6] as String
+      ..email = fields[7] as String
+      ..instagram = fields[8] as String
+      ..twitter = fields[9] as String
+      ..facebook = fields[10] as String
+      ..website = fields[11] as String
+      ..telegram = fields[12] as String;
+  }
+
+  @override
+  void write(BinaryWriter writer, OG obj) {
+    writer
+      ..writeByte(13)
+      ..writeByte(0)
+      ..write(obj.ogId)
+      ..writeByte(1)
+      ..write(obj.name)
+      ..writeByte(2)
+      ..write(obj.bundesland)
+      ..writeByte(3)
+      ..write(obj.lat)
+      ..writeByte(4)
+      ..write(obj.lon)
+      ..writeByte(5)
+      ..write(obj.whatsApp)
+      ..writeByte(6)
+      ..write(obj.whatsAppStud)
+      ..writeByte(7)
+      ..write(obj.email)
+      ..writeByte(8)
+      ..write(obj.instagram)
+      ..writeByte(9)
+      ..write(obj.twitter)
+      ..writeByte(10)
+      ..write(obj.facebook)
+      ..writeByte(11)
+      ..write(obj.website)
+      ..writeByte(12)
+      ..write(obj.telegram);
+  }
+}
+
+// **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
 OG _$OGFromJson(Map<String, dynamic> json) {
   return OG()
-    ..id = json['id'] as String
+    ..ogId = json['ogId'] as String
     ..name = json['name'] as String
-    ..stadt = json['stadt'] as String
     ..bundesland = json['bundesland'] as String
-    ..long = json['long'] as num
-    ..lat = json['lat'] as num
-    ..zusatzinfo = json['zusatzinfo'] as String
-    ..facebook = json['facebook'] as String
+    ..lat = (json['lat'] as num)?.toDouble()
+    ..lon = (json['lon'] as num)?.toDouble()
+    ..whatsApp = json['whatsApp'] as String
+    ..whatsAppStud = json['whatsAppStud'] as String
+    ..email = json['email'] as String
     ..instagram = json['instagram'] as String
     ..twitter = json['twitter'] as String
-    ..website = json['website'] as String;
+    ..facebook = json['facebook'] as String
+    ..website = json['website'] as String
+    ..telegram = json['telegram'] as String;
 }
 
 Map<String, dynamic> _$OGToJson(OG instance) => <String, dynamic>{
-      'id': instance.id,
+      'ogId': instance.ogId,
       'name': instance.name,
-      'stadt': instance.stadt,
       'bundesland': instance.bundesland,
-      'long': instance.long,
       'lat': instance.lat,
-      'zusatzinfo': instance.zusatzinfo,
-      'facebook': instance.facebook,
+      'lon': instance.lon,
+      'whatsApp': instance.whatsApp,
+      'whatsAppStud': instance.whatsAppStud,
+      'email': instance.email,
       'instagram': instance.instagram,
       'twitter': instance.twitter,
+      'facebook': instance.facebook,
       'website': instance.website,
+      'telegram': instance.telegram,
     };

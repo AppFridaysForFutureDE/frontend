@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:app/model/strike.dart';
 
 import 'package:app/page/about/about.dart';
 import 'package:app/page/feed/feed.dart';
@@ -7,14 +7,24 @@ import 'package:app/page/map/map.dart';
 import 'package:app/service/api.dart';
 
 import 'package:app/app.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
 
+  Hive.registerAdapter(OGAdapter());
+  Hive.registerAdapter(StrikeAdapter());
+
   await Hive.openBox('post_read');
   await Hive.openBox('post_mark');
+
+  await Hive.openBox('subscribed_ogs');
+
+  await Hive.openBox('strikes');
+
+  await initializeDateFormatting('de_DE', null);
 
   api = ApiService();
 
@@ -60,9 +70,10 @@ class _HomeState extends State<Home> {
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
         onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
+          if (mounted)
+            setState(() {
+              _currentIndex = index;
+            });
         },
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

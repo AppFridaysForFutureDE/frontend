@@ -1,30 +1,48 @@
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'og.g.dart';
 
 @JsonSerializable()
+@HiveType(typeId: 1)
 class OG {
-  String id;
+  @HiveField(0)
+  String ogId;
 
+  @HiveField(1)
   String name;
-  String stadt;
+
+  @HiveField(2)
   String bundesland;
 
-  num long;
-  num lat;
+  @HiveField(3)
+  double lat;
+  @HiveField(4)
+  double lon;
 
-  String zusatzinfo;
+  @HiveField(5)
+  String whatsApp;
+  @HiveField(6)
+  String whatsAppStud;
 
-  String facebook;
+  @HiveField(7)
+  String email;
+  @HiveField(8)
   String instagram;
+  @HiveField(9)
   String twitter;
+  @HiveField(10)
+  String facebook;
+  @HiveField(11)
   String website;
+  @HiveField(12)
+  String telegram;
 
   OG();
 
   @override
   String toString() {
-    return 'OG[id=$id, name=$name, stadt=$stadt, bundesland=$bundesland, long=$long, lat=$lat, zusatzinfo=$zusatzinfo, facebook=$facebook, instagram=$instagram, twitter=$twitter, website=$website]';
+    return 'OG${toJson()}';
   }
 
   factory OG.fromJson(Map<String, dynamic> json) => _$OGFromJson(json);
