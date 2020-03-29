@@ -41,5 +41,5 @@ Die Android Icons werden aus den Bildern in `assets/icon` generiert.
 ## About Us Page mit Inhalten füllen
 
 Damit die Seiten Forderungen, Selbstverständnis, Verhalten auf Demos und Impressum angezeigt werden müssen diese im Ghost CMS angelegt werden.
-Dafür einfach die Seiten anlegen (Titel ist egal) und unter Post Settings als Post Url die entpsrechenden slugs eintragen. Die Slugs sind:
+Dafür einfach eine neue **Page** (nicht Post) anlegen (Titel ist egal) und unter Settings als Url die entpsrechenden slugs eintragen. Die Slugs sind:
 `forderungen`, `selbstverstaendnis`, `verhalten-auf-demos`, `impressum`

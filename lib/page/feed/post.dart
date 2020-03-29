@@ -6,18 +6,22 @@ import 'package:url_launcher/url_launcher.dart';
 
 class PostPage extends StatefulWidget {
   final Post post;
-  //indicates whenever a Title bar schould be shown
-  bool showTitleBar = true;
+
+  /**
+   * Indicates if the Widget displays a Post or a Page from the Ghost CMS
+   * in a Page there will be not a title Bar and a Image 
+   */
+  bool isPost = true;
   PostPage(this.post);
   //the Contructor for a PostPage for a about Page
-  PostPage.aboutPage(this.post, this.showTitleBar);
+  PostPage.aboutPage(this.post, this.isPost);
   @override
   _PostPageState createState() => _PostPageState();
 }
 
 class _PostPageState extends State<PostPage> {
   Post get post => widget.post;
-  bool get showTitleBar => widget.showTitleBar;
+  bool get isPost => widget.isPost;
   String html;
 
   @override
@@ -34,8 +38,12 @@ class _PostPageState extends State<PostPage> {
         Hive.box('post_read').put(post.id, true);
       });
     else if (post.slug != null) {
-      api.getPostBySlug(post.slug)
-        ..then((p) {
+      Future<Post> postF;
+      if(!this.isPost){
+        postF = api.getPageBySlug(post.slug);
+      }
+      
+        postF.then((p) {
           if (mounted)
             setState(() {
               html = p.html;
@@ -55,7 +63,7 @@ class _PostPageState extends State<PostPage> {
       body: Scrollbar(
         child: CustomScrollView(
           slivers: <Widget>[
-            if (showTitleBar)
+            if (isPost)
               SliverAppBar(
                 leading: SizedBox(),
                 flexibleSpace: SafeArea(
@@ -77,7 +85,7 @@ class _PostPageState extends State<PostPage> {
                         height: 56,
                         width: double.infinity,
                         child:
-                            showTitleBar //checks if the Title bar schould be Shown
+                            isPost //checks if the Title bar schould be Shown
                                 ? Material(
                                     color: Colors.black.withOpacity(0.4),
                                     child: AppBar(
