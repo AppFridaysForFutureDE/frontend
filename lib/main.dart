@@ -17,6 +17,8 @@ void main() async {
   Hive.registerAdapter(OGAdapter());
   Hive.registerAdapter(StrikeAdapter());
 
+  await Hive.openBox('data');
+
   await Hive.openBox('post_read');
   await Hive.openBox('post_mark');
 

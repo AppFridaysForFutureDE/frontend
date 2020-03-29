@@ -10,6 +10,8 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:yaml/yaml.dart';
 
+const feedCategories = const ['Wissenschaft', 'Intern', 'Politik'];
+
 /// Definition: https://github.com/AppFridaysForFutureDE/backend/blob/master/swagger.yaml
 class ApiService {
   http.Client client;
@@ -78,33 +80,39 @@ class ApiService {
     }
   }
 
+
+
   /**
-   * Takes the Slug of a article and returns the Title.
+   * Takes the Slug of a Page and returns the Title.
    * or throws a Http Status Exception if no matching Article found.
    */
-  Future<String> getPostTitleBySlug(String name) async {
-    var res = await client.get(
-        '$ghostBaseUrl/content/posts/slug/$name?fields=title&key=$ghostApiKey');
+  Future<String> getPageTitleBySlug(String name) async{
+    var res = await client
+        .get('$ghostBaseUrl/content/pages/slug/$name?fields=title&key=$ghostApiKey');
+  
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);
-      Post post = Post.fromJson(data['posts'].first);
+      Post post = Post.fromJson(data['pages'].first);
       return post.title;
     } else {
       throw Exception('HTTP Status ${res.statusCode}');
     }
   }
 
+
   /**
-   * Takes a SLUG from a Ghost article and returns the Post with only slug and html and the ID
+   * Takes a SLUG from a Ghost Page and returns the Page with only slug and html and the ID
    * or throws a HTTP Status exception if there is no matching article in the backend
    */
-  Future<Post> getPostBySlug(String name) async {
-    var res = await client.get(
-        '$ghostBaseUrl/content/posts/slug/$name?fields=html&key=$ghostApiKey');
+
+  Future<Post> getPageBySlug(String name) async {
+    var res = await client
+        .get('$ghostBaseUrl/content/pages/slug/$name?fields=html&key=$ghostApiKey');
+
 
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);
-      return Post.fromJson(data['posts'].first);
+      return Post.fromJson(data['pages'].first);
     } else {
       throw Exception('HTTP Status ${res.statusCode}');
     }

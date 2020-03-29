@@ -35,8 +35,9 @@ class _AboutSubpageState extends State<AboutSubpage> {
   /**
    * Loads the Title from the Api and refreshs the Page
    */
+
   void _loadTitle() async {
-    title = await (api.getPostTitleBySlug(slug));
+    title = await (api.getPageTitleBySlug(slug));
     if (mounted) setState(() {});
   }
 
