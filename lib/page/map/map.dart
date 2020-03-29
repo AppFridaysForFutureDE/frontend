@@ -13,6 +13,9 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   List<OG> ogs;
 
+  bool searchActive = false;
+  String searchText = '';
+
   Future _loadData() async {
     ogs = await api.getOGs();
     if (mounted) setState(() {});
@@ -29,27 +32,71 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Karte'),
+        title: searchActive
+            ? TextField(
+                autofocus: true,
+                cursorColor: Colors.white,
+                style: TextStyle(color: Colors.white),
+                onChanged: (s) {
+                  setState(() {
+                    searchText = s;
+                  });
+                },
+              )
+            : Text('Karte'),
+        actions: <Widget>[
+          if (ogs != null)
+            IconButton(
+              icon: Icon(searchActive ? Icons.close : MdiIcons.magnify),
+              onPressed: () {
+                setState(() {
+                  if (searchActive) {
+                    searchText = '';
+                    searchActive = false;
+                  } else {
+                    searchActive = true;
+                  }
+                });
+              },
+            ),
+        ],
       ),
       body: ogs == null
           ? LinearProgressIndicator()
-          : FlutterMap(
-              options: MapOptions(
-                  center: LatLng(51.5167, 9.9167),
-                  zoom: 5.7,
-                  minZoom: 4,
-                  maxZoom: 19),
-              layers: [
-                TileLayerOptions(
-                    urlTemplate:
-                        'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
-                    tileProvider: CachedNetworkTileProvider()),
-                MarkerLayerOptions(
-                  markers:
-                      ogs.map<Marker>((item) => _generateMarker(item)).toList(),
-                ),
-              ],
-            ),
+          : (searchActive
+              ? ListView(
+                  children: <Widget>[
+                    for (var og in ogs
+                        .where((o) => o.name
+                            .toLowerCase()
+                            .contains(searchText.toLowerCase()))
+                        .take(21))
+                      ListTile(
+                        title: Text(og.name),
+                        onTap: () {
+                          showOGDetails(og);
+                        },
+                      )
+                  ],
+                )
+              : FlutterMap(
+                  options: MapOptions(
+                      center: LatLng(51.5167, 9.9167),
+                      zoom: 5.7,
+                      minZoom: 4,
+                      maxZoom: 19),
+                  layers: [
+                    TileLayerOptions(
+                        urlTemplate:
+                            'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
+                        tileProvider: CachedNetworkTileProvider()),
+                    MarkerLayerOptions(
+                      markers: ogs
+                          .map<Marker>((item) => _generateMarker(item))
+                          .toList(),
+                    ),
+                  ],
+                )),
     );
   }
 
