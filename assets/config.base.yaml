@@ -9,3 +9,7 @@ ghostBaseUrl: https://app.fffutu.re/ghost/api/v3
 
 # Lässt sich im Ghost Admin Web Interface generieren
 ghostApiKey: INSERT_HERE
+
+# Wird extern verwaltet
+websiteApiBaseUrl: https://fridaysforfuture.de/api/
+websiteApiKey: INSERT_HERE

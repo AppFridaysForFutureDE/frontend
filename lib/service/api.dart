@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app/model/strike.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:app/model/og.dart';
@@ -36,7 +37,18 @@ class ApiService {
 
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);
-      return data.map<OG>((m) => OG.fromJson(m)).toList();
+      return data['ogs'].map<OG>((m) => OG.fromJson(m)).toList();
+    } else {
+      throw Exception('HTTP Status ${res.statusCode}');
+    }
+  }
+
+  Future<List<Strike>> getStrikesByOG(String ogId) async {
+    var res = await client.get('$baseUrl/strikes?ogId=$ogId');
+
+    if (res.statusCode == HttpStatus.ok) {
+      var data = json.decode(res.body);
+      return data['strikes'].map<Strike>((m) => Strike.fromJson(m)).toList();
     } else {
       throw Exception('HTTP Status ${res.statusCode}');
     }
@@ -53,6 +65,7 @@ class ApiService {
       throw Exception('HTTP Status ${res.statusCode}');
     }
   }
+
   Future<Post> getPostById(String id) async {
     var res = await client
         .get('$ghostBaseUrl/content/posts/$id?fields=html&key=$ghostApiKey');
@@ -69,9 +82,9 @@ class ApiService {
    * Takes the Slug of a article and returns the Title.
    * or throws a Http Status Exception if no matching Article found.
    */
-  Future<String> getPostTitleBySlug(String name) async{
-    var res = await client
-        .get('$ghostBaseUrl/content/posts/slug/$name?fields=title&key=$ghostApiKey');
+  Future<String> getPostTitleBySlug(String name) async {
+    var res = await client.get(
+        '$ghostBaseUrl/content/posts/slug/$name?fields=title&key=$ghostApiKey');
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);
       Post post = Post.fromJson(data['posts'].first);
@@ -86,8 +99,8 @@ class ApiService {
    * or throws a HTTP Status exception if there is no matching article in the backend
    */
   Future<Post> getPostBySlug(String name) async {
-    var res = await client
-        .get('$ghostBaseUrl/content/posts/slug/$name?fields=html&key=$ghostApiKey');
+    var res = await client.get(
+        '$ghostBaseUrl/content/posts/slug/$name?fields=html&key=$ghostApiKey');
 
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);

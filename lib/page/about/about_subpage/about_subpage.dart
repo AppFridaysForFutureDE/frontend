@@ -6,9 +6,9 @@ import 'package:app/page/feed/post.dart';
  * A Page that takes a SLUG to a Post and
  * then creates a title and Take for the Body the PostPage Widget
  */
-class AboutSubpage extends  StatefulWidget {
+class AboutSubpage extends StatefulWidget {
   final String slug;
-  AboutSubpage( this.slug){
+  AboutSubpage(this.slug) {
     //super();
   }
 
@@ -23,18 +23,21 @@ class _AboutSubpageState extends State<AboutSubpage> {
   get slug => widget.slug;
   Widget body = null;
   @override
-  initState(){
+  initState() {
     _loadTitle();
     //creates a Post Page without a title Bar
-    body =  PostPage.aboutPage(Post.slug(slug),false,);
+    body = PostPage.aboutPage(
+      Post.slug(slug),
+      false,
+    );
   }
 
   /**
    * Loads the Title from the Api and refreshs the Page
    */
-  void _loadTitle()async{
-    title = await(api.getPostTitleBySlug(slug));
-    setState(() {});
+  void _loadTitle() async {
+    title = await (api.getPostTitleBySlug(slug));
+    if (mounted) setState(() {});
   }
 
   @override
@@ -43,7 +46,6 @@ class _AboutSubpageState extends State<AboutSubpage> {
         appBar: AppBar(
           title: Text('$title'),
         ),
-        body: body
-    );
+        body: body);
   }
 }
