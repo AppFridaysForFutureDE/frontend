@@ -1,6 +1,7 @@
 import 'package:app/model/strike.dart';
 
 import 'package:app/page/about/about.dart';
+import 'package:app/page/about/about_subpage/privacy.dart';
 import 'package:app/page/feed/feed.dart';
 import 'package:app/page/info/info.dart';
 import 'package:app/page/map/map.dart';
@@ -65,40 +66,48 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
-
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildPage(_currentIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          if (mounted)
-            setState(() {
-              _currentIndex = index;
-            });
-        },
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(MdiIcons.newspaper),
-            title: Text('Feed'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            title: Text('Karte'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            title: Text('Infos'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(MdiIcons.accountGroup),
-            title: Text('Über uns'),
-          ),
-        ],
-      ),
-    );
+    // Test if the Privacy agreement is already acceptet
+    if(Hive.box('acceptet').get('isAcceptet') == null || !Hive.box('acceptet').get('isAcceptet')){
+      return PrivacyPage.onStart(setState);
+    }else {
+      return Scaffold(
+        body: _buildPage(_currentIndex),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            if (mounted)
+              setState(() {
+                _currentIndex = index;
+              });
+          },
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(MdiIcons.newspaper),
+              title: Text('Feed'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.map),
+              title: Text('Karte'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.info),
+              title: Text('Infos'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(MdiIcons.accountGroup),
+              title: Text('Über uns'),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   Widget _buildPage(int index) {

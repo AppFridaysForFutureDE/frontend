@@ -129,7 +129,7 @@ class _AboutPageState extends State<AboutPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PrivacyPage(),
+                      builder: (context) => PrivacyPage.subPage(),
                     )
                 );
               },
