@@ -26,6 +26,8 @@ void main() async {
 
   await Hive.openBox('strikes');
 
+  await Hive.openBox('acceptet');
+
   await initializeDateFormatting('de_DE', null);
 
   api = ApiService();

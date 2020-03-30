@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:app/model/post.dart';
+import 'package:app/page/about/about_subpage/privacy.dart';
 import 'package:app/page/about/settings.dart';
 import 'package:app/page/feed/post.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -119,6 +120,17 @@ class _AboutPageState extends State<AboutPage> {
                   MaterialPageRoute(
                       builder: (context) => AboutSubpage('impressum'),
                   )
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Datenschutzerklärung 🔏'),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PrivacyPage(),
+                    )
                 );
               },
             ),
