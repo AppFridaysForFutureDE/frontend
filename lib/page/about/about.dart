@@ -54,7 +54,7 @@ class _AboutPageState extends State<AboutPage> {
           children: <Widget>[
             TitleWidget('Die Bewegung'),
           /*  ListTile(
-              title: Text('Demosprüche 🗣'),
+              title: Text('🗣 Demosprüche'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -64,7 +64,7 @@ class _AboutPageState extends State<AboutPage> {
               },
             ),*/
             ListTile(
-              title: Text('Forderungen ✊'),
+              title: Text('✊ Forderungen'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -77,7 +77,7 @@ class _AboutPageState extends State<AboutPage> {
               },
             ),
             ListTile(
-              title: Text('Selbstverständnis 🥰'),
+              title: Text('🌍 Selbstverständnis'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -88,7 +88,7 @@ class _AboutPageState extends State<AboutPage> {
               },
             ),
             ListTile(
-              title: Text('Verhalten auf Demos 📣'),
+              title: Text('📣 Verhalten auf Demos'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -105,14 +105,14 @@ class _AboutPageState extends State<AboutPage> {
             ),
             TitleWidget('Wichtige Links'),
             ListTile(
-              title: Text('Website 🌐'),
+              title: Text('🌐 Website'),
               onTap: () {
                 _launchURL('https://fridaysforfuture.de');
               },
             ),
             TitleWidget('Sonstiges'),
             ListTile(
-              title: Text('Impressum 📖'),
+              title: Text('📖 Impressum'),
               onTap: () {
                 Navigator.push(
                   context,
