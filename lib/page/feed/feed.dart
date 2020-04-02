@@ -59,6 +59,7 @@ class _FeedPageState extends State<FeedPage> {
                         text: cat,
                       ),
                   ],
+                  indicatorWeight: 4,
                 ),
           actions: <Widget>[
             if (!searchActive)
@@ -208,21 +209,6 @@ class _FeedItemState extends State<FeedItem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Row(
-                  children: <Widget>[
-                    if (post.authors.isNotEmpty)
-                      Text(
-                        'Quelle/Autor',
-
-                        //item.authors.first.name,,
-                        style: textTheme.body1,
-                      ),
-                    Spacer(),
-                  ],
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -230,9 +216,12 @@ class _FeedItemState extends State<FeedItem> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            post.title,
-                            style: textTheme.subhead,
+                          ConstrainedBox(
+                            constraints: BoxConstraints(minHeight: 32),
+                            child: Text(
+                              post.title,
+                              style: textTheme.subhead,
+                            ),
                           ),
                           if (post.customExcerpt != null)
                             Text(
@@ -246,9 +235,12 @@ class _FeedItemState extends State<FeedItem> {
                       SizedBox(
                         width: 16,
                       ),
-                      Image.network(
-                        post.featureImage ?? '',
-                        width: 80,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 32.0),
+                        child: Image.network(
+                          post.featureImage ?? '',
+                          width: 80,
+                        ),
                       ),
                     ]
                   ],

@@ -11,10 +11,9 @@ class PostPage extends StatefulWidget {
    * Indicates if the Widget displays a Post or a Page from the Ghost CMS
    * in a Page there will be not a title Bar and a Image 
    */
-  bool isPost = true;
-  PostPage(this.post);
-  //the Contructor for a PostPage for a about Page
-  PostPage.aboutPage(this.post, this.isPost);
+  final bool isPost;
+  final String name;
+  PostPage(this.post, {this.isPost = true, this.name});
   @override
   _PostPageState createState() => _PostPageState();
 }
@@ -39,18 +38,18 @@ class _PostPageState extends State<PostPage> {
       });
     else if (post.slug != null) {
       Future<Post> postF;
-      if(!this.isPost){
+      if (!this.isPost) {
         postF = api.getPageBySlug(post.slug);
       }
-      
-        postF.then((p) {
-          if (mounted)
-            setState(() {
-              html = p.html;
-            });
 
-          //Hive.box('post_read').put(post.id, true);
-        });
+      postF.then((p) {
+        if (mounted)
+          setState(() {
+            html = p.html;
+          });
+
+        //Hive.box('post_read').put(post.id, true);
+      });
     }
   }
 
@@ -60,88 +59,101 @@ class _PostPageState extends State<PostPage> {
         post.id == null ? false : Hive.box('post_mark').get(post.id) ?? false;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          isPost ? post.tags.first.name : widget.name,
+        ),
+        actions: <Widget>[
+          if (isPost)
+            IconButton(
+              icon: Icon(marked ? MdiIcons.bookmark : MdiIcons.bookmarkOutline),
+              color: marked ? Theme.of(context).accentColor : null,
+              onPressed: () {
+                setState(() {
+                  Hive.box('post_mark').put(post.id, !marked);
+                });
+              },
+            ),
+          if (isPost)
+            IconButton(
+              icon: Icon(Icons.share),
+              onPressed: () {
+                ShareUtil.sharePost(post);
+              },
+            ),
+        ],
+      ),
       body: Scrollbar(
-        child: CustomScrollView(
-          slivers: <Widget>[
-            if (isPost)
-              SliverAppBar(
-                leading: SizedBox(),
-                flexibleSpace: SafeArea(
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
+        child: ListView(
+          children: <Widget>[
+            if (post.featureImage != null)
+              Image.network(
+                post.featureImage,
+              ),
+            if (html == null) LinearProgressIndicator(),
+            if (html != null) ...[
+              if (isPost)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(
-                        width: double.infinity,
-                        child: post.featureImage == null
-                            ? Container(
-                                color: Colors.blue,
-                              )
-                            : Image.network(
-                                post.featureImage,
-                                fit: BoxFit.cover,
-                              ),
+                      Text(
+                        post.tags
+                            .fold('', (a, b) => '$a • ${b.name.toUpperCase()}')
+                            .substring(3),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
                       ),
                       SizedBox(
-                        height: 56,
-                        width: double.infinity,
-                        child:
-                            isPost //checks if the Title bar schould be Shown
-                                ? Material(
-                                    color: Colors.black.withOpacity(0.4),
-                                    child: AppBar(
-                                      elevation: 0,
-                                      backgroundColor: Colors.transparent,
-                                      title: post.title != null
-                                          ? Text(post.title)
-                                          : Text(""),
-                                      actions: <Widget>[
-                                        IconButton(
-                                          icon: Icon(marked
-                                              ? MdiIcons.bookmark
-                                              : MdiIcons.bookmarkOutline),
-                                          color: marked
-                                              ? Theme.of(context).accentColor
-                                              : null,
-                                          onPressed: () {
-                                            setState(() {
-                                              Hive.box('post_mark')
-                                                  .put(post.id, !marked);
-                                            });
-                                          },
-                                        ),
-                                        IconButton(
-                                          icon: Icon(Icons.share),
-                                          onPressed: () {
-                                            ShareUtil.sharePost(post);
-                                          },
-                                        ),
-                                      ],
-                                    ))
-                                : Container(),
+                        height: 8,
                       ),
+                      Text(
+                        post.title,
+                        style: TextStyle(
+                          fontFamily: 'Merriweather',
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 32,
+                        ),
+                      ),
+                      if (post.customExcerpt != null) ...[
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          post.customExcerpt,
+                        ),
+                      ],
+                      Divider(),
                     ],
                   ),
                 ),
-                expandedHeight: 200,
-                pinned: true,
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                child: Html(
+                  data: html,
+                  onLinkTap: (link) async {
+                    if (await canLaunch(link)) launch(link);
+                  },
+                ),
               ),
-            SliverList(
-              delegate: SliverChildListDelegate.fixed(
-                [
-                  html == null
-                      ? LinearProgressIndicator()
-                      : Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Html(
-                            data: html,
-                            onLinkTap: (link) async {
-                              if (await canLaunch(link)) launch(link);
-                            },
-                          ),
-                        ),
-                ],
-              ),
-            ),
+              if (isPost)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.share,
+                    ),
+                    onPressed: () {
+                      ShareUtil.sharePost(post);
+                    },
+                  ),
+                ),
+            ],
           ],
         ),
       ),

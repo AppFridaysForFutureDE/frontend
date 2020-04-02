@@ -36,15 +36,36 @@ void main() async {
 }
 
 class App extends StatelessWidget {
+  ThemeData _buildThemeData(Brightness brightness) {
+    var _accentColor = Color(0xff70c2eb);
+
+    var themeData = ThemeData(
+      brightness: brightness,
+      accentColor: _accentColor,
+      primaryColor: Color(0xff1da64a),
+      toggleableActiveColor: _accentColor,
+      highlightColor: _accentColor,
+      buttonColor: _accentColor,
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: _accentColor,
+      ),
+      buttonTheme: ButtonThemeData(
+        textTheme: ButtonTextTheme.primary,
+        buttonColor: _accentColor,
+      ),
+      textTheme: TextTheme(
+        button: TextStyle(color: _accentColor),
+      ),
+      fontFamily: 'LibreFranklin',
+    );
+    return themeData;
+  }
+
   @override
   Widget build(BuildContext context) {
     return new DynamicTheme(
       defaultBrightness: Brightness.light,
-      data: (brightness) => new ThemeData(
-        primaryColor: Color(0xff1DA64A),
-        accentColor: Color(0xfff5333f),
-        brightness: brightness,
-      ),
+      data: (brightness) => _buildThemeData(brightness),
       themedWidgetBuilder: (context, theme) {
         return MaterialApp(
           title: 'FFF App DE',
