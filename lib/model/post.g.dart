@@ -31,9 +31,6 @@ Post _$PostFromJson(Map<String, dynamic> json) {
     codeinjectionFoot: json['codeinjection_foot'] as String,
     customTemplate: json['custom_template'] as String,
     canonicalUrl: json['canonical_url'] as String,
-    tags: (json['tags'] as List)
-        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
     authors: (json['authors'] as List)
         ?.map((e) =>
             e == null ? null : Author.fromJson(e as Map<String, dynamic>))
@@ -55,7 +52,9 @@ Post _$PostFromJson(Map<String, dynamic> json) {
     twitterDescription: json['twitter_description'] as String,
     metaTitle: json['meta_title'] as String,
     metaDescription: json['meta_description'] as String,
-  );
+  )..tagsInternal = (json['tags'] as List)
+      ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+      ?.toList();
 }
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
@@ -76,7 +75,7 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'codeinjection_foot': instance.codeinjectionFoot,
       'custom_template': instance.customTemplate,
       'canonical_url': instance.canonicalUrl,
-      'tags': instance.tags,
+      'tags': instance.tagsInternal,
       'authors': instance.authors,
       'primary_author': instance.primaryAuthor,
       'primary_tag': instance.primaryTag,

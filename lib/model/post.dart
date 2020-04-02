@@ -34,7 +34,12 @@ class Post {
   String customTemplate;
   @JsonKey(name: 'canonical_url')
   String canonicalUrl;
-  List<Tag> tags;
+  @JsonKey(name: 'tags')
+  List<Tag> tagsInternal;
+
+  @JsonKey(ignore: true)
+  List<Tag> get tags => tagsInternal.where((t) => t.name != 'Push').toList();
+
   List<Author> authors;
   @JsonKey(name: 'primary_author')
   Author primaryAuthor;
@@ -80,7 +85,6 @@ class Post {
       this.codeinjectionFoot,
       this.customTemplate,
       this.canonicalUrl,
-      this.tags,
       this.authors,
       this.primaryAuthor,
       this.primaryTag,
