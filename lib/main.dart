@@ -64,17 +64,30 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
+
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
+  void subToAll() async{
+    Box box =  Hive.box('data');
+    for(String cat in feedCategories){
+      box.put('feed_$cat', true);
+      await FirebaseMessaging().subscribeToTopic('feed_$cat');
+    }
+  }
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   @override
-  initState(){
+  initState() {
     /**
-     * This will asked imidiatly after startup for Permssion for Notification on IOS 
+     * This will asked imidiatly after startup for Permssion for Notification on IOS
      */
-    if (Platform.isIOS) {
-      _firebaseMessaging.requestNotificationPermissions();
-      _firebaseMessaging.configure();
+    if (Hive.box("data").get('firstStart') == null ||
+        Hive.box("data").get('firstStart')) {
+      subToAll();
+      if (Platform.isIOS) {
+        _firebaseMessaging.requestNotificationPermissions();
+        _firebaseMessaging.configure();
+      }
+      Hive.box("data").put('firstStart', false);
     }
   }
 
