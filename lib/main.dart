@@ -1,3 +1,5 @@
+import 'dart:io'; // used for Plattform identification
+
 import 'package:app/model/strike.dart';
 
 import 'package:app/page/about/about.dart';
@@ -8,6 +10,7 @@ import 'package:app/service/api.dart';
 
 import 'package:app/app.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,6 +66,17 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  @override
+  initState(){
+    /**
+     * This will asked imidiatly after startup for Permssion for Notification on IOS 
+     */
+    if (Platform.isIOS) {
+      _firebaseMessaging.requestNotificationPermissions();
+      _firebaseMessaging.configure();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
