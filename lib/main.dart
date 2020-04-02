@@ -80,14 +80,13 @@ class _HomeState extends State<Home> {
     /**
      * This will asked imidiatly after startup for Permssion for Notification on IOS
      */
-    if (Hive.box("data").get('firstStart') == null ||
-        Hive.box("data").get('firstStart')) {
-      subToAll();
+    if (Hive.box('data').get('firstStart') ?? true) {
       if (Platform.isIOS) {
         _firebaseMessaging.requestNotificationPermissions();
         _firebaseMessaging.configure();
       }
-      Hive.box("data").put('firstStart', false);
+      subToAll();
+      Hive.box('data').put('firstStart', false);
     }
   }
 
