@@ -77,9 +77,6 @@ class _HomeState extends State<Home> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   @override
   initState() {
-    /**
-     * This will asked imidiatly after startup for Permssion for Notification on IOS
-     */
     if (Hive.box('data').get('firstStart') ?? true) {
       if (Platform.isIOS) {
         _firebaseMessaging.requestNotificationPermissions();
