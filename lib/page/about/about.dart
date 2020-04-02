@@ -21,7 +21,7 @@ class AboutPage extends StatefulWidget {
 class _AboutPageState extends State<AboutPage> {
   Post verhalten = null;
 
-  _AboutPageState(){
+  _AboutPageState() {
     //_loadAllSubpages();
   }
 
@@ -32,6 +32,23 @@ class _AboutPageState extends State<AboutPage> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  Widget _buildListTile(String name, String slug) {
+    return ListTile(
+      title: Text(name),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PostPage(
+                Post.slug(slug),
+                isPost: false,
+                name: name,
+              ),
+            ));
+      },
+    );
   }
 
   Widget build(BuildContext context) {
@@ -53,7 +70,7 @@ class _AboutPageState extends State<AboutPage> {
         child: ListView(
           children: <Widget>[
             TitleWidget('Die Bewegung'),
-          /*  ListTile(
+            /*  ListTile(
               title: Text('🗣 Demosprüche'),
               onTap: () {
                 Navigator.push(
@@ -63,46 +80,10 @@ class _AboutPageState extends State<AboutPage> {
                 );
               },
             ),*/
-            ListTile(
-              title: Text('✊ Forderungen'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    //loads a Post page except that the title is at the Top
-                    //the post loaded has the SLUG forderungen
-                    builder: (context) => AboutSubpage('forderungen'),
-                  )
-                );
-              },
-            ),
-            ListTile(
-              title: Text('🌍 Selbstverständnis'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AboutSubpage('selbstverstaendnis'),
-                  )
-                );
-              },
-            ),
-            ListTile(
-              title: Text('📣 Verhalten auf Demos'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) {
-                        if(verhalten != null){
-                          return PostPage(verhalten);
-                        }else {
-                          return AboutSubpage('verhalten-auf-demos'); 
-                        }
-                      }),
-                );
-              },
-            ),
+
+            _buildListTile('✊ Forderungen', 'forderungen'),
+            _buildListTile('🌍 Selbstverständnis', 'selbstverstaendnis'),
+            _buildListTile('📣 Verhalten auf Demos', 'verhalten-auf-demos'),
             TitleWidget('Wichtige Links'),
             ListTile(
               title: Text('🌐 Website'),
@@ -111,17 +92,7 @@ class _AboutPageState extends State<AboutPage> {
               },
             ),
             TitleWidget('Sonstiges'),
-            ListTile(
-              title: Text('📖 Impressum'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AboutSubpage('impressum'),
-                  )
-                );
-              },
-            ),
+            _buildListTile('📖 Impressum', 'impressum'),
           ],
         ),
       ),

@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.1.7+17
+version: 0.2.0+20
 
 environment:
   sdk: ">=2.5.0 <3.0.0"
@@ -50,9 +50,10 @@ dev_dependencies:
 
 flutter_icons:
   android: true
-  ios: false
+  ios: true
   image_path: "assets/icon/icon.png"
-  adaptive_icon_background: "#179241"
+  image_path_ios: "assets/icon/ios.png"
+  adaptive_icon_background: "#ffffff"
   adaptive_icon_foreground: "assets/icon/icon_adaptive.png"
 
 # For information on the generic Dart part of this file, see the
@@ -69,6 +70,19 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/config.yaml
+
+  fonts:
+    - family: LibreFranklin
+      fonts:
+        - asset: assets/fonts/LibreFranklin/LibreFranklin-Regular.ttf
+        - asset: assets/fonts/LibreFranklin/LibreFranklin-Italic.ttf
+          style: italic
+    - family: Merriweather
+      fonts:
+        - asset: assets/fonts/Merriweather/Merriweather-Regular.ttf
+        - asset: assets/fonts/Merriweather/Merriweather-Italic.ttf
+          style: italic
+          
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

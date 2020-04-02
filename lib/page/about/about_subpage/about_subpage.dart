@@ -1,4 +1,4 @@
-import 'package:app/app.dart';
+/* import 'package:app/app.dart';
 import 'package:app/model/post.dart';
 import 'package:app/page/feed/post.dart';
 
@@ -26,10 +26,7 @@ class _AboutSubpageState extends State<AboutSubpage> {
   initState() {
     _loadTitle();
     //creates a Post Page without a title Bar
-    body = PostPage.aboutPage(
-      Post.slug(slug),
-      false,
-    );
+    body = 
   }
 
   /**
@@ -50,3 +47,4 @@ class _AboutSubpageState extends State<AboutSubpage> {
         body: body);
   }
 }
+ */
