@@ -55,12 +55,13 @@ class OGSocialButtons extends StatelessWidget {
 
   _buildChildren() => <Widget>[
         _buildSocialMedia(MdiIcons.telegram, og.telegram),
-        _buildSocialMedia(MdiIcons.whatsapp, og.whatsApp),
-        _buildSocialMedia(MdiIcons.whatsapp, og.whatsAppStud),
+        _buildSocialMedia(MdiIcons.whatsapp, og.whatsapp),
         _buildSocialMedia(MdiIcons.instagram, og.instagram),
+        _buildSocialMedia(MdiIcons.youtube, og.youtube),
         _buildSocialMedia(MdiIcons.twitter, og.twitter),
         _buildSocialMedia(MdiIcons.facebook, og.facebook),
         _buildSocialMedia(MdiIcons.email, og.email),
         _buildSocialMedia(MdiIcons.web, og.website),
+        _buildSocialMedia(MdiIcons.link, og.other),
       ];
 }
