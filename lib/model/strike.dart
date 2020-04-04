@@ -18,10 +18,10 @@ class Strike {
   DateTime get dateTime => DateTime.fromMillisecondsSinceEpoch(date * 1000);
 
   @HiveField(3)
-  String startingPoint;
+  String location;
 
   @HiveField(4)
-  String fbEvent;
+  String eventLink;
 
   @HiveField(5)
   String additionalInfo;

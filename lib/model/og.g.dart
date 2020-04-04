@@ -22,20 +22,21 @@ class OGAdapter extends TypeAdapter<OG> {
       ..bundesland = fields[2] as String
       ..lat = fields[3] as double
       ..lon = fields[4] as double
-      ..whatsApp = fields[5] as String
-      ..whatsAppStud = fields[6] as String
+      ..whatsapp = fields[5] as String
       ..email = fields[7] as String
       ..instagram = fields[8] as String
       ..twitter = fields[9] as String
       ..facebook = fields[10] as String
       ..website = fields[11] as String
-      ..telegram = fields[12] as String;
+      ..telegram = fields[12] as String
+      ..youtube = fields[13] as String
+      ..other = fields[14] as String;
   }
 
   @override
   void write(BinaryWriter writer, OG obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.ogId)
       ..writeByte(1)
@@ -47,9 +48,7 @@ class OGAdapter extends TypeAdapter<OG> {
       ..writeByte(4)
       ..write(obj.lon)
       ..writeByte(5)
-      ..write(obj.whatsApp)
-      ..writeByte(6)
-      ..write(obj.whatsAppStud)
+      ..write(obj.whatsapp)
       ..writeByte(7)
       ..write(obj.email)
       ..writeByte(8)
@@ -61,7 +60,11 @@ class OGAdapter extends TypeAdapter<OG> {
       ..writeByte(11)
       ..write(obj.website)
       ..writeByte(12)
-      ..write(obj.telegram);
+      ..write(obj.telegram)
+      ..writeByte(13)
+      ..write(obj.youtube)
+      ..writeByte(14)
+      ..write(obj.other);
   }
 }
 
@@ -76,14 +79,15 @@ OG _$OGFromJson(Map<String, dynamic> json) {
     ..bundesland = json['bundesland'] as String
     ..lat = (json['lat'] as num)?.toDouble()
     ..lon = (json['lon'] as num)?.toDouble()
-    ..whatsApp = json['whatsApp'] as String
-    ..whatsAppStud = json['whatsAppStud'] as String
+    ..whatsapp = json['whatsapp'] as String
     ..email = json['email'] as String
     ..instagram = json['instagram'] as String
     ..twitter = json['twitter'] as String
     ..facebook = json['facebook'] as String
     ..website = json['website'] as String
-    ..telegram = json['telegram'] as String;
+    ..telegram = json['telegram'] as String
+    ..youtube = json['youtube'] as String
+    ..other = json['other'] as String;
 }
 
 Map<String, dynamic> _$OGToJson(OG instance) => <String, dynamic>{
@@ -92,12 +96,13 @@ Map<String, dynamic> _$OGToJson(OG instance) => <String, dynamic>{
       'bundesland': instance.bundesland,
       'lat': instance.lat,
       'lon': instance.lon,
-      'whatsApp': instance.whatsApp,
-      'whatsAppStud': instance.whatsAppStud,
+      'whatsapp': instance.whatsapp,
       'email': instance.email,
       'instagram': instance.instagram,
       'twitter': instance.twitter,
       'facebook': instance.facebook,
       'website': instance.website,
       'telegram': instance.telegram,
+      'youtube': instance.youtube,
+      'other': instance.other,
     };

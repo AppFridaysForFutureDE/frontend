@@ -51,7 +51,8 @@ class _OgTileState extends State<OgTile> {
     return ExpansionTile(
       initiallyExpanded: true,
       title: Text(
-        widget.og.name + ' • ' + BundeslandUtil.render(widget.og.bundesland),
+        widget.og.name +
+            ' • ' + /* BundeslandUtil.render( */ widget.og.bundesland /* ) */,
         style: Theme.of(context).textTheme.title,
       ),
       children: <Widget>[
@@ -67,21 +68,21 @@ class _OgTileState extends State<OgTile> {
               for (var strike in strikes)
                 ListTile(
                     title: Text(strike.name),
-                    subtitle: Text(strike.startingPoint +
+                    subtitle: Text(strike.location +
                         ' • ' +
                         DateFormat('dd.MM.yyyy, HH:mm')
                             .format(strike.dateTime) +
                         (strike.additionalInfo.isEmpty
                             ? ''
                             : ' • ' + strike.additionalInfo)),
-                    trailing: strike.fbEvent.isEmpty
+                    trailing: strike.eventLink.isEmpty
                         ? null
                         : IconButton(
                             icon: Icon(
-                              MdiIcons.facebook,
+                              MdiIcons.openInNew,
                             ),
                             onPressed: () {
-                              _launchURL(strike.fbEvent);
+                              _launchURL(strike.eventLink);
                             }))
             ],
           ),

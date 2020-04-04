@@ -20,8 +20,8 @@ class StrikeAdapter extends TypeAdapter<Strike> {
       ..ogId = fields[0] as String
       ..name = fields[1] as String
       ..date = fields[2] as int
-      ..startingPoint = fields[3] as String
-      ..fbEvent = fields[4] as String
+      ..location = fields[3] as String
+      ..eventLink = fields[4] as String
       ..additionalInfo = fields[5] as String;
   }
 
@@ -36,9 +36,9 @@ class StrikeAdapter extends TypeAdapter<Strike> {
       ..writeByte(2)
       ..write(obj.date)
       ..writeByte(3)
-      ..write(obj.startingPoint)
+      ..write(obj.location)
       ..writeByte(4)
-      ..write(obj.fbEvent)
+      ..write(obj.eventLink)
       ..writeByte(5)
       ..write(obj.additionalInfo);
   }
@@ -53,8 +53,8 @@ Strike _$StrikeFromJson(Map<String, dynamic> json) {
     ..ogId = json['ogId'] as String
     ..name = json['name'] as String
     ..date = json['date'] as int
-    ..startingPoint = json['startingPoint'] as String
-    ..fbEvent = json['fbEvent'] as String
+    ..location = json['location'] as String
+    ..eventLink = json['eventLink'] as String
     ..additionalInfo = json['additionalInfo'] as String;
 }
 
@@ -62,7 +62,7 @@ Map<String, dynamic> _$StrikeToJson(Strike instance) => <String, dynamic>{
       'ogId': instance.ogId,
       'name': instance.name,
       'date': instance.date,
-      'startingPoint': instance.startingPoint,
-      'fbEvent': instance.fbEvent,
+      'location': instance.location,
+      'eventLink': instance.eventLink,
       'additionalInfo': instance.additionalInfo,
     };

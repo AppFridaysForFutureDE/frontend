@@ -21,9 +21,7 @@ class OG {
   double lon;
 
   @HiveField(5)
-  String whatsApp;
-  @HiveField(6)
-  String whatsAppStud;
+  String whatsapp;
 
   @HiveField(7)
   String email;
@@ -37,6 +35,10 @@ class OG {
   String website;
   @HiveField(12)
   String telegram;
+  @HiveField(13)
+  String youtube;
+  @HiveField(14)
+  String other;
 
   OG();
 
