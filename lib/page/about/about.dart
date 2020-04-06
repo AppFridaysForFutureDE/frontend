@@ -93,6 +93,7 @@ class _AboutPageState extends State<AboutPage> {
             ),
             TitleWidget('Sonstiges'),
             _buildListTile('📖 Impressum', 'impressum'),
+            _buildListTile('📑 Datenschutz', 'datenschutz'),
           ],
         ),
       ),
