@@ -109,7 +109,6 @@ class _HomeState extends State<Home> {
 
   @override
   initState() {
-    print("Run init SWtate");
     if (Hive.box('data').get('firstStart') ?? true) {
       if (Platform.isIOS) {
         _firebaseMessaging.requestNotificationPermissions();
