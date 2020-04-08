@@ -3,6 +3,7 @@ import 'package:app/widget/og_social_buttons.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong/latlong.dart';
 
 class MapPage extends StatefulWidget {
@@ -89,20 +90,47 @@ class _MapPageState extends State<MapPage> {
                 )
               : FlutterMap(
                   options: MapOptions(
-                      center: LatLng(51.3867, 9.9167),
-                      zoom: 5.7,
-                      minZoom: 4,
-                      maxZoom: 19),
+                    center: LatLng(51.3867, 9.9167),
+                    zoom: 5.7,
+                    minZoom: 4,
+                    maxZoom: 19,
+                    plugins: [
+                      MarkerClusterPlugin(),
+                    ],
+                  ),
                   layers: [
                     TileLayerOptions(
                         urlTemplate:
                             'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
                         tileProvider: CachedNetworkTileProvider()),
-                    MarkerLayerOptions(
+                    MarkerClusterLayerOptions(
+                      maxClusterRadius: 120,
+                      size: Size(40, 40),
+                      fitBoundsOptions: FitBoundsOptions(
+                        padding: EdgeInsets.all(50),
+                      ),
                       markers: ogs
                           .map<Marker>((item) => _generateMarker(item))
                           .toList(),
+                      polygonOptions: PolygonOptions(
+                          borderColor: Theme.of(context).primaryColor,
+                          color: Colors.black12,
+                          borderStrokeWidth: 3),
+                      builder: (context, markers) {
+                        return FloatingActionButton(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          child: Text(
+                            markers.length.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          onPressed: null,
+                        );
+                      },
                     ),
+                    /*    MarkerLayerOptions(
+                    ), */
                   ],
                 )),
     );
