@@ -6,7 +6,6 @@ import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:app/model/og.dart';
 import 'package:app/model/post.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:yaml/yaml.dart';
 
@@ -119,7 +118,8 @@ class ApiService {
     }
   }
 
-  /**
+
+  /*
    * Takes the Slug of a Page and returns the Title.
    * or throws a Http Status Exception if no matching Article found.
    */
@@ -136,7 +136,8 @@ class ApiService {
     }
   }
 
-  /**
+  
+  /*
    * Takes a SLUG from a Ghost Page and returns the Page with only slug and html and the ID
    * or throws a HTTP Status exception if there is no matching article in the backend
    */

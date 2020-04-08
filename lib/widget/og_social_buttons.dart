@@ -23,12 +23,14 @@ class OGSocialButtons extends StatelessWidget {
         : ListTile(
             leading: Icon(
               icon,
-              color: Theme.of(ctx).textTheme.body1.color,
+              color: _iconColor,
             ),
             title: Text(url),
             onTap: () => _launchURL(url),
           );
   }
+
+  Color _iconColor;
 
   _launchURL(String url) async {
     if (await canLaunch(url)) {
@@ -38,11 +40,9 @@ class OGSocialButtons extends StatelessWidget {
     }
   }
 
-  BuildContext ctx;
-
   @override
   Widget build(BuildContext context) {
-    ctx = context;
+    _iconColor = Theme.of(context).textTheme.body1.color;
     return compact
         ? Wrap(
             children: _buildChildren(),

@@ -1,5 +1,4 @@
 import 'package:app/model/strike.dart';
-import 'package:app/util/bundesland.dart';
 import 'package:app/widget/og_social_buttons.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -10,7 +9,7 @@ import 'package:app/app.dart';
 A Tile wich displays a OG in  a Scroll View and is extandable
  */
 class OgTile extends StatefulWidget {
-  OG og;
+  final OG og;
   /*
   The Contructor takes an og Object
    */

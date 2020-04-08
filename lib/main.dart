@@ -62,6 +62,15 @@ class App extends StatelessWidget {
       ),
       fontFamily: 'LibreFranklin',
     );
+
+    //sets the Background for the IOs Subtitles depending on the theme Brightness
+    if(Platform.isIOS) {
+      if (brightness == Brightness.dark) {
+        themeData = themeData.copyWith(textTheme: themeData.textTheme.copyWith(subtitle: themeData.textTheme.subtitle.copyWith(backgroundColor: Colors.grey[800])));
+      } else {
+        themeData = themeData.copyWith(textTheme: themeData.textTheme.copyWith(subtitle: themeData.textTheme.subtitle.copyWith(backgroundColor: Colors.grey[100])));
+      }
+    }
     return themeData;
   }
 
@@ -69,7 +78,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return new DynamicTheme(
       defaultBrightness: Brightness.light,
-      data: (brightness) => _buildThemeData(brightness),
+      data: (brightness) =>  _buildThemeData(brightness),
       themedWidgetBuilder: (context, theme) {
         return MaterialApp(
           title: 'FFF App DE',
@@ -109,6 +118,7 @@ class _HomeState extends State<Home> {
       subToAll();
       Hive.box('data').put('firstStart', false);
     }
+
     super.initState();
   }
 

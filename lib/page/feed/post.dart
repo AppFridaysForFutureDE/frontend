@@ -7,13 +7,15 @@ import 'package:url_launcher/url_launcher.dart';
 class PostPage extends StatefulWidget {
   final Post post;
 
-  /**
+  /*
    * Indicates if the Widget displays a Post or a Page from the Ghost CMS
    * in a Page there will be not a title Bar and a Image 
    */
   final bool isPost;
   final String name;
+
   PostPage(this.post, {this.isPost = true, this.name});
+
   @override
   _PostPageState createState() => _PostPageState();
 }
