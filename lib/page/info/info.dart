@@ -42,7 +42,7 @@ class _InfoPageState extends State<InfoPage> {
     return true;
   }
 
-  /**
+  /*
    * This is the second Priority Search
    * It Searches the zusatzinfo and returns false if the zusatzinfo contains the search input
    * Else if the string is not in the zusatzinfo it returns true
