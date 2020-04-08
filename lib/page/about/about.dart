@@ -1,14 +1,9 @@
-import 'dart:io';
 import 'package:app/model/post.dart';
 import 'package:app/page/about/settings.dart';
 import 'package:app/page/feed/post.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
-import 'package:app/page/about/about_subpage/about_subpage.dart';
-import 'package:app/page/about/about_subpage/demo.dart';
 import 'package:app/widget/title.dart';
-
-//import 'package:url_launcher/url_launcher.dart';
 
 /*
 The About Page
@@ -19,13 +14,8 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
-  Post verhalten = null;
 
-  _AboutPageState() {
-    //_loadAllSubpages();
-  }
 
-  @override
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -51,6 +41,7 @@ class _AboutPageState extends State<AboutPage> {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
