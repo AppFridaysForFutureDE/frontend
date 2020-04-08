@@ -18,8 +18,16 @@ class _MapPageState extends State<MapPage> {
   String searchText = '';
 
   Future _loadData() async {
-    ogs = await api.getOGs();
-    if (mounted) setState(() {});
+    try {
+      ogs = await api.getOGs();
+
+      if (mounted) setState(() {});
+    } catch (e) {
+      if (mounted)
+        Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text(
+                'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
+    }
   }
 
   @override

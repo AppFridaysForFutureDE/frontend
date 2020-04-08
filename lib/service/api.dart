@@ -9,6 +9,10 @@ import 'package:app/model/post.dart';
 import 'package:http/http.dart' as http;
 import 'package:yaml/yaml.dart';
 
+import 'package:path_provider/path_provider.dart';
+
+import 'cache.dart';
+
 const feedCategories = const ['Wissenschaft', 'Intern', 'Politik'];
 
 /// Definition: https://github.com/AppFridaysForFutureDE/backend/blob/master/swagger.yaml
@@ -18,6 +22,8 @@ class ApiService {
   String baseUrl;
   String ghostBaseUrl;
   String ghostApiKey;
+
+  CacheService cache;
 
   ApiService() {
     client = http.Client();
@@ -29,18 +35,29 @@ class ApiService {
     baseUrl = doc['baseUrl'];
     ghostBaseUrl = doc['ghostBaseUrl'];
     ghostApiKey = doc['ghostApiKey'];
+
+    cache = CacheService(await getTemporaryDirectory());
   }
 
-  // TODO Caching und Offline-Support hinzufügen
-
   Future<List<OG>> getOGs() async {
-    var res = await client.get('$baseUrl/ogs');
+    try {
+      var res = await client.get('$baseUrl/ogs');
 
-    if (res.statusCode == HttpStatus.ok) {
-      var data = json.decode(res.body);
-      return data['ogs'].map<OG>((m) => OG.fromJson(m)).toList();
-    } else {
-      throw Exception('HTTP Status ${res.statusCode}');
+      if (res.statusCode == HttpStatus.ok) {
+        cache.put('ogs.json', res.body);
+
+        var data = json.decode(res.body);
+        return data['ogs'].map<OG>((m) => OG.fromJson(m)).toList();
+      } else {
+        throw Exception('HTTP Status ${res.statusCode}');
+      }
+    } catch (e) {
+      if (cache.exists('ogs.json')) {
+        var data = json.decode(cache.get('ogs.json'));
+        return data['ogs'].map<OG>((m) => OG.fromJson(m)).toList();
+      } else {
+        throw Exception('OG List not available online or in cache');
+      }
     }
   }
 
@@ -56,39 +73,60 @@ class ApiService {
   }
 
   Future<List<Post>> getPosts() async {
-    var res = await client.get(
-        '$ghostBaseUrl/content/posts?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt&key=$ghostApiKey');
+    try {
+      var res = await client.get(
+          '$ghostBaseUrl/content/posts?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt&key=$ghostApiKey');
 
-    if (res.statusCode == HttpStatus.ok) {
-      var data = json.decode(res.body);
-      return data['posts'].map<Post>((m) => Post.fromJson(m)).toList();
-    } else {
-      throw Exception('HTTP Status ${res.statusCode}');
+      if (res.statusCode == HttpStatus.ok) {
+        cache.put('posts.json', res.body);
+
+        var data = json.decode(res.body);
+        return data['posts'].map<Post>((m) => Post.fromJson(m)).toList();
+      } else {
+        throw Exception('HTTP Status ${res.statusCode}');
+      }
+    } catch (e) {
+      if (cache.exists('posts.json')) {
+        var data = json.decode(cache.get('posts.json'));
+        return data['posts'].map<Post>((m) => Post.fromJson(m)).toList();
+      } else {
+        throw Exception('Post List not available online or in cache');
+      }
     }
   }
 
   Future<Post> getPostById(String id) async {
-    var res = await client
-        .get('$ghostBaseUrl/content/posts/$id?fields=html&key=$ghostApiKey');
+    try {
+      var res = await client
+          .get('$ghostBaseUrl/content/posts/$id?fields=html&key=$ghostApiKey');
 
-    if (res.statusCode == HttpStatus.ok) {
-      var data = json.decode(res.body);
-      return Post.fromJson(data['posts'].first);
-    } else {
-      throw Exception('HTTP Status ${res.statusCode}');
+      if (res.statusCode == HttpStatus.ok) {
+        cache.put('post/$id.json', res.body);
+
+        var data = json.decode(res.body);
+        return Post.fromJson(data['posts'].first);
+      } else {
+        throw Exception('HTTP Status ${res.statusCode}');
+      }
+    } catch (e) {
+      if (cache.exists('post/$id.json')) {
+        var data = json.decode(cache.get('post/$id.json'));
+        return Post.fromJson(data['posts'].first);
+      } else {
+        throw Exception('Post not available online or in cache');
+      }
     }
   }
-
 
 
   /*
    * Takes the Slug of a Page and returns the Title.
    * or throws a Http Status Exception if no matching Article found.
    */
-  Future<String> getPageTitleBySlug(String name) async{
-    var res = await client
-        .get('$ghostBaseUrl/content/pages/slug/$name?fields=title&key=$ghostApiKey');
-  
+  Future<String> getPageTitleBySlug(String name) async {
+    var res = await client.get(
+        '$ghostBaseUrl/content/pages/slug/$name?fields=title&key=$ghostApiKey');
+
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);
       Post post = Post.fromJson(data['pages'].first);
@@ -98,22 +136,32 @@ class ApiService {
     }
   }
 
-
+  
   /*
    * Takes a SLUG from a Ghost Page and returns the Page with only slug and html and the ID
    * or throws a HTTP Status exception if there is no matching article in the backend
    */
 
   Future<Post> getPageBySlug(String name) async {
-    var res = await client
-        .get('$ghostBaseUrl/content/pages/slug/$name?fields=html&key=$ghostApiKey');
+    try {
+      var res = await client.get(
+          '$ghostBaseUrl/content/pages/slug/$name?fields=html&key=$ghostApiKey');
 
+      if (res.statusCode == HttpStatus.ok) {
+        cache.put('page/$name.json', res.body);
 
-    if (res.statusCode == HttpStatus.ok) {
-      var data = json.decode(res.body);
-      return Post.fromJson(data['pages'].first);
-    } else {
-      throw Exception('HTTP Status ${res.statusCode}');
+        var data = json.decode(res.body);
+        return Post.fromJson(data['pages'].first);
+      } else {
+        throw Exception('HTTP Status ${res.statusCode}');
+      }
+    } catch (e) {
+      if (cache.exists('page/$name.json')) {
+        var data = json.decode(cache.get('page/$name.json'));
+        return Post.fromJson(data['pages'].first);
+      } else {
+        throw Exception('Post not available online or in cache');
+      }
     }
   }
 }

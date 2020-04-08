@@ -36,6 +36,7 @@ dependencies:
   yaml: ^2.2.0
   hive: ^1.4.1+1
   hive_flutter: ^0.3.0+2
+  flutter_offline: ^0.3.0
   flutter_map_marker_cluster: ^0.2.7
   
   

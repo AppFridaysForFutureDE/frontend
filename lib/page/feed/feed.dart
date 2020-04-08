@@ -20,8 +20,16 @@ class _FeedPageState extends State<FeedPage> {
   }
 
   Future _loadData() async {
-    posts = await api.getPosts();
-    if (mounted) setState(() {});
+    try {
+      posts = await api.getPosts();
+
+      if (mounted) setState(() {});
+    } catch (e) {
+      if (mounted)
+        Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text(
+                'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
+    }
   }
 
   List<Post> posts;
