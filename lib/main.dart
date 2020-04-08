@@ -9,6 +9,7 @@ import 'package:app/page/map/map.dart';
 import 'package:app/service/api.dart';
 
 import 'package:app/app.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -114,7 +115,29 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildPage(_currentIndex),
+      body: OfflineBuilder(
+        connectivityBuilder: (
+          BuildContext context,
+          ConnectivityResult connectivity,
+          Widget child,
+        ) {
+          final bool connected = connectivity != ConnectivityResult.none;
+          return Column(children: <Widget>[
+            Expanded(child: child),
+            if (!connected)
+              Container(
+                color: Theme.of(context).accentColor,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text("Die App ist aktuell offline"),
+                  ),
+                ),
+              )
+          ]);
+        },
+        child: _buildPage(_currentIndex),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,

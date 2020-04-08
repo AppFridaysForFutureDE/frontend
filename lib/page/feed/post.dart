@@ -27,31 +27,44 @@ class _PostPageState extends State<PostPage> {
   void initState() {
     super.initState();
 
-    if (post.id != null)
-      api.getPostById(post.id).then((p) {
-        if (mounted)
+    _loadPost();
+  }
+
+  _loadPost() async {
+    if (post.id != null) {
+      try {
+        Post p = await api.getPostById(post.id);
+        if (mounted) {
           setState(() {
             html = p.html;
           });
-
-        Hive.box('post_read').put(post.id, true);
-      });
-    else if (post.slug != null) {
-      Future<Post> postF;
-      if (!this.isPost) {
-        postF = api.getPageBySlug(post.slug);
+          Hive.box('post_read').put(post.id, true);
+        }
+      } catch (e) {
+        if (mounted)
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+              content: Text(
+                  'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
       }
-
-      postF.then((p) {
-        if (mounted)
-          setState(() {
-            html = p.html;
-          });
-
-        //Hive.box('post_read').put(post.id, true);
-      });
+    } else if (post.slug != null) {
+      if (!isPost) {
+        try {
+          Post p = await api.getPageBySlug(post.slug);
+          if (mounted)
+            setState(() {
+              html = p.html;
+            });
+        } catch (e) {
+          if (mounted)
+            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                content: Text(
+                    'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
+        }
+      }
     }
   }
+
+  var _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +72,7 @@ class _PostPageState extends State<PostPage> {
         post.id == null ? false : Hive.box('post_mark').get(post.id) ?? false;
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
           isPost ? post.tags.first.name : widget.name,

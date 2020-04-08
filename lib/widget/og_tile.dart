@@ -41,9 +41,11 @@ class _OgTileState extends State<OgTile> {
   }
 
   _loadData() async {
-    strikes = await api.getStrikesByOG(og.ogId);
-    if (mounted) setState(() {});
-    Hive.box('strikes').put(og.ogId, strikes);
+    try {
+      strikes = await api.getStrikesByOG(og.ogId);
+      if (mounted) setState(() {});
+      Hive.box('strikes').put(og.ogId, strikes);
+    } catch (e) {}
   }
 
   @override
