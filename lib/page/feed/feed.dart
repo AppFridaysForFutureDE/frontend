@@ -111,7 +111,12 @@ class _FeedPageState extends State<FeedPage> {
                       padding: const EdgeInsets.all(8),
                       color: Colors.yellow,
                       alignment: Alignment.center,
-                      child: Text('Es sind Filter aktiv'),
+                      child: Text(
+                        'Es sind Filter aktiv',
+                        style: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
                   Expanded(
                       child: searchActive

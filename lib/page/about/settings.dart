@@ -30,7 +30,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   val ? Brightness.dark : Brightness.light,
                 );
               }),
-          TitleWidget('Abonnierte OGs'),
+          if (Hive.box('subscribed_ogs').isNotEmpty)
+            TitleWidget('Abonnierte OGs'),
           for (OG og in Hive.box('subscribed_ogs').values)
             ListTile(
               title: Text(og.name),
