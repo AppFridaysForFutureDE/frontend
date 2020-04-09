@@ -1,5 +1,6 @@
 import 'package:app/app.dart';
 import 'package:app/service/api.dart';
+import 'package:app/service/theme.dart';
 import 'package:app/widget/title.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -19,17 +20,42 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         children: <Widget>[
           TitleWidget('Design'),
-          // TODO TitleWidget when merged `App Theme`
-          // TODO Add `System-gesteuert`
-          // TODO Pref Management über Hive
-          SwitchListTile.adaptive(
-              title: Text('Dark Mode aktiviert'),
-              value: Theme.of(context).brightness == Brightness.dark,
-              onChanged: (val) {
-                DynamicTheme.of(context).setBrightness(
-                  val ? Brightness.dark : Brightness.light,
-                );
-              }),
+          ListTile(
+            title: Text('Erscheinungsbild'),
+            trailing: DropdownButton(
+                value: data.get('theme') ?? 'light',
+                items: [
+                  DropdownMenuItem(
+                    child: Text(
+                      'Hell',
+                    ),
+                    value: 'light',
+                  ),
+                  DropdownMenuItem(
+                    child: Text(
+                      'Sepia',
+                    ),
+                    value: 'sepia',
+                  ),
+                  DropdownMenuItem(
+                    child: Text(
+                      'Dunkel',
+                    ),
+                    value: 'dark',
+                  ),
+                  DropdownMenuItem(
+                    child: Text(
+                      'Schwarz',
+                    ),
+                    value: 'black',
+                  ),
+                ],
+                onChanged: (val) {
+                  AppTheme.of(context).setTheme(
+                    val,
+                  );
+                }),
+          ),
           if (Hive.box('subscribed_ogs').isNotEmpty)
             TitleWidget('Abonnierte OGs'),
           for (OG og in Hive.box('subscribed_ogs').values)
