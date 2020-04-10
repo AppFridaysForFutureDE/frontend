@@ -2,14 +2,16 @@ class TimeAgoUtil {
   static String render(DateTime time, {DateTime now}) {
     now ??= DateTime.now();
 
-    int diffInSeconds = now.difference(time).inSeconds;
-    if (diffInSeconds < 60) {
-      return '$diffInSeconds Sek.';
-    } else if (diffInSeconds < 60 * 60) {
-      return '${(diffInSeconds / 60).floor()} Min.';
-    } else if (diffInSeconds < 60 * 60 * 24) {
-      return '${(diffInSeconds / 60 / 60).floor()} Std.';
+    int diffInMinutes = now.difference(time).inMinutes;
+    if (diffInMinutes < 2) {
+      return '1 Min.';
+    } else if (diffInMinutes < 60) {
+      return '$diffInMinutes Min.';
+    } else if (diffInMinutes < 60 * 24) {
+      return '${(diffInMinutes / 60).floor()} Std.';
+    } else if (diffInMinutes < 60 * 24 * 2) {
+      return '1 Tag';
     }
-    return '${(diffInSeconds / 60 / 60 / 24).floor()} Tag.';
+    return '${(diffInMinutes / 60 / 24).floor()} Tagen';
   }
 }
