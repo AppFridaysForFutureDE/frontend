@@ -167,16 +167,20 @@ class _FeedPageState extends State<FeedPage> {
 
     return RefreshIndicator(
       onRefresh: _loadData,
-      child: ListView.separated(
-        itemCount: shownPosts.length,
-        itemBuilder: (context, index) {
-          return FeedItem(shownPosts[index]);
-        },
-        separatorBuilder: (context, index) => Container(
-          height: 0.5,
-          color: Theme.of(context).hintColor,
-        ),
-      ),
+      child: shownPosts.isEmpty
+          ? Center(
+              child: Text('Keine Ergebnisse'),
+            )
+          : ListView.separated(
+              itemCount: shownPosts.length,
+              itemBuilder: (context, index) {
+                return FeedItem(shownPosts[index]);
+              },
+              separatorBuilder: (context, index) => Container(
+                height: 0.5,
+                color: Theme.of(context).hintColor,
+              ),
+            ),
     );
   }
 }

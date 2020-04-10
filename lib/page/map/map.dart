@@ -39,6 +39,14 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
+    List<OG> filteredOGs;
+
+    if (searchActive)
+      filteredOGs = ogs
+          .where((o) => o.name.toLowerCase().contains(searchText.toLowerCase()))
+          .take(42)
+          .toList();
+
     return Scaffold(
       appBar: AppBar(
         title: searchActive
@@ -73,21 +81,21 @@ class _MapPageState extends State<MapPage> {
       body: ogs == null
           ? LinearProgressIndicator()
           : (searchActive
-              ? ListView(
-                  children: <Widget>[
-                    for (var og in ogs
-                        .where((o) => o.name
-                            .toLowerCase()
-                            .contains(searchText.toLowerCase()))
-                        .take(21))
-                      ListTile(
-                        title: Text(og.name),
-                        onTap: () {
-                          showOGDetails(og);
-                        },
-                      )
-                  ],
-                )
+              ? (filteredOGs.isEmpty
+                  ? Center(
+                      child: Text('Keine Ergebnisse'),
+                    )
+                  : ListView(
+                      children: <Widget>[
+                        for (var og in filteredOGs)
+                          ListTile(
+                            title: Text(og.name),
+                            onTap: () {
+                              showOGDetails(og);
+                            },
+                          )
+                      ],
+                    ))
               : FlutterMap(
                   options: MapOptions(
                     center: LatLng(51.3867, 9.9167),
