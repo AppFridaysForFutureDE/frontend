@@ -9,6 +9,7 @@ import 'package:app/page/map/map.dart';
 import 'package:app/service/api.dart';
 
 import 'package:app/app.dart';
+import 'package:app/service/theme.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -40,8 +41,11 @@ void main() async {
 }
 
 class App extends StatelessWidget {
-  ThemeData _buildThemeData(Brightness brightness) {
+  ThemeData _buildThemeData(String theme) {
     var _accentColor = Color(0xff70c2eb);
+
+    var brightness =
+        ['light', 'sepia'].contains(theme) ? Brightness.light : Brightness.dark;
 
     var themeData = ThemeData(
       brightness: brightness,
@@ -63,6 +67,24 @@ class App extends StatelessWidget {
       fontFamily: 'LibreFranklin',
     );
 
+    if (theme == 'sepia') {
+      Color backgroundColor = Color(0xffF7ECD5);
+      themeData = themeData.copyWith(
+        backgroundColor: backgroundColor,
+        scaffoldBackgroundColor: backgroundColor,
+        dialogBackgroundColor: backgroundColor,
+        canvasColor: backgroundColor,
+      );
+    } else if (theme == 'black') {
+      Color backgroundColor = Colors.black;
+      themeData = themeData.copyWith(
+        backgroundColor: backgroundColor,
+        scaffoldBackgroundColor: backgroundColor,
+        dialogBackgroundColor: backgroundColor,
+        canvasColor: backgroundColor,
+      );
+    }
+
     //sets the Background for the IOs Subtitles depending on the theme Brightness
     if (Platform.isIOS) {
       if (brightness == Brightness.dark) {
@@ -82,9 +104,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new DynamicTheme(
-      defaultBrightness: Brightness.light,
-      data: (brightness) => _buildThemeData(brightness),
+    return AppTheme(
+      data: (theme) => _buildThemeData(theme),
       themedWidgetBuilder: (context, theme) {
         return MaterialApp(
           title: 'FFF App DE',
