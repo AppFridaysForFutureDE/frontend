@@ -7,12 +7,11 @@ typedef ThemeDataWithBrightnessBuilder = ThemeData Function(String theme);
 
 class AppTheme extends StatefulWidget {
   const AppTheme(
-      {Key key, this.data, this.themedWidgetBuilder, this.defaultBrightness})
+      {Key key, this.data, this.themedWidgetBuilder})
       : super(key: key);
 
   final ThemedWidgetBuilder themedWidgetBuilder;
   final ThemeDataWithBrightnessBuilder data;
-  final Brightness defaultBrightness;
 
   @override
   AppThemeState createState() => AppThemeState();
