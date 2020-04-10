@@ -3,28 +3,51 @@ import 'package:app/util/time_ago.dart';
 
 void main() {
   group('TimeAgoUtil', () {
-    test('Render Sekunden', () {
-      var start = DateTime(2019);
-      expect(TimeAgoUtil.render(start, now: start.add(Duration(seconds: 21))),
-          '21 Sek.');
+    final DateTime start = DateTime(2019);
+    test('less than one minute', () {
+      expect(TimeAgoUtil.render(start, 
+              now: start.add(Duration(seconds: 1))),
+          '1 Min.');
     });
-    test('Render Minuten', () {
-      var start = DateTime(2019);
+    test('less than two minutes', () {
+      expect(TimeAgoUtil.render(start, 
+              now: start.add(Duration(minutes: 1, seconds: 59))),
+          '1 Min.');
+    });
+    test('two minutes', () {
+      expect(TimeAgoUtil.render(start, 
+              now: start.add(Duration(minutes: 2))),
+          '2 Min.');
+    });
+    test('less than one hour', () {
       expect(
           TimeAgoUtil.render(start,
-              now: start.add(Duration(seconds: 21, minutes: 43))),
-          '43 Min.');
+              now: start.add(Duration(minutes: 59, seconds: 59))),
+          '59 Min.');
     });
-    test('Render Stunden', () {
-      var start = DateTime(2019);
+    test('less than one day', () {
       expect(
           TimeAgoUtil.render(start,
-              now: start.add(Duration(hours: 7, minutes: 59))),
-          '7 Std.');
+              now: start.add(Duration(hours: 23, minutes: 59, seconds: 59))),
+          '23 Std.');
     });
-    test('Render Tage', () {
+    test('one day', () {
       expect(
-          TimeAgoUtil.render(DateTime(2019), now: DateTime(2020)), '365 Tag.');
+          TimeAgoUtil.render(start,
+              now: start.add(Duration(days: 1))),
+          '1 Tag');
+    });
+    test('less than two days', () {
+      expect(
+          TimeAgoUtil.render(start,
+              now: start.add(Duration(days: 1, hours: 23, seconds: 59))),
+          '1 Tag');
+    });
+    test('two days', () {
+      expect(
+          TimeAgoUtil.render(start,
+              now: start.add(Duration(days: 2))),
+          '2 Tagen');
     });
   });
 }
