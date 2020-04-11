@@ -205,7 +205,7 @@ class _FeedItemState extends State<FeedItem> {
 
     if (read) {
       textTheme = textTheme.apply(
-        bodyColor: Colors.grey,
+        bodyColor: Theme.of(context).hintColor,
       );
     }
 
