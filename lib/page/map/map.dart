@@ -41,7 +41,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     List<OG> filteredOGs;
 
-      if (searchActive) {
+    if (searchActive) {
       filteredOGs = ogs
           .where((o) => o.name.toLowerCase().contains(searchText.toLowerCase()))
           .take(100)
