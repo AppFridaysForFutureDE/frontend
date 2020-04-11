@@ -41,11 +41,15 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     List<OG> filteredOGs;
 
-    if (searchActive)
+    if (searchActive) {
       filteredOGs = ogs
           .where((o) => o.name.toLowerCase().contains(searchText.toLowerCase()))
-          .take(42)
+          .take(100)
           .toList();
+
+      filteredOGs.sort((a, b) =>
+          b.name.toLowerCase().startsWith(searchText.toLowerCase()) ? 1 : -1);
+    }
 
     return Scaffold(
       appBar: AppBar(
