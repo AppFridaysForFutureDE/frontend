@@ -75,6 +75,7 @@ class _AboutPageState extends State<AboutPage> {
             _buildListTile('✊ Forderungen', 'forderungen'),
             _buildListTile('🌍 Selbstverständnis', 'selbstverstaendnis'),
             _buildListTile('📣 Verhalten auf Demos', 'verhalten-auf-demos'),
+            _buildListTile('📝 How-To', 'how-to'),
             TitleWidget('Wichtige Links'),
             ListTile(
               title: Text('🌐 Website'),
