@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/app.dart';
 import 'package:app/model/post.dart';
 import 'package:app/page/feed/post.dart';
@@ -46,6 +48,7 @@ class _FeedPageState extends State<FeedPage> {
       initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: Platform.isIOS,
           title: searchActive
               ? TextField(
                   autofocus: true,
@@ -72,7 +75,7 @@ class _FeedPageState extends State<FeedPage> {
           actions: <Widget>[
             if (!searchActive)
               IconButton(
-                icon: Icon(MdiIcons.filterVariant),
+                icon: Icon(MdiIcons.filter),
                 onPressed: () async {
                   var newFilterState = await Navigator.of(context).push(
                     MaterialPageRoute(

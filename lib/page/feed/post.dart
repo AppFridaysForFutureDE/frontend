@@ -1,8 +1,10 @@
 import 'package:app/app.dart';
 import 'package:app/model/post.dart';
 import 'package:app/util/share.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:io';
 
 class PostPage extends StatefulWidget {
   final Post post;
@@ -92,7 +94,7 @@ class _PostPageState extends State<PostPage> {
             ),
           if (isPost)
             IconButton(
-              icon: Icon(Icons.share),
+              icon: Platform.isIOS ? Icon(MdiIcons.share) : Icon(Icons.share),
               onPressed: () {
                 ShareUtil.sharePost(post);
               },
