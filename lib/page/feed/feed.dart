@@ -49,6 +49,7 @@ class _FeedPageState extends State<FeedPage> {
           title: searchActive
               ? TextField(
                   autofocus: true,
+                  autocorrect: false,
                   cursorColor: Colors.white,
                   style: TextStyle(color: Colors.white),
                   onChanged: (s) {
