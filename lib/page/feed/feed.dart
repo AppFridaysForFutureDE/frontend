@@ -72,7 +72,7 @@ class _FeedPageState extends State<FeedPage> {
           actions: <Widget>[
             if (!searchActive)
               IconButton(
-                icon: Icon(MdiIcons.filterVariant),
+                icon: Icon(MdiIcons.filter),
                 onPressed: () async {
                   var newFilterState = await Navigator.of(context).push(
                     MaterialPageRoute(
