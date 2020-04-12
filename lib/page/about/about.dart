@@ -1,6 +1,7 @@
 import 'package:app/model/post.dart';
 import 'package:app/page/about/settings.dart';
 import 'package:app/page/feed/post.dart';
+import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
 import 'package:app/widget/title.dart';
@@ -14,8 +15,6 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
-
-
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -85,6 +84,22 @@ class _AboutPageState extends State<AboutPage> {
             TitleWidget('Sonstiges'),
             _buildListTile('📖 Impressum', 'impressum'),
             _buildListTile('📑 Datenschutz', 'datenschutz'),
+            Center(
+              child: FutureBuilder<PackageInfo>(
+                future: PackageInfo.fromPlatform(),
+                builder: (context, result) {
+                  if (!result.hasData) return SizedBox();
+
+                  return Text(
+                    'App Version ${result.data.version}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Theme.of(context).hintColor,
+                    ),
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),
