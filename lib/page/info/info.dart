@@ -65,6 +65,7 @@ class _InfoPageState extends State<InfoPage> {
               title: TextField(
                 autofocus: true,
                 textCapitalization: TextCapitalization.words,
+                autocorrect: false,
                 cursorColor: Colors.white,
                 style: TextStyle(color: Colors.white),
                 onChanged: (searchInputP) {
