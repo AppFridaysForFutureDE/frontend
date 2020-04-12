@@ -64,6 +64,7 @@ class _InfoPageState extends State<InfoPage> {
               // With active Search
               title: TextField(
                 autofocus: true,
+                autocorrect: false,
                 cursorColor: Colors.white,
                 style: TextStyle(color: Colors.white),
                 onChanged: (searchInputP) {
