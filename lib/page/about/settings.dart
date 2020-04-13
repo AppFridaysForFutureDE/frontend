@@ -57,7 +57,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 }),
           ),
           if (Hive.box('subscribed_ogs').isNotEmpty)
-            TitleWidget('Abonnierte OGs'),
+            TitleWidget('Abonnierte Ortsgruppen'),
           for (OG og in Hive.box('subscribed_ogs').values)
             ListTile(
               title: Text(og.name),
