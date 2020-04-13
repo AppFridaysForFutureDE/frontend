@@ -1,6 +1,6 @@
 import 'package:app/app.dart';
-
 import 'package:flip_card/flip_card.dart';
+import 'future_story.dart';
 
 class StrikePage extends StatelessWidget {
   @override
@@ -21,7 +21,10 @@ class StrikePage extends StatelessWidget {
           'Zukunft Online',
           'Instagram',
           () {
-            // Tu was
+            Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FutureStoryPage()),
+                );
           },
         ),
         _buildCard(
