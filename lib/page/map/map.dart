@@ -201,6 +201,7 @@ class _MapPageState extends State<MapPage> {
                   onPressed: () async {
                     Hive.box('subscribed_ogs').delete(og.ogId);
                     Navigator.of(context).pop();
+                    setState(() {});
                     await FirebaseMessaging()
                         .unsubscribeFromTopic('og_${og.ogId}');
                   },
@@ -210,6 +211,7 @@ class _MapPageState extends State<MapPage> {
                   onPressed: () async {
                     Hive.box('subscribed_ogs').put(og.ogId, og);
                     Navigator.of(context).pop();
+                    setState(() {});
                     await FirebaseMessaging().subscribeToTopic('og_${og.ogId}');
                   },
                   child: Text('Abonnieren'),
