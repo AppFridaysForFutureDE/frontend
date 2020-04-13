@@ -12,7 +12,6 @@ class MapNetzstreik extends StatefulWidget {
 }
 
 class _MapNetzstreikState extends State<MapNetzstreik> {
-
   NetzstreikApi netzstreikApi = NetzstreikApi();
   List<StrikePoint> strikePointL = List<StrikePoint>();
   @override
@@ -24,67 +23,70 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
     });
     super.initState();
   }
-  Marker _generateMarker(StrikePoint strikePoint){
+
+  Marker _generateMarker(StrikePoint strikePoint) {
     return Marker(
         width: 45.0,
         height: 45.0,
         point: LatLng(strikePoint.lat, strikePoint.lon),
         builder: (context) => new Container(
-          child: IconButton(
-            icon: Icon(Icons.location_on),
-            color: strikePoint.isFeatured ? Theme.of(context).accentColor
-                : Theme.of(context).primaryColor,
-            iconSize: 45.0,
-            onPressed: () {
-              _showStrikePoint(strikePoint);
-            },
-          ),
-        ));
-  }
-
-  List<Marker> _getAllNotFeatured(){
-    List<Marker> resultL = [];
-    for(StrikePoint strikePoint in strikePointL){
-      if(!strikePoint.isFeatured){
-        resultL.add(_generateMarker(strikePoint));
-      }
-    }
-    return resultL;
-  }
-  List<Marker> _getAllFeatured(){
-    List<Marker> resultL = [];
-    for(StrikePoint strikePoint in strikePointL ){
-      if(strikePoint.isFeatured){
-        resultL.add(Marker(
-            width: 45.0,
-            height: 45.0,
-            point: LatLng(strikePoint.lat, strikePoint.lon),
-            builder: (context) => new Container(
               child: IconButton(
                 icon: Icon(Icons.location_on),
-                color: Theme.of(context).accentColor,
+                color: strikePoint.isFeatured
+                    ? Theme.of(context).accentColor
+                    : Theme.of(context).primaryColor,
                 iconSize: 45.0,
                 onPressed: () {
                   _showStrikePoint(strikePoint);
                 },
               ),
-            )
-        ));
+            ));
+  }
+
+  List<Marker> _getAllNotFeatured() {
+    List<Marker> resultL = [];
+    for (StrikePoint strikePoint in strikePointL) {
+      if (!strikePoint.isFeatured) {
+        resultL.add(_generateMarker(strikePoint));
       }
     }
     return resultL;
   }
-  void _showStrikePoint(StrikePoint strikePoint){
+
+  List<Marker> _getAllFeatured() {
+    List<Marker> resultL = [];
+    for (StrikePoint strikePoint in strikePointL) {
+      if (strikePoint.isFeatured) {
+        resultL.add(Marker(
+            width: 45.0,
+            height: 45.0,
+            point: LatLng(strikePoint.lat, strikePoint.lon),
+            builder: (context) => new Container(
+                  child: IconButton(
+                    icon: Icon(Icons.location_on),
+                    color: Theme.of(context).accentColor,
+                    iconSize: 45.0,
+                    onPressed: () {
+                      _showStrikePoint(strikePoint);
+                    },
+                  ),
+                )));
+      }
+    }
+    return resultL;
+  }
+
+  void _showStrikePoint(StrikePoint strikePoint) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text((strikePoint.name == "") ? "Ein Aktivisti*": strikePoint.name ),
+        title: Text(
+            (strikePoint.name == "") ? "Ein Aktivisti*" : strikePoint.name),
         content: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Text((strikePoint.text == "" ) ? " ": strikePoint.text),
-               SocialButtons(strikePoint, true).build(context),
-
+              Text((strikePoint.text == "") ? " " : strikePoint.text),
+              SocialButtons(strikePoint, true).build(context),
             ],
           ),
         ),
@@ -93,11 +95,11 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
             onPressed: Navigator.of(context).pop,
             child: Text('Abbrechen'),
           ),
-
         ],
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,7 +119,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
         layers: [
           TileLayerOptions(
               urlTemplate:
-              'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
+                  'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
               tileProvider: CachedNetworkTileProvider()),
           MarkerClusterLayerOptions(
             maxClusterRadius: 120,
@@ -143,17 +145,14 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
               );
             },
           ),
-
-
-
           new MarkerLayerOptions(
             markers: _getAllFeatured(),
           ),
 
           /*    MarkerLayerOptions(
-                        ), */
+                          ), */
         ],
-      ) ,
+      ),
     );
   }
 }
