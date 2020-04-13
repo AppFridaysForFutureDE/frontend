@@ -38,6 +38,8 @@ void main() async {
 
   await api.loadConfig();
 
+  api.updateOGs();
+
   runApp(App());
 }
 
