@@ -6,6 +6,7 @@ import 'package:app/page/about/about.dart';
 import 'package:app/page/feed/feed.dart';
 import 'package:app/page/info/info.dart';
 import 'package:app/page/map/map.dart';
+import 'package:app/page/strike/strike.dart';
 import 'package:app/service/api.dart';
 
 import 'package:app/app.dart';
@@ -199,6 +200,10 @@ class _HomeState extends State<Home> {
             title: Text('Karte'),
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.flag),
+            title: Text('Netzstreik'),
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.info),
             title: Text('Infos'),
           ),
@@ -218,8 +223,10 @@ class _HomeState extends State<Home> {
       case 1:
         return MapPage();
       case 2:
-        return InfoPage();
+        return StrikePage();
       case 3:
+        return InfoPage();
+      case 4:
         return AboutPage();
       default:
         return Container();
