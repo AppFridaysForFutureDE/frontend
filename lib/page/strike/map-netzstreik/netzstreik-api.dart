@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:app/model/SocialLinkContainer.dart';
 import 'package:app/service/cache.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
@@ -34,7 +35,7 @@ class NetzstreikApi {
     }
   }
 }
-class StrikePoint{
+class StrikePoint implements SocialLinkContainer{
   String name = "";
   String place = "";
   String city = "";
@@ -48,6 +49,20 @@ class StrikePoint{
   String website = "";
   String twitter = "";
   String instagram = "";
+  @override
+  String email;
+
+  @override
+  String other;
+
+  @override
+  String telegram;
+
+  @override
+  String whatsapp;
+
+  @override
+  String youtube;
 
   //StrikePoint(this.name, this.place, this.text, this.imgStatus, this.imgDir,
   //    );
@@ -62,10 +77,17 @@ class StrikePoint{
     isFeatured = json['featured'] ?? false;
     if(json['links'] != null){
       var links  = json['links'];
+
       facebook = links['facebook'] ?? "";
       instagram = links['instagram'] ?? "";
       twitter = links['twitter'] ?? "";
       website = links['website'] ?? "";
+      whatsapp = links['whatsapp'] as String ?? "";
+      email = links['email'] as String ?? "";
+      telegram = links['telegram'] as String ?? "";
+      youtube = links['youtube'] as String ?? "";
+      other = links['other'] as String ?? "";
+
     }
 
   }
@@ -85,4 +107,6 @@ class StrikePoint{
   String toString() {
     return "Strike Point: Name $name, Place: $place, twitter $twitter, lon $lon | lat $lat";
   }
+
+
 }

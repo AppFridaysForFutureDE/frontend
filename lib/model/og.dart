@@ -1,3 +1,4 @@
+import 'package:app/model/SocialLinkContainer.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -5,7 +6,7 @@ part 'og.g.dart';
 
 @JsonSerializable()
 @HiveType(typeId: 1)
-class OG {
+class OG implements SocialLinkContainer {
   @HiveField(0)
   String ogId;
 

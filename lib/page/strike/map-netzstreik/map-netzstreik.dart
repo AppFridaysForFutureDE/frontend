@@ -83,7 +83,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
           child: Column(
             children: <Widget>[
               Text((strikePoint.text == "" ) ? " ": strikePoint.text),
-               SocialButtons.strikePoint(strikePoint, true).build(context),
+               SocialButtons(strikePoint, true).build(context),
 
             ],
           ),
