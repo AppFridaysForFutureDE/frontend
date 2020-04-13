@@ -1,4 +1,8 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:app/app.dart';
+import 'package:flutter/foundation.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 class FutureStoryPage extends StatelessWidget {
   static const url = 'https://app.fffutu.re/instagram_story.jpg';
@@ -26,9 +30,15 @@ class FutureStoryPage extends StatelessWidget {
                 ),
                 FlatButton(
                     // TODO: Style this button
-                    onPressed: null, // TODO: Download or share image from url
-                    child: Text('Vorlage herunterladen')
-                    ),
+                    onPressed: () async {
+                      var request = await HttpClient().getUrl(Uri.parse(url));
+                      var response = await request.close();
+                      Uint8List bytes =
+                          await consolidateHttpClientResponseBytes(response);
+                      await Share.file('Zukunfts Story', 'future_story.jpg',
+                          bytes, 'image/jpg');
+                    },
+                    child: Text('Vorlage herunterladen')),
               ],
             )
           ],
