@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:app/model/strike.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:app/model/og.dart';
 import 'package:app/model/post.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:yaml/yaml.dart';
 
@@ -58,6 +60,21 @@ class ApiService {
       } else {
         throw Exception('OG List not available online or in cache');
       }
+    }
+  }
+
+  Future<OG> getOGbyId(String id) async {
+    var res = await client.get('$baseUrl/ogs?ogId=$id');
+
+    if (res.statusCode == HttpStatus.ok) {
+      var data = json.decode(res.body);
+
+      if (data['count'] == 0) {
+        return null;
+      }
+      return OG.fromJson(data['ogs'][0]);
+    } else {
+      throw Exception('HTTP Status ${res.statusCode}');
     }
   }
 
@@ -118,7 +135,6 @@ class ApiService {
     }
   }
 
-
   /*
    * Takes the Slug of a Page and returns the Title.
    * or throws a Http Status Exception if no matching Article found.
@@ -136,7 +152,6 @@ class ApiService {
     }
   }
 
-  
   /*
    * Takes a SLUG from a Ghost Page and returns the Page with only slug and html and the ID
    * or throws a HTTP Status exception if there is no matching article in the backend
@@ -162,6 +177,22 @@ class ApiService {
       } else {
         throw Exception('Post not available online or in cache');
       }
+    }
+  }
+
+  Future updateOGs() async {
+    await Future.delayed(Duration(seconds: 5));
+
+    for (String id in Hive.box('subscribed_ogs').keys) {
+      getOGbyId(id).then((og) {
+
+        if (og == null) {
+          Hive.box('subscribed_ogs').delete(id);
+          FirebaseMessaging().unsubscribeFromTopic('og_${og.ogId}');
+        } else {
+          Hive.box('subscribed_ogs').put(id, og);
+        }
+      }).catchError((e) {});
     }
   }
 }
