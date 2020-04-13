@@ -1,4 +1,5 @@
 import 'package:app/page/strike/map-netzstreik/netzstreik-api.dart';
+import 'package:app/widget/og_social_buttons.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 
@@ -31,7 +32,8 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
         builder: (context) => new Container(
           child: IconButton(
             icon: Icon(Icons.location_on),
-            color: Theme.of(context).primaryColor,
+            color: strikePoint.isFeatured ? Theme.of(context).accentColor
+                : Theme.of(context).primaryColor,
             iconSize: 45.0,
             onPressed: () {
               _showStrikePoint(strikePoint);
@@ -39,12 +41,53 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
           ),
         ));
   }
+
+  List<Marker> _getAllNotFeatured(){
+    List<Marker> resultL = [];
+    for(StrikePoint strikePoint in strikePointL){
+      if(!strikePoint.isFeatured){
+        resultL.add(_generateMarker(strikePoint));
+      }
+    }
+    return resultL;
+  }
+  List<Marker> _getAllFeatured(){
+    List<Marker> resultL = [];
+    for(StrikePoint strikePoint in strikePointL ){
+      if(strikePoint.isFeatured){
+        resultL.add(Marker(
+            width: 45.0,
+            height: 45.0,
+            point: LatLng(strikePoint.lat, strikePoint.lon),
+            builder: (context) => new Container(
+              child: IconButton(
+                icon: Icon(Icons.location_on),
+                color: Theme.of(context).accentColor,
+                iconSize: 45.0,
+                onPressed: () {
+                  _showStrikePoint(strikePoint);
+                },
+              ),
+            )
+        ));
+      }
+    }
+    return resultL;
+  }
   void _showStrikePoint(StrikePoint strikePoint){
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text((strikePoint.name == "") ? "Ein Aktivisti*": strikePoint.name ),
-        content: Text((strikePoint.text == "" ) ? " ": strikePoint.text),
+        content: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Text((strikePoint.text == "" ) ? " ": strikePoint.text),
+               SocialButtons.strikePoint(strikePoint, true).build(context),
+
+            ],
+          ),
+        ),
         actions: <Widget>[
           FlatButton(
             onPressed: Navigator.of(context).pop,
@@ -82,9 +125,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
             fitBoundsOptions: FitBoundsOptions(
               padding: EdgeInsets.all(50),
             ),
-            markers: strikePointL
-                .map<Marker>((item) => _generateMarker(item))
-                .toList(),
+            markers: _getAllNotFeatured(),
             polygonOptions: PolygonOptions(
                 borderColor: Theme.of(context).primaryColor,
                 color: Colors.black12,
@@ -102,6 +143,13 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
               );
             },
           ),
+
+
+
+          new MarkerLayerOptions(
+            markers: _getAllFeatured(),
+          ),
+
           /*    MarkerLayerOptions(
                         ), */
         ],

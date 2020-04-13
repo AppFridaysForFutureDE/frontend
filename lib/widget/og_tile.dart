@@ -64,7 +64,7 @@ class _OgTileState extends State<OgTile> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: OGSocialButtons(widget.og, true),
+                child: SocialButtons(widget.og, true),
               ),
               for (var strike in strikes)
                 ListTile(

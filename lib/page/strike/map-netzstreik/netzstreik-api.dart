@@ -43,10 +43,14 @@ class StrikePoint{
   String text;
   bool imgStatus;
   String imgDir;
-  Map<String,String> linkMap;
+  bool isFeatured = false;
+  String facebook = "";
+  String website = "";
+  String twitter = "";
+  String instagram = "";
 
-  StrikePoint(this.name, this.place, this.text, this.imgStatus, this.imgDir,
-      this.linkMap);
+  //StrikePoint(this.name, this.place, this.text, this.imgStatus, this.imgDir,
+  //    );
 
   StrikePoint.fromJSON(dynamic json){
     name = json['name'] ?? "";
@@ -54,8 +58,15 @@ class StrikePoint{
     imgDir = json['img_dir'] ?? "";
     imgStatus = json['img_status'] == 'confirmed';
     imgDir = json['img_dir'] ?? "";
-    linkMap = _getLinkMap(json['links']) ?? "";
     text = json['text'] ?? "";
+    isFeatured = json['featured'] ?? false;
+    if(json['links'] != null){
+      var links  = json['links'];
+      facebook = links['facebook'] ?? "";
+      instagram = links['instagram'] ?? "";
+      twitter = links['twitter'] ?? "";
+      website = links['website'] ?? "";
+    }
 
   }
   Map<String,String> _getLinkMap(dynamic jsonMap) {
@@ -72,6 +83,6 @@ class StrikePoint{
   }
   @override
   String toString() {
-    return "Strike Point: Name $name, Place: $place, Links Map: $linkMap, lon $lon | lat $lat";
+    return "Strike Point: Name $name, Place: $place, twitter $twitter, lon $lon | lat $lat";
   }
 }

@@ -1,12 +1,14 @@
 import 'package:app/app.dart';
+import 'package:app/page/strike/map-netzstreik/netzstreik-api.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class OGSocialButtons extends StatelessWidget {
-  final OG og;
-  final bool compact;
+class SocialButtons extends StatelessWidget {
+  OG og;
+  StrikePoint point = null;
+  bool compact;
 
-  OGSocialButtons(this.og, this.compact);
-
+  SocialButtons(this.og, this.compact);
+  SocialButtons.strikePoint(this.point,this.compact);
   Widget _buildSocialMedia(IconData icon, String url) {
     if (url == null || url == '') return SizedBox();
     return compact
@@ -53,7 +55,9 @@ class OGSocialButtons extends StatelessWidget {
           );
   }
 
-  _buildChildren() => <Widget>[
+  _buildChildren() {
+    if(og != null){
+      return [
         _buildSocialMedia(MdiIcons.telegram, og.telegram),
         _buildSocialMedia(MdiIcons.whatsapp, og.whatsapp),
         _buildSocialMedia(MdiIcons.instagram, og.instagram),
@@ -64,4 +68,13 @@ class OGSocialButtons extends StatelessWidget {
         _buildSocialMedia(MdiIcons.web, og.website),
         _buildSocialMedia(MdiIcons.link, og.other),
       ];
+    }else{
+      return [
+        _buildSocialMedia(MdiIcons.instagram, point.instagram),
+        _buildSocialMedia(MdiIcons.twitter, point.twitter),
+        _buildSocialMedia(MdiIcons.facebook, point.facebook),
+        _buildSocialMedia(MdiIcons.web, point.website),
+      ];
+    }
+  }
 }

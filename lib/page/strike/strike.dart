@@ -1,4 +1,5 @@
 import 'package:app/app.dart';
+import 'package:app/page/strike/map-netzstreik/map-netzstreik.dart';
 
 import 'package:flip_card/flip_card.dart';
 
@@ -14,7 +15,7 @@ class StrikePage extends StatelessWidget {
           'Online Streik',
           'Jetzt Foto hochladen und mitmachen!',
           () {
-            // Tu was
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MapNetzstreik()));
           },
         ),
         _buildCard(
