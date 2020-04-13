@@ -5,7 +5,14 @@ import 'package:flutter/foundation.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 class FutureStoryPage extends StatelessWidget {
-  static const url = 'https://app.fffutu.re/instagram_story.jpg';
+  
+  _shareImage() async {
+    Uri url = Uri.parse('https://app.fffutu.re/instagram_story.jpg');
+    var request = await HttpClient().getUrl(url);
+    var response = await request.close();
+    Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+    await Share.file('Zukunfts Story', 'future_story.jpg', bytes, 'image/jpg');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +37,7 @@ class FutureStoryPage extends StatelessWidget {
                 ),
                 FlatButton(
                     // TODO: Style this button
-                    onPressed: () async {
-                      var request = await HttpClient().getUrl(Uri.parse(url));
-                      var response = await request.close();
-                      Uint8List bytes =
-                          await consolidateHttpClientResponseBytes(response);
-                      await Share.file('Zukunfts Story', 'future_story.jpg',
-                          bytes, 'image/jpg');
-                    },
+                    onPressed: _shareImage(),
                     child: Text('Vorlage herunterladen')),
               ],
             )
