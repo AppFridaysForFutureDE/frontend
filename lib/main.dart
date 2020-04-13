@@ -109,7 +109,7 @@ class App extends StatelessWidget {
       data: (theme) => _buildThemeData(theme),
       themedWidgetBuilder: (context, theme) {
         return MaterialApp(
-          title: 'FFF App DE',
+          title: 'App For Future',
           home: Home(),
           theme: theme,
         );
