@@ -52,7 +52,7 @@ class _FeedPageState extends State<FeedPage> {
           title: searchActive
               ? TextField(
                   autofocus: true,
-                  textCapitalization: TextCapitalization.words,
+                  textCapitalization: TextCapitalization.sentences,
                   autocorrect: false,
                   cursorColor: Colors.white,
                   style: TextStyle(color: Colors.white),
