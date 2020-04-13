@@ -18,7 +18,7 @@ class StrikePage extends StatelessWidget {
           },
         ),
         _buildCard(
-          'Zukunft Online',
+          'Zukunfts Story',
           'Instagram',
           () {
             Navigator.push(
