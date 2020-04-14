@@ -1,5 +1,6 @@
 import 'package:app/page/strike/map-netzstreik/netzstreik-api.dart';
 import 'package:app/widget/og_social_buttons.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 
@@ -17,10 +18,13 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
   @override
   void initState() {
     netzstreikApi.getAllStrikePoints().then((list) {
-      setState(() {
-        strikePointL = list;
-      });
+      if (mounted) {
+        setState(() {
+          strikePointL = list;
+        });
+      }
     });
+
     super.initState();
   }
 
@@ -106,51 +110,127 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
       appBar: AppBar(
         title: Text("Streik Karte"),
       ),
-      body: FlutterMap(
-        options: MapOptions(
-          center: LatLng(51.3867, 9.9167),
-          zoom: 5.7,
-          minZoom: 4,
-          maxZoom: 19,
-          plugins: [
-            MarkerClusterPlugin(),
-          ],
-        ),
-        layers: [
-          TileLayerOptions(
-              urlTemplate:
-                  'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
-              tileProvider: CachedNetworkTileProvider()),
-          MarkerClusterLayerOptions(
-            maxClusterRadius: 120,
-            size: Size(40, 40),
-            fitBoundsOptions: FitBoundsOptions(
-              padding: EdgeInsets.all(50),
+      body: Stack(
+        children: [
+          FlutterMap(
+            options: MapOptions(
+              center: LatLng(51.3867, 9.9167),
+              zoom: 5.7,
+              minZoom: 4,
+              maxZoom: 19,
+              plugins: [
+                MarkerClusterPlugin(),
+              ],
             ),
-            markers: _getAllNotFeatured(),
-            polygonOptions: PolygonOptions(
-                borderColor: Theme.of(context).primaryColor,
-                color: Colors.black12,
-                borderStrokeWidth: 3),
-            builder: (context, markers) {
-              return FloatingActionButton(
-                backgroundColor: Theme.of(context).primaryColor,
-                child: Text(
-                  markers.length.toString(),
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
+            layers: [
+              TileLayerOptions(
+                  urlTemplate:
+                      'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
+                  tileProvider: CachedNetworkTileProvider()),
+              MarkerClusterLayerOptions(
+                maxClusterRadius: 120,
+                size: Size(40, 40),
+                fitBoundsOptions: FitBoundsOptions(
+                  padding: EdgeInsets.all(50),
                 ),
-                onPressed: null,
-              );
-            },
-          ),
-          new MarkerLayerOptions(
-            markers: _getAllFeatured(),
-          ),
+                markers: _getAllNotFeatured(),
+                polygonOptions: PolygonOptions(
+                    borderColor: Theme.of(context).primaryColor,
+                    color: Colors.black12,
+                    borderStrokeWidth: 3),
+                builder: (context, markers) {
+                  return FloatingActionButton(
+                    heroTag: markers
+                        .map<String>((marker) {
+                          return marker.point.latitude.toString() +
+                              marker.point.longitude.toString();
+                        })
+                        .toList()
+                        .toString(),
+                    backgroundColor: Theme.of(context).primaryColor,
+                    child: Text(
+                      markers.length.toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: null,
+                  );
+                },
+              ),
+              new MarkerLayerOptions(
+                markers: _getAllFeatured(),
+              ),
 
-          /*    MarkerLayerOptions(
-                          ), */
+              /*    MarkerLayerOptions(
+                            ), */
+            ],
+          ),
+          Column(mainAxisSize: MainAxisSize.min, children: [
+            Container(
+              decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              margin: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
+              child: ExpandableNotifier(
+                // <-- Provides ExpandableController to its children
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Wir streiken weiter',
+                      style: Theme.of(context)
+                          .textTheme
+                          .title
+                          .copyWith(color: Colors.white),
+                    ),
+                    Expandable(
+                      // <-- Driven by ExpandableController from ExpandableNotifier
+                      collapsed: ExpandableButton(
+                        // <-- Expands when tapped on the cover photo
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Wir streiken weiter Lorem ipsum dolor sit amet, consete ... ',
+                            //style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(text: '       weiterlesen', style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).accentColor,
+                              )
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      expanded: Column(children: [
+                        Text(
+                            "Wir streiken weiter Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ",
+                            style: TextStyle(
+                              color: Colors.white,
+                            )),
+                        ExpandableButton(
+                          // <-- Collapses when tapped on
+                          child: Text("Einklappen",
+                          style:TextStyle(
+                            color: Theme.of(context).accentColor
+                          )),
+                        ),
+                      ]),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            FlatButton(
+              child: Text(
+                  "Jetzt mitstreiken",
+                  style: Theme.of(context).textTheme.title.copyWith(color: Colors.white)
+              ),
+              color: Theme.of(context).primaryColor,
+              onPressed: () {},
+            )
+          ])
         ],
       ),
     );
