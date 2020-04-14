@@ -1,3 +1,4 @@
+import 'package:app/page/strike/map-netzstreik/add-strike-page.dart';
 import 'package:app/page/strike/map-netzstreik/netzstreik-api.dart';
 import 'package:app/widget/og_social_buttons.dart';
 import 'package:expandable/expandable.dart';
@@ -178,12 +179,16 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      'Wir streiken weiter',
-                      style: Theme.of(context)
-                          .textTheme
-                          .title
-                          .copyWith(color: Colors.white),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          'Wir streiken weiter',
+                          style: Theme.of(context)
+                              .textTheme
+                              .title
+                              .copyWith(color: Colors.white),
+                        ),
+                      ],
                     ),
                     Expandable(
                       // <-- Driven by ExpandableController from ExpandableNotifier
@@ -191,14 +196,16 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                         // <-- Expands when tapped on the cover photo
                         child: RichText(
                           text: TextSpan(
-                            text: 'Wir streiken weiter Lorem ipsum dolor sit amet, consete ... ',
+                            text:
+                                'Wir streiken weiter Lorem ipsum dolor sit amet, consete ... ',
                             //style: DefaultTextStyle.of(context).style,
                             children: <TextSpan>[
-                              TextSpan(text: '       weiterlesen', style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).accentColor,
-                              )
-                              ),
+                              TextSpan(
+                                  text: '       weiterlesen',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).accentColor,
+                                  )),
                             ],
                           ),
                         ),
@@ -212,9 +219,8 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                         ExpandableButton(
                           // <-- Collapses when tapped on
                           child: Text("Einklappen",
-                          style:TextStyle(
-                            color: Theme.of(context).accentColor
-                          )),
+                              style: TextStyle(
+                                  color: Theme.of(context).accentColor)),
                         ),
                       ]),
                     ),
@@ -223,12 +229,19 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
               ),
             ),
             FlatButton(
-              child: Text(
-                  "Jetzt mitstreiken",
-                  style: Theme.of(context).textTheme.title.copyWith(color: Colors.white)
-              ),
+              child: Text("Jetzt mitstreiken",
+                  style: Theme.of(context)
+                      .textTheme
+                      .title
+                      .copyWith(color: Colors.white)),
               color: Theme.of(context).primaryColor,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  //Pushes the Sub Page on the Stack
+                  MaterialPageRoute(builder: (context) => AddStrikePage()),
+                );
+              },
             )
           ])
         ],

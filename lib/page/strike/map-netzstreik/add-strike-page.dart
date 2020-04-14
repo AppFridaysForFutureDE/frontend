@@ -10,8 +10,9 @@ class _AddStrikePageState extends State<AddStrikePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mitstreiken:'),
+        title: Text('Mitstreiken'),
       ),
+      body: Text("Hier kommt was hin"),
     );
   }
 }
