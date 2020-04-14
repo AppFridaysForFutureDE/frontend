@@ -8,6 +8,9 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import '../../../app.dart';
 import 'package:latlong/latlong.dart';
 
+/**
+ * A map that shows all Strike points for the global Climate strike on 04/24/2020
+ */
 class MapNetzstreik extends StatefulWidget {
   @override
   _MapNetzstreikState createState() => _MapNetzstreikState();
@@ -16,6 +19,10 @@ class MapNetzstreik extends StatefulWidget {
 class _MapNetzstreikState extends State<MapNetzstreik> {
   NetzstreikApi netzstreikApi = NetzstreikApi();
   List<StrikePoint> strikePointL = List<StrikePoint>();
+
+  /**
+   * The init Method Loads all strike Points.
+   */
   @override
   void initState() {
     netzstreikApi.getAllStrikePoints().then((list) {
@@ -29,6 +36,9 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
     super.initState();
   }
 
+  /**
+   * Generates the Marker for one Strike Point
+   */
   Marker _generateMarker(StrikePoint strikePoint) {
     return Marker(
         width: 45.0,
@@ -48,6 +58,9 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
             ));
   }
 
+  /**
+   * Genrates a list of Markes of not Features Strike Points
+   */
   List<Marker> _getAllNotFeatured() {
     List<Marker> resultL = [];
     for (StrikePoint strikePoint in strikePointL) {
@@ -58,6 +71,9 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
     return resultL;
   }
 
+  /**
+   * Generates a list of Markers of all Features Strike Points
+   */
   List<Marker> _getAllFeatured() {
     List<Marker> resultL = [];
     for (StrikePoint strikePoint in strikePointL) {
@@ -81,6 +97,9 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
     return resultL;
   }
 
+  /**
+   * Shows a Popup for a Strike point for example if a point is tapped
+   */
   void _showStrikePoint(StrikePoint strikePoint) {
     showDialog(
       context: context,
@@ -128,6 +147,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                   urlTemplate:
                       'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
                   tileProvider: CachedNetworkTileProvider()),
+              // all Clusters (not featured marker)
               MarkerClusterLayerOptions(
                 maxClusterRadius: 120,
                 size: Size(40, 40),
@@ -159,6 +179,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                   );
                 },
               ),
+              // all featured strike Points
               new MarkerLayerOptions(
                 markers: _getAllFeatured(),
               ),
@@ -167,6 +188,8 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                             ), */
             ],
           ),
+
+          //The Expandable Info Text at the Top
           Column(mainAxisSize: MainAxisSize.min, children: [
             Container(
               decoration: BoxDecoration(
@@ -174,32 +197,48 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                   borderRadius: BorderRadius.all(Radius.circular(10.0))),
               margin: EdgeInsets.all(8.0),
               padding: EdgeInsets.all(8.0),
-
               child: ExpandableNotifier(
-
                 // <-- Provides ExpandableController to its children
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                   /* Row(
-                      children: <Widget>[
-                        Text(
-                          'Wir streiken weiter',
-                          style: Theme.of(context)
-                              .textTheme
-                              .title
-                              .copyWith(color: Colors.white),
-                        ),
-
-                      ],
-                    ),*/
-                    Expandable(
-                      // <-- Driven by ExpandableController from ExpandableNotifier
-                      collapsed: ExpandableButton(
-                        // <-- Expands when tapped on the cover photo
-                        child: Column(
+                child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  Expandable(
+                    // <-- Driven by ExpandableController from ExpandableNotifier
+                    collapsed: ExpandableButton(
+                      // <-- Expands when tapped on the cover photo
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'Wir streiken weiter',
+                            style: Theme.of(context)
+                                .textTheme
+                                .title
+                                .copyWith(color: Colors.white),
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              text:
+                                  'Wir streiken weiter Lorem ipsum dolor sit amet, consete ... ',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: '       weiterlesen',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).accentColor,
+                                    )),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    expanded: ExpandableButton(
+                      // <-- Collapses when tapped on
+                      child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
+                          children: [
                             Text(
                               'Wir streiken weiter',
                               style: Theme.of(context)
@@ -207,60 +246,28 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                                   .title
                                   .copyWith(color: Colors.white),
                             ),
-                            RichText(
-                              text: TextSpan(
-                                text: 'Wir streiken weiter Lorem ipsum dolor sit amet, consete ... ',
-                                //style: DefaultTextStyle.of(context).style,
-                                children: <TextSpan>[
-                                  TextSpan(text: '       weiterlesen', style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).accentColor,
-                                  )
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      expanded:
-                        ExpandableButton(
-                          // <-- Collapses when tapped on
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
                             Text(
-                            'Wir streiken weiter',
-                            style: Theme.of(context)
-                                .textTheme
-                                .title
-                                .copyWith(color: Colors.white),
-                          ),
-                          Text(
-                              "Wir streiken weiter Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ",
-                              style: TextStyle(
-                                color: Colors.white,
-                              )),
-
-
-                          Center(
-                            child: Text("Einklappen",
-                            style: TextStyle(
-                              color: Theme.of(context).accentColor
-                            )),
-                          ),
-                        ]),
-
+                                "Wir streiken weiter Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                )),
+                            Center(
+                              child: Text("Einklappen",
+                                  style: TextStyle(
+                                      color: Theme.of(context).accentColor)),
+                            ),
+                          ]),
                     ),
-                    )]
-                ),
+                  )
+                ]),
               ),
             ),
             FlatButton(
-              child: Text(
-                  "Jetzt mitstreiken",
-                  style: Theme.of(context).textTheme.title.copyWith(color: Colors.white)
-              ),
+              child: Text("Jetzt mitstreiken",
+                  style: Theme.of(context)
+                      .textTheme
+                      .title
+                      .copyWith(color: Colors.white)),
               color: Theme.of(context).primaryColor,
               onPressed: () {
                 Navigator.push(
