@@ -35,9 +35,9 @@ class FutureStoryPage extends StatelessWidget {
                   image: NetworkImage(
                       'https://app.fffutu.re/instagram_instructions.jpg'),
                 ),
-                FlatButton(
-                    // TODO: Style this button
-                    onPressed: _shareImage(),
+                RaisedButton(
+                    color: Theme.of(context).primaryColor,
+                    onPressed: _shareImage,
                     child: Text('Vorlage herunterladen')),
               ],
             )
