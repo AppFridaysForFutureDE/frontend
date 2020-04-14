@@ -4,6 +4,7 @@ import 'package:app/model/strike.dart';
 
 import 'package:app/page/about/about.dart';
 import 'package:app/page/feed/feed.dart';
+import 'package:app/page/feed/post.dart';
 import 'package:app/page/info/info.dart';
 import 'package:app/page/map/map.dart';
 import 'package:app/page/strike/strike.dart';
@@ -138,12 +139,55 @@ class _HomeState extends State<Home> {
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
+  Future _handleNotificationOpen(Map<String, dynamic> data) async {
+
+
+    String type = data['data']['type'];
+    String payload = data['data']['payload'];
+
+    var box = await Hive.openBox('launched_notifications');
+
+    if (box.containsKey('$type.$payload')) {
+      return;
+    }
+    box.put('$type.$payload', true);
+
+    if (type == 'feed') {
+      setState(() {
+        _currentIndex = 0;
+      });
+
+      var posts = await api.getPosts();
+
+      var post = posts.firstWhere((p) => p.id == payload, orElse: () => null);
+
+      if (post == null) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+            content: Text('Der Artikel konnte nicht gefunden werden.')));
+      } else {
+        await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => PostPage(post),
+          ),
+        );
+      }
+    } else if (type == 'strike') {
+      setState(() {
+        _currentIndex = 3;
+      });
+    }
+  }
+
   @override
   initState() {
+    _firebaseMessaging.configure(
+      onResume: _handleNotificationOpen,
+      onLaunch: _handleNotificationOpen,
+    );
+
     if (Hive.box('data').get('firstStart') ?? true) {
       if (Platform.isIOS) {
         _firebaseMessaging.requestNotificationPermissions();
-        _firebaseMessaging.configure();
       }
       subToAll();
       Hive.box('data').put('firstStart', false);
@@ -152,9 +196,12 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+  var _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: OfflineBuilder(
         connectivityBuilder: (
           BuildContext context,
