@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:app/model/SocialLinkContainer.dart';
 import 'package:app/service/cache.dart';
 import 'package:http/http.dart' as http;
@@ -7,9 +8,13 @@ import 'package:path_provider/path_provider.dart';
 class NetzstreikApi {
 
   static final apiUrl = 'https://actionmap.fridaysforfuture.de/?get_events';
+  static final imageUrl = 'https://actionmap.fridaysforfuture.de/securimage/securimage_show.php';
+  static final uploadUrl = 'https://actionmap.fridaysforfuture.de/index.php?upload';
+  http.Client client = http.Client();
+  Cookie cookie = null;
   Future<List<StrikePoint>> getAllStrikePoints() async{
     try {
-      http.Client client = http.Client();
+      client = http.Client();
       var res = await client.get(apiUrl);
       if(res.statusCode == HttpStatus.ok){
         CacheService cache = CacheService(await getTemporaryDirectory());
@@ -34,6 +39,70 @@ class NetzstreikApi {
       throw Exception('Error Loading entrys Strike Map\n '+e.toString() + '\n Error fertig');
     }
   }
+  Future<void> startUploadSession() async{
+    var res = await client.get(apiUrl);
+    var header = res.headers;
+    var cookieRaw = header['set-cookie'];
+    if(res.statusCode != HttpStatus.ok){
+      throw Exception('Status Code: '+res.statusCode.toString());
+    }
+    if(cookieRaw != null){
+      cookie = Cookie.fromSetCookieValue(cookieRaw);
+      if(cookie != null){
+        print(cookie.value);
+        return ;
+      }
+    }
+    throw new Exception( "Error start Upload Session");
+  }
+  Map<String, String> _getCookieHeader(){
+    if(cookie == null){
+      throw Exception('No Cookie set. Please first start upload Session');
+    }
+    Map<String, String> headers = {};
+    headers['cookie'] = cookie.name +"="+cookie.value;
+    return headers;
+  }
+  Future<Uint8List> getSecureImage() async{
+    Map<String, String> headers = _getCookieHeader();
+    var res = await client.get(imageUrl,headers:  headers);
+    if(res.statusCode == HttpStatus.ok){
+      print("ok");
+      CacheService cache = CacheService(await getTemporaryDirectory());
+      //cache.put('secureImage', res.body);
+      return res.bodyBytes;
+    }else{
+      throw Exception('Not OK Status Code: '+res.statusCode.toString());
+    }
+  }
+  Future<ResultUpload> finishUpload(String name, bool showName, String email, String plz, bool newsletter,String captcha) async{
+    Map<String,dynamic> body = {};
+    body['name'] = name;
+    body['show_name'] = showName? 'true' : 'false';
+    body['email'] = email;
+    print(email);
+    body['laender'] = plz;
+    body['newsletter'] = newsletter ? 'true' : 'false';
+    body['accept_eula'] = 'true';
+    body['captcha_code'] = captcha;
+
+    Map<String, String> headers = _getCookieHeader();
+    var res = await client.post(uploadUrl,headers:headers,body: body);
+    if(res.statusCode == HttpStatus.ok){
+      print("Workes!! HEader");
+      print(res.headers.toString());
+      print("Body");
+      print(res.body);
+      return ResultUpload.Ok;
+    }else{
+      print("Fail ");
+      return ResultUpload.Fail;
+    }
+  }
+
+}
+enum ResultUpload{
+  Ok,Captcha,Fail
 }
 class StrikePoint implements SocialLinkContainer{
   String name = "";

@@ -283,7 +283,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                 Navigator.push(
                   context,
                   //Pushes the Sub Page on the Stack
-                  MaterialPageRoute(builder: (context) => AddStrikePage()),
+                  MaterialPageRoute(builder: (context) => AddStrikePage(netzstreikApi)),
                 );
               },
             )
