@@ -74,11 +74,6 @@ class _AddStrikePageState extends State<AddStrikePage> {
                     .copyWith(color: Colors.white)),
             color: Theme.of(context).primaryColor,
             onPressed: () {
-              Navigator.push(
-                context,
-                //Pushes the Sub Page on the Stack
-                MaterialPageRoute(builder: (context) => AddStrikePage()),
-              );
             },
           )
         ],
