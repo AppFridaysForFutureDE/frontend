@@ -41,6 +41,7 @@ dependencies:
   flutter_map_marker_cluster: ^0.2.7
   package_info: '>=0.4.0+16 <2.0.0'
   flip_card: ^0.4.4
+  auto_size_text: ^2.1.0
 
   
   
