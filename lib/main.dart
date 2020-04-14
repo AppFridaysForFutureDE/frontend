@@ -11,6 +11,7 @@ import 'package:app/service/api.dart';
 
 import 'package:app/app.dart';
 import 'package:app/service/theme.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -107,6 +108,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return AppTheme(
       data: (theme) => _buildThemeData(theme),
       themedWidgetBuilder: (context, theme) {
