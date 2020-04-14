@@ -78,13 +78,14 @@ class NetzstreikApi {
   Future<ResultUpload> finishUpload(String name, bool showName, String email, String plz, bool newsletter,String captcha) async{
     Map<String,dynamic> body = {};
     body['name'] = name;
-    body['show_name'] = showName? 'true' : 'false';
+    body['show_name'] = showName? 'on' : 'off';
     body['email'] = email;
     print(email);
     body['laender'] = plz;
-    body['newsletter'] = newsletter ? 'true' : 'false';
-    body['accept_eula'] = 'true';
+    //body['newsletter'] = newsletter ? 'on' : 'off';
     body['captcha_code'] = captcha;
+    body['accept_eula'] = 'on';
+
 
     Map<String, String> headers = _getCookieHeader();
     var res = await client.post(uploadUrl,headers:headers,body: body);
