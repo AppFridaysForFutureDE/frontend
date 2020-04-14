@@ -140,8 +140,6 @@ class _HomeState extends State<Home> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   Future _handleNotificationOpen(Map<String, dynamic> data) async {
-
-
     String type = data['data']['type'];
     String payload = data['data']['payload'];
 
