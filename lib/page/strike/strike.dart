@@ -2,6 +2,8 @@ import 'package:app/app.dart';
 
 import 'package:flip_card/flip_card.dart';
 
+import 'challenge.dart';
+
 class StrikePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,10 @@ class StrikePage extends StatelessWidget {
           'Challenge',
           'Lust auf eine kleine Herausforderung? Mach mit!',
           () {
-            // Tu was
+            Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChallengePage()),
+                );
           },
         ),
       ]),
