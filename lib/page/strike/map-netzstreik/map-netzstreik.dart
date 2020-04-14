@@ -208,7 +208,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
           Column(mainAxisSize: MainAxisSize.min, children: [
             Container(
               decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).accentColor,
                   borderRadius: BorderRadius.all(Radius.circular(10.0))),
               margin: EdgeInsets.all(8.0),
               padding: EdgeInsets.all(8.0),
@@ -227,23 +227,23 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                             style: Theme.of(context)
                                 .textTheme
                                 .title
-                                .copyWith(color: Colors.white),
+                                .copyWith(color: Colors.black),
                           ),
-                          RichText(
-                            text: TextSpan(
-                              text:
-                                  'Wir streiken weiter Lorem ipsum dolor sit amet, consete ... ',
+                          Text(
+                              "Wir streiken weiter Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                color: Colors.white,
-                              ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: '       weiterlesen',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).accentColor,
-                                    )),
-                              ],
+                                color: Colors.black,
+                              )),
+                          Center(
+                            child: Text(
+                                'weiterlesen',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black//Theme.of(context).primaryColor,
+                                ),
+
                             ),
                           ),
                         ],
@@ -259,17 +259,18 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                               style: Theme.of(context)
                                   .textTheme
                                   .title
-                                  .copyWith(color: Colors.white),
+                                  .copyWith(color: Colors.black),
                             ),
                             Text(
                                 "Wir streiken weiter Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                 )),
                             Center(
                               child: Text("Einklappen",
                                   style: TextStyle(
-                                      color: Theme.of(context).accentColor)),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black)),
                             ),
                           ]),
                     ),
