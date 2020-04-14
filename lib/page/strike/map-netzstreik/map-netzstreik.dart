@@ -188,6 +188,21 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                             ), */
             ],
           ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              color: Color(0xaaffffff),
+              padding: const EdgeInsets.all(2.0),
+
+              child: Text(
+                '© OpenStreetMap-Mitwirkende',
+                style: TextStyle(
+                  fontSize: 11,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
 
           //The Expandable Info Text at the Top
           Column(mainAxisSize: MainAxisSize.min, children: [
