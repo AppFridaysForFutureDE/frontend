@@ -161,13 +161,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                     borderStrokeWidth: 3),
                 builder: (context, markers) {
                   return FloatingActionButton(
-                    heroTag: markers
-                        .map<String>((marker) {
-                          return marker.point.latitude.toString() +
-                              marker.point.longitude.toString();
-                        })
-                        .toList()
-                        .toString(),
+                    heroTag: null,
                     backgroundColor: Theme.of(context).primaryColor,
                     child: Text(
                       markers.length.toString(),
