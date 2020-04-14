@@ -15,8 +15,8 @@ class StrikePage extends StatelessWidget {
             _buildCard(
               'Ich streike hier!',
               'Zeig allen, dass du weiterstreikst und nach wie vor effektive Schutzmaßnahmen für die Zukunft unseres Planeten forderst. Klick den Button! Trag dich ein! Lade ein Bild hoch, falls du willst, und fülle die Karte als ein Teil der Bewegung.',
-              'story',
-              Color(0xff95d686),
+              'local',
+              Color(0xffadecfe),
               () {
                 // Tu was
               },
