@@ -134,6 +134,7 @@ class _MapPageState extends State<MapPage> {
                               borderStrokeWidth: 3),
                           builder: (context, markers) {
                             return FloatingActionButton(
+                              heroTag: null,
                               backgroundColor: Theme.of(context).primaryColor,
                               child: Text(
                                 markers.length.toString(),
