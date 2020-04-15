@@ -40,11 +40,10 @@ class FutureStoryPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: AutoSizeText(
-                'Nach Corona willst du in eine lebenswerte Zukunft blicken? ' +
-                    'Eine Zukunft ohne weitere Pandemien, extreme Wettervorkommen oder andere Folgen des Klimawandels?' +
+                'Die Zukunft, ein Traum den jede*r hat. Doch die Klimakrise bringt ebenjene in Gefahr... Die Zeit etwas zu ändern ist jetzt!' +
                     '\n' +
-                    'Dann mach mit und fordere deine Klimaschutzmaßnahmen von der Politik!',
-                maxLines: 7,
+                    'Fülle die Vorlage für die Story aus und tagge drei deiner Freunde. Hilf uns dabei, awareness zu spreaden und die Zukunft zu retten!',
+                maxLines: 6,
                 style: TextStyle(fontSize: 16),
               ),
             ),
@@ -53,7 +52,9 @@ class FutureStoryPage extends StatelessWidget {
               alignment: AlignmentDirectional.bottomCenter,
               children: <Widget>[
                 Image.network(
-                    'https://app.fffutu.re/img/instagram_instructions.jpg'),
+                  'https://app.fffutu.re/img/instagram_instructions.jpg',
+                  height: MediaQuery.of(context).size.height * 0.6,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 32.0),
                   child: RaisedButton(
