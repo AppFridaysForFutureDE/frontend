@@ -18,6 +18,8 @@ import 'package:flutter_offline/flutter_offline.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+import 'page/intro/video.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -119,7 +121,9 @@ class App extends StatelessWidget {
       themedWidgetBuilder: (context, theme) {
         return MaterialApp(
           title: 'App For Future',
-          home: Home(),
+          home: (Hive.box('data').get('intro_done') ?? false)
+              ? Home()
+              : VideoPage(),
           theme: theme,
         );
       },
