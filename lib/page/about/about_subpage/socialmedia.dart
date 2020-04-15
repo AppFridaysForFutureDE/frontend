@@ -22,42 +22,42 @@ class SocialMediaPage extends  StatelessWidget {
         children: <Widget>[
           TitleWidget('Social Media Kanäle'),
           ListTile(
-            leading: Icon(MdiIcons.twitter, color: Color(0xff387245)),
+            leading: Icon(MdiIcons.twitter),
             title: Text('Twitter'),
             onTap: () {
                 _launchURL('https://twitter.com/FridayForFuture');
               },
           ),
           ListTile(
-            leading: Icon(MdiIcons.instagram, color: Color(0xff387245)),
+            leading: Icon(MdiIcons.instagram),
             title: Text('Instagram'),
             onTap: () {
                 _launchURL('https://www.instagram.com/fridaysforfuture.de');
               },
           ),
           ListTile(
-            leading: Icon(MdiIcons.facebook, color: Color(0xff387245)),
+            leading: Icon(MdiIcons.facebook),
             title: Text('Facebook'),
             onTap: () {
                 _launchURL('https://www.facebook.com/fridaysforfuture.de/');
               },
           ),
           ListTile(
-            leading: Icon(MdiIcons.flickr, color: Color(0xff387245)),
+            leading: Icon(MdiIcons.flickr),
             title: Text('Flickr'),
             onTap: () {
                 _launchURL('https://www.flickr.com/people/146245435@N02/');
               },
           ),
           ListTile(
-            leading: Icon(MdiIcons.youtube, color: Color(0xff387245)),
+            leading: Icon(MdiIcons.youtube),
             title: Text('YouTube'),
             onTap: () {
                 _launchURL('https://www.youtube.com/channel/UCZwF7J5rbyJXBZMJrE_8XCA');
               },
           ),
           ListTile(
-            leading: Icon(MdiIcons.telegram, color: Color(0xff387245)),
+            leading: Icon(MdiIcons.telegram),
             title: Text('Telegram'),
             onTap: () {
                 _launchURL('https://t.me/FridaysForFutureDE');
@@ -72,7 +72,7 @@ class SocialMediaPage extends  StatelessWidget {
               },
           ), 
           ListTile(
-            leading: Icon(MdiIcons.discord, color: Color(0xff387245)),
+            leading: Icon(MdiIcons.discord),
             title: Text('Discord'),
             onTap: () {
                 _launchURL('https://discord.gg/UEGyyrT');
