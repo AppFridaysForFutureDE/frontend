@@ -22,42 +22,42 @@ class SocialMediaPage extends  StatelessWidget {
         children: <Widget>[
           TitleWidget('Social Media Kanäle'),
           ListTile(
-            leading: Icon(MdiIcons.twitter, /*color: Color(0x387245)*/), //Bei anderen Farben verschwindet das Icon
+            leading: Icon(MdiIcons.twitter, color: Color(0xff387245)),
             title: Text('Twitter'),
             onTap: () {
                 _launchURL('https://twitter.com/FridayForFuture');
               },
           ),
           ListTile(
-            leading: Icon(MdiIcons.instagram),
+            leading: Icon(MdiIcons.instagram, color: Color(0xff387245)),
             title: Text('Instagram'),
             onTap: () {
                 _launchURL('https://www.instagram.com/fridaysforfuture.de');
               },
           ),
           ListTile(
-            leading: Icon(MdiIcons.facebook),
+            leading: Icon(MdiIcons.facebook, color: Color(0xff387245)),
             title: Text('Facebook'),
             onTap: () {
                 _launchURL('https://www.facebook.com/fridaysforfuture.de/');
               },
           ),
           ListTile(
-            leading: Icon(MdiIcons.flickr),
+            leading: Icon(MdiIcons.flickr, color: Color(0xff387245)),
             title: Text('Flickr'),
             onTap: () {
                 _launchURL('https://www.flickr.com/people/146245435@N02/');
               },
           ),
           ListTile(
-            leading: Icon(MdiIcons.youtube),
+            leading: Icon(MdiIcons.youtube, color: Color(0xff387245)),
             title: Text('YouTube'),
             onTap: () {
                 _launchURL('https://www.youtube.com/channel/UCZwF7J5rbyJXBZMJrE_8XCA');
               },
           ),
           ListTile(
-            leading: Icon(MdiIcons.telegram),
+            leading: Icon(MdiIcons.telegram, color: Color(0xff387245)),
             title: Text('Telegram'),
             onTap: () {
                 _launchURL('https://t.me/FridaysForFutureDE');
@@ -72,7 +72,7 @@ class SocialMediaPage extends  StatelessWidget {
               },
           ), 
           ListTile(
-            leading: Icon(MdiIcons.discord),
+            leading: Icon(MdiIcons.discord, color: Color(0xff387245)),
             title: Text('Discord'),
             onTap: () {
                 _launchURL('https://discord.gg/UEGyyrT');
