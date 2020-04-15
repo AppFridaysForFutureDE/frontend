@@ -2,6 +2,8 @@ import 'package:app/app.dart';
 
 import 'package:flip_card/flip_card.dart';
 
+import 'challenge.dart';
+
 class StrikePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -9,6 +11,7 @@ class StrikePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Netzstreik'),
       ),
+
       body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -36,7 +39,10 @@ class StrikePage extends StatelessWidget {
               'challenge',
               Color(0xfffff0a5),
               () {
-                // Tu was
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChallengePage()),
+                );
               },
             ),
           ]),
