@@ -1,4 +1,5 @@
 import 'package:app/app.dart';
+import 'package:app/page/strike/map-netzstreik/add-iframe-page.dart';
 
 import 'package:app/page/strike/map-netzstreik/map-netzstreik.dart';
 
@@ -25,7 +26,10 @@ class StrikePage extends StatelessWidget {
               'local',
               Color(0xffadecfe),
               () {
-                // Tu was
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MapNetzstreik()),
+                );
               },
             ),
             _buildCard(

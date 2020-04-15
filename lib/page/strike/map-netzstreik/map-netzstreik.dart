@@ -1,3 +1,4 @@
+import 'package:app/page/strike/map-netzstreik/add-iframe-page.dart';
 import 'package:app/page/strike/map-netzstreik/add-strike-page.dart';
 import 'package:app/page/strike/map-netzstreik/netzstreik-api.dart';
 import 'package:app/widget/og_social_buttons.dart';
@@ -283,7 +284,8 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                 Navigator.push(
                   context,
                   //Pushes the Sub Page on the Stack
-                  MaterialPageRoute(builder: (context) => AddStrikePage(netzstreikApi)),
+                  //MaterialPageRoute(builder: (context) => AddStrikePage(netzstreikApi)),
+                    MaterialPageRoute(builder: (context) => AddIFramePage())
                 );
               },
             )
