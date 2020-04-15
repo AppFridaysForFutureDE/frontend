@@ -23,7 +23,7 @@ class StrikePage extends StatelessWidget {
             ),
             _buildCard(
               'ZukunftsStory',
-              'Die Zukunft, ein Traum den jede*r hat. Doch die Klimakrise bringt solche in Gefahr.. Die Zeit etwas zu ändern ist jetzt! Fülle die Vorlage für die Story aus und tagge drei deiner Freunde. Hilf uns dabei, awareness zu spreaden und die Zukunft zu retten!',
+              'Die Zukunft, ein Traum den jede*r hat. Doch die Klimakrise bringt ebenjene in Gefahr... Die Zeit etwas zu ändern ist jetzt! Fülle die Vorlage für die Story aus und tagge drei deiner Freunde. Hilf uns dabei, awareness zu spreaden und die Zukunft zu retten!',
               'story',
               Color(0xff95d686),
               () {
