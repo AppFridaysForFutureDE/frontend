@@ -49,6 +49,6 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app requires read and write access to the photo library.</string>
+	<string>Diese Berechtigung wird verwendet, um Story Vorlagen zu speichern.</string>
 </dict>
 </plist>
