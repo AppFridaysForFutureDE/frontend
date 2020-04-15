@@ -11,6 +11,8 @@ class NetzstreikApi {
   static final apiUrl = 'https://actionmap.fridaysforfuture.de/?get_events';
   static final imageUrl = 'https://actionmap.fridaysforfuture.de/securimage/securimage_show.php';
   static final uploadUrl = 'https://actionmap.fridaysforfuture.de/index.php?upload';
+
+  Uint8List secureImageDebug = null;
   http.Client client = http.Client();
   Cookie cookie = null;
   Future<List<StrikePoint>> getAllStrikePoints() async{
@@ -71,6 +73,7 @@ class NetzstreikApi {
       print("ok");
       CacheService cache = CacheService(await getTemporaryDirectory());
       //cache.put('secureImage', res.body);
+      secureImageDebug = res.bodyBytes;
       return res.bodyBytes;
     }else{
       throw Exception('Not OK Status Code: '+res.statusCode.toString());
@@ -78,6 +81,8 @@ class NetzstreikApi {
   }
   Future<ResultUpload> finishUpload(String name, bool showName, String email, String plz, bool newsletter,String captcha) async{
 
+    //-----
+    /*
     Map<String,dynamic> body = {};
 
     body['name'] = name;
@@ -92,6 +97,20 @@ class NetzstreikApi {
     Map<String, String> headers = _getCookieHeader();
 
 
+    var res = await client.post(uploadUrl,headers:headers,body: body);
+    if(res.statusCode == HttpStatus.ok){
+      print("Workes!! HEader");
+      print(res.headers.toString());
+      print("Body");
+      print(res.body);
+      return ResultUpload.Ok;
+    }else{
+      print("Fail ");
+      return ResultUpload.Fail;
+    }
+    */
+    //----------
+
     /*
     var request = new http.MultipartRequest("POST", Uri.dataFromString(uploadUrl));
     request.fields['name'] = name;
@@ -102,6 +121,9 @@ class NetzstreikApi {
     request.fields['accept_eula'] = 'on';
     request.fields['image'] = '';
 
+     */
+
+
     Dio dio = new Dio();
     FormData formData =  FormData.fromMap({
       'name': name,
@@ -110,9 +132,21 @@ class NetzstreikApi {
       'laender':  plz,
       'captcha_code': captcha,
       'accept_eula': 'on',
-      "image":  MultipartFile.fromBytes([])
+      'image':  MultipartFile.fromBytes(secureImageDebug)
+      //"image":  /await MultipartFile.fromFile("assets/icon/icon.png",filename: "icon.png")
     });
-    Response response = await dio.post("/info", data: formData);
+
+
+
+
+    Response response = await dio.post(
+        uploadUrl,
+        data: formData,
+      options: Options(
+        headers: _getCookieHeader(),
+      )
+    );
+    //var res  = await request.s;
     if(response.statusCode == HttpStatus.ok){
       print("Workes!! HEader");
       print(response.headers.toString());
@@ -139,20 +173,9 @@ class NetzstreikApi {
       //contentType: MediaType('application', 'x-tar'),
     );
 
-*/
+
 
     //var res = await request.send();
-    var res = await client.post(uploadUrl,headers:headers,body: body);
-    if(res.statusCode == HttpStatus.ok){
-      print("Workes!! HEader");
-      print(res.headers.toString());
-      print("Body");
-      print(res.body);
-      return ResultUpload.Ok;
-    }else{
-      print("Fail ");
-      return ResultUpload.Fail;
-    }
   }
 
 }
