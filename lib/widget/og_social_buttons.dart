@@ -1,12 +1,13 @@
 import 'package:app/app.dart';
+import 'package:app/model/SocialLinkContainer.dart';
+import 'package:app/page/strike/map-netzstreik/netzstreik-api.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class OGSocialButtons extends StatelessWidget {
-  final OG og;
-  final bool compact;
+class SocialButtons extends StatelessWidget {
+  SocialLinkContainer container;
+  bool compact;
 
-  OGSocialButtons(this.og, this.compact);
-
+  SocialButtons(this.container, this.compact);
   Widget _buildSocialMedia(IconData icon, String url) {
     if (url == null || url == '') return SizedBox();
     return compact
@@ -54,14 +55,14 @@ class OGSocialButtons extends StatelessWidget {
   }
 
   _buildChildren() => <Widget>[
-        _buildSocialMedia(MdiIcons.telegram, og.telegram),
-        _buildSocialMedia(MdiIcons.whatsapp, og.whatsapp),
-        _buildSocialMedia(MdiIcons.instagram, og.instagram),
-        _buildSocialMedia(MdiIcons.youtube, og.youtube),
-        _buildSocialMedia(MdiIcons.twitter, og.twitter),
-        _buildSocialMedia(MdiIcons.facebook, og.facebook),
-        _buildSocialMedia(MdiIcons.email, og.email),
-        _buildSocialMedia(MdiIcons.web, og.website),
-        _buildSocialMedia(MdiIcons.link, og.other),
-      ];
+    _buildSocialMedia(MdiIcons.telegram, container.telegram),
+    _buildSocialMedia(MdiIcons.whatsapp, container.whatsapp),
+    _buildSocialMedia(MdiIcons.instagram, container.instagram),
+    _buildSocialMedia(MdiIcons.youtube, container.youtube),
+    _buildSocialMedia(MdiIcons.twitter, container.twitter),
+    _buildSocialMedia(MdiIcons.facebook, container.facebook),
+    _buildSocialMedia(MdiIcons.email, container.email),
+    _buildSocialMedia(MdiIcons.web, container.website),
+    _buildSocialMedia(MdiIcons.link, container.other),
+  ];
 }

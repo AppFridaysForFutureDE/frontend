@@ -192,7 +192,7 @@ class _MapPageState extends State<MapPage> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(og.name),
-        content: OGSocialButtons(og, true),
+        content: SocialButtons(og, true),
         actions: <Widget>[
           FlatButton(
             onPressed: Navigator.of(context).pop,
