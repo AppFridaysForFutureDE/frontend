@@ -69,16 +69,18 @@ class StrikePage extends StatelessWidget {
             borderRadius: BorderRadius.circular(16.0),
           ),
           elevation: 12,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.end,
+          child: Stack(
+            alignment: Alignment.bottomRight,
             children: <Widget>[
-              SizedBox(
-                height: 8,
-              ),
-              ListTile(
-                title: Text(title),
-                subtitle: Text(subtitle),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 8.0,
+                  bottom: 32.0,
+                ),
+                child: ListTile(
+                  title: Text(title),
+                  subtitle: Text(subtitle),
+                ),
               ),
               FlatButton(
                 child: const Text('JETZT MITMACHEN'),
