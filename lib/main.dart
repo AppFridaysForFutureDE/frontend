@@ -4,6 +4,7 @@ import 'package:app/model/strike.dart';
 
 import 'package:app/page/about/about.dart';
 import 'package:app/page/feed/feed.dart';
+import 'package:app/page/feed/post.dart';
 import 'package:app/page/info/info.dart';
 import 'package:app/page/map/map.dart';
 import 'package:app/page/strike/strike.dart';
@@ -11,9 +12,13 @@ import 'package:app/service/api.dart';
 
 import 'package:app/app.dart';
 import 'package:app/service/theme.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
+import 'page/intro/video.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,11 +37,15 @@ void main() async {
 
   await Hive.openBox('strikes');
 
+  await Hive.openBox('challenges');
+
   await initializeDateFormatting('de_DE', null);
 
   api = ApiService();
 
   await api.loadConfig();
+
+  api.updateOGs();
 
   runApp(App());
 }
@@ -105,12 +114,18 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return AppTheme(
       data: (theme) => _buildThemeData(theme),
       themedWidgetBuilder: (context, theme) {
         return MaterialApp(
-          title: 'FFF App DE',
-          home: Home(),
+          title: 'App For Future',
+          home: (Hive.box('data').get('intro_done') ?? false)
+              ? Home()
+              : VideoPage(),
           theme: theme,
         );
       },
@@ -136,12 +151,78 @@ class _HomeState extends State<Home> {
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
+  Future _handleNotificationOpen(Map<String, dynamic> data) async {
+    String type = data['data']['type'];
+    String payload = data['data']['payload'];
+
+    await _handleLinkLaunch(type, payload, 'push');
+  }
+
+  Future _handleDynamicLink(PendingDynamicLinkData data) async {
+    final Uri deepLink = data?.link;
+    if (deepLink != null) {
+      var parts = deepLink.path.split('/').where((p) => p.isNotEmpty).toList();
+      if (parts.length == 2) _handleLinkLaunch(parts[0], parts[1], 'share');
+    }
+  }
+
+  Set<String> _launched = {};
+
+  Future _handleLinkLaunch(String type, String payload, String source) async {
+    var box = await Hive.openBox('launched_links');
+
+    String key = '$type.$payload.$source';
+    if (box.get(key) ?? false || _launched.contains(key)) {
+      return;
+    }
+    _launched.add(key);
+    box.put(key, true);
+
+    if (type == 'feed') {
+      setState(() {
+        _currentIndex = 0;
+      });
+
+      var posts = await api.getPosts();
+
+      var post = posts.firstWhere((p) => p.id == payload, orElse: () => null);
+
+      if (post == null) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+            content: Text('Der Artikel konnte nicht gefunden werden.')));
+      } else {
+        await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => PostPage(post),
+          ),
+        );
+      }
+    } else if (type == 'strike') {
+      setState(() {
+        _currentIndex = 3;
+      });
+    }
+  }
+
   @override
   initState() {
+    _firebaseMessaging.configure(
+      onResume: _handleNotificationOpen,
+      onLaunch: _handleNotificationOpen,
+    );
+
+    FirebaseDynamicLinks.instance.getInitialLink().then(_handleDynamicLink);
+
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: _handleDynamicLink,
+        onError: (OnLinkErrorException e) async {
+          print('onLinkError');
+          print(e.message);
+        });
+
     if (Hive.box('data').get('firstStart') ?? true) {
       if (Platform.isIOS) {
         _firebaseMessaging.requestNotificationPermissions();
-        _firebaseMessaging.configure();
       }
       subToAll();
       Hive.box('data').put('firstStart', false);
@@ -150,9 +231,12 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+  var _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: OfflineBuilder(
         connectivityBuilder: (
           BuildContext context,

@@ -70,6 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     await FirebaseMessaging()
                         .unsubscribeFromTopic('og_${og.ogId}');
                   }),
+                  
             ),
           TitleWidget('Newsfeed Benachrichtigungen'),
           for (String s in feedCategories)

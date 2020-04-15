@@ -56,6 +56,7 @@ class _MapPageState extends State<MapPage> {
         title: searchActive
             ? TextField(
                 autofocus: true,
+                textCapitalization: TextCapitalization.words,
                 autocorrect: false,
                 cursorColor: Colors.white,
                 style: TextStyle(color: Colors.white),
@@ -134,6 +135,7 @@ class _MapPageState extends State<MapPage> {
                               borderStrokeWidth: 3),
                           builder: (context, markers) {
                             return FloatingActionButton(
+                              heroTag: null,
                               backgroundColor: Theme.of(context).primaryColor,
                               child: Text(
                                 markers.length.toString(),
