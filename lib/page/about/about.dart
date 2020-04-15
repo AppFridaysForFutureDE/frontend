@@ -84,10 +84,11 @@ class _AboutPageState extends State<AboutPage> {
             ),
             ListTile(
               title: Text('👤 Social Media'),
-              onTap: () {Navigator.push(
+              onTap: () {
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SocialMediaPage()),
-              );
+                );
               },
             ),
             TitleWidget('Sonstiges'),
@@ -99,11 +100,15 @@ class _AboutPageState extends State<AboutPage> {
                 builder: (context, result) {
                   if (!result.hasData) return SizedBox();
 
-                  return Text(
-                    'App Version ${result.data.version}',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Theme.of(context).hintColor,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      'Dies ist die offizielle App von Fridays for Future Deutschland in der Version ${result.data.version}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).hintColor,
+                      ),
                     ),
                   );
                 },
