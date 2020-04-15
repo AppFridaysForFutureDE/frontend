@@ -226,7 +226,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                                 .copyWith(color: Colors.black),
                           ),
                           Text(
-                              "Wir streiken weiter Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ",
+                              "Um die Ausbreitung des Coronavirus zu verlangsamen, Menschen zu schützen und unsere Gesundheitssysteme zu entlasten, müssen wir alle unser Handeln anpassen. Auch wir als Fridays for Future und wollen dem gerecht werden. Daher sagen wir alle Streiks in der echten Welt ab und verlagern unsere Proteste für eine bessere Klimapolitik ins Netz. Nach wie vor fordern wir, die Klimakrise nicht aus den Augen zu verlieren. Der Coronakrise muss ebenso wie der Klimakrise in aller Handlungsbereitschaft und mit dem notwendigen politischen Willen begegnet werden. Weiterhin bedroht die Klimakrise unsere Zukunft. Deswegen protestieren wir trotzdem lautstark weiter – ohne Menschenmassen; stattdessen digital und im Netz.",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -258,7 +258,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                                   .copyWith(color: Colors.black),
                             ),
                             Text(
-                                "Wir streiken weiter Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ",
+                                "Um die Ausbreitung des Coronavirus zu verlangsamen, Menschen zu schützen und unsere Gesundheitssysteme zu entlasten, müssen wir alle unser Handeln anpassen. Auch wir als Fridays for Future und wollen dem gerecht werden. Daher sagen wir alle Streiks in der echten Welt ab und verlagern unsere Proteste für eine bessere Klimapolitik ins Netz. Nach wie vor fordern wir, die Klimakrise nicht aus den Augen zu verlieren. Der Coronakrise muss ebenso wie der Klimakrise in aller Handlungsbereitschaft und mit dem notwendigen politischen Willen begegnet werden. Weiterhin bedroht die Klimakrise unsere Zukunft. Deswegen protestieren wir trotzdem lautstark weiter – ohne Menschenmassen; stattdessen digital und im Netz.",
                                 style: TextStyle(
                                   color: Colors.black,
                                 )),
