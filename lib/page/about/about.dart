@@ -1,4 +1,5 @@
 import 'package:app/model/post.dart';
+import 'package:app/page/about/about_subpage/socialmedia.dart';
 import 'package:app/page/about/settings.dart';
 import 'package:app/page/feed/post.dart';
 import 'package:package_info/package_info.dart';
@@ -81,6 +82,15 @@ class _AboutPageState extends State<AboutPage> {
                 _launchURL('https://fridaysforfuture.de');
               },
             ),
+            ListTile(
+              title: Text('👤 Social Media'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SocialMediaPage()),
+                );
+              },
+            ),
             TitleWidget('Sonstiges'),
             _buildListTile('📖 Impressum', 'impressum'),
             _buildListTile('📑 Datenschutz', 'datenschutz'),
@@ -90,11 +100,15 @@ class _AboutPageState extends State<AboutPage> {
                 builder: (context, result) {
                   if (!result.hasData) return SizedBox();
 
-                  return Text(
-                    'App Version ${result.data.version}',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Theme.of(context).hintColor,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      'Dies ist die offizielle App von Fridays for Future Deutschland in der Version ${result.data.version}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).hintColor,
+                      ),
                     ),
                   );
                 },

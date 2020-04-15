@@ -15,7 +15,7 @@ class OGSocialButtons extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Icon(
                 icon,
-                size: 32,
+                size: 28,
               ),
             ),
             onTap: () => _launchURL(url),

@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 0.3.2+32
+version: 1.0.0+100
 
 environment:
   sdk: ">=2.5.0 <3.0.0"
@@ -42,6 +42,7 @@ dependencies:
   package_info: '>=0.4.0+16 <2.0.0'
   flip_card: ^0.4.4
   auto_size_text: ^2.1.0
+  firebase_dynamic_links: ^0.5.0+11
 
   
   
@@ -77,6 +78,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/config.yaml
+    - assets/images/
 
   fonts:
     - family: LibreFranklin
