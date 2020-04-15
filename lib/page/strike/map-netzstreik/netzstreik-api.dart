@@ -5,6 +5,7 @@ import 'package:app/model/SocialLinkContainer.dart';
 import 'package:app/service/cache.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:dio/dio.dart';
 class NetzstreikApi {
 
   static final apiUrl = 'https://actionmap.fridaysforfuture.de/?get_events';
@@ -76,7 +77,9 @@ class NetzstreikApi {
     }
   }
   Future<ResultUpload> finishUpload(String name, bool showName, String email, String plz, bool newsletter,String captcha) async{
+
     Map<String,dynamic> body = {};
+
     body['name'] = name;
     body['show_name'] = showName? 'on' : 'off';
     body['email'] = email;
@@ -85,9 +88,60 @@ class NetzstreikApi {
     //body['newsletter'] = newsletter ? 'on' : 'off';
     body['captcha_code'] = captcha;
     body['accept_eula'] = 'on';
-
-
+    body['image'] = "''";
     Map<String, String> headers = _getCookieHeader();
+
+
+    /*
+    var request = new http.MultipartRequest("POST", Uri.dataFromString(uploadUrl));
+    request.fields['name'] = name;
+    request.fields['show_name'] = showName? 'on' : 'off';
+    request.fields['email'] = email;
+    request.fields['laender'] = plz;
+    request.fields['captcha_code'] = captcha;
+    request.fields['accept_eula'] = 'on';
+    request.fields['image'] = '';
+
+    Dio dio = new Dio();
+    FormData formData =  FormData.fromMap({
+      'name': name,
+      'show_name':showName? 'on' : 'off',
+      'email': email,
+      'laender':  plz,
+      'captcha_code': captcha,
+      'accept_eula': 'on',
+      "image":  MultipartFile.fromBytes([])
+    });
+    Response response = await dio.post("/info", data: formData);
+    if(response.statusCode == HttpStatus.ok){
+      print("Workes!! HEader");
+      print(response.headers.toString());
+      print("Body");
+      print(response.data);
+      return ResultUpload.Ok;
+    }else{
+      print("Fail ");
+      return ResultUpload.Fail;
+    }
+
+
+
+
+
+
+
+    //MediaType type = http.MediaType();
+    //http.MultipartFile.fromPath('image', filePath)
+    http.MultipartFile multiFile = await http.MultipartFile.fromPath(
+      'image',
+      'assets/icon/icon.png',
+      //contentType: 'image', 'jpeg',
+      //contentType: MediaType('application', 'x-tar'),
+    );
+
+*/
+
+    //var res = await request.send();
     var res = await client.post(uploadUrl,headers:headers,body: body);
     if(res.statusCode == HttpStatus.ok){
       print("Workes!! HEader");
