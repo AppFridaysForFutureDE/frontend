@@ -56,6 +56,7 @@ class _MapPageState extends State<MapPage> {
         title: searchActive
             ? TextField(
                 autofocus: true,
+                textCapitalization: TextCapitalization.words,
                 autocorrect: false,
                 cursorColor: Colors.white,
                 style: TextStyle(color: Colors.white),

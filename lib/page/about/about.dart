@@ -1,4 +1,5 @@
 import 'package:app/model/post.dart';
+import 'package:app/page/about/about_subpage/socialmedia.dart';
 import 'package:app/page/about/settings.dart';
 import 'package:app/page/feed/post.dart';
 import 'package:package_info/package_info.dart';
@@ -79,6 +80,14 @@ class _AboutPageState extends State<AboutPage> {
               title: Text('🌐 Website'),
               onTap: () {
                 _launchURL('https://fridaysforfuture.de');
+              },
+            ),
+            ListTile(
+              title: Text('👤 Social Media'),
+              onTap: () {Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SocialMediaPage()),
+              );
               },
             ),
             TitleWidget('Sonstiges'),
