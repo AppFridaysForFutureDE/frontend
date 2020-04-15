@@ -39,12 +39,12 @@ class _State extends State<ChallengePage> {
             _beeChallenge(
               'c5',
               'But how is it made?',
-              'Such dir ein Kleidungsstück, ein Lebensmittel oder einen Gegenstand in deinem Haus und recherchiere wie dieses produziert worden ist. Ist das ganze umweltfreundlich? Wie sieht es mit Plastikverpackung aus? Kommt das ganze aus einem europäischen Land oder ist es noch weiter gereist? Wie könnte das ganze klimaneutral gestaltet werden? Wenn du nicht weiter weißt, frag deine Eltern!',
+              'Such dir ein Kleidungsstück, ein Lebensmittel oder einen Gegenstand in deinem Haus und recherchiere wie dieses produziert worden ist. Ist das Ganze umweltfreundlich? Wie sieht es mit Plastikverpackung aus? Kommt das ganze aus einem europäischen Land oder ist es noch weiter gereist? Wie könnte das ganze klimaneutral gestaltet werden? Wenn du nicht weiter weißt, frag deine Eltern!',
             ),
             _beeChallenge(
               'c6',
               'Challenge & More',
-              'Erfinde deine eigene Challenge und poste Sie unter #appchallengeforfuture oder #challengeforfuture. Sei dabei möglichst kreativ und denk dabei an die Prinzipien von FFF. Diese kannst du auch nochmal in der App nachlesen!',
+              'Erfinde deine eigene Challenge und poste sie unter #appchallengeforfuture oder #challengeforfuture. Sei dabei möglichst kreativ und denk dabei an die Prinzipien von FFF. Diese kannst du auch nochmal in der App nachlesen!',
             ),
           ],
         ),
