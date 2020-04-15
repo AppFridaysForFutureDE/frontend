@@ -47,3 +47,8 @@ assets/config.yaml
 
 # Android Keystore
 android/key.properties
+
+# Android Dateien
+android/.settings/org.eclipse.buildship.core.prefs
+android/.project
+android/app/.project

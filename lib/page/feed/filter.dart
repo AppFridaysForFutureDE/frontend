@@ -27,7 +27,7 @@ class _FilterPageState extends State<FilterPage> {
       body: ListView(
         children: <Widget>[
           TitleWidget('Status'),
-          SwitchListTile(
+          SwitchListTile.adaptive(
               value: state.onlyShowUnread,
               title: Text('Nur ungelesene Artikel anzeigen'),
               onChanged: (val) {
@@ -36,7 +36,7 @@ class _FilterPageState extends State<FilterPage> {
                 });
               }),
           TitleWidget('Markierung'),
-          SwitchListTile(
+          SwitchListTile.adaptive(
               value: state.onlyShowMarked,
               title: Text('Nur markierte Artikel anzeigen'),
               onChanged: (val) {
