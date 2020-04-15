@@ -32,6 +32,8 @@ void main() async {
 
   await Hive.openBox('strikes');
 
+  await Hive.openBox('challenges');
+
   await initializeDateFormatting('de_DE', null);
 
   api = ApiService();
