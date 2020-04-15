@@ -5,6 +5,7 @@ import 'package:app/widget/og_social_buttons.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app.dart';
 import 'package:latlong/latlong.dart';
@@ -281,12 +282,15 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                       .copyWith(color: Colors.white)),
               color: Theme.of(context).primaryColor,
               onPressed: () {
-                Navigator.push(
+                const url = 'https://actionmap.fridaysforfuture.de/iframe.html';
+
+                launch(url);
+                /*Navigator.push(
                   context,
                   //Pushes the Sub Page on the Stack
                   //MaterialPageRoute(builder: (context) => AddStrikePage(netzstreikApi)),
-                    MaterialPageRoute(builder: (context) => AddIFramePage())
-                );
+                   // MaterialPageRoute(builder: (context) => AddIFramePage())
+                );*/
               },
             )
           ])
