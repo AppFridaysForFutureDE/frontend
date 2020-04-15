@@ -12,6 +12,7 @@ import 'package:app/service/api.dart';
 
 import 'package:app/app.dart';
 import 'package:app/service/theme.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -148,12 +149,28 @@ class _HomeState extends State<Home> {
     String type = data['data']['type'];
     String payload = data['data']['payload'];
 
-    var box = await Hive.openBox('launched_notifications');
+    await _handleLinkLaunch(type, payload, 'push');
+  }
 
-    if (box.containsKey('$type.$payload')) {
+  Future _handleDynamicLink(PendingDynamicLinkData data) async {
+    final Uri deepLink = data?.link;
+    if (deepLink != null) {
+      var parts = deepLink.path.split('/').where((p) => p.isNotEmpty).toList();
+      if (parts.length == 2) _handleLinkLaunch(parts[0], parts[1], 'share');
+    }
+  }
+
+  Set<String> _launched = {};
+
+  Future _handleLinkLaunch(String type, String payload, String source) async {
+    var box = await Hive.openBox('launched_links');
+
+    String key = '$type.$payload.$source';
+    if (box.get(key) ?? false || _launched.contains(key)) {
       return;
     }
-    box.put('$type.$payload', true);
+    _launched.add(key);
+    box.put(key, true);
 
     if (type == 'feed') {
       setState(() {
@@ -187,6 +204,15 @@ class _HomeState extends State<Home> {
       onResume: _handleNotificationOpen,
       onLaunch: _handleNotificationOpen,
     );
+
+    FirebaseDynamicLinks.instance.getInitialLink().then(_handleDynamicLink);
+
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: _handleDynamicLink,
+        onError: (OnLinkErrorException e) async {
+          print('onLinkError');
+          print(e.message);
+        });
 
     if (Hive.box('data').get('firstStart') ?? true) {
       if (Platform.isIOS) {
