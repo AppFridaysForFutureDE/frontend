@@ -1,6 +1,6 @@
 import 'package:app/app.dart';
-
 import 'package:flip_card/flip_card.dart';
+import 'future_story.dart';
 
 import 'challenge.dart';
 
@@ -11,6 +11,7 @@ class StrikePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Netzstreik'),
       ),
+
 
       body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -30,7 +31,10 @@ class StrikePage extends StatelessWidget {
               'story',
               Color(0xff95d686),
               () {
-                // Tu was
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FutureStoryPage()),
+                );
               },
             ),
             _buildCard(
