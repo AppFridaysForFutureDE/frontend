@@ -65,13 +65,6 @@ class SocialMediaPage extends  StatelessWidget {
           ),
           TitleWidget('Diskussions- / Gruppen'),
           ListTile(
-            leading: Icon(MdiIcons.whatsapp),
-            title: Text('Whats App'),
-            onTap: () {
-                _launchURL('https://chat.whatsapp.com/DlXVuh9KXx10B5LXi7MvsL');
-              },
-          ),
-          ListTile(
             leading: Icon(MdiIcons.telegram),
             title: Text('Telegram'),
             onTap: () {
