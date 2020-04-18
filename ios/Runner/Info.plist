@@ -2,6 +2,20 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSMotionUsageDescription</key>
+	<string>Wird nur aus teschnischen Gründen angezeigt</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Wird nur aus teschnischen Gründen angezeigt</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Wird nur aus teschnischen Gründen angezeigt</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Wird nur aus teschnischen Gründen angezeigt</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Wird nur aus teschnischen Gründen angezeigt</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Wird nur aus teschnischen Gründen angezeigt</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Wird nur aus teschnischen Gründen angezeigt</string>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
