@@ -21,7 +21,7 @@ class StrikePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             _buildCard(
-              'Ich streike hier!',
+              'Hier streike ich!',
               'Zeig allen, dass du weiterstreikst und nach wie vor effektive Schutzmaßnahmen für die Zukunft unseres Planeten forderst. Klick den Button! Trag dich ein! Lade ein Bild hoch, falls du willst, und fülle die Karte als ein Teil der Bewegung.',
               'local',
               Color(0xffadecfe),
