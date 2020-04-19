@@ -25,6 +25,16 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
   bool onlyPicure = false;
   FilterStateNetz filterState = FilterStateNetz();
 
+
+  List<Marker> allFeaturedMarker = List<Marker>();
+  List<Marker> allNotFeaturedMarker = List<Marker>();
+
+  List<Marker> allImageMarkerFeatured = List<Marker>();
+  List<Marker> allImageMarkerNotFeatured = List<Marker>();
+
+  List<Marker> featuredMarkerShow = List<Marker>();
+  List<Marker> notFeaturedMarkerShow = List<Marker>();
+
   /**
    * The init Method Loads all strike Points.
    */
@@ -32,8 +42,13 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
   void initState() {
     netzstreikApi.getAllStrikePoints().then((list) {
       if (mounted) {
+        strikePointL = list;
+        _generateAllMarker();
         setState(() {
-          strikePointL = list;
+
+          applayFilter();
+          print("Neue daten sind");
+
         });
       }
     });
@@ -41,28 +56,62 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
     super.initState();
   }
 
+
+
+  /**
+   * A Method that applays the Filter state to the List of the State.
+   * it will NOT cause a Rebuild of the Screen
+   */
+  void applayFilter() {
+    if (!filterState.filterActive) {
+      featuredMarkerShow = allFeaturedMarker;
+      notFeaturedMarkerShow = allNotFeaturedMarker;
+    } else if (filterState.onlyShowImage) {
+      featuredMarkerShow = this.allImageMarkerFeatured;
+      notFeaturedMarkerShow = this.allImageMarkerNotFeatured;
+    }else{
+      print('Komishc');
+    }
+  }
+
   /**
    * Generates the Marker for one Strike Point
    */
   Marker _generateMarker(StrikePoint strikePoint) {
     if (!(strikePoint.imgStatus)) {
-      //print("Kein");
-      return Marker(
-          width: 45.0,
-          height: 45.0,
-          point: LatLng(strikePoint.lat, strikePoint.lon),
-          builder: (context) => new Container(
-                child: IconButton(
-                  icon: Icon(Icons.location_on),
-                  color: strikePoint.isFeatured
-                      ? Theme.of(context).accentColor
-                      : Theme.of(context).primaryColor,
-                  iconSize: 45.0,
-                  onPressed: () {
-                    _showStrikePoint(strikePoint);
-                  },
-                ),
-              ));
+      if (strikePoint.isFeatured) {
+        return Marker(
+            width: 45.0,
+            height: 45.0,
+            point: LatLng(strikePoint.lat, strikePoint.lon),
+            builder: (context) => new Container(
+                  child: IconButton(
+                    icon: Icon(Icons.location_on),
+                    color: Theme.of(context).accentColor,
+                    iconSize: 45.0,
+                    onPressed: () {
+                      _showStrikePoint(strikePoint);
+                    },
+                  ),
+                ));
+      } else {
+        return Marker(
+            width: 45.0,
+            height: 45.0,
+            point: LatLng(strikePoint.lat, strikePoint.lon),
+            builder: (context) => new Container(
+                  child: IconButton(
+                    icon: Icon(Icons.location_on),
+                    color: strikePoint.isFeatured
+                        ? Theme.of(context).accentColor
+                        : Theme.of(context).primaryColor,
+                    iconSize: 45.0,
+                    onPressed: () {
+                      _showStrikePoint(strikePoint);
+                    },
+                  ),
+                ));
+      }
     } else {
       return Marker(
           width: 45.0,
@@ -82,31 +131,43 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
   }
 
   /**
-   * Genrates a list of Markes of not Features Strike Points
+   * Genrates a list of Markes of not Features Strike Points and Puts them in the Lists
    */
-  List<Marker> _getAllNotFeatured() {
-    List<Marker> resultL = [];
+  void _generateAllMarker() {
+
     for (StrikePoint strikePoint in strikePointL) {
       // After the and means filterState.onlyShowImage => strikepoint.imgStatus
-      if (!strikePoint.isFeatured &&
-          (!filterState.onlyShowImage || strikePoint.imgStatus)) {
-        resultL.add(_generateMarker(strikePoint));
+      Marker marker = _generateMarker(strikePoint);
+
+
+      if (strikePoint.isFeatured) {
+        allFeaturedMarker.add(marker);
+        if(strikePoint.imgStatus) {
+          allImageMarkerFeatured.add(marker);
+        }
+      }else {
+        allNotFeaturedMarker.add(marker);
+        if(strikePoint.imgStatus){
+          allImageMarkerNotFeatured.add(marker);
+      }
+
+
       }
     }
-    return resultL;
   }
 
   /**
    * Generates a list of Markers of all Features Strike Points
    * If Filters active it will only return the Filter matching Strike Points
    */
-  List<Marker> _getAllFeatured() {
-    List<Marker> resultL = [];
+  /*
+  List<StrikePoint> _getAllFeatured() {
+    List<StrikePoint> resultL = [];
     for (StrikePoint strikePoint in strikePointL) {
       // After the and means filterState.onlyShowImage => strikepoint.imgStatus
       if (strikePoint.isFeatured &&
           (!filterState.onlyShowImage || strikePoint.imgStatus)) {
-        resultL.add(Marker(
+        Marker marker = (Marker(
             width: 45.0,
             height: 45.0,
             point: LatLng(strikePoint.lat, strikePoint.lon),
@@ -120,10 +181,12 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                     },
                   ),
                 )));
+        strikePoint.marker = marker;
+        resultL.add(strikePoint);
       }
     }
     return resultL;
-  }
+  }*/
 
   /**
    * Shows a Popup for a Strike point for example if a point is tapped
@@ -174,6 +237,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
               if (newFilterState != null)
                 setState(() {
                   filterState = newFilterState;
+                  applayFilter();
                 });
             },
           )
@@ -198,7 +262,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                   tileProvider: CachedNetworkTileProvider()),
               // all Clusters (not featured marker)
               new MarkerLayerOptions(
-                markers: _getAllFeatured(),
+                markers: this.featuredMarkerShow,
               ),
               if (!filterState.onlyShowFeatured)
                 MarkerClusterLayerOptions(
@@ -207,7 +271,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                   fitBoundsOptions: FitBoundsOptions(
                     padding: EdgeInsets.all(50),
                   ),
-                  markers: _getAllNotFeatured(),
+                  markers: this.notFeaturedMarkerShow,
                   polygonOptions: PolygonOptions(
                       borderColor: Theme.of(context).primaryColor,
                       color: Colors.black12,
@@ -227,7 +291,6 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                   },
                 ),
               // all featured strike Points
-
 
               /*    MarkerLayerOptions(
                             ), */
@@ -250,6 +313,19 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
 
           //The Expandable Info Text at the Top
           Column(mainAxisSize: MainAxisSize.min, children: [
+            if (filterState.filterActive)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(8),
+                color: Colors.yellow,
+                alignment: Alignment.center,
+                child: Text(
+                  'Es sind Filter aktiv',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
             Container(
               decoration: BoxDecoration(
                   color: Theme.of(context).accentColor,
