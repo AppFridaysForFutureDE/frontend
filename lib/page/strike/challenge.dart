@@ -11,7 +11,7 @@ class _State extends State<ChallengePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Challenges'),
+        title: Text('Home-Challenges'),
       ),
       body: Scrollbar(
         child: ListView(
@@ -88,7 +88,7 @@ class _State extends State<ChallengePage> {
                             setState(() {
                               Hive.box('challenges').put(id, true);
                             });
-                          }, 
+                          },
                           child: Text('Erledigt')),
                   ],
                 ),
