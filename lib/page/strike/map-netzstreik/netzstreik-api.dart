@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 class NetzstreikApi {
 
-  static final apiUrl = 'https://actionmap.fridaysforfuture.de/?get_events';
+  static final apiUrl = 'https://actionmap.fridaysforfuture.de/get_events';
   static final imageUrl = 'https://actionmap.fridaysforfuture.de/securimage/securimage_show.php';
   static final uploadUrl = 'https://actionmap.fridaysforfuture.de/index.php?upload';
 
@@ -67,9 +67,25 @@ class NetzstreikApi {
     return headers;
   }
   Future<Uint8List> getSecureImage() async{
-    Map<String, String> headers = _getCookieHeader();
-    var res = await client.get(imageUrl,headers:  headers);
+    //Map<String, String> headers = _getCookieHeader();
+    var res = await client.get(imageUrl);
     if(res.statusCode == HttpStatus.ok){
+
+
+      // Yummy Cookie Part
+      var header = res.headers;
+      var cookieRaw = header['set-cookie'];
+      if(cookieRaw == null){
+        throw Exception('Didnt get A Cookie ');
+      }
+      cookie = Cookie.fromSetCookieValue(cookieRaw);
+      if(cookie == null){
+          throw Exception('Not possible to Parse Raw Cookie (Not so yummy Cookie');
+        }
+      print(cookie.value);
+      //------------
+
+
       print("ok");
       CacheService cache = CacheService(await getTemporaryDirectory());
       //cache.put('secureImage', res.body);

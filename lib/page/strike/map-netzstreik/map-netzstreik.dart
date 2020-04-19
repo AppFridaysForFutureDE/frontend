@@ -284,13 +284,13 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
               onPressed: () {
                 const url = 'https://actionmap.fridaysforfuture.de/iframe.html';
 
-                launch(url);
-                /*Navigator.push(
+                //launch(url);
+                Navigator.push(
                   context,
                   //Pushes the Sub Page on the Stack
-                  //MaterialPageRoute(builder: (context) => AddStrikePage(netzstreikApi)),
+                  MaterialPageRoute(builder: (context) => AddStrikePage(netzstreikApi)),
                    // MaterialPageRoute(builder: (context) => AddIFramePage())
-                );*/
+                );
               },
             )
           ])
