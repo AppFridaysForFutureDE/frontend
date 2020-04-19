@@ -58,14 +58,12 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
    * it will NOT cause a Rebuild of the Screen
    */
   void applayFilter() {
-    if (!filterState.filterActive) {
-      featuredMarkerShow = allFeaturedMarker;
-      notFeaturedMarkerShow = allNotFeaturedMarker;
-    } else if (filterState.onlyShowImage) {
+    if (filterState.onlyShowImage) {
       featuredMarkerShow = this.allImageMarkerFeatured;
       notFeaturedMarkerShow = this.allImageMarkerNotFeatured;
-    } else {
-      print('Komishc');
+    } else{
+      featuredMarkerShow = allFeaturedMarker;
+      notFeaturedMarkerShow = allNotFeaturedMarker;
     }
   }
 
