@@ -25,15 +25,14 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
   bool onlyPicure = false;
   FilterStateNetz filterState = FilterStateNetz();
 
+  var allFeaturedMarker = <Marker>[];
+  var allNotFeaturedMarker = <Marker>[];
 
-  List<Marker> allFeaturedMarker = List<Marker>();
-  List<Marker> allNotFeaturedMarker = List<Marker>();
-
-  List<Marker> allImageMarkerFeatured = List<Marker>();
-  List<Marker> allImageMarkerNotFeatured = List<Marker>();
-
-  List<Marker> featuredMarkerShow = List<Marker>();
-  List<Marker> notFeaturedMarkerShow = List<Marker>();
+  var allImageMarkerFeatured = <Marker>[];
+  var allImageMarkerNotFeatured = <Marker>[];
+  
+  var featuredMarkerShow = <Marker>[];
+  var notFeaturedMarkerShow = <Marker>[];
 
   /**
    * The init Method Loads all strike Points.
@@ -45,18 +44,14 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
         strikePointL = list;
         _generateAllMarker();
         setState(() {
-
           applayFilter();
           print("Neue daten sind");
-
         });
       }
     });
 
     super.initState();
   }
-
-
 
   /**
    * A Method that applays the Filter state to the List of the State.
@@ -69,7 +64,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
     } else if (filterState.onlyShowImage) {
       featuredMarkerShow = this.allImageMarkerFeatured;
       notFeaturedMarkerShow = this.allImageMarkerNotFeatured;
-    }else{
+    } else {
       print('Komishc');
     }
   }
@@ -134,24 +129,20 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
    * Genrates a list of Markes of not Features Strike Points and Puts them in the Lists
    */
   void _generateAllMarker() {
-
     for (StrikePoint strikePoint in strikePointL) {
       // After the and means filterState.onlyShowImage => strikepoint.imgStatus
       Marker marker = _generateMarker(strikePoint);
 
-
       if (strikePoint.isFeatured) {
         allFeaturedMarker.add(marker);
-        if(strikePoint.imgStatus) {
+        if (strikePoint.imgStatus) {
           allImageMarkerFeatured.add(marker);
         }
-      }else {
+      } else {
         allNotFeaturedMarker.add(marker);
-        if(strikePoint.imgStatus){
+        if (strikePoint.imgStatus) {
           allImageMarkerNotFeatured.add(marker);
-      }
-
-
+        }
       }
     }
   }
@@ -267,7 +258,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
               if (!filterState.onlyShowFeatured)
                 MarkerClusterLayerOptions(
                   maxClusterRadius: 120,
-                  size: Size(50, 50),
+                  size: Size(52, 52),
                   fitBoundsOptions: FitBoundsOptions(
                     padding: EdgeInsets.all(50),
                   ),
