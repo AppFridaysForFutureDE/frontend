@@ -8,10 +8,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 class NetzstreikApi {
 
-  static final apiUrl = 'https://actionmap.fridaysforfuture.de/?get_events';
+  static final apiUrl = 'https://actionmap.fridaysforfuture.de/get_events';
   static final imageUrl = 'https://actionmap.fridaysforfuture.de/securimage/securimage_show.php';
   static final uploadUrl = 'https://actionmap.fridaysforfuture.de/index.php?upload';
 
+  static final strikeImageUrl = 'https://actionmap.fridaysforfuture.de/';
   Uint8List secureImageDebug = null;
   http.Client client = http.Client();
   Cookie cookie = null;
