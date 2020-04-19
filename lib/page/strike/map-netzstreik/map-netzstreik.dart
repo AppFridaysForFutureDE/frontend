@@ -267,7 +267,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
               if (!filterState.onlyShowFeatured)
                 MarkerClusterLayerOptions(
                   maxClusterRadius: 120,
-                  size: Size(45, 45),
+                  size: Size(50, 50),
                   fitBoundsOptions: FitBoundsOptions(
                     padding: EdgeInsets.all(50),
                   ),
