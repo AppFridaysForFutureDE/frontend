@@ -30,7 +30,7 @@ class _AddStrikePageState extends State<AddStrikePage> {
     _getCaptcha();
   }
   Future<void> _getCaptcha()async{
-    await apiNetz.startUploadSession();
+    //await apiNetz.startUploadSession();
     imageData = await apiNetz.getSecureImage();
     setState(() {
 
