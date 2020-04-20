@@ -61,19 +61,11 @@ class _AboutPageState extends State<AboutPage> {
         child: ListView(
           children: <Widget>[
             TitleWidget('Die Bewegung'),
-            /*  ListTile(
-              title: Text('🗣 Demosprüche'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  //Pushes the Sub Page on the Stack
-                  MaterialPageRoute(builder: (context) => DemoPage()),
-                );
-              },
-            ),*/
-
             _buildListTile('✊ Forderungen', 'forderungen'),
             _buildListTile('🌍 Selbstverständnis', 'selbstverstaendnis'),
+            _buildListTile(
+                '✍️ Bundesweite Arbeitsgruppen', 'bundesweite-arbeitsgruppen'),
+            _buildListTile('🗣 Demosprüche', 'demospruche'),
             _buildListTile('📣 Verhalten auf Demos', 'verhalten-auf-demos'),
             TitleWidget('Wichtige Links'),
             ListTile(
