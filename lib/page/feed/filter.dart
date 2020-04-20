@@ -3,7 +3,9 @@ import 'package:app/widget/title.dart';
 
 class FilterPage extends StatefulWidget {
   final FilterState state;
-  FilterPage(this.state);
+  final Set allTags;
+
+  FilterPage(this.state, this.allTags);
 
   @override
   _FilterPageState createState() => _FilterPageState();
@@ -15,6 +17,7 @@ class _FilterPageState extends State<FilterPage> {
   void initState() {
     state.onlyShowMarked = widget.state.onlyShowMarked;
     state.onlyShowUnread = widget.state.onlyShowUnread;
+    state.shownTags = List.from(widget.state.shownTags);
     super.initState();
   }
 
@@ -44,6 +47,19 @@ class _FilterPageState extends State<FilterPage> {
                   state.onlyShowMarked = val;
                 });
               }),
+          TitleWidget('Kategorien'),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 8,
+            ),
+            child: Wrap(
+              spacing: 8,
+              children: <Widget>[
+                for (String tag in widget.allTags) _buildTag(tag),
+              ],
+            ),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -54,6 +70,29 @@ class _FilterPageState extends State<FilterPage> {
       ),
     );
   }
+
+  Widget _buildTag(String tag) {
+    bool active = state.shownTags.contains(tag);
+    return InkWell(
+      onTap: () {
+        if (active) {
+          state.shownTags.remove(tag);
+        } else {
+          state.shownTags.add(tag);
+        }
+        setState(() {});
+      },
+      child: Chip(
+        backgroundColor: active ? Theme.of(context).primaryColor : null,
+        label: Text(
+          tag,
+          style: TextStyle(
+              //  color: Colors.black,
+              ),
+        ),
+      ),
+    );
+  }
 }
 
 class FilterState {
@@ -61,5 +100,8 @@ class FilterState {
 
   bool onlyShowUnread = false;
 
-  bool get filterActive => onlyShowMarked || onlyShowUnread;
+  List<String> shownTags = [];
+
+  bool get filterActive =>
+      onlyShowMarked || onlyShowUnread || shownTags.isNotEmpty;
 }

@@ -75,35 +75,45 @@ class _FeedPageState extends State<FeedPage> {
                   indicatorWeight: 4,
                 ),
           actions: <Widget>[
-            if (!searchActive)
-              IconButton(
-                icon: Icon(MdiIcons.filter),
-                onPressed: () async {
-                  var newFilterState = await Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => FilterPage(filterState),
-                    ),
-                  );
+            if (posts != null)
+              if (!searchActive)
+                IconButton(
+                  icon: Icon(MdiIcons.filter),
+                  onPressed: () async {
+                    var newFilterState = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => FilterPage(
+                          filterState,
+                          posts.fold<Set>(
+                              Set(),
+                              (a, b) => a
+                                ..addAll(b.tags
+                                    .map<String>((t) => t.name)
+                                    .toList())),
+                        ),
+                      ),
+                    );
 
-                  if (newFilterState != null)
-                    setState(() {
-                      filterState = newFilterState;
-                    });
+                    if (newFilterState != null)
+                      setState(() {
+                        filterState = newFilterState;
+                      });
+                  },
+                ),
+            if (posts != null)
+              IconButton(
+                icon: Icon(searchActive ? Icons.close : MdiIcons.magnify),
+                onPressed: () {
+                  setState(() {
+                    if (searchActive) {
+                      searchText = '';
+                      searchActive = false;
+                    } else {
+                      searchActive = true;
+                    }
+                  });
                 },
               ),
-            IconButton(
-              icon: Icon(searchActive ? Icons.close : MdiIcons.magnify),
-              onPressed: () {
-                setState(() {
-                  if (searchActive) {
-                    searchText = '';
-                    searchActive = false;
-                  } else {
-                    searchActive = true;
-                  }
-                });
-              },
-            ),
           ],
         ),
         body: posts == null
@@ -151,6 +161,15 @@ class _FeedPageState extends State<FeedPage> {
         var readBox = Hive.box('post_read');
         shownPosts =
             shownPosts.where((p) => !(readBox.get(p.id) ?? false)).toList();
+      }
+      if (filterState.shownTags.isNotEmpty) {
+        shownPosts = shownPosts
+            .where((p) =>
+                p.tags.map((t) => t.name).firstWhere(
+                    (s) => filterState.shownTags.contains(s),
+                    orElse: () => null) !=
+                null)
+            .toList();
       }
     }
 
