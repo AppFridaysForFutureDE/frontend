@@ -15,10 +15,9 @@ class StrikePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Netzstreik'),
       ),
-
-
       body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _buildCard(
               'Hier streike ich!',
@@ -62,48 +61,51 @@ class StrikePage extends StatelessWidget {
 
   Widget _buildCard(String title, String subtitle, String imageName,
       Color cardColor, Function onClickStart) {
-    return FlipCard(
-      direction: FlipDirection.HORIZONTAL, // default
-      front: Container(
-        padding: const EdgeInsets.all(8),
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0),
-          ),
-          elevation: 12,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16.0),
-            child: Image.asset(
-              'assets/images/$imageName.jpg',
+    return Expanded(
+      child: FlipCard(
+        direction: FlipDirection.HORIZONTAL, // default
+        front: Container(
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.center,
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            elevation: 12,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16.0),
+              child: Image.asset(
+                'assets/images/$imageName.jpg',
+              ),
             ),
           ),
         ),
-      ),
-      back: Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0),
-          ),
-          elevation: 12,
-          child: Stack(
-            alignment: Alignment.bottomRight,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 8.0,
-                  bottom: 32.0,
+        back: Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            elevation: 12,
+            child: Stack(
+              alignment: Alignment.bottomRight,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 8.0,
+                    bottom: 32.0,
+                  ),
+                  child: ListTile(
+                    title: Text(title),
+                    subtitle: Text(subtitle),
+                  ),
                 ),
-                child: ListTile(
-                  title: Text(title),
-                  subtitle: Text(subtitle),
+                FlatButton(
+                  child: const Text('JETZT MITMACHEN'),
+                  onPressed: onClickStart,
                 ),
-              ),
-              FlatButton(
-                child: const Text('JETZT MITMACHEN'),
-                onPressed: onClickStart,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
