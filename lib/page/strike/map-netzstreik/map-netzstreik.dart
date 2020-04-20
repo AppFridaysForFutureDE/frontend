@@ -1,5 +1,6 @@
 import 'package:app/page/strike/map-netzstreik/add-iframe-page.dart';
 import 'package:app/page/strike/map-netzstreik/add-strike-page.dart';
+import 'package:app/page/strike/map-netzstreik/filterNetzStrike.dart';
 import 'package:app/page/strike/map-netzstreik/netzstreik-api.dart';
 import 'package:app/widget/og_social_buttons.dart';
 import 'package:expandable/expandable.dart';
@@ -21,6 +22,17 @@ class MapNetzstreik extends StatefulWidget {
 class _MapNetzstreikState extends State<MapNetzstreik> {
   NetzstreikApi netzstreikApi = NetzstreikApi();
   List<StrikePoint> strikePointL = List<StrikePoint>();
+  bool onlyPicure = false;
+  FilterStateNetz filterState = FilterStateNetz();
+
+  var allFeaturedMarker = <Marker>[];
+  var allNotFeaturedMarker = <Marker>[];
+
+  var allImageMarkerFeatured = <Marker>[];
+  var allImageMarkerNotFeatured = <Marker>[];
+  
+  var featuredMarkerShow = <Marker>[];
+  var notFeaturedMarkerShow = <Marker>[];
 
   /**
    * The init Method Loads all strike Points.
@@ -29,8 +41,11 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
   void initState() {
     netzstreikApi.getAllStrikePoints().then((list) {
       if (mounted) {
+        strikePointL = list;
+        _generateAllMarker();
         setState(() {
-          strikePointL = list;
+          applayFilter();
+          print("Neue daten sind");
         });
       }
     });
@@ -39,48 +54,109 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
   }
 
   /**
-   * Generates the Marker for one Strike Point
+   * A Method that applays the Filter state to the List of the State.
+   * it will NOT cause a Rebuild of the Screen
    */
-  Marker _generateMarker(StrikePoint strikePoint) {
-    return Marker(
-        width: 45.0,
-        height: 45.0,
-        point: LatLng(strikePoint.lat, strikePoint.lon),
-        builder: (context) => new Container(
-              child: IconButton(
-                icon: Icon(Icons.location_on),
-                color: strikePoint.isFeatured
-                    ? Theme.of(context).accentColor
-                    : Theme.of(context).primaryColor,
-                iconSize: 45.0,
-                onPressed: () {
-                  _showStrikePoint(strikePoint);
-                },
-              ),
-            ));
+  void applayFilter() {
+    if (filterState.onlyShowImage) {
+      featuredMarkerShow = this.allImageMarkerFeatured;
+      notFeaturedMarkerShow = this.allImageMarkerNotFeatured;
+    } else{
+      featuredMarkerShow = allFeaturedMarker;
+      notFeaturedMarkerShow = allNotFeaturedMarker;
+    }
   }
 
   /**
-   * Genrates a list of Markes of not Features Strike Points
+   * Generates the Marker for one Strike Point
    */
-  List<Marker> _getAllNotFeatured() {
-    List<Marker> resultL = [];
+  Marker _generateMarker(StrikePoint strikePoint) {
+    if (!(strikePoint.imgStatus)) {
+      if (strikePoint.isFeatured) {
+        return Marker(
+            width: 45.0,
+            height: 45.0,
+            point: LatLng(strikePoint.lat, strikePoint.lon),
+            builder: (context) => new Container(
+                  child: IconButton(
+                    icon: Icon(Icons.location_on),
+                    color: Theme.of(context).accentColor,
+                    iconSize: 45.0,
+                    onPressed: () {
+                      _showStrikePoint(strikePoint);
+                    },
+                  ),
+                ));
+      } else {
+        return Marker(
+            width: 45.0,
+            height: 45.0,
+            point: LatLng(strikePoint.lat, strikePoint.lon),
+            builder: (context) => new Container(
+                  child: IconButton(
+                    icon: Icon(Icons.location_on),
+                    color: strikePoint.isFeatured
+                        ? Theme.of(context).accentColor
+                        : Theme.of(context).primaryColor,
+                    iconSize: 45.0,
+                    onPressed: () {
+                      _showStrikePoint(strikePoint);
+                    },
+                  ),
+                ));
+      }
+    } else {
+      return Marker(
+          width: 45.0,
+          height: 45.0,
+          point: LatLng(strikePoint.lat, strikePoint.lon),
+          builder: (context) => new Container(
+                child: InkWell(
+                  child: Image.network(
+                    NetzstreikApi.strikeImageUrl + strikePoint.imgDir,
+                  ),
+                  onTap: () {
+                    _showStrikePoint(strikePoint);
+                  },
+                ),
+              ));
+    }
+  }
+
+  /**
+   * Genrates a list of Markes of not Features Strike Points and Puts them in the Lists
+   */
+  void _generateAllMarker() {
     for (StrikePoint strikePoint in strikePointL) {
-      if (!strikePoint.isFeatured) {
-        resultL.add(_generateMarker(strikePoint));
+      // After the and means filterState.onlyShowImage => strikepoint.imgStatus
+      Marker marker = _generateMarker(strikePoint);
+
+      if (strikePoint.isFeatured) {
+        allFeaturedMarker.add(marker);
+        if (strikePoint.imgStatus) {
+          allImageMarkerFeatured.add(marker);
+        }
+      } else {
+        allNotFeaturedMarker.add(marker);
+        if (strikePoint.imgStatus) {
+          allImageMarkerNotFeatured.add(marker);
+        }
       }
     }
-    return resultL;
   }
 
   /**
    * Generates a list of Markers of all Features Strike Points
+   * If Filters active it will only return the Filter matching Strike Points
    */
-  List<Marker> _getAllFeatured() {
-    List<Marker> resultL = [];
+  /*
+  List<StrikePoint> _getAllFeatured() {
+    List<StrikePoint> resultL = [];
     for (StrikePoint strikePoint in strikePointL) {
-      if (strikePoint.isFeatured) {
-        resultL.add(Marker(
+      // After the and means filterState.onlyShowImage => strikepoint.imgStatus
+      if (strikePoint.isFeatured &&
+          (!filterState.onlyShowImage || strikePoint.imgStatus)) {
+        Marker marker = (Marker(
             width: 45.0,
             height: 45.0,
             point: LatLng(strikePoint.lat, strikePoint.lon),
@@ -94,10 +170,12 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                     },
                   ),
                 )));
+        strikePoint.marker = marker;
+        resultL.add(strikePoint);
       }
     }
     return resultL;
-  }
+  }*/
 
   /**
    * Shows a Popup for a Strike point for example if a point is tapped
@@ -112,6 +190,10 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
           child: Column(
             children: <Widget>[
               Text((strikePoint.text == "") ? " " : strikePoint.text),
+              strikePoint.imgStatus
+                  ? Image.network(
+                      NetzstreikApi.strikeImageUrl + strikePoint.imgDir)
+                  : Container(),
               SocialButtons(strikePoint, true).build(context),
             ],
           ),
@@ -131,6 +213,24 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Streik Karte"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(MdiIcons.filter),
+            onPressed: () async {
+              var newFilterState = await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => FilterNetzStrikePage(filterState),
+                ),
+              );
+
+              if (newFilterState != null)
+                setState(() {
+                  filterState = newFilterState;
+                  applayFilter();
+                });
+            },
+          )
+        ],
       ),
       body: Stack(
         children: [
@@ -150,35 +250,36 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                       'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
                   tileProvider: CachedNetworkTileProvider()),
               // all Clusters (not featured marker)
-              MarkerClusterLayerOptions(
-                maxClusterRadius: 120,
-                size: Size(40, 40),
-                fitBoundsOptions: FitBoundsOptions(
-                  padding: EdgeInsets.all(50),
-                ),
-                markers: _getAllNotFeatured(),
-                polygonOptions: PolygonOptions(
-                    borderColor: Theme.of(context).primaryColor,
-                    color: Colors.black12,
-                    borderStrokeWidth: 3),
-                builder: (context, markers) {
-                  return FloatingActionButton(
-                    heroTag: null,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    child: Text(
-                      markers.length.toString(),
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    onPressed: null,
-                  );
-                },
-              ),
-              // all featured strike Points
               new MarkerLayerOptions(
-                markers: _getAllFeatured(),
+                markers: this.featuredMarkerShow,
               ),
+              if (!filterState.onlyShowFeatured)
+                MarkerClusterLayerOptions(
+                  maxClusterRadius: 120,
+                  size: Size(52, 52),
+                  fitBoundsOptions: FitBoundsOptions(
+                    padding: EdgeInsets.all(50),
+                  ),
+                  markers: this.notFeaturedMarkerShow,
+                  polygonOptions: PolygonOptions(
+                      borderColor: Theme.of(context).primaryColor,
+                      color: Colors.black12,
+                      borderStrokeWidth: 3),
+                  builder: (context, markers) {
+                    return FloatingActionButton(
+                      heroTag: null,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      child: Text(
+                        markers.length.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: null,
+                    );
+                  },
+                ),
+              // all featured strike Points
 
               /*    MarkerLayerOptions(
                             ), */
@@ -189,7 +290,6 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
             child: Container(
               color: Color(0xaaffffff),
               padding: const EdgeInsets.all(2.0),
-
               child: Text(
                 '© OpenStreetMap-Mitwirkende',
                 style: TextStyle(
@@ -202,6 +302,19 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
 
           //The Expandable Info Text at the Top
           Column(mainAxisSize: MainAxisSize.min, children: [
+            if (filterState.filterActive)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(8),
+                color: Colors.yellow,
+                alignment: Alignment.center,
+                child: Text(
+                  'Es sind Filter aktiv',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
             Container(
               decoration: BoxDecoration(
                   color: Theme.of(context).accentColor,
@@ -234,12 +347,12 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                               )),
                           Center(
                             child: Text(
-                                'weiterlesen',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black//Theme.of(context).primaryColor,
-                                ),
-
+                              'weiterlesen',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors
+                                      .black //Theme.of(context).primaryColor,
+                                  ),
                             ),
                           ),
                         ],

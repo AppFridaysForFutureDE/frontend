@@ -31,7 +31,7 @@ class FutureStoryPage extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Zukunfts Story'),
+        title: Text('Zukunfts-Story'),
       ),
       body: Column(
         children: <Widget>[

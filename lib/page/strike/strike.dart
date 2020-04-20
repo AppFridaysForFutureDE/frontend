@@ -32,7 +32,7 @@ class StrikePage extends StatelessWidget {
               },
             ),
             _buildCard(
-              'ZukunftsStory',
+              'Zukunfts-Story',
               'Die Zukunft, ein Traum den jede*r hat. Doch die Klimakrise bringt ebenjene in Gefahr... Die Zeit etwas zu ändern ist jetzt! Fülle die Vorlage für die Story aus und tagge drei deiner Freunde. Hilf uns dabei, awareness zu spreaden und die Zukunft zu retten!',
               'story',
               Color(0xff95d686),
@@ -44,7 +44,7 @@ class StrikePage extends StatelessWidget {
               },
             ),
             _buildCard(
-              'Home Challenges',
+              'Home-Challenges',
               'Wir brauchen dein Köpfchen! Mit diesen Challenges kannst du dich mit einfachen Hausutensilien stark fürs Klima machen, also streng die grauen Zellen für eine grüne Zukunft an.',
               'challenge',
               Color(0xfffff0a5),
