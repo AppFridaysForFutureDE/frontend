@@ -33,39 +33,57 @@ class FutureStoryPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Zukunfts Story'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: AutoSizeText(
-                'Die Zukunft, ein Traum den jede*r hat. Doch die Klimakrise bringt ebenjene in Gefahr... Die Zeit etwas zu ändern ist jetzt!' +
-                    '\n' +
-                    'Fülle die Vorlage für die Story aus und tagge drei deiner Freunde. Hilf uns dabei, awareness zu spreaden und die Zukunft zu retten!',
-                maxLines: 6,
-                style: TextStyle(fontSize: 16),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: Scrollbar(
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                children: <Widget>[
+                  Image.network(
+                    'https://app.fffutu.re/img/instagram_instructions.jpg',
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
+                    child: Text(
+                      '''' Die Zukunft, ein Traum den jeder hat. Doch die Klimakrise bringt ebenjene in Gefahr.
+Also: Let's save our future! Wir brauchen deine Hilfe. 
+Du fragst dich wie du in Zeiten von Corona trotzdem noch solidarisch auf die Klimakrise hinweisen kannst? Folge einfach unserer kurzen Anleitung! 
+Fülle die Vorlage aus. Tagge unsere Regierung, um ihr die Präsenz der Klimakrise wieder bewusst zu machen. Und zudem noch drei Medien Kanäle, sodass diese das Klima und seine Veränderungen in ihrer Berichterstattung involvieren. Zu guter Letzt, vergesse nicht 5 Freunde zu taggen um sie zum Mitmachen zu engagieren.''',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Spacer(),
-            Stack(
-              alignment: AlignmentDirectional.bottomCenter,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 8,
+              top: 4,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Image.network(
-                  'https://app.fffutu.re/img/instagram_instructions.jpg',
-                  height: MediaQuery.of(context).size.height * 0.6,
+                Image.asset(
+                  'assets/images/download.png',
+                  width: 48,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 32.0),
-                  child: RaisedButton(
-                      color: Theme.of(context).primaryColor,
-                      onPressed: _shareImage,
-                      child: Text('Vorlage herunterladen')),
+                RaisedButton(
+                    color: Theme.of(context).primaryColor,
+                    onPressed: _shareImage,
+                    child: Text('Vorlage herunterladen')),
+                Image.asset(
+                  'assets/images/download.png',
+                  width: 48,
                 ),
               ],
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }
