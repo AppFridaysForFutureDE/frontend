@@ -62,6 +62,8 @@ class _AboutPageState extends State<AboutPage> {
             TitleWidget('Die Bewegung'),
             _buildListTile('✊ Forderungen', 'forderungen'),
             _buildListTile('🌍 Selbstverständnis', 'selbstverstaendnis'),
+            _buildListTile(
+                '✍️ Bundesweite Arbeitsgruppen', 'bundesweite-arbeitsgruppen'),
             _buildListTile('🗣 Demosprüche', 'demospruche'),
             _buildListTile('📣 Verhalten auf Demos', 'verhalten-auf-demos'),
             TitleWidget('Wichtige Links'),
