@@ -18,7 +18,7 @@ class _VideoPageState extends State<VideoPage> {
   void initState() {
     super.initState();
     _controller = VideoPlayerController.network(
-        'https://app.fffutu.re/img/fff-app-intro.mp4')
+        'https://cdn.app.fffutu.re/img/fff-app-intro.mp4')
       ..initialize().then((_) {
         setState(() {});
         _controller.play();
