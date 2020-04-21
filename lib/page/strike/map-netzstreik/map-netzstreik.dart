@@ -34,17 +34,40 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
   var featuredMarkerShow = <Marker>[];
   var notFeaturedMarkerShow = <Marker>[];
 
+  var isLoadingNew = true;
+
   /**
    * The init Method Loads all strike Points.
    */
   @override
   void initState() {
+
+    netzstreikApi.getAllStrikePointsOld().then((list){
+      print("Old data loaded in Map");
+      if(mounted && isLoadingNew) {
+        strikePointL = list;
+        _generateAllMarker();
+        if (isLoadingNew) {
+          applayFilter();
+        }
+        if (isLoadingNew) {
+          setState(() {
+            print("Alte daten sind");
+          });
+        }
+      }
+      print("Fertig old data Loding");
+    });
     netzstreikApi.getAllStrikePoints().then((list) {
+      isLoadingNew = false;
       if (mounted) {
         strikePointL = list;
         _generateAllMarker();
+        //print(this.allNotFeaturedMarker);
+        applayFilter();
+        print("Booool:"+this.filterState.onlyShowFeatured.toString());
         setState(() {
-          applayFilter();
+
           print("Neue daten sind");
         });
       }
@@ -127,6 +150,15 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
    * Genrates a list of Markes of not Features Strike Points and Puts them in the Lists
    */
   void _generateAllMarker() {
+    allFeaturedMarker = <Marker>[];
+    allNotFeaturedMarker = <Marker>[];
+
+    allImageMarkerFeatured = <Marker>[];
+    allImageMarkerNotFeatured = <Marker>[];
+
+    featuredMarkerShow = <Marker>[];
+    notFeaturedMarkerShow = <Marker>[];
+
     for (StrikePoint strikePoint in strikePointL) {
       // After the and means filterState.onlyShowImage => strikepoint.imgStatus
       Marker marker = _generateMarker(strikePoint);
@@ -315,6 +347,8 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                   ),
                 ),
               ),
+            if(this.isLoadingNew)
+              LinearProgressIndicator(),
             Container(
               decoration: BoxDecoration(
                   color: Theme.of(context).accentColor,
