@@ -34,18 +34,43 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
   var featuredMarkerShow = <Marker>[];
   var notFeaturedMarkerShow = <Marker>[];
 
+  var isLoadingNew = true;
+
+  Future<void> loadOldData() async {
+
+    List<StrikePoint> list = await netzstreikApi.getAllStrikePointsOld();
+
+      if(mounted && isLoadingNew) {
+        await Future.delayed(Duration(seconds: 1));
+        strikePointL = list;
+
+        if (isLoadingNew) {
+          setState(() {
+            _generateAllMarker();
+            applayFilter();
+            print("Loaded Old Data");
+          });
+        }
+      }
+
+
+  }
   /**
    * The init Method Loads all strike Points.
    */
   @override
   void initState() {
+    loadOldData();
     netzstreikApi.getAllStrikePoints().then((list) {
+      isLoadingNew = false;
       if (mounted) {
         strikePointL = list;
         _generateAllMarker();
+
+        applayFilter();
         setState(() {
-          applayFilter();
-          print("Neue daten sind");
+
+          print("NewData Loaded");
         });
       }
     });
@@ -127,6 +152,15 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
    * Genrates a list of Markes of not Features Strike Points and Puts them in the Lists
    */
   void _generateAllMarker() {
+    allFeaturedMarker = <Marker>[];
+    allNotFeaturedMarker = <Marker>[];
+
+    allImageMarkerFeatured = <Marker>[];
+    allImageMarkerNotFeatured = <Marker>[];
+
+    featuredMarkerShow = <Marker>[];
+    notFeaturedMarkerShow = <Marker>[];
+
     for (StrikePoint strikePoint in strikePointL) {
       // After the and means filterState.onlyShowImage => strikepoint.imgStatus
       Marker marker = _generateMarker(strikePoint);
@@ -315,6 +349,8 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                   ),
                 ),
               ),
+            if(this.isLoadingNew)
+              LinearProgressIndicator(),
             Container(
               decoration: BoxDecoration(
                   color: Theme.of(context).accentColor,

@@ -7,6 +7,7 @@ import 'package:app/page/feed/feed.dart';
 import 'package:app/page/feed/post.dart';
 import 'package:app/page/info/info.dart';
 import 'package:app/page/map/map.dart';
+import 'package:app/page/strike/map-netzstreik/netzstreik-api.dart';
 import 'package:app/page/strike/strike.dart';
 import 'package:app/service/api.dart';
 
@@ -44,6 +45,8 @@ void main() async {
   api = ApiService();
 
   await api.loadConfig();
+
+  NetzstreikApi().makeCache();
 
   api.updateOGs();
 

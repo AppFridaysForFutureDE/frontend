@@ -181,18 +181,22 @@ class ApiService {
   }
 
   Future updateOGs() async {
-    await Future.delayed(Duration(seconds: 5));
+    if (!(Hive.box('data').get('firstStart') ?? true)) {
+      print("Updating OG");
+      await Future.delayed(Duration(seconds: 5));
 
-    for (String id in Hive.box('subscribed_ogs').keys) {
-      getOGbyId(id).then((og) {
-
-        if (og == null) {
-          Hive.box('subscribed_ogs').delete(id);
-          FirebaseMessaging().unsubscribeFromTopic('og_${og.ogId}');
-        } else {
-          Hive.box('subscribed_ogs').put(id, og);
-        }
-      }).catchError((e) {});
+      for (String id in Hive
+          .box('subscribed_ogs')
+          .keys) {
+        getOGbyId(id).then((og) {
+          if (og == null) {
+            Hive.box('subscribed_ogs').delete(id);
+            FirebaseMessaging().unsubscribeFromTopic('og_${og.ogId}');
+          } else {
+            Hive.box('subscribed_ogs').put(id, og);
+          }
+        }).catchError((e) {});
+      }
     }
   }
 }
