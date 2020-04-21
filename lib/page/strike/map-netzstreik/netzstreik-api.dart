@@ -27,13 +27,13 @@ class NetzstreikApi {
     if (cache.exists('netzstreikMap.json')) {
       var body = cache.get('netzstreikMap.json');
       if (body != null) {
-        print("Schon was im cache");
+
         return;
       }
     }
     if ((Hive.box('data').get('firstStart') ?? true)) {
       await Future.delayed(Duration(seconds: 4));
-      print("Starte Caching");
+
       try {
         client = http.Client();
         var res = await client.get(apiUrl);
@@ -41,7 +41,7 @@ class NetzstreikApi {
 
 
           cache.put('netzstreikMap.json', res.body);
-          print('Neue Daten im Cache');
+          print('New Strike Data put in Cache');
           return;
         } else {
           throw Exception(
@@ -60,7 +60,6 @@ class NetzstreikApi {
     try {
       var body = cache.get('netzstreikMap.json');
       if (body == null) {
-        print('No Cache body null');
         return List<StrikePoint>();
       }
       var data = json.decode(body);
@@ -75,11 +74,9 @@ class NetzstreikApi {
           point.lat = double.tryParse(place['lat']) ?? 0.0;
         }
       }
-      print('Send Old Data');
       return resultL;
     }catch(e){
-      print("Noch kein Cache geladen");
-      print(e);
+      print("Now Cache loaded jet");
       return List<StrikePoint>();
     }
 
@@ -102,9 +99,9 @@ class NetzstreikApi {
       var res = await client.get(apiUrl);
       if (res.statusCode == HttpStatus.ok) {
         CacheService cache = CacheService(await getTemporaryDirectory());
-        print('Beginne Chace');
+
         cache.put('netzstreikMap.json', res.body);
-        print('Fertig Cache');
+
         var data = json.decode(res.body);
         List<StrikePoint> resultL = data['entries']
             .map<StrikePoint>((m) => StrikePoint.fromJSON(m))
@@ -117,7 +114,7 @@ class NetzstreikApi {
             point.lat = double.tryParse(place['lat']) ?? 0.0;
           }
         }
-        print('REsult');
+
         return resultL;
       } else {
         throw Exception(
