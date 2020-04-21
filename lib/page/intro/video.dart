@@ -16,7 +16,7 @@ class _VideoPageState extends State<VideoPage> {
   bool _showButtonLoading = false;
 
   Future<void> _buttonAfterAWhile() async {
-    await Future.delayed(Duration(seconds: 6));
+    await Future.delayed(Duration(seconds: 7));
     if (mounted) {
       setState(() {
         _showButtonLoading = true;
