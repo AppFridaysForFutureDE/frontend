@@ -13,10 +13,27 @@ class _VideoPageState extends State<VideoPage> {
   VideoPlayerController _controller;
 
   bool _showButton = false;
+  bool _showButtonLoading = false;
+
+  Future<void> _buttonAfterAWhile() async {
+    await Future.delayed(Duration(seconds: 6));
+    if (mounted) {
+      setState(() {
+        _showButtonLoading = true;
+
+      });
+    }
+    await Future.delayed(Duration(seconds: 1,milliseconds: 500));
+    setState(() {
+      _showButton = true;
+    });
+  }
 
   @override
   void initState() {
+
     super.initState();
+    _buttonAfterAWhile();
     _controller = VideoPlayerController.network(
         'https://cdn.app.fffutu.re/img/fff-app-intro.mp4')
       ..initialize().then((_) {
@@ -114,7 +131,69 @@ class _VideoPageState extends State<VideoPage> {
                         ),
                     ],
                   )
-                : Container(),
+                : (_showButtonLoading)
+                    ? Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).size.height * 0.10),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                RaisedButton(
+                                  color: Color(0xff1da64a),
+                                  child: Text('LOS GEHT\'S!'),
+                                  onPressed: () {
+                                    Hive.box('data').put('intro_done', true);
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) => Home()),
+                                    );
+                                  },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 32),
+                                  child: RichText(
+                                    text: new TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              'Mit einem Klick auf "LOS GEHT\'S!" stimmst du der ',
+                                          style: new TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14),
+                                        ),
+                                        TextSpan(
+                                          text: 'Datenschutzerklärung ',
+                                          style: new TextStyle(
+                                              color: Colors.blue.shade400,
+                                              fontWeight: FontWeight.bold),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              launch(
+                                                  'https://app.fffutu.re/privacy.html');
+                                            },
+                                        ),
+                                        TextSpan(
+                                          text: ' zu.',
+                                          style: new TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14),
+                                        ),
+                                      ],
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                    : Container(),
           ),
         ),
       ),
