@@ -36,28 +36,32 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
 
   var isLoadingNew = true;
 
-  /**
-   * The init Method Loads all strike Points.
-   */
-  @override
-  void initState() {
+  Future<void> loadOldData() async {
 
-    netzstreikApi.getAllStrikePointsOld().then((list){
+    List<StrikePoint> list = await netzstreikApi.getAllStrikePointsOld();
       print("Old data loaded in Map");
+
       if(mounted && isLoadingNew) {
+        await Future.delayed(Duration(seconds: 1));
         strikePointL = list;
-        _generateAllMarker();
-        if (isLoadingNew) {
-          applayFilter();
-        }
+
         if (isLoadingNew) {
           setState(() {
+            _generateAllMarker();
+            applayFilter();
             print("Alte daten sind");
           });
         }
       }
       print("Fertig old data Loding");
-    });
+
+  }
+  /**
+   * The init Method Loads all strike Points.
+   */
+  @override
+  void initState() {
+    loadOldData();
     netzstreikApi.getAllStrikePoints().then((list) {
       isLoadingNew = false;
       if (mounted) {

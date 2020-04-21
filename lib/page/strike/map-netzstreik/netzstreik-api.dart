@@ -57,7 +57,7 @@ class NetzstreikApi {
 
   Future<List<StrikePoint>> getAllStrikePointsOld() async {
     CacheService cache = CacheService(await getTemporaryDirectory());
-    if (cache.exists('netzstreikMap.json')) {
+    try {
       var body = cache.get('netzstreikMap.json');
       if (body == null) {
         print('No Cache body null');
@@ -77,11 +77,22 @@ class NetzstreikApi {
       }
       print('Send Old Data');
       return resultL;
-    }else{
+    }catch(e){
+      print("Noch kein Cache geladen");
+      print(e);
+      return List<StrikePoint>();
+    }
+
+    //if (cache.exists('netzstreikMap.json')) {
+
+
+    //}
+    /*
+    else{
       print("No cache Bei strike points old");
       return  List<StrikePoint>();
     }
-
+*/
 
   }
 
