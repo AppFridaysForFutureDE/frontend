@@ -51,7 +51,7 @@ class FutureStoryPage extends StatelessWidget {
                     child: Text(
                       '''Die Zukunft, ein Traum den jeder hat. Doch die Klimakrise bringt ebenjene in Gefahr.
 Also: Let's save our future! Wir brauchen deine Hilfe. 
-Du fragst dich wie du in Zeiten von Corona trotzdem noch solidarisch auf die Klimakrise hinweisen kannst? Folge einfach unserer kurzen Anleitung! 
+Du fragst dich wie du in Zeiten wie diesen trotzdem noch solidarisch auf die Klimakrise hinweisen kannst? Folge einfach unserer kurzen Anleitung! 
 Fülle die Vorlage aus. Tagge unsere Regierung, um ihr die Präsenz der Klimakrise wieder bewusst zu machen. Und zudem noch drei Medien Kanäle, sodass diese das Klima und seine Veränderungen in ihrer Berichterstattung involvieren. Zu guter Letzt, vergesse nicht 5 Freunde zu taggen um sie zum Mitmachen zu engagieren.''',
                       style: TextStyle(fontSize: 16),
                     ),

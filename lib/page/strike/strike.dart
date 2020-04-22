@@ -82,29 +82,32 @@ class StrikePage extends StatelessWidget {
         ),
         back: Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16.0),
-            ),
-            elevation: 12,
-            child: Stack(
-              alignment: Alignment.bottomRight,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 8.0,
-                    bottom: 32.0,
+          child: Align(
+            alignment: Alignment.center,
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              elevation: 12,
+              child: Stack(
+                alignment: Alignment.bottomRight,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 8.0,
+                      bottom: 32.0,
+                    ),
+                    child: ListTile(
+                      title: Text(title),
+                      subtitle: Text(subtitle),
+                    ),
                   ),
-                  child: ListTile(
-                    title: Text(title),
-                    subtitle: Text(subtitle),
+                  FlatButton(
+                    child: const Text('JETZT MITMACHEN'),
+                    onPressed: onClickStart,
                   ),
-                ),
-                FlatButton(
-                  child: const Text('JETZT MITMACHEN'),
-                  onPressed: onClickStart,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
