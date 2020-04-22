@@ -67,14 +67,22 @@ class _State extends State<ChallengePage> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Image.asset(
-                    (Hive.box('challenges').get(id) ?? false)
-                        ? 'assets/images/bee.png'
-                        : 'assets/images/bee_grey.png',
-                    height: 60,
-                    width: 60),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    Hive.box('challenges')
+                        .put(id, !(Hive.box('challenges').get(id) ?? false));
+                  });
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Image.asset(
+                      (Hive.box('challenges').get(id) ?? false)
+                          ? 'assets/images/bee.png'
+                          : 'assets/images/bee_grey.png',
+                      height: 60,
+                      width: 60),
+                ),
               ),
               Flexible(
                 child: Column(
