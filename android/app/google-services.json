@@ -40,10 +40,54 @@
               "client_type": 3
             },
             {
-              "client_id": "242003868192-2o4hebo7512ddhoa0f8fqkt6fasnr3vn.apps.googleusercontent.com",
+              "client_id": "242003868192-lstm0vhi9nk683vddavqpia23a9tk5ff.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "de.fridaysforfuture.app"
+                "bundle_id": "de.fridaysforfuture.app.official"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242003868192:android:2c1d1ddde13fb8b4c79a45",
+        "android_client_info": {
+          "package_name": "de.fridaysforfuture.app.official"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242003868192-5g2egar3na9t167v51t9tocmn26hn36u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.fridaysforfuture.app.official",
+            "certificate_hash": "3beff7fe993f02b7f72be59e3f76b1a48a381900"
+          }
+        },
+        {
+          "client_id": "242003868192-eru6u3a2n66ifpa35d48l4qb32vi95fv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDC-TG6hCO6VVa2FqDMNWBYY9aISuXo2Z4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242003868192-eru6u3a2n66ifpa35d48l4qb32vi95fv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "242003868192-lstm0vhi9nk683vddavqpia23a9tk5ff.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "de.fridaysforfuture.app.official"
               }
             }
           ]
