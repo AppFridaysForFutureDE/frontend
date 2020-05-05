@@ -25,42 +25,42 @@ class SocialMediaPage extends  StatelessWidget {
             leading: Icon(MdiIcons.twitter),
             title: Text('Twitter'),
             onTap: () {
-                _launchURL('https://twitter.com/FridayForFuture');
+                _launchURL('https://fffutu.re/appTwitter');
               },
           ),
           ListTile(
             leading: Icon(MdiIcons.instagram),
             title: Text('Instagram'),
             onTap: () {
-                _launchURL('https://www.instagram.com/fridaysforfuture.de');
+                _launchURL('https://fffutu.re/appInstagram');
               },
           ),
           ListTile(
             leading: Icon(MdiIcons.facebook),
             title: Text('Facebook'),
             onTap: () {
-                _launchURL('https://www.facebook.com/fridaysforfuture.de/');
+                _launchURL('https://fffutu.re/appFacebook');
               },
           ),
           ListTile(
             leading: Icon(MdiIcons.flickr),
             title: Text('Flickr'),
             onTap: () {
-                _launchURL('https://www.flickr.com/people/146245435@N02/');
+                _launchURL('https://fffutu.re/appFlickr');
               },
           ),
           ListTile(
             leading: Icon(MdiIcons.youtube),
             title: Text('YouTube'),
             onTap: () {
-                _launchURL('https://www.youtube.com/channel/UCZwF7J5rbyJXBZMJrE_8XCA');
+                _launchURL('https://fffutu.re/appYouTube');
               },
           ),
           ListTile(
             leading: Icon(MdiIcons.telegram),
             title: Text('Telegram'),
             onTap: () {
-                _launchURL('https://t.me/FridaysForFutureDE');
+                _launchURL('https://fffutu.re/appTelegramDE');
               },
           ),
           TitleWidget('Diskussions- / Gruppen'),
@@ -68,14 +68,14 @@ class SocialMediaPage extends  StatelessWidget {
             leading: Icon(MdiIcons.telegram),
             title: Text('Telegram'),
             onTap: () {
-                _launchURL('https://t.me/fffDiskussion');
+                _launchURL('https://fffutu.re/appTelegramDisk');
               },
           ), 
           ListTile(
             leading: Icon(MdiIcons.discord),
             title: Text('Discord'),
             onTap: () {
-                _launchURL('https://discord.gg/UEGyyrT');
+                _launchURL('https://fffutu.re/appDiscord');
               },
           ),
         ],

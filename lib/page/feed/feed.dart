@@ -6,6 +6,7 @@ import 'package:app/page/feed/post.dart';
 import 'package:app/service/api.dart';
 import 'package:app/util/share.dart';
 import 'package:app/util/time_ago.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'filter.dart';
 
@@ -323,6 +324,34 @@ class _FeedItemState extends State<FeedItem> {
                     color: Theme.of(context).accentColor,
                   ),
                 PopupMenuButton(
+                  //new
+                child: CupertinoActionSheet(
+                actions: <Widget>[
+                  CupertinoActionSheetAction(
+                    child: const Text('Markierung entfernen...'),
+                    onPressed: () {
+                      setState(() {
+                          Hive.box('post_mark').put(post.id, !marked);
+                        });
+                    },
+                  ),
+                  CupertinoActionSheetAction(
+                    child: const Text('Teilen...'),
+                    onPressed: () {
+                      ShareUtil.sharePost(post);
+                    },
+                  ),
+                  CupertinoActionSheetAction(
+                    child: const Text('Als ungelesen kennzeichnen...'),
+                    onPressed: () {
+                      setState(() {
+                          Hive.box('post_read').put(post.id, false);
+                        });
+                    },
+                  )
+                ]
+              ),
+              //new end
                   icon: Icon(
                     Icons.more_vert,
                   ),
