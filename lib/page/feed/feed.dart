@@ -6,7 +6,6 @@ import 'package:app/page/feed/post.dart';
 import 'package:app/service/api.dart';
 import 'package:app/util/share.dart';
 import 'package:app/util/time_ago.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'filter.dart';
 
