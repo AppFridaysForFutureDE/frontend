@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app/model/live_event.dart';
 import 'package:app/model/strike.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -179,7 +180,6 @@ class ApiService {
       }
     }
   }
-
   Future updateOGs() async {
     if (!(Hive.box('data').get('firstStart') ?? true)) {
       print("Updating OG");
@@ -199,4 +199,12 @@ class ApiService {
       }
     }
   }
+  Future<LiveEvent> getLiveEvent() async{
+    await Future.delayed(Duration(seconds: 1));
+    return LiveEvent(
+      true, "Jetzt Live: PCS Livestream", "https://fridaysforfuture.org"
+    );
+  }
+
+
 }

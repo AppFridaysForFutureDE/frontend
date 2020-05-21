@@ -1,7 +1,7 @@
 import 'package:app/app.dart';
 import 'package:app/widget/og_social_buttons.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong/latlong.dart';
@@ -20,6 +20,7 @@ class _MapPageState extends State<MapPage> {
   Future _loadData() async {
     try {
       ogs = await api.getOGs();
+      ogs = await api.getOGs();
 
       if (mounted) setState(() {});
     } catch (e) {
@@ -29,17 +30,97 @@ class _MapPageState extends State<MapPage> {
                 'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
     }
   }
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
 
   @override
   void initState() {
     _loadData();
+    api.getLiveEvent().then((liveEvent) {
+      /*if(liveEvent.isLive && mounted){
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text(liveEvent.title),
+          duration: Duration(minutes:5),
+          action: SnackBarAction(
+            label: 'öffnen',
+            onPressed: () {
+              _launchURL(liveEvent.url);
+              // Some code to undo the change.
+            },
+          ),
+        ));
+      }*/
+      WidgetBuilder b = (BuildContext context) {
+        return Container(
+            padding: EdgeInsets.all(8),
+            height: 128,
+            color: Theme.of(context).accentColor,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Center(child: Text(liveEvent.title)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
 
+                    RaisedButton(
+                      color: Colors.white,
+                      child: Text("anschauen",
+                          style:Theme.of(context).textTheme.title),
+                      onPressed: (){
+                        _launchURL(liveEvent.url);
+                      },
+                    ),
+                    RaisedButton(
+                      color:Colors.white,
+                      child: Text("lieber später",
+                          style:Theme.of(context).textTheme.title),
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                )
+                /*
+                Row(
+                  children: <Widget>[
+                    FlatButton(
+                      child: Text("anschauen",
+                      style:Theme.of(context).textTheme.title),
+                      onPressed: (){
+                        _launchURL(liveEvent.url);
+                      },
+                    ),
+                    FlatButton(
+                      child: Text("gerade nicht",
+                          style:Theme.of(context).textTheme.title),
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                )
+*/
+              ],
+            ),
+        );
+      };
+      Scaffold.of(context).showBottomSheet(b);
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     List<OG> filteredOGs;
+
 
     if (searchActive) {
       filteredOGs = ogs
