@@ -270,7 +270,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
                 ),
                 RaisedButton(
                   color: Theme.of(context).scaffoldBackgroundColor,
-                  child: Text("lieber später",
+                  child: Text("später",
                       style: Theme.of(context).textTheme.title),
                   onPressed: () {
                     Navigator.pop(context);

@@ -199,11 +199,32 @@ class ApiService {
       }
     }
   }
+
+  /**
+   * Fetches a Liveevent from the Servers. A live event gets also returned if no event is live.
+   * In this case a Event with isLive == false
+   * A a exception is thrown.
+   */
   Future<LiveEvent> getLiveEvent() async{
-    await Future.delayed(Duration(seconds: 1));
-    return LiveEvent(
-      true,true, "Jetzt Live: PCS Livestream", "https://fridaysforfuture.org"
-    );
+    //return LiveEvent(true,true, "Jetzt Live: PCS Livestream", "https://fridaysforfuture.org");
+    try {
+      var res = await client.get(
+          '$baseUrl/liveevent?liveeventId=0');
+
+      if (res.statusCode == HttpStatus.ok) {
+
+        var data = json.decode(res.body);
+        LiveEvent event = LiveEvent.fromJSON(data['liveevent']);
+        return event;
+      } else {
+        throw Exception('HTTP Status ${res.statusCode}');
+      }
+    } catch (e) {
+      print("Could not load the liveevent data");
+      return LiveEvent(false,false, null, null);
+        //throw Exception('Could not load the live Event Data');
+    }
+
   }
 
 
