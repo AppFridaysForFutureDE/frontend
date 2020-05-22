@@ -206,6 +206,10 @@ class ApiService {
    * A a exception is thrown.
    */
   Future<LiveEvent> getLiveEvent() async{
+    //DEBUG data: first true if a live event is active
+    // second true if the banner schould open the first netzstrike action or the Url
+    // 3th the title
+    // 4th the url which schould be displayed if inApp == false
     //return LiveEvent(true,true, "Jetzt Live: PCS Livestream", "https://fridaysforfuture.org");
     try {
       var res = await client.get(
