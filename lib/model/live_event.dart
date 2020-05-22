@@ -3,7 +3,8 @@
  */
 class LiveEvent{
   bool isLive;
+  bool inApp;
   String title;
   String url;
-  LiveEvent(this.isLive,this.title,this.url);
+  LiveEvent(this.isLive,this.inApp,this.title,this.url);
 }

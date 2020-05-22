@@ -202,7 +202,7 @@ class ApiService {
   Future<LiveEvent> getLiveEvent() async{
     await Future.delayed(Duration(seconds: 1));
     return LiveEvent(
-      true, "Jetzt Live: PCS Livestream", "https://fridaysforfuture.org"
+      true,true, "Jetzt Live: PCS Livestream", "https://fridaysforfuture.org"
     );
   }
 

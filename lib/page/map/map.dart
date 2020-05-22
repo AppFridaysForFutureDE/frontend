@@ -42,78 +42,7 @@ class _MapPageState extends State<MapPage> {
   @override
   void initState() {
     _loadData();
-    api.getLiveEvent().then((liveEvent) {
-      /*if(liveEvent.isLive && mounted){
-        Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text(liveEvent.title),
-          duration: Duration(minutes:5),
-          action: SnackBarAction(
-            label: 'öffnen',
-            onPressed: () {
-              _launchURL(liveEvent.url);
-              // Some code to undo the change.
-            },
-          ),
-        ));
-      }*/
-      WidgetBuilder b = (BuildContext context) {
-        return Container(
-            padding: EdgeInsets.all(8),
-            height: 128,
-            color: Theme.of(context).accentColor,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Center(child: Text(liveEvent.title)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
 
-                    RaisedButton(
-                      color: Colors.white,
-                      child: Text("anschauen",
-                          style:Theme.of(context).textTheme.title),
-                      onPressed: (){
-                        _launchURL(liveEvent.url);
-                      },
-                    ),
-                    RaisedButton(
-                      color:Colors.white,
-                      child: Text("lieber später",
-                          style:Theme.of(context).textTheme.title),
-                      onPressed: (){
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                )
-                /*
-                Row(
-                  children: <Widget>[
-                    FlatButton(
-                      child: Text("anschauen",
-                      style:Theme.of(context).textTheme.title),
-                      onPressed: (){
-                        _launchURL(liveEvent.url);
-                      },
-                    ),
-                    FlatButton(
-                      child: Text("gerade nicht",
-                          style:Theme.of(context).textTheme.title),
-                      onPressed: (){
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                )
-*/
-              ],
-            ),
-        );
-      };
-      Scaffold.of(context).showBottomSheet(b);
-    });
     super.initState();
   }
 
