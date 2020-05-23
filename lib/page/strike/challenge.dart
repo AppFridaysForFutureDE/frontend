@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:app/app.dart';
 import 'package:app/widget/title.dart';
+import 'package:flutter/gestures.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChallengePage extends StatefulWidget {
   @override
@@ -19,20 +21,48 @@ class _State extends State<ChallengePage> {
         child: ListView(
           children: [
             
-            _beeChallenge(//TODO lufthansa.lol
+            _beeChallenge(
               'c7',
               'Lol die Lufthansa!',
-              Text('Alle Städte Berlins mit Solaranlagen bedenken? 11.056.511 Kitaplätze schaffen? 1.113.861.368 Liter Bier kaufen? Nein die Regierung möchte mit dem Steuergeld nicht der Gesellschaft helfen, sondern Lufthansa retten! Nicht mit uns! Teile über lufthansa.lol mit deinen Freunden, was du mit 9 Milliarden Euro für die Gesellschaft machen würdest!'),
+              RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.body1,
+                  children: <TextSpan>[
+                    TextSpan(text: 'Alle Städte Berlins mit Solaranlagen bedenken? 11.056.511 Kitaplätze schaffen? 1.113.861.368 Liter Bier kaufen? Nein die Regierung möchte mit dem Steuergeld nicht der Gesellschaft helfen, sondern Lufthansa retten! Nicht mit uns! Teile über '),
+                    TextSpan(
+                      text: 'lufthansa.lol', 
+                      style: TextStyle(color: Colors.blue[800], decoration: TextDecoration.underline),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () { launch('https://lufthansa.lol'); },
+                      ),
+                    TextSpan(text: ' mit deinen Freunden, was du mit 9 Milliarden Euro für die Gesellschaft machen würdest!'),
+                  ],
+                ),
+              ),
             ),
             _beeChallenge(
               'c8',
               'Ein Stern für Ölkonzerne',
               Text('Öl-Konzerne zerstören unsere Zukunft! Lasst uns das deutlich machen, indem wir enttäuschte Bewertung auf Google hinterlassen. #oilmustfall. Nimm dir 30 Sekunden Zeit um nach den Büros zu suchen und sag ihnen mit uns zusammen deine Meinung!'),
             ),
-            _beeChallenge( //TODO LINK YT
+            _beeChallenge(
               'c9',
               '#WirBildenZukunft',
-              Text('In der Schule wird nicht ausreichend über die Klimakrise unterrichtet. Deswegen streiken wir nicht nur, sondern bilden uns alle weiter! Auf YouTube gibt es tolle Webinare rund um das Thema Klimagerechtigkeit. Bilde dich mit uns zusammen und schaue dir ein Video auf unserem YouTube-Kanal an!'),
+              RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.body1,
+                  children: <TextSpan>[
+                    TextSpan(text: 'In der Schule wird nicht ausreichend über die Klimakrise unterrichtet. Deswegen streiken wir nicht nur, sondern bilden uns alle weiter! Auf YouTube gibt es tolle Webinare rund um das Thema Klimagerechtigkeit. Bilde dich mit uns zusammen und schaue dir ein Video auf unserem '),
+                    TextSpan(
+                      text: 'Youtube-Kanal', 
+                      style: TextStyle(color: Colors.blue[800], decoration: TextDecoration.underline),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () { launch('https://www.youtube.com/channel/UCZwF7J5rbyJXBZMJrE_8XCA'); },
+                      ),
+                    TextSpan(text: ' an!'),
+                  ],
+                ),
+              ),
             ),
             _beeChallenge(
               'c1',
