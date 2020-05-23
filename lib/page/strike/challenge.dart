@@ -25,7 +25,7 @@ class _State extends State<ChallengePage> {
                 text: TextSpan(
                   style: Theme.of(context).textTheme.body1,
                   children: <TextSpan>[
-                    TextSpan(text: 'Alle Städte Berlins mit Solaranlagen bedenken? 11.056.511 Kitaplätze schaffen? 1.113.861.368 Liter Bier kaufen? Nein die Regierung möchte mit dem Steuergeld nicht der Gesellschaft helfen, sondern Lufthansa retten! Nicht mit uns! Teile über '),
+                    TextSpan(text: 'Alle Städte Berlins mit Solaranlagen bedecken? 11.056.511 Kitaplätze schaffen? 1.113.861.368 Liter Bier kaufen? Nein die Regierung möchte mit dem Steuergeld nicht der Gesellschaft helfen, sondern Lufthansa retten! Nicht mit uns! Teile über '),
                     TextSpan(
                       text: 'lufthansa.lol', 
                       style: TextStyle(color: Colors.blue[800], decoration: TextDecoration.underline),
