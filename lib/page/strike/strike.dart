@@ -23,7 +23,7 @@ class StrikePage extends StatelessWidget {
             _buildCard(
               'Public Climate School',
               'Die Public Climate School ist da! Mit spannenden Workshops und Vorlesungen bringen wir Studierende, Professoren und Wissenschaftler mit DIR zusammen, um die Wissenschaft hinter der Klimakrise zu erkunden.',
-              'local',
+              'uni',
               Color(0xffadecfe),
               () {
                 Navigator.push(
