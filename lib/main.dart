@@ -49,7 +49,6 @@ void main() async {
 
   await api.loadConfig();
 
-  NetzstreikApi().makeCache();
 
   api.updateOGs();
 
@@ -232,7 +231,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
 
   _checkForLiveEvent() async {
     LiveEvent liveEvent = await api.getLiveEvent();
-    if (!liveEvent.isLive) {
+    if (!liveEvent.isActive) {
       return;
     }
 
@@ -242,19 +241,19 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
     WidgetBuilder b = (BuildContext context) {
       return Container(
         padding: EdgeInsets.all(8),
-        height: 128,
+        height: 100,
         color: Theme.of(context).accentColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Center(child: Text(liveEvent.title)),
+            Center(child: Text(liveEvent.actionText)),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 RaisedButton(
                   color: Theme.of(context).scaffoldBackgroundColor,
-                  child: Text("anschauen",
+                  child: Text("Anschauen",
                       style: Theme.of(context).textTheme.title),
                   onPressed: () {
                     Navigator.pop(context);
@@ -264,13 +263,16 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
                         MaterialPageRoute(builder: (context) => HtmlStrikePage()),
                       );
                     }else {
-                      _launchURL(liveEvent.url);
+                      _launchURL(liveEvent.actionUrl);
                     }
                   },
                 ),
+                SizedBox(
+                  width: 16,
+                ),
                 RaisedButton(
                   color: Theme.of(context).scaffoldBackgroundColor,
-                  child: Text("später",
+                  child: Text("Später",
                       style: Theme.of(context).textTheme.title),
                   onPressed: () {
                     Navigator.pop(context);

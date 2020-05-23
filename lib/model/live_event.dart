@@ -5,7 +5,7 @@ class LiveEvent{
   /**
    * Indicates if there is a current liveevent
    */
-  bool isLive;
+  bool isActive;
 
   /**
    * Indicates if the app schould launch the first Strike Action from the Netzstrike section in the app or
@@ -16,18 +16,18 @@ class LiveEvent{
   /**
    * The title of the Live event.
    */
-  String title;
+  String actionText;
 
   /**
    * The url of the live event. Only relevant if inApp == false
    */
-  String url;
-  LiveEvent(this.isLive,this.inApp,this.title,this.url);
+  String actionUrl;
+  LiveEvent(this.isActive,this.inApp,this.actionText,this.actionUrl);
   LiveEvent.fromJSON(Map<String, dynamic> json ){
-    isLive = json["isActive"];
+    isActive = json["isActive"];
     inApp = json["inApp"];
-    url = json["actionUrl"];
-    title = json["actionText"];
+    actionUrl = json["actionUrl"];
+    actionText = json["actionText"];
 
   }
 }
