@@ -1,4 +1,5 @@
 import 'package:app/app.dart';
+import 'package:app/page/strike/html_strike_page.dart';
 import 'package:app/page/strike/map-netzstreik/add-iframe-page.dart';
 
 import 'package:app/page/strike/map-netzstreik/map-netzstreik.dart';
@@ -20,14 +21,14 @@ class StrikePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _buildCard(
-              'Hier streike ich!',
-              'Zeig allen, dass du weiterstreikst und nach wie vor effektive Schutzmaßnahmen für die Zukunft unseres Planeten forderst. Klick den Button! Trag dich ein! Lade ein Bild hoch, falls du willst, und fülle die Karte als ein Teil der Bewegung.',
-              'local',
+              'Public Climate School',
+              'Die Public Climate School ist da! Mit spannenden Workshops und Vorlesungen bringen wir Studierende, Professoren und Wissenschaftler mit DIR zusammen, um die Wissenschaft hinter der Klimakrise zu erkunden.',
+              'uni',
               Color(0xffadecfe),
               () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MapNetzstreik()),
+                  MaterialPageRoute(builder: (context) => HtmlStrikePage()),
                 );
               },
             ),

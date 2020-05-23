@@ -7,6 +7,7 @@ import 'package:app/page/feed/feed.dart';
 import 'package:app/page/feed/post.dart';
 import 'package:app/page/info/info.dart';
 import 'package:app/page/map/map.dart';
+import 'package:app/page/strike/html_strike_page.dart';
 import 'package:app/page/strike/map-netzstreik/netzstreik-api.dart';
 import 'package:app/page/strike/strike.dart';
 import 'package:app/service/api.dart';
@@ -18,7 +19,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import 'model/live_event.dart';
 import 'page/intro/video.dart';
 
 void main() async {
@@ -46,7 +49,6 @@ void main() async {
 
   await api.loadConfig();
 
-  NetzstreikApi().makeCache();
 
   api.updateOGs();
 
@@ -141,7 +143,7 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with WidgetsBindingObserver{
   int _currentIndex = 0;
 
   void subToAll() async {
@@ -207,8 +209,92 @@ class _HomeState extends State<Home> {
     }
   }
 
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  @override
+  didChangeAppLifecycleState(AppLifecycleState state){
+    super.didChangeAppLifecycleState(state);
+    switch(state){
+      case AppLifecycleState.detached:break;
+      case AppLifecycleState.inactive:break;
+      case AppLifecycleState.paused:break;
+      case AppLifecycleState.resumed:_checkForLiveEvent();
+    }
+  }
+
+
+  _checkForLiveEvent() async {
+    LiveEvent liveEvent = await api.getLiveEvent();
+    if (!liveEvent.isActive) {
+      return;
+    }
+
+    if (!mounted) {
+      await Future.delayed(Duration(seconds: 1));
+    }
+    WidgetBuilder b = (BuildContext context) {
+      return Container(
+        padding: EdgeInsets.all(8),
+        height: 100,
+        color: Theme.of(context).accentColor,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Center(child: Text(
+                liveEvent.actionText,
+                style: TextStyle(
+                  color:Colors.black,
+                )
+            )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RaisedButton(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  child: Text("Anschauen",
+                      style: Theme.of(context).textTheme.title),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    if(liveEvent.inApp){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HtmlStrikePage()),
+                      );
+                    }else {
+                      _launchURL(liveEvent.actionUrl);
+                    }
+                  },
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+                RaisedButton(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  child: Text("Später",
+                      style: Theme.of(context).textTheme.title),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            )
+          ],
+        ),
+      );
+    };
+    _scaffoldKey.currentState.showBottomSheet(b);
+  }
+
   @override
   initState() {
+    _checkForLiveEvent();
     _firebaseMessaging.configure(
       onResume: _handleNotificationOpen,
       onLaunch: _handleNotificationOpen,
@@ -230,11 +316,24 @@ class _HomeState extends State<Home> {
       subToAll();
       Hive.box('data').put('firstStart', false);
     }
+    /*
+    Adds a observer importent for the AppLifecycleState
+     */
+    WidgetsBinding.instance.addObserver(this);
 
     super.initState();
   }
+  @override
+  void dispose() {
+    /*
+    Removes a observer importent for the AppLifecycleState
+     */
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   var _scaffoldKey = GlobalKey<ScaffoldState>();
+
 
   @override
   Widget build(BuildContext context) {

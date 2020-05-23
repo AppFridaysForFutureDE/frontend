@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app/model/live_event.dart';
 import 'package:app/model/strike.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -179,7 +180,6 @@ class ApiService {
       }
     }
   }
-
   Future updateOGs() async {
     if (!(Hive.box('data').get('firstStart') ?? true)) {
       print("Updating OG");
@@ -199,4 +199,37 @@ class ApiService {
       }
     }
   }
+
+  /**
+   * Fetches a Liveevent from the Servers. A live event gets also returned if no event is live.
+   * In this case a Event with isLive == false
+   * A a exception is thrown.
+   */
+  Future<LiveEvent> getLiveEvent() async{
+    //DEBUG data: first true if a live event is active
+    // second true if the banner schould open the first netzstrike action or the Url
+    // 3th the title
+    // 4th the url which schould be displayed if inApp == false
+    //return LiveEvent(true,true, "Jetzt Live: PCS Livestream", "https://fridaysforfuture.org");
+    try {
+      var res = await client.get(
+          '$baseUrl/liveevent?liveeventId=0');
+
+      if (res.statusCode == HttpStatus.ok) {
+
+        var data = json.decode(res.body);
+        LiveEvent event = LiveEvent.fromJSON(data['liveevent']);
+        return event;
+      } else {
+        throw Exception('HTTP Status ${res.statusCode}');
+      }
+    } catch (e) {
+      print("Could not load the liveevent data");
+      return LiveEvent(false,false, null, null);
+        //throw Exception('Could not load the live Event Data');
+    }
+
+  }
+
+
 }
