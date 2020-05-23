@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:app/app.dart';
 import 'package:app/widget/title.dart';
 import 'package:flutter/gestures.dart';
@@ -20,7 +18,6 @@ class _State extends State<ChallengePage> {
       body: Scrollbar(
         child: ListView(
           children: [
-            
             _beeChallenge(
               'c7',
               'Lol die Lufthansa!',
