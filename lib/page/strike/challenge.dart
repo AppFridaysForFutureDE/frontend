@@ -1,5 +1,7 @@
 import 'package:app/app.dart';
 import 'package:app/widget/title.dart';
+import 'package:flutter/gestures.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChallengePage extends StatefulWidget {
   @override
@@ -17,34 +19,62 @@ class _State extends State<ChallengePage> {
         child: ListView(
           children: [
             _beeChallenge(
+              'c7',
+              'Lol die Lufthansa!',
+              RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.body1,
+                  children: <TextSpan>[
+                    TextSpan(text: 'Alle Städte Berlins mit Solaranlagen bedecken? 11.056.511 Kitaplätze schaffen? 1.113.861.368 Liter Bier kaufen? Nein die Regierung möchte mit dem Steuergeld nicht der Gesellschaft helfen, sondern Lufthansa retten! Nicht mit uns! Teile über '),
+                    TextSpan(
+                      text: 'lufthansa.lol', 
+                      style: TextStyle(color: Colors.blue[800], decoration: TextDecoration.underline),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () { launch('https://lufthansa.lol'); },
+                      ),
+                    TextSpan(text: ' mit deinen Freunden, was du mit 9 Milliarden Euro für die Gesellschaft machen würdest!'),
+                  ],
+                ),
+              ),
+            ),
+            _beeChallenge(
+              'c8',
+              'Ein Stern für Ölkonzerne',
+              Text('Öl-Konzerne zerstören unsere Zukunft! Lasst uns das deutlich machen, indem wir enttäuschte Bewertung auf Google hinterlassen. #oilmustfall. Nimm dir 30 Sekunden Zeit um nach den Büros zu suchen und sag ihnen mit uns zusammen deine Meinung!'),
+            ),
+            _beeChallenge(
+              'c9',
+              '#WirBildenZukunft',
+              RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.body1,
+                  children: <TextSpan>[
+                    TextSpan(text: 'In der Schule wird nicht ausreichend über die Klimakrise unterrichtet. Deswegen streiken wir nicht nur, sondern bilden uns alle weiter! Auf YouTube gibt es tolle Webinare rund um das Thema Klimagerechtigkeit. Bilde dich mit uns zusammen und schaue dir ein Video auf unserem '),
+                    TextSpan(
+                      text: 'Youtube-Kanal', 
+                      style: TextStyle(color: Colors.blue[800], decoration: TextDecoration.underline),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () { launch('https://www.youtube.com/channel/UCZwF7J5rbyJXBZMJrE_8XCA'); },
+                      ),
+                    TextSpan(text: ' an!'),
+                  ],
+                ),
+              ),
+            ),
+            _beeChallenge(
               'c1',
               'Der Picasso in dir!',
-              'Überlege dir eine Kunstaktion, ob Bild, Knete, Basteln oder Lego mit der du dein Klimathema repräsentierst. Ob klimaneutrales Haus, demonstrierende Menschen, ein Windrad oder eine Kuh, deiner Kreativität sind keine Grenzen gesetzt.',
+              Text('Überlege dir eine Kunstaktion, ob Bild, Knete, Basteln oder Lego mit der du dein Klimathema repräsentierst. Ob klimaneutrales Haus, demonstrierende Menschen, ein Windrad oder eine Kuh, deiner Kreativität sind keine Grenzen gesetzt.'),
             ),
             _beeChallenge(
-              'c2',
-              'We’re staying Home!',
-              'Bastel dir ein Streikschild oder ein Banner, oder nimm ein vorhandenes Banner und hänge es gut sichtbar an deinen Balkon oder stelle es vor die Tür! Lass dir dabei von deinen Eltern helfen! Wenn du Hilfe mit einem Spruch brauchst, check unser Social Media! What do we want? Climate Justice!',
-            ),
-            _beeChallenge(
-              'c3',
-              'We’re all in this together!',
-              'Mit wem hast du lange nicht mehr gesprochen, obwohl du es dir vorgenommen hast? Suche dir drei Personen aus deinem Handy und ruf Sie doch einfach mal an! Wir müssen alle zusammenhalten und einander helfen!',
-            ),
-            _beeChallenge(
-              'c4',
-              'Der grüne Daumen',
-              'Checke, ob alle Pflanzen im Haus oder im Garten gegossen sind und gieße diese nach Bedarf. Ob deine Pflanzen Wasser brauchen, überprüfst du am besten, indem du mit einem Finger checkst wie trocken die Erde ist. Bist du dir nicht sicher wie viel Wasser die Pflanzen brauchen, frag am besten deine Eltern oder suche kurz im Internet. Und denk daran, weniger ist mehr! ',
-            ),
-            _beeChallenge(
-              'c5',
-              'But how is it made?',
-              'Such dir ein Kleidungsstück, ein Lebensmittel oder einen Gegenstand in deinem Haus und recherchiere wie dieses produziert worden ist. Ist das Ganze umweltfreundlich? Wie sieht es mit Plastikverpackung aus? Kommt das ganze aus einem europäischen Land oder ist es noch weiter gereist? Wie könnte das ganze klimaneutral gestaltet werden? Wenn du nicht weiter weißt, frag deine Eltern!',
+              'c10',
+              'InstagramStory für die Zukunft',
+              Text('Hast du schon die Challenge “Schreib deine eigene Zukunfts-Story” unter NetzStreik ausprobiert? Lasst uns verbreiten, wie wir unsere Zukunft sehen!'),
             ),
             _beeChallenge(
               'c6',
               'Challenge & More',
-              'Erfinde deine eigene Challenge und poste sie unter #appchallengeforfuture oder #challengeforfuture. Sei dabei möglichst kreativ und denk dabei an die Prinzipien von FFF. Diese kannst du auch nochmal in der App nachlesen!',
+              Text('Erfinde deine eigene Challenge und poste sie unter #appchallengeforfuture oder #challengeforfuture. Sei dabei möglichst kreativ und denk dabei an die Prinzipien von FFF. Diese kannst du auch nochmal in der App nachlesen!'),
             ),
           ],
         ),
@@ -52,7 +82,7 @@ class _State extends State<ChallengePage> {
     );
   }
 
-  Widget _beeChallenge(String id, String title, String text) {
+  Widget _beeChallenge(String id, String title, Widget text) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -88,7 +118,7 @@ class _State extends State<ChallengePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    Text(text),
+                    text,
                     if (!(Hive.box('challenges').get(id) ?? false))
                       RaisedButton(
                           color: Theme.of(context).primaryColor,
