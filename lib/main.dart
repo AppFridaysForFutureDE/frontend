@@ -247,7 +247,12 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Center(child: Text(liveEvent.actionText)),
+            Center(child: Text(
+                liveEvent.actionText,
+                style: TextStyle(
+                  color:Colors.black,
+                )
+            )),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
