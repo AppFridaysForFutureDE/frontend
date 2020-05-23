@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/app.dart';
 import 'package:app/widget/title.dart';
 
@@ -25,7 +27,7 @@ class _State extends State<ChallengePage> {
             _beeChallenge(
               'c8',
               'Ein Stern für Ölkonzerne',
-              'Öl-Konzerne zerstören unsere Zukunft! Lasst uns das deutlich machen, indem wir enttäuschte Bewertung auf Google hinterlassen. #oilmustfall. Nimm dir 30 Sekunden Zeit um nach den Büros zu suchen und sag Ihnen mit uns zusammen deine Meinung!',
+              'Öl-Konzerne zerstören unsere Zukunft! Lasst uns das deutlich machen, indem wir enttäuschte Bewertung auf Google hinterlassen. #oilmustfall. Nimm dir 30 Sekunden Zeit um nach den Büros zu suchen und sag ihnen mit uns zusammen deine Meinung!',
             ),
             _beeChallenge( //TODO LINK YT
               'c9',
