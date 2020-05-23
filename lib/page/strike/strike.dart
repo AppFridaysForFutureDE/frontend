@@ -21,8 +21,8 @@ class StrikePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _buildCard(
-              'Hier streike ich!',
-              'Zeig allen, dass du weiterstreikst und nach wie vor effektive Schutzmaßnahmen für die Zukunft unseres Planeten forderst. Klick den Button! Trag dich ein! Lade ein Bild hoch, falls du willst, und fülle die Karte als ein Teil der Bewegung.',
+              'Public Climate School',
+              'Die Public Climate School ist da! Mit spannenden Workshops und Vorlesungen bringen wir Studierende, Professoren und Wissenschaftler mit DIR zusammen, um die Wissenschaft hinter der Klimakrise zu erkunden.',
               'local',
               Color(0xffadecfe),
               () {
