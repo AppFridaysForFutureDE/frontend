@@ -6,6 +6,7 @@ import 'package:app/page/feed/post.dart';
 import 'package:app/service/api.dart';
 import 'package:app/util/share.dart';
 import 'package:app/util/time_ago.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'filter.dart';
 
@@ -316,7 +317,7 @@ class _FeedItemState extends State<FeedItem> {
             alignment: Alignment.topRight,
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+              children: Platform.isAndroid ? <Widget>[
                 if (marked)
                   Icon(
                     MdiIcons.bookmark,
@@ -360,7 +361,62 @@ class _FeedItemState extends State<FeedItem> {
                     }
                   },
                 ),
-              ],
+              ]:
+              //iOS adaption (action sheet)
+              <Widget>[
+              if (marked)
+                  Icon(
+                    MdiIcons.bookmark,
+                    color: Theme.of(context).accentColor,
+                  ),
+                  CupertinoButton(
+                  onPressed: () {
+                    showCupertinoModalPopup(
+                        context: context,
+                        builder: (context) {
+                          return CupertinoActionSheet(
+                            actions: <Widget>[
+                              CupertinoActionSheetAction(
+                          child: Text(marked ? 'Markierung entfernen' : 'Markieren'),
+                          onPressed: () {
+                            setState(() {
+                                Hive.box('post_mark').put(post.id, !marked);
+                              });
+                              Navigator.pop(context, 'Mark');
+                          },
+                        ),
+                              CupertinoActionSheetAction(
+                          child: const Text('Teilen...'),
+                          onPressed: () {
+                            ShareUtil.sharePost(post);
+                            Navigator.pop(context, 'Share');
+                          },
+                        ),
+                              if (read)
+                        CupertinoActionSheetAction(
+                          child: const Text('Als ungelesen kennzeichnen'),
+                          onPressed: () {
+                            setState(() {
+                                Hive.box('post_read').put(post.id, false);
+                              });
+                              Navigator.pop(context, 'Read');
+                          },
+                        )
+                      ],
+                          //cancel button
+                          cancelButton: CupertinoActionSheetAction(
+                        child: const Text('Abbrechen'),
+                        isDefaultAction: true,
+                        onPressed: () {
+                          Navigator.pop(context, 'Cancel');
+                        },
+                      ),
+                          );
+                        });
+                  },
+                  child: Icon(CupertinoIcons.ellipsis, color: Theme.of(context).hintColor),
+                ),
+              ] ,
             ),
           ),
         ],

@@ -94,7 +94,7 @@ class _PostPageState extends State<PostPage> {
             ),
           if (isPost)
             IconButton(
-              icon: Platform.isIOS ? Icon(MdiIcons.share) : Icon(Icons.share),
+              icon: Platform.isIOS ? Icon(CupertinoIcons.share) : Icon(Icons.share),
               onPressed: () {
                 ShareUtil.sharePost(post);
               },
@@ -163,9 +163,9 @@ class _PostPageState extends State<PostPage> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: IconButton(
-                    icon: Icon(
-                      Icons.share,
-                    ),
+                      icon: Platform.isIOS?(
+                          Icon(CupertinoIcons.share))
+                    : Icon(Icons.share),
                     onPressed: () {
                       ShareUtil.sharePost(post);
                     },
