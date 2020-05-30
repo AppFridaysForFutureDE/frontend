@@ -1,5 +1,6 @@
 import 'package:app/app.dart';
 import 'package:app/page/strike/html_strike_page.dart';
+import 'package:app/page/strike/mail_strike.dart';
 import 'package:app/page/strike/map-netzstreik/add-iframe-page.dart';
 
 import 'package:app/page/strike/map-netzstreik/map-netzstreik.dart';
@@ -33,14 +34,14 @@ class StrikePage extends StatelessWidget {
               },
             ),
             _buildCard(
-              'Zukunfts-Story',
-              'Die Zukunft, ein Traum den jede*r hat. Doch die Klimakrise bringt ebenjene in Gefahr... Die Zeit etwas zu ändern ist jetzt! Fülle die Vorlage für die Story aus und tagge drei deiner Freunde. Hilf uns dabei, awareness zu spreaden und die Zukunft zu retten!',
+              'E-Mail an Politiker',
+              'Erzähle der Politik wie wichtig es ist, dass die geplanten Wirtschaftshilfen für nachhaltige und zukunftsfördernde Zwecke eingesetzt werden.',
               'story',
               Color(0xff95d686),
               () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FutureStoryPage()),
+                  MaterialPageRoute(builder: (context) => MailStrikePage()),
                 );
               },
             ),
