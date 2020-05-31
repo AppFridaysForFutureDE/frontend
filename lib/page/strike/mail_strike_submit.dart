@@ -43,6 +43,38 @@ class _MailStrikeSubmitPageState extends State<MailStrikeSubmitPage> {
     // TODO: set mail subject + body
   }
 
+  // TODO: Fix Layout
+  Widget _copyableText(String text) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Text(text),
+                    RaisedButton(
+                      color: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        Clipboard.setData(ClipboardData(text: text));
+                      },
+                      child: Text('Clipboard'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,20 +104,9 @@ class _MailStrikeSubmitPageState extends State<MailStrikeSubmitPage> {
             },
             child: Text('Mail App öffnen'),
           ),
-          
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              // Text(mailSubject),
-              Text("abc"),
-              RaisedButton(
-                onPressed: () {
-                  Clipboard.setData(ClipboardData(text: mailSubject));
-                },
-                child: Text('Clipboard'),
-              ),
-            ],
-          ),
+          _copyableText(currentPolitician.email),
+          _copyableText(mailSubject),
+          _copyableText(mailBody),
         ],
       ),
     );
