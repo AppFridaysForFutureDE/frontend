@@ -1,6 +1,7 @@
 import 'package:app/app.dart';
 import 'package:app/model/politician.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MailStrikeSubmitPage extends StatefulWidget {
@@ -17,21 +18,29 @@ class _MailStrikeSubmitPageState extends State<MailStrikeSubmitPage> {
   List<Politician> politicians;
   var currentPolitician;
 
+  // TODO: api.getMailSubjectByPoliticalParty(currentPolitician.party)
+  var mailSubject = 'Konjunkturmaßnahmen müssen an Klimaziele gebunden werden!';
+
+  // TODO: api.getMailBodyByPoliticalParty(currentPolitician.party)
+  var mailBody = 'Inhalt';
+
   @override
   void initState() {
     super.initState();
     // politicians = api.getPoliticiansByElectionDistrict(widget.electionDistrict)
 
     politicians = [
-      Politician('Max Mustermann', "", "CDU", "max@invalid", "crazymaxX"),
+      Politician(
+          'Max Mustermann',
+          "https://app.fffutu.re/img/instagram_instructions.jpg",
+          "CDU",
+          "max@invalid",
+          "crazymaxX"),
 //  Politician(this.name, this.imageUrl, this.party, this.email, this.twitter),
     ];
 
     currentPolitician = politicians[0];
-  }
-
-  void _launchMail() {
-    launch("mailto:test@t-online.de?subject=Betreff&body=Haaallo");
+    // TODO: set mail subject + body
   }
 
   @override
@@ -44,9 +53,7 @@ class _MailStrikeSubmitPageState extends State<MailStrikeSubmitPage> {
         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         // crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          /* Image.network(
-            'https://app.fffutu.re/img/instagram_instructions.jpg',
-          ), */
+          Image.network(currentPolitician.imageUrl),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 12,
@@ -57,9 +64,27 @@ class _MailStrikeSubmitPageState extends State<MailStrikeSubmitPage> {
               style: TextStyle(fontSize: 16),
             ),
           ),
+          Text(currentPolitician.party),
           RaisedButton(
-            onPressed: _launchMail,
-            child: Text('Submit'),
+            onPressed: () {
+              launch(
+                  "mailto:${currentPolitician.email}?subject=$mailSubject&body=$mailBody");
+            },
+            child: Text('Mail App öffnen'),
+          ),
+          
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              // Text(mailSubject),
+              Text("abc"),
+              RaisedButton(
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: mailSubject));
+                },
+                child: Text('Clipboard'),
+              ),
+            ],
           ),
         ],
       ),
