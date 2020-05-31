@@ -1,6 +1,8 @@
 import 'package:app/app.dart';
 import 'package:flutter/rendering.dart';
 
+import 'mail_strike_submit.dart';
+
 class MailStrikePage extends StatefulWidget {
   @override
   _State createState() => _State();
@@ -11,12 +13,16 @@ class _State extends State<MailStrikePage> {
 
   void _submitButton() {
     if (_formKey.currentState.validate()) {
-      // If the form is valid, display a snackbar. In the real world,
-      // you'd often call a server or save the information in a database.
+      // TODO: Implement API call to get info by plz
+      // electionDistrict = api.getElectionDistrictByPlz(plz)
+      var electionDistrict = "abc";
 
-      // TODO
-      Scaffold.of(context)
-          .showSnackBar(SnackBar(content: Text('Processing Data')));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                MailStrikeSubmitPage(electionDistrict: electionDistrict)),
+      );
     }
   }
 
