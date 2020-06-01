@@ -21,9 +21,9 @@ class StrikePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _buildCard(
-              'Public Climate School',
-              'Die Public Climate School ist da! Mit spannenden Workshops und Vorlesungen bringen wir Studierende, Professoren und Wissenschaftler mit DIR zusammen, um die Wissenschaft hinter der Klimakrise zu erkunden.',
-              'uni',
+              '#WirBildenZukunft',
+              'Unsere Webinar-Reihe #WirBildenZukunft geht weiter! Hier findest du regelmäßig spannenden Livestreams zum Thema Klimaschutz.',
+              'wirbildenzukunft',
               Color(0xffadecfe),
               () {
                 Navigator.push(
