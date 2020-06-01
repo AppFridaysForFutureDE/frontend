@@ -22,7 +22,7 @@ class StrikePage extends StatelessWidget {
           children: <Widget>[
             _buildCard(
               '#WirBildenZukunft',
-              'Unsere Webinar-Reihe #WirBildenZukunft geht weiter! Hier findest du regelmäßig spannenden Livestreams zum Thema Klimaschutz.',
+              'Wir schwänzen nicht! Wir sitzen nicht auf der Couch! Wir bilden uns - über die Lösungen unserer Zukunft! Hier findest du Vorträge von Wissenschaftler*innen, die DU dir live von überall aus ansehen kannst!',
               'wirbildenzukunft',
               Color(0xffadecfe),
               () {
