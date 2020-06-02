@@ -12,7 +12,7 @@ class HtmlStrikePage extends StatefulWidget {
 }
 
 class _HtmlStrikePageState extends State<HtmlStrikePage> {
-  final String startPage = "https://app.fffutu.re/strike-site.html";
+  final String startPage = "https://app.fffutu.re/webinar";
   final Completer<WebViewController> _controller = Completer<WebViewController>();
   bool _isLoading = true;
   String _startUrl;
