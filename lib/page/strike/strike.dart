@@ -48,7 +48,7 @@ class _StrikePageState extends State<StrikePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            _buildWidget('Keine Kohle für die Kohle!', 'forderungen'),
+            _buildWidget('Keine Kohle für die Kohle!', 'test'),
             /*_buildCard(
               '#WirBildenZukunft',
               'Wir schwänzen nicht! Wir sitzen nicht auf der Couch! Wir bilden uns - über die Lösungen unserer Zukunft! Hier findest du Vorträge von Wissenschaftler*innen, die DU dir live von überall aus ansehen kannst!',
