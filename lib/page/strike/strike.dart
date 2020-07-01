@@ -5,11 +5,39 @@ import 'package:app/page/strike/map-netzstreik/add-iframe-page.dart';
 import 'package:app/page/strike/map-netzstreik/map-netzstreik.dart';
 
 import 'package:flip_card/flip_card.dart';
+import 'package:flutter/rendering.dart';
 import 'future_story.dart';
 
 import 'challenge.dart';
 
-class StrikePage extends StatelessWidget {
+import 'package:app/model/post.dart';
+import 'package:app/page/feed/post.dart';
+
+import 'package:flutter/cupertino.dart';
+
+class StrikePage extends StatefulWidget {
+  @override
+  _StrikePageState createState() => _StrikePageState();
+}
+
+class _StrikePageState extends State<StrikePage> {
+  Widget _buildWidget(String name, String slug) {
+    return CupertinoButton(
+      child: Text('Jetzt mitmachen!'),
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PostPage(
+                Post.slug(slug),
+                isPost: false,
+                name: name,
+              ),
+            ));
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +48,8 @@ class StrikePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            _buildCard(
+            _buildWidget('Keine Kohle für die Kohle!', 'forderungen'),
+            /*_buildCard(
               '#WirBildenZukunft',
               'Wir schwänzen nicht! Wir sitzen nicht auf der Couch! Wir bilden uns - über die Lösungen unserer Zukunft! Hier findest du Vorträge von Wissenschaftler*innen, die DU dir live von überall aus ansehen kannst!',
               'wirbildenzukunft',
@@ -55,7 +84,7 @@ class StrikePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => ChallengePage()),
                 );
               },
-            ),
+            ),*/
           ]),
     );
   }
@@ -101,6 +130,7 @@ class StrikePage extends StatelessWidget {
                     child: ListTile(
                       title: Text(title),
                       subtitle: Text(subtitle),
+                      selected: true,
                     ),
                   ),
                   FlatButton(

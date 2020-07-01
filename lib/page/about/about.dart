@@ -67,6 +67,7 @@ class _AboutPageState extends State<AboutPage> {
                 '✍️ Bundesweite Arbeitsgruppen', 'bundesweite-arbeitsgruppen'),
             _buildListTile('🗣 Demosprüche', 'demospruche'),
             _buildListTile('📣 Verhalten auf Demos', 'verhalten-auf-demos'),
+            _buildListTile('Test', 'test'),
             TitleWidget('Wichtige Links'),
             ListTile(
               title: Text('🌐 Website'),
