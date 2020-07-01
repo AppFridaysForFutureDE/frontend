@@ -14,6 +14,7 @@ import 'package:app/model/post.dart';
 import 'package:app/page/feed/post.dart';
 
 import 'package:flutter/cupertino.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class StrikePage extends StatefulWidget {
   @override
@@ -21,19 +22,20 @@ class StrikePage extends StatefulWidget {
 }
 
 class _StrikePageState extends State<StrikePage> {
+  
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   Widget _buildWidget(String name, String slug) {
     return CupertinoButton(
       child: Text('Jetzt mitmachen!'),
       onPressed: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PostPage(
-                Post.slug(slug),
-                isPost: false,
-                name: name,
-              ),
-            ));
+        _launchURL('https://fridaysforfuture.de/kohle/');
       },
     );
   }
@@ -45,7 +47,7 @@ class _StrikePageState extends State<StrikePage> {
         title: Text('Netzstreik'),
       ),
       body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Image.network('https://fridaysforfuture.de/wp-content/uploads/2020/06/cropped-KohleKoalition-websitebanner.png', alignment: Alignment.topCenter),
@@ -57,7 +59,7 @@ class _StrikePageState extends State<StrikePage> {
               child: Text('Mach jetzt mit und rufe deinen Abgeordneten an!', style: TextStyle(fontWeight: FontWeight.bold)),
               padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             ),
-            _buildWidget('Keine Kohle für die Kohle!', 'test')
+            _buildWidget('Keine Kohle für die Kohle!', 'kohle')
             /*_buildCard(
               '#WirBildenZukunft',
               'Wir schwänzen nicht! Wir sitzen nicht auf der Couch! Wir bilden uns - über die Lösungen unserer Zukunft! Hier findest du Vorträge von Wissenschaftler*innen, die DU dir live von überall aus ansehen kannst!',
