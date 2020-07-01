@@ -141,7 +141,6 @@ class _StrikePageState extends State<StrikePage> {
                     child: ListTile(
                       title: Text(title),
                       subtitle: Text(subtitle),
-                      selected: true,
                     ),
                   ),
                   FlatButton(
