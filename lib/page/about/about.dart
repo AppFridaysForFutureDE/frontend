@@ -49,6 +49,7 @@ class _AboutPageState extends State<AboutPage> {
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.settings),
+              tooltip: 'Einstellungen',
               onPressed: () {
                 Navigator.push(
                   context,

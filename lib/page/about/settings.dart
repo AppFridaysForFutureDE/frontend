@@ -63,7 +63,11 @@ class _SettingsPageState extends State<SettingsPage> {
               title: Text(og.name),
               leading: IconButton(
                   //icon: Icon(MdiIcons.closeBox),
-                  icon: Icon(MdiIcons.minusBox),
+                  icon: Semantics(
+                    child: Icon(MdiIcons.minusBox),
+                    label: 'Ortsgruppe entfernen',
+                  ),
+                  //tooltip: 'Ortsgruppe entfernen',
                   onPressed: () async {
                     Hive.box('subscribed_ogs').delete(og.ogId);
                     setState(() {});
