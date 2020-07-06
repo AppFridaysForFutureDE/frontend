@@ -62,19 +62,13 @@ class _SettingsPageState extends State<SettingsPage> {
             ListTile(
               title: Text(og.name),
               leading: IconButton(
-                  //icon: Icon(MdiIcons.closeBox),
-                  icon: Semantics(
-                    child: Icon(MdiIcons.minusBox),
-                    label: 'Ortsgruppe entfernen',
-                  ),
-                  //tooltip: 'Ortsgruppe entfernen',
+                  icon: Icon(MdiIcons.minusBox),
                   onPressed: () async {
                     Hive.box('subscribed_ogs').delete(og.ogId);
                     setState(() {});
                     await FirebaseMessaging()
                         .unsubscribeFromTopic('og_${og.ogId}');
                   }),
-                  
             ),
           TitleWidget('Newsfeed Benachrichtigungen'),
           for (String s in feedCategories)
