@@ -159,7 +159,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   }),
               ),
               ),
-            
           TitleWidget('Newsfeed Benachrichtigungen'),
           for (String s in feedCategories)
             SwitchListTile.adaptive(

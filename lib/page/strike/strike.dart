@@ -22,23 +22,6 @@ class StrikePage extends StatefulWidget {
 }
 
 class _StrikePageState extends State<StrikePage> {
-  
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  Widget _buildWidget(String name, String slug) {
-    return CupertinoButton(
-      child: Text('Jetzt mitmachen!'),
-      onPressed: () {
-        _launchURL('https://fridaysforfuture.de/kohle/');
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,20 +30,10 @@ class _StrikePageState extends State<StrikePage> {
         title: Text('Netzstreik'),
       ),
       body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Image.network('https://fridaysforfuture.de/wp-content/uploads/2020/06/cropped-KohleKoalition-websitebanner.png', alignment: Alignment.topCenter),
-            Container(
-              child: Text('Am 3. Juli soll im Bundestag das sogenannte "Kohleausstiegsgesetz" beschlossen werden. Dieses Gesetz ist eine Katastrophe und schlägt all unsere Forderungen in den Wind. Echter Klimaschutz wird mit dem Gesetz unmöglich!', textAlign: TextAlign.justify),
-              padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-              ),
-            Container(
-              child: Text('Mach jetzt mit und rufe deinen Abgeordneten an!', style: TextStyle(fontWeight: FontWeight.bold)),
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            ),
-            _buildWidget('Keine Kohle für die Kohle!', 'kohle')
-            /*_buildCard(
+            _buildCard(
               '#WirBildenZukunft',
               'Wir schwänzen nicht! Wir sitzen nicht auf der Couch! Wir bilden uns - über die Lösungen unserer Zukunft! Hier findest du Vorträge von Wissenschaftler*innen, die DU dir live von überall aus ansehen kannst!',
               'wirbildenzukunft',
@@ -95,7 +68,7 @@ class _StrikePageState extends State<StrikePage> {
                   MaterialPageRoute(builder: (context) => ChallengePage()),
                 );
               },
-            ),*/
+            ),
           ]),
     );
   }
