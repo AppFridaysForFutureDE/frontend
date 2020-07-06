@@ -24,7 +24,7 @@ class _AboutPageState extends State<AboutPage> {
     }
   }
 
-  Widget _buildListTile(String name, String slug) {
+  Widget _buildListTile(String name, String pageShownName, String slug) {
     return ListTile(
       title: Text(name),
       onTap: () {
@@ -34,7 +34,7 @@ class _AboutPageState extends State<AboutPage> {
               builder: (context) => PostPage(
                 Post.slug(slug),
                 isPost: false,
-                name: name,
+                name: pageShownName,
               ),
             ));
       },
@@ -61,12 +61,12 @@ class _AboutPageState extends State<AboutPage> {
         child: ListView(
           children: <Widget>[
             TitleWidget('Die Bewegung'),
-            _buildListTile('✊ Forderungen', 'forderungen'),
-            _buildListTile('🌍 Selbstverständnis', 'selbstverstaendnis'),
+            _buildListTile('✊ Forderungen', '✊ Forderungen', 'forderungen'),
+            _buildListTile('🌍 Selbstverständnis', '🌍 Selbstverständnis', 'selbstverstaendnis'),
             _buildListTile(
-                '✍️ Bundesweite Arbeitsgruppen', 'bundesweite-arbeitsgruppen'),
-            _buildListTile('🗣 Demosprüche', 'demospruche'),
-            _buildListTile('📣 Verhalten auf Demos', 'verhalten-auf-demos'),
+                '✍️ Bundesweite Arbeitsgruppen', '✍️ Bundesweite AGs', 'bundesweite-arbeitsgruppen'),
+            _buildListTile('🗣 Demosprüche', '🗣 Demosprüche', 'demospruche'),
+            _buildListTile('📣 Verhalten auf Demos', '📣 Verhalten auf Demos', 'verhalten-auf-demos'),
             TitleWidget('Wichtige Links'),
             ListTile(
               title: Text('🌐 Website'),
@@ -84,8 +84,8 @@ class _AboutPageState extends State<AboutPage> {
               },
             ),
             TitleWidget('Sonstiges'),
-            _buildListTile('📖 Impressum', 'impressum'),
-            _buildListTile('📑 Datenschutz', 'datenschutz'),
+            _buildListTile('📖 Impressum', '📖 Impressum', 'impressum'),
+            _buildListTile('📑 Datenschutz', '📑 Datenschutz', 'datenschutz'),
             Center(
               child: FutureBuilder<PackageInfo>(
                 future: PackageInfo.fromPlatform(),

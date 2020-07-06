@@ -16,7 +16,7 @@ class SocialMediaPage extends  StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Social Media'),
+        title: Text('👤 Social Media'),
       ),
       body: ListView(
         children: <Widget>[
