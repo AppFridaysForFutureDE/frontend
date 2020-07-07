@@ -165,7 +165,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   }),
               ),
               ),
-            
           Semantics(
             label: 'Newsfeed Benachrichtigungen. Bereichsüberschrift',
             child: TitleWidget('Newsfeed Benachrichtigungen'),
