@@ -57,13 +57,14 @@ class _FeedPageState extends State<FeedPage> {
                   autocorrect: false,
                   cursorColor: Colors.white,
                   style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(hintText: 'Suchen', hintStyle: TextStyle(color: Colors.white)),
                   onChanged: (s) {
                     setState(() {
                       searchText = s;
                     });
                   },
                 )
-              : Text('Newsfeed'),
+              : Text('Newsfeed', semanticsLabel: 'Neuigkeitenfeed'),
           bottom: searchActive
               ? null
               : TabBar(
@@ -80,6 +81,7 @@ class _FeedPageState extends State<FeedPage> {
               if (!searchActive)
                 IconButton(
                   icon: Icon(MdiIcons.filter),
+                  tooltip: 'Filter Einstellungen',
                   onPressed: () async {
                     var newFilterState = await Navigator.of(context).push(
                       MaterialPageRoute(
@@ -103,7 +105,7 @@ class _FeedPageState extends State<FeedPage> {
                 ),
             if (posts != null)
               IconButton(
-                icon: Icon(searchActive ? Icons.close : MdiIcons.magnify),
+                icon: Icon(searchActive ? Icons.close : MdiIcons.magnify, semanticLabel: searchActive ? 'Suche schließen' : 'Im Feed suchen'),
                 onPressed: () {
                   setState(() {
                     if (searchActive) {
@@ -322,10 +324,12 @@ class _FeedItemState extends State<FeedItem> {
                   Icon(
                     MdiIcons.bookmark,
                     color: Theme.of(context).accentColor,
+                    semanticLabel: 'Markierter Artikel',
                   ),
                 PopupMenuButton(
                   icon: Icon(
                     Icons.more_vert,
+                    semanticLabel: 'Menü anzeigen',
                   ),
                   itemBuilder: (context) => [
                     PopupMenuItem(
@@ -367,6 +371,7 @@ class _FeedItemState extends State<FeedItem> {
               if (marked)
                   Icon(
                     MdiIcons.bookmark,
+                    semanticLabel: 'Markierter Artikel',
                     color: Theme.of(context).accentColor,
                   ),
                   CupertinoButton(

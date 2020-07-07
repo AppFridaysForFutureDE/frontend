@@ -41,7 +41,10 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: ListView(
         children: <Widget>[
-          TitleWidget('Design'),
+          Semantics(
+            label: 'Design. Bereichsüberschrift',
+            child: TitleWidget('Design'),
+          ),
           ListTile(
             title: Text('Erscheinungsbild'),
             trailing: Platform.isAndroid ? DropdownButton(
@@ -136,7 +139,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 )
           ),
           if (Hive.box('subscribed_ogs').isNotEmpty)
-            TitleWidget('Abonnierte Ortsgruppen'),
+          Semantics(
+            label: 'Abonnierte Ortsgruppen. Bereichsüberschrift',
+            child: TitleWidget('Abonnierte Ortsgruppen'),
+          ),
             for (OG og in Hive.box('subscribed_ogs').values)
             //Delete an og with swipe to left or right (common on iOS)
             Dismissible(
@@ -150,7 +156,7 @@ class _SettingsPageState extends State<SettingsPage> {
               }, child: ListTile(
                 title: Text(og.name),
                 leading: IconButton(
-                  icon: Platform.isIOS? Icon(CupertinoIcons.minus_circled) : Icon(MdiIcons.minusBox),
+                  icon: Platform.isIOS? Icon(CupertinoIcons.minus_circled) : Icon(MdiIcons.minusBox), tooltip: 'Ortsgruppe deabonnieren',
                   onPressed: () async {
                     Hive.box('subscribed_ogs').delete(og.ogId);
                     setState(() {});
@@ -160,7 +166,10 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               ),
             
-          TitleWidget('Newsfeed Benachrichtigungen'),
+          Semantics(
+            label: 'Newsfeed Benachrichtigungen. Bereichsüberschrift',
+            child: TitleWidget('Newsfeed Benachrichtigungen'),
+          ),
           for (String s in feedCategories)
             SwitchListTile.adaptive(
                 title: Text(s),
