@@ -91,7 +91,7 @@ class _OgTileState extends State<OgTile> {
                         : IconButton(
                             icon: Icon(
                               MdiIcons.openInNew,
-                              semanticLabel: 'Streik anzeigen',
+                              semanticLabel: 'Anzeigen',
                             ),
                             onPressed: () {
                               _launchURL(strike.eventLink);
