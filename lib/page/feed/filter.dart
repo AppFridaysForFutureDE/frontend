@@ -21,6 +21,22 @@ class _FilterPageState extends State<FilterPage> {
     super.initState();
   }
 
+//Used for screenreaders
+var onlyShowUnreadIsActive = 'Nur ungelesene Artikel anzeigen. Nicht aktiv';
+var onlyShowMarkedIsActive = 'Nur markierte Artikel anzeigen. Nicht aktiv';
+
+void updateUnread(){
+  if (state.onlyShowUnread) {
+    onlyShowUnreadIsActive = 'Nur ungelesene Artikel anzeigen. Aktiv';
+  }
+}
+
+void updateMarked(){
+  if (state.onlyShowMarked){
+    onlyShowMarkedIsActive = 'Nur markierte Artikel anzeigen. Aktiv';
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,23 +46,33 @@ class _FilterPageState extends State<FilterPage> {
       body: ListView(
         children: <Widget>[
           TitleWidget('Status'),
-          SwitchListTile.adaptive(
-              value: state.onlyShowUnread,
-              title: Text('Nur ungelesene Artikel anzeigen'),
-              onChanged: (val) {
-                setState(() {
-                  state.onlyShowUnread = val;
-                });
-              }),
+          Semantics(
+            child: SwitchListTile.adaptive(
+                value: state.onlyShowUnread,
+                title: Text('Nur ungelesene Artikel anzeigen'),
+                onChanged: (val) {
+                  setState(() {
+                    state.onlyShowUnread = val;
+                    updateUnread();
+                  });
+                  updateUnread();
+                }),
+            label: onlyShowUnreadIsActive,
+          ),
           TitleWidget('Markierung'),
-          SwitchListTile.adaptive(
-              value: state.onlyShowMarked,
-              title: Text('Nur markierte Artikel anzeigen'),
-              onChanged: (val) {
-                setState(() {
-                  state.onlyShowMarked = val;
-                });
-              }),
+          Semantics(
+            child: SwitchListTile.adaptive(
+                value: state.onlyShowMarked,
+                title: Text('Nur markierte Artikel anzeigen'),
+                onChanged: (val) {
+                  setState(() {
+                    state.onlyShowMarked = val;
+                    updateMarked();
+                  });
+                  updateMarked();
+                }),
+                label: onlyShowMarkedIsActive,
+          ),
           TitleWidget('Kategorien'),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -64,6 +90,7 @@ class _FilterPageState extends State<FilterPage> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.check),
+        tooltip: 'Filter speichern',
         onPressed: () {
           Navigator.of(context).pop(state);
         },
@@ -73,12 +100,20 @@ class _FilterPageState extends State<FilterPage> {
 
   Widget _buildTag(String tag) {
     bool active = state.shownTags.contains(tag);
+    var isActive = ''; //used for screenreaders
+    if(active){
+      isActive = 'Aktiv';
+    } else {
+      isActive = 'Nicht aktiv';
+    }
     return InkWell(
       onTap: () {
         if (active) {
           state.shownTags.remove(tag);
+          isActive = 'Nicht aktiv';
         } else {
           state.shownTags.add(tag);
+          isActive = 'Aktiv';
         }
         setState(() {});
       },
@@ -89,6 +124,7 @@ class _FilterPageState extends State<FilterPage> {
           style: TextStyle(
               //  color: Colors.black,
               ),
+          semanticsLabel: tag +'. '+ isActive,
         ),
       ),
     );

@@ -8,7 +8,7 @@ class SocialButtons extends StatelessWidget {
   bool compact;
 
   SocialButtons(this.container, this.compact);
-  Widget _buildSocialMedia(IconData icon, String url) {
+  Widget _buildSocialMedia(IconData icon, String tooltip, String url) {
     if (url == null || url == '') return SizedBox();
     return compact
         ? InkWell(
@@ -16,6 +16,7 @@ class SocialButtons extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Icon(
                 icon,
+                semanticLabel: tooltip,
                 size: 28,
               ),
             ),
@@ -24,6 +25,7 @@ class SocialButtons extends StatelessWidget {
         : ListTile(
             leading: Icon(
               icon,
+              semanticLabel: tooltip,
               color: _iconColor,
             ),
             title: Text(url),
@@ -55,14 +57,14 @@ class SocialButtons extends StatelessWidget {
   }
 
   _buildChildren() => <Widget>[
-    _buildSocialMedia(MdiIcons.telegram, container.telegram),
-    _buildSocialMedia(MdiIcons.whatsapp, container.whatsapp),
-    _buildSocialMedia(MdiIcons.instagram, container.instagram),
-    _buildSocialMedia(MdiIcons.youtube, container.youtube),
-    _buildSocialMedia(MdiIcons.twitter, container.twitter),
-    _buildSocialMedia(MdiIcons.facebook, container.facebook),
-    _buildSocialMedia(MdiIcons.email, container.email),
-    _buildSocialMedia(MdiIcons.web, container.website),
-    _buildSocialMedia(MdiIcons.link, container.other),
+    _buildSocialMedia(MdiIcons.telegram, 'Telegram Gruppe öffnen', container.telegram),
+    _buildSocialMedia(MdiIcons.whatsapp, 'WhatsApp Gruppe öffnen', container.whatsapp),
+    _buildSocialMedia(MdiIcons.instagram, 'Instagram Kanal öffnen', container.instagram),
+    _buildSocialMedia(MdiIcons.youtube, 'YouTube Kanal öffnen', container.youtube),
+    _buildSocialMedia(MdiIcons.twitter, 'Twitter Kanal öffnen', container.twitter),
+    _buildSocialMedia(MdiIcons.facebook, 'Facebook Seite öffnen', container.facebook),
+    _buildSocialMedia(MdiIcons.email, 'E-Mail an Ortsgruppe schreiben', container.email),
+    _buildSocialMedia(MdiIcons.web, 'Internetseite öffnen', container.website),
+    _buildSocialMedia(MdiIcons.link, 'Andere Aktion ausführen', container.other),
   ];
 }

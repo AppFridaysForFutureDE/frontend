@@ -54,6 +54,7 @@ class _OgTileState extends State<OgTile> {
       title: Text(
         widget.og.name +
             ' • ' + /* BundeslandUtil.render( */ widget.og.bundesland /* ) */,
+        semanticsLabel: widget.og.name + ' in ' +widget.og.bundesland,
         style: Theme.of(context).textTheme.title,
       ),
       children: <Widget>[
@@ -69,18 +70,28 @@ class _OgTileState extends State<OgTile> {
               for (var strike in strikes)
                 ListTile(
                     title: Text(strike.name),
-                    subtitle: Text(strike.location +
+                    subtitle: Semantics(
+                      child: Text(strike.location +
                         ' • ' +
                         DateFormat('dd.MM.yyyy, HH:mm')
                             .format(strike.dateTime) +
                         (strike.additionalInfo.isEmpty
                             ? ''
                             : ' • ' + strike.additionalInfo)),
+                      label: strike.location +
+                        ' am ' +
+                        DateFormat('dd.MM.yyyy, HH:mm')
+                            .format(strike.dateTime) +
+                        (strike.additionalInfo.isEmpty
+                            ? ''
+                            : ' Weitere Infos: ' + strike.additionalInfo),
+                    ),
                     trailing: strike.eventLink.isEmpty
                         ? null
                         : IconButton(
                             icon: Icon(
                               MdiIcons.openInNew,
+                              semanticLabel: 'Streik anzeigen',
                             ),
                             onPressed: () {
                               _launchURL(strike.eventLink);

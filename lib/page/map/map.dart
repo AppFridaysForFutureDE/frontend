@@ -70,6 +70,7 @@ class _MapPageState extends State<MapPage> {
                 autocorrect: false,
                 cursorColor: Colors.white,
                 style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(hintText: 'Suchen', hintStyle: TextStyle(color: Colors.white)),
                 onChanged: (s) {
                   setState(() {
                     searchText = s;
@@ -80,7 +81,7 @@ class _MapPageState extends State<MapPage> {
         actions: <Widget>[
           if (ogs != null)
             IconButton(
-              icon: Icon(searchActive ? Icons.close : MdiIcons.magnify),
+              icon: Icon(searchActive ? Icons.close : MdiIcons.magnify, semanticLabel: searchActive ? 'Suche schließen' : 'Stadt suchen'),
               onPressed: () {
                 setState(() {
                   if (searchActive) {
@@ -112,10 +113,13 @@ class _MapPageState extends State<MapPage> {
                           )
                       ],
                     ))
-              : Stack(
-                  alignment: Alignment.bottomRight,
-                  children: <Widget>[
-                    FlutterMap(
+            : Stack(
+                alignment: Alignment.bottomRight,
+                children: <Widget>[
+                  Semantics(
+                  hidden: true,
+                  enabled: false,
+                    child: FlutterMap(
                       options: MapOptions(
                         center: LatLng(51.3867, 9.9167),
                         zoom: 5.7,
@@ -161,19 +165,20 @@ class _MapPageState extends State<MapPage> {
                         ), */
                       ],
                     ),
-                    Container(
+                  ),
+                  Semantics(
+                  hidden: true,
+                    child: Container(
                       color: Color(0xaaffffff),
                       padding: const EdgeInsets.all(2.0),
                       child: Text(
                         '© OpenStreetMap-Mitwirkende',
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: Colors.black,
-                        ),
+                        style: TextStyle(fontSize: 11, color: Colors.black),
                       ),
                     ),
-                  ],
-                )),
+                  ),
+                ],
+              )),
     );
   }
 

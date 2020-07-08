@@ -24,9 +24,12 @@ class _AboutPageState extends State<AboutPage> {
     }
   }
 
-  Widget _buildListTile(String name, String slug) {
+/*
+How to use this Widget: First parameter: The name of the ListTile, second: name without Emojis (used for screenreaders), third: Name of the linked site
+*/
+  Widget _buildListTile(String name, String nameWithoutEmoji, String slug) {
     return ListTile(
-      title: Text(name),
+      title: Text(name, semanticsLabel: nameWithoutEmoji),
       onTap: () {
         Navigator.push(
             context,
@@ -49,6 +52,7 @@ class _AboutPageState extends State<AboutPage> {
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.settings),
+              tooltip: 'Einstellungen',
               onPressed: () {
                 Navigator.push(
                   context,
@@ -60,14 +64,20 @@ class _AboutPageState extends State<AboutPage> {
       body: Center(
         child: ListView(
           children: <Widget>[
-            TitleWidget('Die Bewegung'),
-            _buildListTile('✊ Forderungen', 'forderungen'),
-            _buildListTile('🌍 Selbstverständnis', 'selbstverstaendnis'),
+            Semantics(
+              label: 'Die Bewegung. Bereichsüberschrift',
+              child: TitleWidget('Die Bewegung'),
+            ),
+            _buildListTile('✊ Forderungen', 'Forderungen', 'forderungen'),
+            _buildListTile('🌍 Selbstverständnis', 'Selbstverständnis', 'selbstverstaendnis'),
             _buildListTile(
-                '✍️ Bundesweite Arbeitsgruppen', 'bundesweite-arbeitsgruppen'),
-            _buildListTile('🗣 Demosprüche', 'demospruche'),
-            _buildListTile('📣 Verhalten auf Demos', 'verhalten-auf-demos'),
-            TitleWidget('Wichtige Links'),
+                '✍️ Bundesweite Arbeitsgruppen', 'Bundesweite Arbeitsgruppen', 'bundesweite-arbeitsgruppen'),
+            _buildListTile('🗣 Demosprüche', 'Demosprüche', 'demospruche'),
+            _buildListTile('📣 Verhalten auf Demos', 'Verhalten auf Demos', 'verhalten-auf-demos'),
+            Semantics(
+              label: 'Wichtige Links. Bereichsüberschrift',
+              child: TitleWidget('Wichtige Links'),
+            ),
             ListTile(
               title: Text('🌐 Website'),
               onTap: () {
@@ -83,9 +93,12 @@ class _AboutPageState extends State<AboutPage> {
                 );
               },
             ),
-            TitleWidget('Sonstiges'),
-            _buildListTile('📖 Impressum', 'impressum'),
-            _buildListTile('📑 Datenschutz', 'datenschutz'),
+            Semantics(
+              label: 'Sonstige. Bereichsüberschrift',
+              child: TitleWidget('Sonstiges'),
+            ),
+            _buildListTile('📖 Impressum', 'Impressum', 'impressum'),
+            _buildListTile('📑 Datenschutz', 'Datenschutz', 'datenschutz'),
             Center(
               child: FutureBuilder<PackageInfo>(
                 future: PackageInfo.fromPlatform(),
