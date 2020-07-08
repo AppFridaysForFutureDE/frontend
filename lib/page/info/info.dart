@@ -68,6 +68,7 @@ class _InfoPageState extends State<InfoPage> {
                 autocorrect: false,
                 cursorColor: Colors.white,
                 style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(hintText: 'Suchen', hintStyle: TextStyle(color: Colors.white)),
                 onChanged: (searchInputP) {
                   setState(() {
                     _searchInput = searchInputP;
@@ -88,6 +89,7 @@ class _InfoPageState extends State<InfoPage> {
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.close),
+                  tooltip: 'Suche schließen',
                   onPressed: () {
                     setState(() {
                       ogL = ogAllL;
@@ -103,6 +105,7 @@ class _InfoPageState extends State<InfoPage> {
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.search),
+                  tooltip: 'Ortsgruppe suchen',
                   onPressed: () {
                     setState(() {
                       _isSearch = !_isSearch;
