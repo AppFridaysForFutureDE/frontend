@@ -23,11 +23,10 @@ class _AboutPageState extends State<AboutPage> {
       throw 'Could not launch $url';
     }
   }
-
 /*
-How to use this Widget: First parameter: The name of the ListTile, second: name without Emojis (used for screenreaders), third: Name of the linked site
+How to use this Widget: First parameter: The name of the ListTile, second: name without Emojis (used for screenreaders), third: Name which is shown on the new page (perhaps a bit shorter), fourth: Name of the linked site
 */
-  Widget _buildListTile(String name, String nameWithoutEmoji, String slug) {
+  Widget _buildListTile(String name, String nameWithoutEmoji, String pageShownName, String slug) {
     return ListTile(
       title: Text(name, semanticsLabel: nameWithoutEmoji),
       onTap: () {
@@ -37,7 +36,7 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
               builder: (context) => PostPage(
                 Post.slug(slug),
                 isPost: false,
-                name: name,
+                name: pageShownName,
               ),
             ));
       },
@@ -68,12 +67,12 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
               label: 'Die Bewegung. Bereichsüberschrift',
               child: TitleWidget('Die Bewegung'),
             ),
-            _buildListTile('✊ Forderungen', 'Forderungen', 'forderungen'),
-            _buildListTile('🌍 Selbstverständnis', 'Selbstverständnis', 'selbstverstaendnis'),
+            _buildListTile('✊ Forderungen', 'Forderungen', '✊ Forderungen', 'forderungen'),
+            _buildListTile('🌍 Selbstverständnis', 'Selbstverständnis', '🌍 Selbstverständnis', 'selbstverstaendnis'),
             _buildListTile(
-                '✍️ Bundesweite Arbeitsgruppen', 'Bundesweite Arbeitsgruppen', 'bundesweite-arbeitsgruppen'),
-            _buildListTile('🗣 Demosprüche', 'Demosprüche', 'demospruche'),
-            _buildListTile('📣 Verhalten auf Demos', 'Verhalten auf Demos', 'verhalten-auf-demos'),
+                '✍️ Bundesweite Arbeitsgruppen', 'Bundesweite Arbeitsgruppen', '✍️ Bundesweite AGs', 'bundesweite-arbeitsgruppen'),
+            _buildListTile('🗣 Demosprüche', 'Demosprüche', '🗣 Demosprüche', 'demospruche'),
+            _buildListTile('📣 Verhalten auf Demos', 'Verhalten auf Demos', '📣 Verhalten auf Demos', 'verhalten-auf-demos'),
             Semantics(
               label: 'Wichtige Links. Bereichsüberschrift',
               child: TitleWidget('Wichtige Links'),
@@ -97,8 +96,8 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
               label: 'Sonstige. Bereichsüberschrift',
               child: TitleWidget('Sonstiges'),
             ),
-            _buildListTile('📖 Impressum', 'Impressum', 'impressum'),
-            _buildListTile('📑 Datenschutz', 'Datenschutz', 'datenschutz'),
+            _buildListTile('📖 Impressum', 'Impressum', '📖 Impressum', 'impressum'),
+            _buildListTile('📑 Datenschutz', 'Datenschutz', '📑 Datenschutz', 'datenschutz'),
             Center(
               child: FutureBuilder<PackageInfo>(
                 future: PackageInfo.fromPlatform(),
