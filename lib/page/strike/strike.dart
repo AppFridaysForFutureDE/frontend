@@ -90,7 +90,7 @@ class _StrikePageState extends State<StrikePage> {
               borderRadius: BorderRadius.circular(16.0),
               child: Image.asset(
                 'assets/images/$imageName.jpg',
-                semanticLabel: '',
+                semanticLabel: 'Bild. Bitte tippen zum Ansehen des jeweiligen Netzstreiks',
               ),
             ),
           ),
