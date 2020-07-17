@@ -22,7 +22,6 @@ class StrikePage extends StatefulWidget {
 }
 
 class _StrikePageState extends State<StrikePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,18 +106,50 @@ class _StrikePageState extends State<StrikePage> {
                 alignment: Alignment.bottomRight,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(
-                      top: 8.0,
-                      bottom: 32.0,
-                    ),
-                    child: ListTile(
-                      title: Text(title),
-                      subtitle: Text(subtitle),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          title,
+                          style: Theme.of(context).textTheme.subtitle1,
+                        ),
+                        Expanded(
+                          child: LayoutBuilder(builder: (context, size) {
+                            // Virtuelles Rendern einer Textzeile, um die Zeilenhöhe zu berechnen
+                            final span = TextSpan(
+                                text: 'Test',
+                                style: Theme.of(context).textTheme.bodyText2);
+
+                            TextPainter tp = TextPainter(
+                                text: span, textDirection: TextDirection.ltr);
+                            tp.layout(
+                              maxWidth: 100,
+                            );
+
+                            return Text(
+                              subtitle,
+                              maxLines: (size.maxHeight / tp.height)
+                                  .floor(), // Verfügbare Höhe wird durch Höhe einer Textzeile geteilt, um maximal passende Anzahl an Zeilen zu erhalten
+                              overflow: TextOverflow.ellipsis,
+                            );
+                          }),
+                        ),
+                        SizedBox(
+                          // Platzhalter für den "JETZT MITMACHEN" Button
+                          height: 28,
+                        )
+                      ],
                     ),
                   ),
-                  FlatButton(
-                    child: const Text('JETZT MITMACHEN'),
-                    onPressed: onClickStart,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: FlatButton(
+                      padding: const EdgeInsets.all(0),
+                      child: const Text('JETZT MITMACHEN'),
+                      onPressed: onClickStart,
+                    ),
                   ),
                 ],
               ),
