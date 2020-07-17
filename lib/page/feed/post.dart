@@ -156,7 +156,7 @@ class _PostPageState extends State<PostPage> {
                     const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
                 child: Html(
                   data: html,
-                  defaultTextStyle: TextStyle(fontSize: 15, height: 1.5, letterSpacing: 0.4),
+                  defaultTextStyle: TextStyle(fontSize: 15, height: 1.3, letterSpacing: 0.4),
                   onLinkTap: (link) async {
                     if (await canLaunch(link)) launch(link);
                   },
