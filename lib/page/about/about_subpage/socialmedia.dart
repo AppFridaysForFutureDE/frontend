@@ -20,59 +20,89 @@ class SocialMediaPage extends  StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
-          TitleWidget('Social Media Kanäle'),
+          Semantics(
+            child: TitleWidget('Social Media Kanäle'),
+            label: 'Social Media Kanäle. Bereichsüberschrift',
+          ),
           ListTile(
-            leading: Icon(MdiIcons.twitter),
+            leading: Semantics(
+              child: Icon(MdiIcons.twitter),
+              hidden: true,
+            ),
             title: Text('Twitter'),
             onTap: () {
                 _launchURL('https://fffutu.re/appTwitter');
               },
           ),
           ListTile(
-            leading: Icon(MdiIcons.instagram),
+            leading: Semantics(
+              child: Icon(MdiIcons.instagram),
+              hidden: true,
+            ),
             title: Text('Instagram'),
             onTap: () {
                 _launchURL('https://fffutu.re/appInstagram');
               },
           ),
           ListTile(
-            leading: Icon(MdiIcons.facebook),
+            leading: Semantics(
+              child: Icon(MdiIcons.facebook),
+              hidden: true,
+            ),
             title: Text('Facebook'),
             onTap: () {
                 _launchURL('https://fffutu.re/appFacebook');
               },
           ),
           ListTile(
-            leading: Icon(MdiIcons.flickr),
+            leading: Semantics(
+              child: Icon(MdiIcons.flickr),
+              hidden: true,
+            ),
             title: Text('Flickr'),
             onTap: () {
                 _launchURL('https://fffutu.re/appFlickr');
               },
           ),
           ListTile(
-            leading: Icon(MdiIcons.youtube),
+            leading: Semantics(
+              child: Icon(MdiIcons.youtube),
+              hidden: true,
+            ),
             title: Text('YouTube'),
             onTap: () {
                 _launchURL('https://fffutu.re/appYouTube');
               },
           ),
           ListTile(
-            leading: Icon(MdiIcons.telegram),
+            leading: Semantics(
+              child: Icon(MdiIcons.telegram),
+              hidden: true,
+            ),
             title: Text('Telegram'),
             onTap: () {
                 _launchURL('https://fffutu.re/appTelegramDE');
               },
           ),
-          TitleWidget('Diskussions- / Gruppen'),
+          Semantics(
+            child: TitleWidget('Diskussions- / Gruppen'),
+            label: 'Diskussionsgruppen. Bereichsüberschrift',
+          ),
           ListTile(
-            leading: Icon(MdiIcons.telegram),
+            leading: Semantics(
+              child: Icon(MdiIcons.telegram),
+              hidden: true,
+            ),
             title: Text('Telegram'),
             onTap: () {
                 _launchURL('https://fffutu.re/appTelegramDisk');
               },
           ), 
           ListTile(
-            leading: Icon(MdiIcons.discord),
+            leading: Semantics(
+              child: Icon(MdiIcons.discord),
+              hidden: true,
+            ),
             title: Text('Discord'),
             onTap: () {
                 _launchURL('https://fffutu.re/appDiscord');
