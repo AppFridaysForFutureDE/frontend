@@ -2,6 +2,9 @@ import 'package:app/model/strike.dart';
 import 'package:app/widget/og_social_buttons.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:app/util/share.dart';
+import 'dart:io';
 
 import 'package:app/app.dart';
 
@@ -31,6 +34,7 @@ class _OgTileState extends State<OgTile> {
   }
 
   List<Strike> strikes;
+  Strike nextStrike;
 
   @override
   void initState() {
@@ -49,6 +53,7 @@ class _OgTileState extends State<OgTile> {
 
   @override
   Widget build(BuildContext context) {
+    nextStrike = strikes.first;
     return ExpansionTile(
       initiallyExpanded: true,
       title: Text(
@@ -95,7 +100,16 @@ class _OgTileState extends State<OgTile> {
                             ),
                             onPressed: () {
                               _launchURL(strike.eventLink);
-                            }))
+                            })),
+              IconButton(
+                icon: Platform.isIOS?(
+                          Icon(CupertinoIcons.share))
+                    : Icon(Icons.share),
+                    tooltip: 'Termin teilen',
+                    onPressed: () {
+                      ShareUtil.shareStrike(this.nextStrike);
+                    },
+              )
             ],
           ),
         )
