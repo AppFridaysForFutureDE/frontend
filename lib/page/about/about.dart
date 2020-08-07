@@ -7,6 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
 import 'package:app/widget/title.dart';
 
+import 'about_subpage/demo.dart';
+
 /*
 The About Page
  */
@@ -71,7 +73,15 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
             _buildListTile('🌍 Selbstverständnis', 'Selbstverständnis', '🌍 Selbstverständnis', 'selbstverstaendnis'),
             _buildListTile(
                 '✍️ Bundesweite Arbeitsgruppen', 'Bundesweite Arbeitsgruppen', '✍️ Bundesweite AGs', 'bundesweite-arbeitsgruppen'),
-            _buildListTile('🗣 Demosprüche', 'Demosprüche', '🗣 Demosprüche', 'demospruche'),
+            ListTile(
+              title: Text('🗣 Demosprüche'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DemoPage()),
+                );
+              },
+            ),
             _buildListTile('📣 Verhalten auf Demos', 'Verhalten auf Demos', '📣 Verhalten auf Demos', 'verhalten-auf-demos'),
             Semantics(
               label: 'Wichtige Links. Bereichsüberschrift',

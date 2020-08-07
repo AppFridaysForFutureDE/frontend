@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:app/model/live_event.dart';
+import 'package:app/model/slogan.dart';
 import 'package:app/model/strike.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -113,6 +114,16 @@ class ApiService {
     }
   }
 
+  Future<List<Slogan>> getSlogans() async {
+    return [
+      new Slogan(
+          id: '1',
+          title: 'Kohle',
+          description: 'Wie lautet die Parole? Wir wollen keine Kohle!',
+          tags: ['Kohle'])
+    ];
+  }
+
   Future<Post> getPostById(String id) async {
     try {
       var res = await client
@@ -180,14 +191,13 @@ class ApiService {
       }
     }
   }
+
   Future updateOGs() async {
     if (!(Hive.box('data').get('firstStart') ?? true)) {
       print("Updating OG");
       await Future.delayed(Duration(seconds: 5));
 
-      for (String id in Hive
-          .box('subscribed_ogs')
-          .keys) {
+      for (String id in Hive.box('subscribed_ogs').keys) {
         getOGbyId(id).then((og) {
           if (og == null) {
             Hive.box('subscribed_ogs').delete(id);
@@ -205,18 +215,16 @@ class ApiService {
    * In this case a Event with isLive == false
    * A a exception is thrown.
    */
-  Future<LiveEvent> getLiveEvent() async{
+  Future<LiveEvent> getLiveEvent() async {
     //DEBUG data: first true if a live event is active
     // second true if the banner schould open the first netzstrike action or the Url
     // 3th the title
     // 4th the url which schould be displayed if inApp == false
     //return LiveEvent(true,true, "Jetzt Live: PCS Livestream", "https://fridaysforfuture.org");
     try {
-      var res = await client.get(
-          '$baseUrl/liveevent?liveeventId=0');
+      var res = await client.get('$baseUrl/liveevent?liveeventId=0');
 
       if (res.statusCode == HttpStatus.ok) {
-
         var data = json.decode(res.body);
         LiveEvent event = LiveEvent.fromJSON(data['liveevent']);
         return event;
@@ -225,11 +233,8 @@ class ApiService {
       }
     } catch (e) {
       print("Could not load the liveevent data");
-      return LiveEvent(false,false, null, null);
-        //throw Exception('Could not load the live Event Data');
+      return LiveEvent(false, false, null, null);
+      //throw Exception('Could not load the live Event Data');
     }
-
   }
-
-
 }
