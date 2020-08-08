@@ -3,9 +3,7 @@ import 'dart:io';
 import 'package:app/app.dart';
 import 'package:app/model/slogan.dart';
 import 'package:app/page/about/about_subpage/slogan.dart';
-import 'package:app/service/api.dart';
 import 'package:app/util/share.dart';
-import 'package:app/util/time_ago.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'demofilter.dart';
@@ -44,107 +42,91 @@ class _DemoPageState extends State<DemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 1,
-      initialIndex: 1,
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: Platform.isIOS,
-          title: searchActive
-              ? TextField(
-                  autofocus: true,
-                  textCapitalization: TextCapitalization.sentences,
-                  autocorrect: false,
-                  cursorColor: Colors.white,
-                  style: TextStyle(color: Colors.white),
-                  decoration: InputDecoration(hintText: 'Suchen', hintStyle: TextStyle(color: Colors.white)),
-                  onChanged: (s) {
-                    setState(() {
-                      searchText = s;
-                    });
-                  },
-                )
-              : Text('Demosprüche', semanticsLabel: 'Demosprüche'),
-          bottom: searchActive
-              ? null
-              : TabBar(
-                  tabs: [
-                      Tab(
-                        text: "Alle",
-                      ),
-                  ],
-                  indicatorWeight: 4,
-                ),
-          actions: <Widget>[
-            if (slogans != null)
-              if (!searchActive)
-                IconButton(
-                  icon: Icon(MdiIcons.filter),
-                  tooltip: 'Filter Einstellungen',
-                  onPressed: () async {
-                    var newFilterState = await Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => DemoFilterPage(
-                          filterState,
-                          slogans.fold<Set>(
-                              Set(),
-                              (a, b) => a
-                                ..addAll(b.tags
-                                    .toList())),
-                        ),
-                      ),
-                    );
-
-                    if (newFilterState != null)
-                      setState(() {
-                        filterState = newFilterState;
-                      });
-                  },
-                ),
-            if (slogans != null)
-              IconButton(
-                icon: Icon(searchActive ? Icons.close : MdiIcons.magnify, semanticLabel: searchActive ? 'Suche schließen' : 'Im Feed suchen'),
-                onPressed: () {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: Platform.isIOS,
+        title: searchActive
+            ? TextField(
+                autofocus: true,
+                textCapitalization: TextCapitalization.sentences,
+                autocorrect: false,
+                cursorColor: Colors.white,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                    hintText: 'Suchen',
+                    hintStyle: TextStyle(color: Colors.white)),
+                onChanged: (s) {
                   setState(() {
-                    if (searchActive) {
-                      searchText = '';
-                      searchActive = false;
-                    } else {
-                      searchActive = true;
-                    }
+                    searchText = s;
                   });
                 },
-              ),
-          ],
-        ),
-        body: slogans == null
-            ? LinearProgressIndicator()
-            : Column(
-                children: <Widget>[
-                  if (filterState.filterActive)
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.yellow,
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Es sind Filter aktiv',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
+              )
+            : Text('Demosprüche', semanticsLabel: 'Demosprüche'),
+        actions: <Widget>[
+          if (slogans != null)
+            if (!searchActive)
+              IconButton(
+                icon: Icon(MdiIcons.filter),
+                tooltip: 'Filter Einstellungen',
+                onPressed: () async {
+                  var newFilterState = await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => DemoFilterPage(
+                        filterState,
+                        slogans.fold<Set>(
+                            Set(), (a, b) => a..addAll(b.tags.toList())),
                       ),
                     ),
-                  Expanded(
-                      child: searchActive
-                          ? _buildListView(text: searchText.toLowerCase())
-                          : TabBarView(
-                              children: [
-                                _buildListView(category: "Alle"),
-                              ],
-                            )),
-                ],
+                  );
+
+                  if (newFilterState != null)
+                    setState(() {
+                      filterState = newFilterState;
+                    });
+                },
               ),
+          if (slogans != null)
+            IconButton(
+              icon: Icon(searchActive ? Icons.close : MdiIcons.magnify,
+                  semanticLabel:
+                      searchActive ? 'Suche schließen' : 'Im Feed suchen'),
+              onPressed: () {
+                setState(() {
+                  if (searchActive) {
+                    searchText = '';
+                    searchActive = false;
+                  } else {
+                    searchActive = true;
+                  }
+                });
+              },
+            ),
+        ],
       ),
+      body: slogans == null
+          ? LinearProgressIndicator()
+          : Column(
+              children: <Widget>[
+                if (filterState.filterActive)
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.yellow,
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Es sind Filter aktiv',
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                Expanded(
+                  child: searchActive
+                      ? _buildListView(text: searchText.toLowerCase())
+                      : _buildListView(category: "Alle"),
+                ),
+              ],
+            ),
     );
   }
 
@@ -165,8 +147,7 @@ class _DemoPageState extends State<DemoPage> {
       if (filterState.shownTags.isNotEmpty) {
         shownSlogans = shownSlogans
             .where((p) =>
-                p.tags.firstWhere(
-                    (s) => filterState.shownTags.contains(s),
+                p.tags.firstWhere((s) => filterState.shownTags.contains(s),
                     orElse: () => null) !=
                 null)
             .toList();
@@ -174,19 +155,19 @@ class _DemoPageState extends State<DemoPage> {
     }
 
     if (category != null) {
-      shownSlogans = [] //shownSlogans
-          //.where((p) => p.tags.indexWhere(t == category) != -1)
-          // .toList();
+      shownSlogans = []; //shownSlogans
+      //.where((p) => p.tags.indexWhere(t == category) != -1)
+      // .toList();
     } else {
-      shownSlogans = [] // shownSlogans
-          // .where((p) => ((p.title ?? '') +
-          //         ' ' +
-          //         (p.customExcerpt ?? '') +
-          //         p.tags.map((t) => t.name).toString() +
-          //         (p.primaryAuthor?.name ?? ''))
-          //     .toLowerCase()
-          //     .contains(text))
-          // .toList();
+      shownSlogans = []; // shownSlogans
+      // .where((p) => ((p.title ?? '') +
+      //         ' ' +
+      //         (p.customExcerpt ?? '') +
+      //         p.tags.map((t) => t.name).toString() +
+      //         (p.primaryAuthor?.name ?? ''))
+      //     .toLowerCase()
+      //     .contains(text))
+      // .toList();
     }
 
     return RefreshIndicator(
@@ -272,7 +253,6 @@ class _FeedItemState extends State<FeedItem> {
                         ],
                       ),
                     ),
-                    ],
                   ],
                 ),
                 Row(
@@ -285,16 +265,12 @@ class _FeedItemState extends State<FeedItem> {
                           for (var tag in slogan.tags)
                             Chip(
                               label: Text(
-                                tag.name,
+                                tag,
                                 style: textTheme.body1,
                               ),
                             ),
                         ],
                       ),
-                    ),
-                    Text(
-                      'vor ' + TimeAgoUtil.render(slogan.publishedAt),
-                      style: textTheme.body1,
                     ),
                   ],
                 ),
@@ -305,109 +281,117 @@ class _FeedItemState extends State<FeedItem> {
             alignment: Alignment.topRight,
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: Platform.isAndroid ? <Widget>[
-                if (marked)
-                  Icon(
-                    MdiIcons.bookmark,
-                    color: Theme.of(context).accentColor,
-                    semanticLabel: 'Markierter Artikel',
-                  ),
-                PopupMenuButton(
-                  icon: Icon(
-                    Icons.more_vert,
-                    semanticLabel: 'Menü anzeigen',
-                  ),
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      child:
-                          Text(marked ? 'Markierung entfernen' : 'Markieren'),
-                      value: 'mark',
-                    ),
-                    PopupMenuItem(
-                      child: Text('Teilen...'),
-                      value: 'share',
-                    ),
-                    if (read)
-                      PopupMenuItem(
-                        child: Text('Als ungelesen kennzeichnen'),
-                        value: 'unread',
-                      ),
-                  ],
-                  onSelected: (value) {
-                    switch (value) {
-                      case 'mark':
-                        setState(() {
-                          Hive.box('slogan_mark').put(slogan.id, !marked);
-                        });
-                        break;
-                      case 'share':
-                        ShareUtil.shareSlogan(slogan);
-                        break;
-                      case 'unread':
-                        setState(() {
-                          Hive.box('slogan_read').put(slogan.id, false);
-                        });
-                        break;
-                    }
-                  },
-                ),
-              ]:
-              //iOS adaption (action sheet)
-              <Widget>[
-              if (marked)
-                  Icon(
-                    MdiIcons.bookmark,
-                    semanticLabel: 'Markierter Artikel',
-                    color: Theme.of(context).accentColor,
-                  ),
-                  CupertinoButton(
-                  onPressed: () {
-                    showCupertinoModalPopup(
-                        context: context,
-                        builder: (context) {
-                          return CupertinoActionSheet(
-                            actions: <Widget>[
-                              CupertinoActionSheetAction(
-                          child: Text(marked ? 'Markierung entfernen' : 'Markieren'),
-                          onPressed: () {
-                            setState(() {
+              children: Platform.isAndroid
+                  ? <Widget>[
+                      if (marked)
+                        Icon(
+                          MdiIcons.bookmark,
+                          color: Theme.of(context).accentColor,
+                          semanticLabel: 'Markierter Artikel',
+                        ),
+                      PopupMenuButton(
+                        icon: Icon(
+                          Icons.more_vert,
+                          semanticLabel: 'Menü anzeigen',
+                        ),
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            child: Text(
+                                marked ? 'Markierung entfernen' : 'Markieren'),
+                            value: 'mark',
+                          ),
+                          PopupMenuItem(
+                            child: Text('Teilen...'),
+                            value: 'share',
+                          ),
+                          if (read)
+                            PopupMenuItem(
+                              child: Text('Als ungelesen kennzeichnen'),
+                              value: 'unread',
+                            ),
+                        ],
+                        onSelected: (value) {
+                          switch (value) {
+                            case 'mark':
+                              setState(() {
                                 Hive.box('slogan_mark').put(slogan.id, !marked);
                               });
-                              Navigator.pop(context, 'Mark');
-                          },
-                        ),
-                              CupertinoActionSheetAction(
-                          child: const Text('Teilen...'),
-                          onPressed: () {
-                            ShareUtil.shareSlogan(slogan);
-                            Navigator.pop(context, 'Share');
-                          },
-                        ),
-                              if (read)
-                        CupertinoActionSheetAction(
-                          child: const Text('Als ungelesen kennzeichnen'),
-                          onPressed: () {
-                            setState(() {
+                              break;
+                            case 'share':
+                              ShareUtil.shareSlogan(slogan);
+                              break;
+                            case 'unread':
+                              setState(() {
                                 Hive.box('slogan_read').put(slogan.id, false);
                               });
-                              Navigator.pop(context, 'Read');
-                          },
-                        )
-                      ],
-                          //cancel button
-                          cancelButton: CupertinoActionSheetAction(
-                        child: const Text('Abbrechen'),
-                        isDefaultAction: true,
-                        onPressed: () {
-                          Navigator.pop(context, 'Cancel');
+                              break;
+                          }
                         },
                       ),
-                          );
-                        });
-                  },
-                  child: Icon(CupertinoIcons.ellipsis, color: Theme.of(context).hintColor),
-                ),
-              ] ,
+                    ]
+                  :
+                  //iOS adaption (action sheet)
+                  <Widget>[
+                      if (marked)
+                        Icon(
+                          MdiIcons.bookmark,
+                          semanticLabel: 'Markierter Artikel',
+                          color: Theme.of(context).accentColor,
+                        ),
+                      CupertinoButton(
+                        onPressed: () {
+                          showCupertinoModalPopup(
+                              context: context,
+                              builder: (context) {
+                                return CupertinoActionSheet(
+                                  actions: <Widget>[
+                                    CupertinoActionSheetAction(
+                                      child: Text(marked
+                                          ? 'Markierung entfernen'
+                                          : 'Markieren'),
+                                      onPressed: () {
+                                        setState(() {
+                                          Hive.box('slogan_mark')
+                                              .put(slogan.id, !marked);
+                                        });
+                                        Navigator.pop(context, 'Mark');
+                                      },
+                                    ),
+                                    CupertinoActionSheetAction(
+                                      child: const Text('Teilen...'),
+                                      onPressed: () {
+                                        ShareUtil.shareSlogan(slogan);
+                                        Navigator.pop(context, 'Share');
+                                      },
+                                    ),
+                                    if (read)
+                                      CupertinoActionSheetAction(
+                                        child: const Text(
+                                            'Als ungelesen kennzeichnen'),
+                                        onPressed: () {
+                                          setState(() {
+                                            Hive.box('slogan_read')
+                                                .put(slogan.id, false);
+                                          });
+                                          Navigator.pop(context, 'Read');
+                                        },
+                                      )
+                                  ],
+                                  //cancel button
+                                  cancelButton: CupertinoActionSheetAction(
+                                    child: const Text('Abbrechen'),
+                                    isDefaultAction: true,
+                                    onPressed: () {
+                                      Navigator.pop(context, 'Cancel');
+                                    },
+                                  ),
+                                );
+                              });
+                        },
+                        child: Icon(CupertinoIcons.ellipsis,
+                            color: Theme.of(context).hintColor),
+                      ),
+                    ],
             ),
           ),
         ],
