@@ -36,6 +36,9 @@ void main() async {
 
   await Hive.openBox('post_read');
   await Hive.openBox('post_mark');
+  
+  await Hive.openBox('slogan_read');
+  await Hive.openBox('slogan_mark');
 
   await Hive.openBox('subscribed_ogs');
 

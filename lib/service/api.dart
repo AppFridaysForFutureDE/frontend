@@ -118,9 +118,20 @@ class ApiService {
     return [
       new Slogan(
           id: '1',
-          title: 'Kohle',
+          title: 'Wie lautet die Parole',
           description: 'Wie lautet die Parole? Wir wollen keine Kohle!',
-          tags: ['Kohle'])
+          tags: ['Kohle']),
+      new Slogan(
+          id: '2',
+          title: 'SUV',
+          description: 'Es gibt, kein Recht, ein SUV zu fahren!',
+          tags: ['Verkehr']),
+      new Slogan(
+          id: '3',
+          title: 'RWE ist scheiße',
+          description:
+              'Gebt mir ein "R"\nAlle: R\nGebt mir ein "W"\nAlle: W\nGebt mir ein "E"\nAlle: E\nWas ist das?\nAlle: SCHEIßE!',
+          tags: ['Kohle']),
     ];
   }
 

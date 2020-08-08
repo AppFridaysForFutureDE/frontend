@@ -154,8 +154,9 @@ class _DemoPageState extends State<DemoPage> {
       }
     }
 
+  // TODO: cleanup
     if (category != null) {
-      shownSlogans = []; //shownSlogans
+      // shownSlogans = []; //shownSlogans
       //.where((p) => p.tags.indexWhere(t == category) != -1)
       // .toList();
     } else {
@@ -242,6 +243,13 @@ class _FeedItemState extends State<FeedItem> {
                             constraints: BoxConstraints(minHeight: 32),
                             child: Text(
                               slogan.title,
+                              style: textTheme.subhead,
+                            ),
+                          ),
+                          ConstrainedBox(
+                            constraints: BoxConstraints(minHeight: 32),
+                            child: Text(
+                              slogan.description,
                               style: textTheme.subhead,
                             ),
                           ),
