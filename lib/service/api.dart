@@ -114,25 +114,26 @@ class ApiService {
     }
   }
 
-  Future<List<Slogan>> getSlogans() async {
-    return [
-      new Slogan(
-          id: '1',
-          title: 'Wie lautet die Parole',
-          description: 'Wie lautet die Parole? Wir wollen keine Kohle!',
-          tags: ['Kohle']),
-      new Slogan(
-          id: '2',
-          title: 'SUV',
-          description: 'Es gibt, kein Recht, ein SUV zu fahren!',
-          tags: ['Verkehr']),
-      new Slogan(
-          id: '3',
-          title: 'RWE ist scheiße',
-          description:
-              'Gebt mir ein "R"\nAlle: R\nGebt mir ein "W"\nAlle: W\nGebt mir ein "E"\nAlle: E\nWas ist das?\nAlle: SCHEIßE!',
-          tags: ['Kohle']),
-    ];
+Future<List<Slogan>> getSlogans() async {
+    try {
+      var res = await client.get('https://app.fffutu.re/slogans.json');
+
+      if (res.statusCode == HttpStatus.ok) {
+        cache.put('slogans.json', res.body);
+
+        var data = json.decode(res.body);
+        return data['slogans'].map<Slogan>((m) => Slogan.fromJson(m)).toList();
+      } else {
+        throw Exception('HTTP Status ${res.statusCode}');
+      }
+    } catch (e) {
+      if (cache.exists('slogans.json')) {
+        var data = json.decode(cache.get('slogans.json'));
+        return data['slogans'].map<Slogan>((m) => Slogan.fromJson(m)).toList();
+      } else {
+        throw Exception('Slogan List not available online or in cache');
+      }
+    }
   }
 
   Future<Post> getPostById(String id) async {

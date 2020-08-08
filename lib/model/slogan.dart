@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+part 'slogan.g.dart';
+
 @JsonSerializable()
 class Slogan {
   String id;
@@ -14,6 +16,6 @@ class Slogan {
       this.description,
       this.tags});
 
-  // factory Slogan.fromJson(Map<String, dynamic> json) => _$SloganFromJson(json);
-  // Map<String, dynamic> toJson() => _$SloganToJson(this);
+  factory Slogan.fromJson(Map<String, dynamic> json) => _$SloganFromJson(json);
+  Map<String, dynamic> toJson() => _$SloganToJson(this);
 }

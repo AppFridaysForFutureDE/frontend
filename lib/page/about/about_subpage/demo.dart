@@ -27,6 +27,7 @@ class _DemoPageState extends State<DemoPage> {
       if (mounted) setState(() {});
     } catch (e) {
       if (mounted)
+        // TODO: Handle error "no Scaffold found"
         Scaffold.of(context).showSnackBar(SnackBar(
             content: Text(
                 'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
@@ -154,7 +155,7 @@ class _DemoPageState extends State<DemoPage> {
       }
     }
 
-  // TODO: cleanup
+    // TODO: cleanup
     if (category != null) {
       // shownSlogans = []; //shownSlogans
       //.where((p) => p.tags.indexWhere(t == category) != -1)
