@@ -1,9 +1,8 @@
 import 'dart:io';
 
 import 'package:app/app.dart';
-import 'package:app/model/post.dart';
 import 'package:app/model/slogan.dart';
-import 'package:app/page/feed/post.dart';
+import 'package:app/page/about/about_subpage/slogan.dart';
 import 'package:app/service/api.dart';
 import 'package:app/util/share.dart';
 import 'package:app/util/time_ago.dart';
@@ -46,7 +45,7 @@ class _DemoPageState extends State<DemoPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 1,
       initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
@@ -65,14 +64,13 @@ class _DemoPageState extends State<DemoPage> {
                     });
                   },
                 )
-              : Text('Newsfeed', semanticsLabel: 'Neuigkeitenfeed'),
+              : Text('Demosprüche', semanticsLabel: 'Demosprüche'),
           bottom: searchActive
               ? null
               : TabBar(
                   tabs: [
-                    for (var cat in feedCategories)
                       Tab(
-                        text: cat,
+                        text: "Alle",
                       ),
                   ],
                   indicatorWeight: 4,
@@ -141,8 +139,7 @@ class _DemoPageState extends State<DemoPage> {
                           ? _buildListView(text: searchText.toLowerCase())
                           : TabBarView(
                               children: [
-                                for (var cat in feedCategories)
-                                  _buildListView(category: cat),
+                                _buildListView(category: "Alle"),
                               ],
                             )),
                 ],
@@ -152,16 +149,16 @@ class _DemoPageState extends State<DemoPage> {
   }
 
   Widget _buildListView({String category, String text}) {
-    List<Post> shownSlogans = List.from(slogans);
+    List<Slogan> shownSlogans = List.from(slogans);
 
     if (filterState.filterActive) {
       if (filterState.onlyShowMarked) {
-        var markBox = Hive.box('post_mark');
+        var markBox = Hive.box('slogan_mark');
         shownSlogans =
             shownSlogans.where((p) => (markBox.get(p.id) ?? false)).toList();
       }
       if (filterState.onlyShowUnread) {
-        var readBox = Hive.box('post_read');
+        var readBox = Hive.box('slogan_read');
         shownSlogans =
             shownSlogans.where((p) => !(readBox.get(p.id) ?? false)).toList();
       }
@@ -177,19 +174,19 @@ class _DemoPageState extends State<DemoPage> {
     }
 
     if (category != null) {
-      shownSlogans = shownSlogans
-          .where((p) => p.tags.indexWhere((t) => t.name == category) != -1)
-          .toList();
+      shownSlogans = [] //shownSlogans
+          //.where((p) => p.tags.indexWhere(t == category) != -1)
+          // .toList();
     } else {
-      shownSlogans = shownSlogans
-          .where((p) => ((p.title ?? '') +
-                  ' ' +
-                  (p.customExcerpt ?? '') +
-                  p.tags.map((t) => t.name).toString() +
-                  (p.primaryAuthor?.name ?? ''))
-              .toLowerCase()
-              .contains(text))
-          .toList();
+      shownSlogans = [] // shownSlogans
+          // .where((p) => ((p.title ?? '') +
+          //         ' ' +
+          //         (p.customExcerpt ?? '') +
+          //         p.tags.map((t) => t.name).toString() +
+          //         (p.primaryAuthor?.name ?? ''))
+          //     .toLowerCase()
+          //     .contains(text))
+          // .toList();
     }
 
     return RefreshIndicator(
@@ -213,7 +210,7 @@ class _DemoPageState extends State<DemoPage> {
 }
 
 class FeedItem extends StatefulWidget {
-  final Post item;
+  final Slogan item;
   FeedItem(this.item);
 
   @override
@@ -221,12 +218,12 @@ class FeedItem extends StatefulWidget {
 }
 
 class _FeedItemState extends State<FeedItem> {
-  Post get post => widget.item;
+  Slogan get slogan => widget.item;
 
   @override
   Widget build(BuildContext context) {
-    bool read = Hive.box('post_read').get(post.id) ?? false;
-    bool marked = Hive.box('post_mark').get(post.id) ?? false;
+    bool read = Hive.box('slogan_read').get(slogan.id) ?? false;
+    bool marked = Hive.box('slogan_mark').get(slogan.id) ?? false;
 
     var textTheme = Theme.of(context).textTheme;
 
@@ -240,7 +237,7 @@ class _FeedItemState extends State<FeedItem> {
       onTap: () async {
         await Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => PostPage(post),
+            builder: (context) => SloganPage(), // TODO: Pass slogan
           ),
         );
         setState(() {});
@@ -263,30 +260,19 @@ class _FeedItemState extends State<FeedItem> {
                           ConstrainedBox(
                             constraints: BoxConstraints(minHeight: 32),
                             child: Text(
-                              post.title,
+                              slogan.title,
                               style: textTheme.subhead,
                             ),
                           ),
-                          if (post.customExcerpt != null)
-                            Text(
-                              post.customExcerpt,
-                              style: textTheme.body1,
-                            ),
+                          // if (slogan.customExcerpt != null)
+                          //   Text(
+                          //     slogan.customExcerpt,
+                          //     style: textTheme.body1,
+                          //   ),
                         ],
                       ),
                     ),
-                    if (post.featureImage != null) ...[
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 32.0),
-                        child: Image.network(
-                          post.featureImage ?? '',
-                          width: 80,
-                        ),
-                      ),
-                    ]
+                    ],
                   ],
                 ),
                 Row(
@@ -296,7 +282,7 @@ class _FeedItemState extends State<FeedItem> {
                       child: Wrap(
                         spacing: 8,
                         children: <Widget>[
-                          for (var tag in post.tags)
+                          for (var tag in slogan.tags)
                             Chip(
                               label: Text(
                                 tag.name,
@@ -307,7 +293,7 @@ class _FeedItemState extends State<FeedItem> {
                       ),
                     ),
                     Text(
-                      'vor ' + TimeAgoUtil.render(post.publishedAt),
+                      'vor ' + TimeAgoUtil.render(slogan.publishedAt),
                       style: textTheme.body1,
                     ),
                   ],
@@ -351,15 +337,15 @@ class _FeedItemState extends State<FeedItem> {
                     switch (value) {
                       case 'mark':
                         setState(() {
-                          Hive.box('post_mark').put(post.id, !marked);
+                          Hive.box('slogan_mark').put(slogan.id, !marked);
                         });
                         break;
                       case 'share':
-                        ShareUtil.sharePost(post);
+                        ShareUtil.shareSlogan(slogan);
                         break;
                       case 'unread':
                         setState(() {
-                          Hive.box('post_read').put(post.id, false);
+                          Hive.box('slogan_read').put(slogan.id, false);
                         });
                         break;
                     }
@@ -385,7 +371,7 @@ class _FeedItemState extends State<FeedItem> {
                           child: Text(marked ? 'Markierung entfernen' : 'Markieren'),
                           onPressed: () {
                             setState(() {
-                                Hive.box('post_mark').put(post.id, !marked);
+                                Hive.box('slogan_mark').put(slogan.id, !marked);
                               });
                               Navigator.pop(context, 'Mark');
                           },
@@ -393,7 +379,7 @@ class _FeedItemState extends State<FeedItem> {
                               CupertinoActionSheetAction(
                           child: const Text('Teilen...'),
                           onPressed: () {
-                            ShareUtil.sharePost(post);
+                            ShareUtil.shareSlogan(slogan);
                             Navigator.pop(context, 'Share');
                           },
                         ),
@@ -402,7 +388,7 @@ class _FeedItemState extends State<FeedItem> {
                           child: const Text('Als ungelesen kennzeichnen'),
                           onPressed: () {
                             setState(() {
-                                Hive.box('post_read').put(post.id, false);
+                                Hive.box('slogan_read').put(slogan.id, false);
                               });
                               Navigator.pop(context, 'Read');
                           },
