@@ -57,7 +57,9 @@ class _FeedPageState extends State<FeedPage> {
                   autocorrect: false,
                   cursorColor: Colors.white,
                   style: TextStyle(color: Colors.white),
-                  decoration: InputDecoration(hintText: 'Suchen', hintStyle: TextStyle(color: Colors.white)),
+                  decoration: InputDecoration(
+                      hintText: 'Suchen',
+                      hintStyle: TextStyle(color: Colors.white)),
                   onChanged: (s) {
                     setState(() {
                       searchText = s;
@@ -105,7 +107,9 @@ class _FeedPageState extends State<FeedPage> {
                 ),
             if (posts != null)
               IconButton(
-                icon: Icon(searchActive ? Icons.close : MdiIcons.magnify, semanticLabel: searchActive ? 'Suche schließen' : 'Im Feed suchen'),
+                icon: Icon(searchActive ? Icons.close : MdiIcons.magnify,
+                    semanticLabel:
+                        searchActive ? 'Suche schließen' : 'Im Feed suchen'),
                 onPressed: () {
                   setState(() {
                     if (searchActive) {
@@ -181,15 +185,8 @@ class _FeedPageState extends State<FeedPage> {
           .where((p) => p.tags.indexWhere((t) => t.name == category) != -1)
           .toList();
     } else {
-      shownPosts = shownPosts
-          .where((p) => ((p.title ?? '') +
-                  ' ' +
-                  (p.customExcerpt ?? '') +
-                  p.tags.map((t) => t.name).toString() +
-                  (p.primaryAuthor?.name ?? ''))
-              .toLowerCase()
-              .contains(text))
-          .toList();
+      shownPosts =
+          shownPosts.where((p) => p.searchText().contains(text)).toList();
     }
 
     return RefreshIndicator(
@@ -319,109 +316,117 @@ class _FeedItemState extends State<FeedItem> {
             alignment: Alignment.topRight,
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: Platform.isAndroid ? <Widget>[
-                if (marked)
-                  Icon(
-                    MdiIcons.bookmark,
-                    color: Theme.of(context).accentColor,
-                    semanticLabel: 'Markierter Artikel',
-                  ),
-                PopupMenuButton(
-                  icon: Icon(
-                    Icons.more_vert,
-                    semanticLabel: 'Menü anzeigen',
-                  ),
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      child:
-                          Text(marked ? 'Markierung entfernen' : 'Markieren'),
-                      value: 'mark',
-                    ),
-                    PopupMenuItem(
-                      child: Text('Teilen...'),
-                      value: 'share',
-                    ),
-                    if (read)
-                      PopupMenuItem(
-                        child: Text('Als ungelesen kennzeichnen'),
-                        value: 'unread',
-                      ),
-                  ],
-                  onSelected: (value) {
-                    switch (value) {
-                      case 'mark':
-                        setState(() {
-                          Hive.box('post_mark').put(post.id, !marked);
-                        });
-                        break;
-                      case 'share':
-                        ShareUtil.sharePost(post);
-                        break;
-                      case 'unread':
-                        setState(() {
-                          Hive.box('post_read').put(post.id, false);
-                        });
-                        break;
-                    }
-                  },
-                ),
-              ]:
-              //iOS adaption (action sheet)
-              <Widget>[
-              if (marked)
-                  Icon(
-                    MdiIcons.bookmark,
-                    semanticLabel: 'Markierter Artikel',
-                    color: Theme.of(context).accentColor,
-                  ),
-                  CupertinoButton(
-                  onPressed: () {
-                    showCupertinoModalPopup(
-                        context: context,
-                        builder: (context) {
-                          return CupertinoActionSheet(
-                            actions: <Widget>[
-                              CupertinoActionSheetAction(
-                          child: Text(marked ? 'Markierung entfernen' : 'Markieren'),
-                          onPressed: () {
-                            setState(() {
+              children: Platform.isAndroid
+                  ? <Widget>[
+                      if (marked)
+                        Icon(
+                          MdiIcons.bookmark,
+                          color: Theme.of(context).accentColor,
+                          semanticLabel: 'Markierter Artikel',
+                        ),
+                      PopupMenuButton(
+                        icon: Icon(
+                          Icons.more_vert,
+                          semanticLabel: 'Menü anzeigen',
+                        ),
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            child: Text(
+                                marked ? 'Markierung entfernen' : 'Markieren'),
+                            value: 'mark',
+                          ),
+                          PopupMenuItem(
+                            child: Text('Teilen...'),
+                            value: 'share',
+                          ),
+                          if (read)
+                            PopupMenuItem(
+                              child: Text('Als ungelesen kennzeichnen'),
+                              value: 'unread',
+                            ),
+                        ],
+                        onSelected: (value) {
+                          switch (value) {
+                            case 'mark':
+                              setState(() {
                                 Hive.box('post_mark').put(post.id, !marked);
                               });
-                              Navigator.pop(context, 'Mark');
-                          },
-                        ),
-                              CupertinoActionSheetAction(
-                          child: const Text('Teilen...'),
-                          onPressed: () {
-                            ShareUtil.sharePost(post);
-                            Navigator.pop(context, 'Share');
-                          },
-                        ),
-                              if (read)
-                        CupertinoActionSheetAction(
-                          child: const Text('Als ungelesen kennzeichnen'),
-                          onPressed: () {
-                            setState(() {
+                              break;
+                            case 'share':
+                              ShareUtil.sharePost(post);
+                              break;
+                            case 'unread':
+                              setState(() {
                                 Hive.box('post_read').put(post.id, false);
                               });
-                              Navigator.pop(context, 'Read');
-                          },
-                        )
-                      ],
-                          //cancel button
-                          cancelButton: CupertinoActionSheetAction(
-                        child: const Text('Abbrechen'),
-                        isDefaultAction: true,
-                        onPressed: () {
-                          Navigator.pop(context, 'Cancel');
+                              break;
+                          }
                         },
                       ),
-                          );
-                        });
-                  },
-                  child: Icon(CupertinoIcons.ellipsis, color: Theme.of(context).hintColor),
-                ),
-              ] ,
+                    ]
+                  :
+                  //iOS adaption (action sheet)
+                  <Widget>[
+                      if (marked)
+                        Icon(
+                          MdiIcons.bookmark,
+                          semanticLabel: 'Markierter Artikel',
+                          color: Theme.of(context).accentColor,
+                        ),
+                      CupertinoButton(
+                        onPressed: () {
+                          showCupertinoModalPopup(
+                              context: context,
+                              builder: (context) {
+                                return CupertinoActionSheet(
+                                  actions: <Widget>[
+                                    CupertinoActionSheetAction(
+                                      child: Text(marked
+                                          ? 'Markierung entfernen'
+                                          : 'Markieren'),
+                                      onPressed: () {
+                                        setState(() {
+                                          Hive.box('post_mark')
+                                              .put(post.id, !marked);
+                                        });
+                                        Navigator.pop(context, 'Mark');
+                                      },
+                                    ),
+                                    CupertinoActionSheetAction(
+                                      child: const Text('Teilen...'),
+                                      onPressed: () {
+                                        ShareUtil.sharePost(post);
+                                        Navigator.pop(context, 'Share');
+                                      },
+                                    ),
+                                    if (read)
+                                      CupertinoActionSheetAction(
+                                        child: const Text(
+                                            'Als ungelesen kennzeichnen'),
+                                        onPressed: () {
+                                          setState(() {
+                                            Hive.box('post_read')
+                                                .put(post.id, false);
+                                          });
+                                          Navigator.pop(context, 'Read');
+                                        },
+                                      )
+                                  ],
+                                  //cancel button
+                                  cancelButton: CupertinoActionSheetAction(
+                                    child: const Text('Abbrechen'),
+                                    isDefaultAction: true,
+                                    onPressed: () {
+                                      Navigator.pop(context, 'Cancel');
+                                    },
+                                  ),
+                                );
+                              });
+                        },
+                        child: Icon(CupertinoIcons.ellipsis,
+                            color: Theme.of(context).hintColor),
+                      ),
+                    ],
             ),
           ),
         ],
