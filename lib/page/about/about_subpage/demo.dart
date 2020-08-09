@@ -124,14 +124,14 @@ class _DemoPageState extends State<DemoPage> {
                 Expanded(
                   child: searchActive
                       ? _buildListView(text: searchText.toLowerCase())
-                      : _buildListView(category: "Alle"),
+                      : _buildListView(),
                 ),
               ],
             ),
     );
   }
 
-  Widget _buildListView({String category, String text}) {
+  Widget _buildListView({String text}) {
     List<Slogan> shownSlogans = List.from(slogans);
 
     if (filterState.filterActive) {
@@ -155,21 +155,9 @@ class _DemoPageState extends State<DemoPage> {
       }
     }
 
-    // TODO: cleanup
-    if (category != null) {
-      // shownSlogans = []; //shownSlogans
-      //.where((p) => p.tags.indexWhere(t == category) != -1)
-      // .toList();
-    } else {
-      shownSlogans = []; // shownSlogans
-      // .where((p) => ((p.title ?? '') +
-      //         ' ' +
-      //         (p.customExcerpt ?? '') +
-      //         p.tags.map((t) => t.name).toString() +
-      //         (p.primaryAuthor?.name ?? ''))
-      //     .toLowerCase()
-      //     .contains(text))
-      // .toList();
+    if (text != null) {
+      shownSlogans =
+          shownSlogans.where((s) => s.searchText().contains(text)).toList();
     }
 
     return RefreshIndicator(
