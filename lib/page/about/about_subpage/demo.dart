@@ -139,11 +139,6 @@ class _DemoPageState extends State<DemoPage> {
         shownSlogans =
             shownSlogans.where((p) => (markBox.get(p.id) ?? false)).toList();
       }
-      if (filterState.onlyShowUnread) {
-        var readBox = Hive.box('slogan_read');
-        shownSlogans =
-            shownSlogans.where((p) => !(readBox.get(p.id) ?? false)).toList();
-      }
       if (filterState.shownTags.isNotEmpty) {
         shownSlogans = shownSlogans
             .where((p) =>
@@ -193,16 +188,9 @@ class _SloganItemState extends State<SloganItem> {
 
   @override
   Widget build(BuildContext context) {
-    bool read = Hive.box('slogan_read').get(slogan.id) ?? false;
     bool marked = Hive.box('slogan_mark').get(slogan.id) ?? false;
 
     var textTheme = Theme.of(context).textTheme;
-
-    if (read) {
-      textTheme = textTheme.apply(
-        bodyColor: Theme.of(context).hintColor,
-      );
-    }
 
     return InkWell(
       onTap: () async {
@@ -215,21 +203,18 @@ class _SloganItemState extends State<SloganItem> {
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Flexible(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          ConstrainedBox(
-                            constraints: BoxConstraints(minHeight: 32),
-                            child: AnimatedContainer(
-                              height: selected ? 100 : 40.0,
-                              duration: Duration(milliseconds: 250),
+                          AnimatedContainer(
+                            duration: Duration(milliseconds: 250),
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                  minHeight: 32,
+                                  maxHeight: selected ? double.infinity : 32.0),
                               child: Text(slogan.description),
                             ),
                           ),
@@ -245,13 +230,7 @@ class _SloganItemState extends State<SloganItem> {
                       child: Wrap(
                         spacing: 8,
                         children: <Widget>[
-                          for (var tag in slogan.tags)
-                            Chip(
-                              label: Text(
-                                tag,
-                                style: textTheme.body1,
-                              ),
-                            ),
+                          for (var tag in slogan.tags) Chip(label: Text(tag)),
                         ],
                       ),
                     ),
@@ -287,11 +266,6 @@ class _SloganItemState extends State<SloganItem> {
                             child: Text('Teilen...'),
                             value: 'share',
                           ),
-                          if (read)
-                            PopupMenuItem(
-                              child: Text('Als ungelesen kennzeichnen'),
-                              value: 'unread',
-                            ),
                         ],
                         onSelected: (value) {
                           switch (value) {
@@ -302,11 +276,6 @@ class _SloganItemState extends State<SloganItem> {
                               break;
                             case 'share':
                               ShareUtil.shareSlogan(slogan);
-                              break;
-                            case 'unread':
-                              setState(() {
-                                Hive.box('slogan_read').put(slogan.id, false);
-                              });
                               break;
                           }
                         },
@@ -347,18 +316,6 @@ class _SloganItemState extends State<SloganItem> {
                                         Navigator.pop(context, 'Share');
                                       },
                                     ),
-                                    if (read)
-                                      CupertinoActionSheetAction(
-                                        child: const Text(
-                                            'Als ungelesen kennzeichnen'),
-                                        onPressed: () {
-                                          setState(() {
-                                            Hive.box('slogan_read')
-                                                .put(slogan.id, false);
-                                          });
-                                          Navigator.pop(context, 'Read');
-                                        },
-                                      )
                                   ],
                                   //cancel button
                                   cancelButton: CupertinoActionSheetAction(

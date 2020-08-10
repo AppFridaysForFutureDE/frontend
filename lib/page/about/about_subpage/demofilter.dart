@@ -16,20 +16,12 @@ class _DemoFilterPageState extends State<DemoFilterPage> {
   @override
   void initState() {
     state.onlyShowMarked = widget.state.onlyShowMarked;
-    state.onlyShowUnread = widget.state.onlyShowUnread;
     state.shownTags = List.from(widget.state.shownTags);
     super.initState();
   }
 
 //Used for screenreaders
-var onlyShowUnreadIsActive = 'Nur ungelesene Artikel anzeigen. Nicht aktiv';
 var onlyShowMarkedIsActive = 'Nur markierte Artikel anzeigen. Nicht aktiv';
-
-void updateUnread(){
-  if (state.onlyShowUnread) {
-    onlyShowUnreadIsActive = 'Nur ungelesene Artikel anzeigen. Aktiv';
-  }
-}
 
 void updateMarked(){
   if (state.onlyShowMarked){
@@ -44,21 +36,7 @@ void updateMarked(){
         title: Text('Filter'),
       ),
       body: ListView(
-        children: <Widget>[
-          TitleWidget('Status'),
-          Semantics(
-            child: SwitchListTile.adaptive(
-                value: state.onlyShowUnread,
-                title: Text('Nur ungelesene Artikel anzeigen'),
-                onChanged: (val) {
-                  setState(() {
-                    state.onlyShowUnread = val;
-                    updateUnread();
-                  });
-                  updateUnread();
-                }),
-            label: onlyShowUnreadIsActive,
-          ),
+        children: <Widget>[          
           TitleWidget('Markierung'),
           Semantics(
             child: SwitchListTile.adaptive(
@@ -134,10 +112,8 @@ void updateMarked(){
 class FilterState {
   bool onlyShowMarked = false;
 
-  bool onlyShowUnread = false;
-
   List<String> shownTags = [];
 
   bool get filterActive =>
-      onlyShowMarked || onlyShowUnread || shownTags.isNotEmpty;
+      onlyShowMarked || shownTags.isNotEmpty;
 }
