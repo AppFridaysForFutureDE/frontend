@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:app/app.dart';
 import 'package:app/model/slogan.dart';
-import 'package:app/page/about/about_subpage/slogan.dart';
 import 'package:app/util/share.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -169,7 +168,7 @@ class _DemoPageState extends State<DemoPage> {
           : ListView.separated(
               itemCount: shownSlogans.length,
               itemBuilder: (context, index) {
-                return FeedItem(shownSlogans[index]);
+                return SloganItem(shownSlogans[index]);
               },
               separatorBuilder: (context, index) => Container(
                 height: 0.5,
@@ -180,16 +179,17 @@ class _DemoPageState extends State<DemoPage> {
   }
 }
 
-class FeedItem extends StatefulWidget {
+class SloganItem extends StatefulWidget {
   final Slogan item;
-  FeedItem(this.item);
+  SloganItem(this.item);
 
   @override
-  _FeedItemState createState() => _FeedItemState();
+  _SloganItemState createState() => _SloganItemState();
 }
 
-class _FeedItemState extends State<FeedItem> {
+class _SloganItemState extends State<SloganItem> {
   Slogan get slogan => widget.item;
+  bool selected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -206,12 +206,9 @@ class _FeedItemState extends State<FeedItem> {
 
     return InkWell(
       onTap: () async {
-        await Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => SloganPage(), // TODO: Pass slogan
-          ),
-        );
-        setState(() {});
+        setState(() {
+          selected = !selected;
+        });
       },
       child: Stack(
         children: <Widget>[
@@ -230,23 +227,12 @@ class _FeedItemState extends State<FeedItem> {
                         children: <Widget>[
                           ConstrainedBox(
                             constraints: BoxConstraints(minHeight: 32),
-                            child: Text(
-                              slogan.title,
-                              style: textTheme.subhead,
+                            child: AnimatedContainer(
+                              height: selected ? 100 : 40.0,
+                              duration: Duration(milliseconds: 250),
+                              child: Text(slogan.description),
                             ),
                           ),
-                          ConstrainedBox(
-                            constraints: BoxConstraints(minHeight: 32),
-                            child: Text(
-                              slogan.description,
-                              style: textTheme.subhead,
-                            ),
-                          ),
-                          // if (slogan.customExcerpt != null)
-                          //   Text(
-                          //     slogan.customExcerpt,
-                          //     style: textTheme.body1,
-                          //   ),
                         ],
                       ),
                     ),
