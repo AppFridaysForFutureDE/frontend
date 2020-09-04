@@ -8,7 +8,6 @@ import 'package:app/page/feed/post.dart';
 import 'package:app/page/info/info.dart';
 import 'package:app/page/map/map.dart';
 import 'package:app/page/strike/html_strike_page.dart';
-import 'package:app/page/strike/map-netzstreik/netzstreik-api.dart';
 import 'package:app/page/strike/strike.dart';
 import 'package:app/service/api.dart';
 
@@ -48,7 +47,6 @@ void main() async {
   api = ApiService();
 
   await api.loadConfig();
-
 
   api.updateOGs();
 
@@ -143,7 +141,7 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with WidgetsBindingObserver{
+class _HomeState extends State<Home> with WidgetsBindingObserver {
   int _currentIndex = 0;
 
   void subToAll() async {
@@ -218,16 +216,19 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
   }
 
   @override
-  didChangeAppLifecycleState(AppLifecycleState state){
+  didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    switch(state){
-      case AppLifecycleState.detached:break;
-      case AppLifecycleState.inactive:break;
-      case AppLifecycleState.paused:break;
-      case AppLifecycleState.resumed:_checkForLiveEvent();
+    switch (state) {
+      case AppLifecycleState.detached:
+        break;
+      case AppLifecycleState.inactive:
+        break;
+      case AppLifecycleState.paused:
+        break;
+      case AppLifecycleState.resumed:
+        _checkForLiveEvent();
     }
   }
-
 
   _checkForLiveEvent() async {
     LiveEvent liveEvent = await api.getLiveEvent();
@@ -247,12 +248,11 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Center(child: Text(
-                liveEvent.actionText,
-                style: TextStyle(
-                  color:Colors.black,
-                )
-            )),
+            Center(
+                child: Text(liveEvent.actionText,
+                    style: TextStyle(
+                      color: Colors.black,
+                    ))),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -262,12 +262,13 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
                       style: Theme.of(context).textTheme.title),
                   onPressed: () {
                     Navigator.pop(context);
-                    if(liveEvent.inApp){
+                    if (liveEvent.inApp) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HtmlStrikePage()),
+                        MaterialPageRoute(
+                            builder: (context) => HtmlStrikePage()),
                       );
-                    }else {
+                    } else {
                       _launchURL(liveEvent.actionUrl);
                     }
                   },
@@ -277,8 +278,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
                 ),
                 RaisedButton(
                   color: Theme.of(context).scaffoldBackgroundColor,
-                  child: Text("Später",
-                      style: Theme.of(context).textTheme.title),
+                  child:
+                      Text("Später", style: Theme.of(context).textTheme.title),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -323,6 +324,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
 
     super.initState();
   }
+
   @override
   void dispose() {
     /*
@@ -334,71 +336,114 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
 
   var _scaffoldKey = GlobalKey<ScaffoldState>();
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      body: OfflineBuilder(
-        connectivityBuilder: (
-          BuildContext context,
-          ConnectivityResult connectivity,
-          Widget child,
-        ) {
-          final bool connected = connectivity != ConnectivityResult.none;
-          return Column(children: <Widget>[
-            Expanded(child: child),
-            if (!connected)
-              Container(
-                color: Theme.of(context).accentColor,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Text(
-                      "Die App ist aktuell offline",
-                      style: TextStyle(
-                        color: Colors.black,
+    return Stack(
+      children: [
+        Scaffold(
+          key: _scaffoldKey,
+          body: OfflineBuilder(
+            connectivityBuilder: (
+              BuildContext context,
+              ConnectivityResult connectivity,
+              Widget child,
+            ) {
+              final bool connected = connectivity != ConnectivityResult.none;
+              return Column(children: <Widget>[
+                Expanded(child: child),
+                if (!connected)
+                  Container(
+                    color: Theme.of(context).accentColor,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Text(
+                          "Die App ist aktuell offline",
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
                       ),
                     ),
+                  )
+              ]);
+            },
+            child: _buildPage(_currentIndex),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            currentIndex: _currentIndex,
+            onTap: (index) {
+              if (mounted)
+                setState(() {
+                  _currentIndex = index;
+                });
+            },
+            items: const <BottomNavigationBarItem>[
+/*           BottomNavigationBarItem(
+                icon: Icon(MdiIcons.newspaper),
+                title: Text('Feed'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.map),
+                title: Text('Karte'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.flag),
+                title: Text('Netzstreik'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.info),
+                title: Text('Infos'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(MdiIcons.accountGroup),
+                title: Text('Über uns'),
+              ), */
+              BottomNavigationBarItem(
+                icon: Icon(MdiIcons.newspaper),
+                title: Text('News'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(MdiIcons.mapMarkerRadius),
+                title: Text('Infos'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                title: Text(''),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(MdiIcons.bullhorn),
+                title: Text('Aktionen'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(MdiIcons.accountGroup),
+                title: Text('Über uns'),
+              ),
+            ],
+          ),
+        ),
+        if (true)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _currentIndex = 2;
+                });
+              },
+              child: SizedBox(
+                height: 80,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.network(
+                    'https://fridaysforfuture.de/wp-content/uploads/2019/04/cropped-icon-192x192.png', // TODO Als lokales Asset
                   ),
                 ),
-              )
-          ]);
-        },
-        child: _buildPage(_currentIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          if (mounted)
-            setState(() {
-              _currentIndex = index;
-            });
-        },
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(MdiIcons.newspaper),
-            title: Text('Feed'),
+              ),
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            title: Text('Karte'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.flag),
-            title: Text('Netzstreik'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            title: Text('Infos'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(MdiIcons.accountGroup),
-            title: Text('Über uns'),
-          ),
-        ],
-      ),
+      ],
     );
   }
 
@@ -407,11 +452,11 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
       case 0:
         return FeedPage();
       case 1:
-        return MapPage();
+        return InfoPage(); // MapPage();
       case 2:
-        return StrikePage();
+        return StrikePage(); // TODO Neue Feed Page
       case 3:
-        return InfoPage();
+        return StrikePage(); // TODO Neue Aktionen Page
       case 4:
         return AboutPage();
       default:
