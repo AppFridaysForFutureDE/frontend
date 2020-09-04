@@ -6,8 +6,7 @@ typedef ThemedWidgetBuilder = Widget Function(
 typedef ThemeDataWithBrightnessBuilder = ThemeData Function(String theme);
 
 class AppTheme extends StatefulWidget {
-  const AppTheme(
-      {Key key, this.data, this.themedWidgetBuilder})
+  const AppTheme({Key key, this.data, this.themedWidgetBuilder})
       : super(key: key);
 
   final ThemedWidgetBuilder themedWidgetBuilder;

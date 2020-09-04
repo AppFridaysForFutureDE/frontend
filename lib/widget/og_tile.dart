@@ -54,7 +54,7 @@ class _OgTileState extends State<OgTile> {
       title: Text(
         widget.og.name +
             ' • ' + /* BundeslandUtil.render( */ widget.og.bundesland /* ) */,
-        semanticsLabel: widget.og.name + ' in ' +widget.og.bundesland,
+        semanticsLabel: widget.og.name + ' in ' + widget.og.bundesland,
         style: Theme.of(context).textTheme.title,
       ),
       children: <Widget>[
@@ -72,19 +72,19 @@ class _OgTileState extends State<OgTile> {
                     title: Text(strike.name),
                     subtitle: Semantics(
                       child: Text(strike.location +
-                        ' • ' +
-                        DateFormat('dd.MM.yyyy, HH:mm')
-                            .format(strike.dateTime) +
-                        (strike.additionalInfo.isEmpty
-                            ? ''
-                            : ' • ' + strike.additionalInfo)),
+                          ' • ' +
+                          DateFormat('dd.MM.yyyy, HH:mm')
+                              .format(strike.dateTime) +
+                          (strike.additionalInfo.isEmpty
+                              ? ''
+                              : ' • ' + strike.additionalInfo)),
                       label: strike.location +
-                        ' am ' +
-                        DateFormat('dd.MM.yyyy, HH:mm')
-                            .format(strike.dateTime) +
-                        (strike.additionalInfo.isEmpty
-                            ? ''
-                            : ' Weitere Infos: ' + strike.additionalInfo),
+                          ' am ' +
+                          DateFormat('dd.MM.yyyy, HH:mm')
+                              .format(strike.dateTime) +
+                          (strike.additionalInfo.isEmpty
+                              ? ''
+                              : ' Weitere Infos: ' + strike.additionalInfo),
                     ),
                     trailing: strike.eventLink.isEmpty
                         ? null

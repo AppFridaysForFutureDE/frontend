@@ -27,7 +27,6 @@ class NetzstreikApi {
     if (cache.exists('netzstreikMap.json')) {
       var body = cache.get('netzstreikMap.json');
       if (body != null) {
-
         return;
       }
     }
@@ -38,8 +37,6 @@ class NetzstreikApi {
         client = http.Client();
         var res = await client.get(apiUrl);
         if (res.statusCode == HttpStatus.ok) {
-
-
           cache.put('netzstreikMap.json', res.body);
           print('New Strike Data put in Cache');
           return;
@@ -75,13 +72,12 @@ class NetzstreikApi {
         }
       }
       return resultL;
-    }catch(e){
+    } catch (e) {
       print("Now Cache loaded jet");
       return List<StrikePoint>();
     }
 
     //if (cache.exists('netzstreikMap.json')) {
-
 
     //}
     /*
@@ -90,7 +86,6 @@ class NetzstreikApi {
       return  List<StrikePoint>();
     }
 */
-
   }
 
   Future<List<StrikePoint>> getAllStrikePoints() async {

@@ -2,8 +2,7 @@ import 'package:app/app.dart';
 import 'package:app/widget/title.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SocialMediaPage extends  StatelessWidget {
-
+class SocialMediaPage extends StatelessWidget {
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -11,7 +10,7 @@ class SocialMediaPage extends  StatelessWidget {
       throw 'Could not launch $url';
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,8 +30,8 @@ class SocialMediaPage extends  StatelessWidget {
             ),
             title: Text('Twitter'),
             onTap: () {
-                _launchURL('https://fffutu.re/appTwitter');
-              },
+              _launchURL('https://fffutu.re/appTwitter');
+            },
           ),
           ListTile(
             leading: Semantics(
@@ -41,8 +40,8 @@ class SocialMediaPage extends  StatelessWidget {
             ),
             title: Text('Instagram'),
             onTap: () {
-                _launchURL('https://fffutu.re/appInstagram');
-              },
+              _launchURL('https://fffutu.re/appInstagram');
+            },
           ),
           ListTile(
             leading: Semantics(
@@ -51,8 +50,8 @@ class SocialMediaPage extends  StatelessWidget {
             ),
             title: Text('Facebook'),
             onTap: () {
-                _launchURL('https://fffutu.re/appFacebook');
-              },
+              _launchURL('https://fffutu.re/appFacebook');
+            },
           ),
 /*           ListTile(
             leading: Semantics(
@@ -71,8 +70,8 @@ class SocialMediaPage extends  StatelessWidget {
             ),
             title: Text('YouTube'),
             onTap: () {
-                _launchURL('https://fffutu.re/appYouTube');
-              },
+              _launchURL('https://fffutu.re/appYouTube');
+            },
           ),
           ListTile(
             leading: Semantics(
@@ -81,8 +80,8 @@ class SocialMediaPage extends  StatelessWidget {
             ),
             title: Text('Telegram'),
             onTap: () {
-                _launchURL('https://fffutu.re/appTelegramDE');
-              },
+              _launchURL('https://fffutu.re/appTelegramDE');
+            },
           ),
           Semantics(
             child: TitleWidget('Diskussions- / Gruppen'),
@@ -95,9 +94,9 @@ class SocialMediaPage extends  StatelessWidget {
             ),
             title: Text('Telegram'),
             onTap: () {
-                _launchURL('https://fffutu.re/appTelegramDisk');
-              },
-          ), 
+              _launchURL('https://fffutu.re/appTelegramDisk');
+            },
+          ),
           ListTile(
             leading: Semantics(
               child: Icon(MdiIcons.discord),
@@ -105,11 +104,11 @@ class SocialMediaPage extends  StatelessWidget {
             ),
             title: Text('Discord'),
             onTap: () {
-                _launchURL('https://fffutu.re/appDiscord');
-              },
+              _launchURL('https://fffutu.re/appDiscord');
+            },
           ),
         ],
       ),
-      );
+    );
   }
 }

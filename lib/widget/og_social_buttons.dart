@@ -57,14 +57,23 @@ class SocialButtons extends StatelessWidget {
   }
 
   _buildChildren() => <Widget>[
-    _buildSocialMedia(MdiIcons.telegram, 'Telegram Gruppe öffnen', container.telegram),
-    _buildSocialMedia(MdiIcons.whatsapp, 'WhatsApp Gruppe öffnen', container.whatsapp),
-    _buildSocialMedia(MdiIcons.instagram, 'Instagram Kanal öffnen', container.instagram),
-    _buildSocialMedia(MdiIcons.youtube, 'YouTube Kanal öffnen', container.youtube),
-    _buildSocialMedia(MdiIcons.twitter, 'Twitter Kanal öffnen', container.twitter),
-    _buildSocialMedia(MdiIcons.facebook, 'Facebook Seite öffnen', container.facebook),
-    _buildSocialMedia(MdiIcons.email, 'E-Mail an Ortsgruppe schreiben', container.email),
-    _buildSocialMedia(MdiIcons.web, 'Internetseite öffnen', container.website),
-    _buildSocialMedia(MdiIcons.link, 'Andere Aktion ausführen', container.other),
-  ];
+        _buildSocialMedia(
+            MdiIcons.telegram, 'Telegram Gruppe öffnen', container.telegram),
+        _buildSocialMedia(
+            MdiIcons.whatsapp, 'WhatsApp Gruppe öffnen', container.whatsapp),
+        _buildSocialMedia(
+            MdiIcons.instagram, 'Instagram Kanal öffnen', container.instagram),
+        _buildSocialMedia(
+            MdiIcons.youtube, 'YouTube Kanal öffnen', container.youtube),
+        _buildSocialMedia(
+            MdiIcons.twitter, 'Twitter Kanal öffnen', container.twitter),
+        _buildSocialMedia(
+            MdiIcons.facebook, 'Facebook Seite öffnen', container.facebook),
+        _buildSocialMedia(
+            MdiIcons.email, 'E-Mail an Ortsgruppe schreiben', container.email),
+        _buildSocialMedia(
+            MdiIcons.web, 'Internetseite öffnen', container.website),
+        _buildSocialMedia(
+            MdiIcons.link, 'Andere Aktion ausführen', container.other),
+      ];
 }

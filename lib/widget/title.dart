@@ -16,15 +16,16 @@ class TitleWidget extends StatelessWidget {
     color: Colors.black54,
   );*/
   TextStyle _styleSubHeading(BuildContext context) => TextStyle(
-    letterSpacing: 3,
-    color: Theme.of(context).textTheme.title.color,
-  );
+        letterSpacing: 3,
+        color: Theme.of(context).textTheme.title.color,
+      );
 
   /*
   The Background of the Sub headings in IOs
    */
   //final Color _colorSubHeadingBackground = Colors.grey[100];
-  Color _colorSubHeadingBackground(BuildContext context) => Theme.of(context).textTheme.subtitle.backgroundColor;
+  Color _colorSubHeadingBackground(BuildContext context) =>
+      Theme.of(context).textTheme.subtitle.backgroundColor;
   @override
   Widget build(BuildContext context) {
     return Platform.isIOS
