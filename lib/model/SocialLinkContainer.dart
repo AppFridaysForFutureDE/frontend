@@ -1,4 +1,4 @@
-abstract class SocialLinkContainer{
+abstract class SocialLinkContainer {
   String whatsapp;
   String email;
   String instagram;

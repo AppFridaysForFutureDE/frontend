@@ -3,6 +3,7 @@ import 'package:app/model/post.dart';
 import 'package:app/util/share.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 
@@ -84,7 +85,8 @@ class _PostPageState extends State<PostPage> {
         actions: <Widget>[
           if (isPost)
             IconButton(
-              icon: Icon(marked ? MdiIcons.bookmark : MdiIcons.bookmarkOutline, semanticLabel: marked ? 'Markiert' : 'Nicht markiert'),
+              icon: Icon(marked ? MdiIcons.bookmark : MdiIcons.bookmarkOutline,
+                  semanticLabel: marked ? 'Markiert' : 'Nicht markiert'),
               color: marked ? Theme.of(context).accentColor : null,
               onPressed: () {
                 setState(() {
@@ -94,7 +96,9 @@ class _PostPageState extends State<PostPage> {
             ),
           if (isPost)
             IconButton(
-              icon: Platform.isIOS ? Icon(CupertinoIcons.share) : Icon(Icons.share),
+              icon: Platform.isIOS
+                  ? Icon(CupertinoIcons.share)
+                  : Icon(Icons.share),
               tooltip: 'Artikel teilen',
               onPressed: () {
                 ShareUtil.sharePost(post);
@@ -144,7 +148,8 @@ class _PostPageState extends State<PostPage> {
                         ),
                         Text(
                           post.customExcerpt,
-                          style: TextStyle(fontSize: 15, height: 1.5, letterSpacing: 0.4),
+                          style: TextStyle(
+                              fontSize: 15, height: 1.5, letterSpacing: 0.4),
                         ),
                       ],
                       Divider(),
@@ -156,7 +161,10 @@ class _PostPageState extends State<PostPage> {
                     const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
                 child: Html(
                   data: html,
-                  defaultTextStyle: TextStyle(fontSize: 15, height: 1.3, letterSpacing: 0.4),
+                  style: {
+                    "html": Style.fromTextStyle(TextStyle(
+                        fontSize: 15, height: 1.3, letterSpacing: 0.4)),
+                  },
                   onLinkTap: (link) async {
                     if (await canLaunch(link)) launch(link);
                   },
@@ -166,9 +174,9 @@ class _PostPageState extends State<PostPage> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: IconButton(
-                      icon: Platform.isIOS?(
-                          Icon(CupertinoIcons.share))
-                    : Icon(Icons.share),
+                    icon: Platform.isIOS
+                        ? (Icon(CupertinoIcons.share))
+                        : Icon(Icons.share),
                     tooltip: 'Artikel teilen',
                     onPressed: () {
                       ShareUtil.sharePost(post);

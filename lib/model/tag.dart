@@ -32,4 +32,3 @@ class Tag {
 
   Map<String, dynamic> toJson() => _$TagToJson(this);
 }
-

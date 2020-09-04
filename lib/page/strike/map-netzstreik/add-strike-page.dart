@@ -26,15 +26,14 @@ class _AddStrikePageState extends State<AddStrikePage> {
 
   Uint8List imageData = null;
   @override
-  initState(){
+  initState() {
     _getCaptcha();
   }
-  Future<void> _getCaptcha()async{
+
+  Future<void> _getCaptcha() async {
     await apiNetz.startUploadSession();
     imageData = await apiNetz.getSecureImage();
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   void _submitButton() {
@@ -42,7 +41,8 @@ class _AddStrikePageState extends State<AddStrikePage> {
       if (accept) {
         print(nameC.text + " " + plzC.text + " " + emailC.text);
         hasToAccept = false;
-        Future<ResultUpload> resultF =  apiNetz.finishUpload(nameC.text, showName, emailC.text, plzC.text, newsletter, captchaC.text);
+        Future<ResultUpload> resultF = apiNetz.finishUpload(nameC.text,
+            showName, emailC.text, plzC.text, newsletter, captchaC.text);
       } else {
         setState(() {
           hasToAccept = true;
@@ -123,11 +123,11 @@ class _AddStrikePageState extends State<AddStrikePage> {
                             return 'Bitte gebe deine Postleitzahl ein';
                           }
                           return null;
-                        }
-                    ),
+                        }),
                     Text('Bild Hochladen'),
-
-                    (imageData == null) ? Text('Captcha läd ... ') : Image.memory(imageData),
+                    (imageData == null)
+                        ? Text('Captcha läd ... ')
+                        : Image.memory(imageData),
                     TextFormField(
                         decoration: InputDecoration(
                             labelText: 'Captcha ',
@@ -138,9 +138,7 @@ class _AddStrikePageState extends State<AddStrikePage> {
                             return 'Bitte fülle das Captcha aus.';
                           }
                           return null;
-                        }
-                    ),
-
+                        }),
                     SwitchListTile.adaptive(
                       title: Text(
                           "Ich erkäre mich mit den Datenschutzbedingungen der Aktion einverstanden",

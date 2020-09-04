@@ -68,7 +68,9 @@ class _InfoPageState extends State<InfoPage> {
                 autocorrect: false,
                 cursorColor: Colors.white,
                 style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(hintText: 'Suchen', hintStyle: TextStyle(color: Colors.white)),
+                decoration: InputDecoration(
+                    hintText: 'Suchen',
+                    hintStyle: TextStyle(color: Colors.white)),
                 onChanged: (searchInputP) {
                   setState(() {
                     _searchInput = searchInputP;

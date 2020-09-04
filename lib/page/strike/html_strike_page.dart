@@ -1,5 +1,3 @@
-
-
 import 'package:app/app.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
@@ -13,18 +11,18 @@ class HtmlStrikePage extends StatefulWidget {
 
 class _HtmlStrikePageState extends State<HtmlStrikePage> {
   final String startPage = "https://app.fffutu.re/webinar";
-  final Completer<WebViewController> _controller = Completer<WebViewController>();
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
   bool _isLoading = true;
   String _startUrl;
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:Text("Aktionen"),
+        title: Text("Aktionen"),
       ),
-      body:Stack(
+      body: Stack(
         children: <Widget>[
           WebView(
             initialUrl: startPage,
@@ -47,15 +45,13 @@ class _HtmlStrikePageState extends State<HtmlStrikePage> {
             },
             onPageFinished: (String url) {
               print('Page finished loading: $url');
-              setState((){
+              setState(() {
                 _isLoading = false;
               });
             },
             gestureNavigationEnabled: true,
           ),
-          if(_isLoading)
-            LinearProgressIndicator()
-
+          if (_isLoading) LinearProgressIndicator()
         ],
       ),
       //floatingActionButton: favoriteButton(),

@@ -1,5 +1,6 @@
 import 'package:app/app.dart';
-class DemoPage extends  StatelessWidget {
+
+class DemoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

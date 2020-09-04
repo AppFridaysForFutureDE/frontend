@@ -15,6 +15,7 @@ class _FilterNetzStrikePageState extends State<FilterNetzStrikePage> {
     state.onlyShowImage = widget.state.onlyShowImage;
     state.onlyShowFeatured = widget.state.onlyShowFeatured;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +30,7 @@ class _FilterNetzStrikePageState extends State<FilterNetzStrikePage> {
               title: Text('Nur Einträge mit Bildern zeigen'),
               onChanged: (val) {
                 setState(() {
-                  state.onlyShowImage= val;
+                  state.onlyShowImage = val;
                 });
               }),
           TitleWidget('Featured'),

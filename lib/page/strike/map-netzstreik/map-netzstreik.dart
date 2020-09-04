@@ -30,31 +30,29 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
 
   var allImageMarkerFeatured = <Marker>[];
   var allImageMarkerNotFeatured = <Marker>[];
-  
+
   var featuredMarkerShow = <Marker>[];
   var notFeaturedMarkerShow = <Marker>[];
 
   var isLoadingNew = true;
 
   Future<void> loadOldData() async {
-
     List<StrikePoint> list = await netzstreikApi.getAllStrikePointsOld();
 
-      if(mounted && isLoadingNew) {
-        await Future.delayed(Duration(seconds: 1));
-        strikePointL = list;
+    if (mounted && isLoadingNew) {
+      await Future.delayed(Duration(seconds: 1));
+      strikePointL = list;
 
-        if (isLoadingNew) {
-          setState(() {
-            _generateAllMarker();
-            applayFilter();
-            print("Loaded Old Data");
-          });
-        }
+      if (isLoadingNew) {
+        setState(() {
+          _generateAllMarker();
+          applayFilter();
+          print("Loaded Old Data");
+        });
       }
-
-
+    }
   }
+
   /**
    * The init Method Loads all strike Points.
    */
@@ -69,7 +67,6 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
 
         applayFilter();
         setState(() {
-
           print("NewData Loaded");
         });
       }
@@ -86,7 +83,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
     if (filterState.onlyShowImage) {
       featuredMarkerShow = this.allImageMarkerFeatured;
       notFeaturedMarkerShow = this.allImageMarkerNotFeatured;
-    } else{
+    } else {
       featuredMarkerShow = allFeaturedMarker;
       notFeaturedMarkerShow = allNotFeaturedMarker;
     }
@@ -349,8 +346,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                   ),
                 ),
               ),
-            if(this.isLoadingNew)
-              LinearProgressIndicator(),
+            if (this.isLoadingNew) LinearProgressIndicator(),
             Container(
               decoration: BoxDecoration(
                   color: Theme.of(context).accentColor,
@@ -407,7 +403,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                                   .copyWith(color: Colors.black),
                             ),
                             Text(
-                              "Um die aktuelle Ausbreitung zu verlangsamen, Menschen zu schützen und unsere Gesundheitssysteme zu entlasten, müssen wir alle unser Handeln anpassen. Auch wir als Fridays for Future und wollen dem gerecht werden. Daher sagen wir alle Streiks in der echten Welt ab und verlagern unsere Proteste für eine bessere Klimapolitik ins Netz. Nach wie vor fordern wir, die Klimakrise nicht aus den Augen zu verlieren. Der aktuellen Krise muss ebenso wie der Klimakrise in aller Handlungsbereitschaft und mit dem notwendigen politischen Willen begegnet werden. Weiterhin bedroht die Klimakrise unsere Zukunft. Deswegen protestieren wir trotzdem lautstark weiter – ohne Menschenmassen; stattdessen digital und im Netz.",
+                                "Um die aktuelle Ausbreitung zu verlangsamen, Menschen zu schützen und unsere Gesundheitssysteme zu entlasten, müssen wir alle unser Handeln anpassen. Auch wir als Fridays for Future und wollen dem gerecht werden. Daher sagen wir alle Streiks in der echten Welt ab und verlagern unsere Proteste für eine bessere Klimapolitik ins Netz. Nach wie vor fordern wir, die Klimakrise nicht aus den Augen zu verlieren. Der aktuellen Krise muss ebenso wie der Klimakrise in aller Handlungsbereitschaft und mit dem notwendigen politischen Willen begegnet werden. Weiterhin bedroht die Klimakrise unsere Zukunft. Deswegen protestieren wir trotzdem lautstark weiter – ohne Menschenmassen; stattdessen digital und im Netz.",
                                 style: TextStyle(
                                   color: Colors.black,
                                 )),
