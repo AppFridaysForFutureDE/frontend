@@ -54,7 +54,7 @@ class SocialMediaPage extends  StatelessWidget {
                 _launchURL('https://fffutu.re/appFacebook');
               },
           ),
-          ListTile(
+/*           ListTile(
             leading: Semantics(
               child: Icon(MdiIcons.flickr),
               hidden: true,
@@ -63,7 +63,7 @@ class SocialMediaPage extends  StatelessWidget {
             onTap: () {
                 _launchURL('https://fffutu.re/appFlickr');
               },
-          ),
+          ), */
           ListTile(
             leading: Semantics(
               child: Icon(MdiIcons.youtube),
