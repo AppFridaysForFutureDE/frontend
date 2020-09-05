@@ -8,13 +8,13 @@ part of 'og.dart';
 
 class OGAdapter extends TypeAdapter<OG> {
   @override
-  final typeId = 1;
+  final int typeId = 1;
 
   @override
   OG read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return OG()
       ..ogId = fields[0] as String
@@ -66,6 +66,16 @@ class OGAdapter extends TypeAdapter<OG> {
       ..writeByte(14)
       ..write(obj.other);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is OGAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 // **************************************************************************
