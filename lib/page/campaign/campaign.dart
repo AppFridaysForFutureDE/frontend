@@ -1,3 +1,4 @@
+import 'package:app/model/campaign.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
@@ -12,11 +13,33 @@ class CampaignPage extends StatefulWidget {
 }
 
 class _CampaignPageState extends State<CampaignPage> {
+  List<Campaign> campaigns;
+
+  @override
+  void initState() {
+    _loadData();
+    super.initState();
+  }
+
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
       throw 'Could not launch $url';
+    }
+  }
+
+  Future _loadData() async {
+    try {
+      campaigns = await api.getCampaigns();
+
+      if (mounted) setState(() {});
+    } catch (e) {
+      if (mounted)
+        // TODO: Handle error "no Scaffold found" ? Maybe irrelevant - todo copied from slogans
+        Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text(
+                'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
     }
   }
 
