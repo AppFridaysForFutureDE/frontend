@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
 import 'package:app/widget/title.dart';
@@ -27,10 +28,22 @@ class _CampaignPageState extends State<CampaignPage> {
       ),
       body: ListView(
         children: <Widget>[
-          Semantics(
-            // TODO: Change this to top slider
-            label: 'Slider',
-            child: TitleWidget('Großstreik 25.09.'),
+          CarouselSlider(
+            options: CarouselOptions(height: 400.0),
+            items: [1, 2, 3, 4, 5].map((i) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.symmetric(horizontal: 5.0),
+                      decoration: BoxDecoration(color: Colors.amber),
+                      child: Text(
+                        'text $i',
+                        style: TextStyle(fontSize: 16.0),
+                      ));
+                },
+              );
+            }).toList(),
           ),
           GridView.count(
             crossAxisCount: 2,
