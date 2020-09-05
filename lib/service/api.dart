@@ -237,7 +237,7 @@ class ApiService {
       if (res.statusCode == HttpStatus.ok) {
         cache.put('campaigns.json', res.body);
 
-        var data = json.decode(res.body);
+        var data = json.decode(utf8.decode(res.bodyBytes));
         return data['campaigns']
             .map<Campaign>((m) => Campaign.fromJson(m))
             .toList();
