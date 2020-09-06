@@ -13,7 +13,7 @@ class CampaignPage extends StatefulWidget {
 }
 
 class _CampaignPageState extends State<CampaignPage> {
-  List<Campaign> campaigns;
+  List<Campaign> campaigns = [];
 
   @override
   void initState() {
@@ -79,9 +79,29 @@ class _CampaignPageState extends State<CampaignPage> {
                     physics: ScrollPhysics(),
                     shrinkWrap: true,
                     children: List.generate(campaigns.length, (index) {
+                      Campaign campaign = campaigns[index];
                       return Center(
-                        child: Text(
-                          campaigns[index].text,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            children: <Widget>[
+                              Icon(
+                                MdiIcons.fromString(campaign.icon),
+                                color: Theme.of(context).accentColor,
+                                size: 60,
+                              ),
+                              Text(
+                                campaign.text,
+                              ),
+                              FlatButton(
+                                padding: EdgeInsets.all(0),
+                                child: Text(campaign.cta),
+                                onPressed: () {
+                                  _launchURL(campaign.link);
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     }),
