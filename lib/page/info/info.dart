@@ -56,6 +56,48 @@ class _InfoPageState extends State<InfoPage> {
     return true;
   }
 
+  Widget _emptyPageWidget() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Center(
+            child: Text(
+              'Hier findest du alle wichtigen Infos rund um die Ortsgruppen, die du abonniert hast.',
+              textAlign: TextAlign.center,
+            ),
+          ),
+          SizedBox(height: 50.0),
+          Center(
+            child: Text(
+              'Um Ortsgruppen zu abonnieren:',
+              textAlign: TextAlign.center,
+            ),
+          ),
+          ListTile(
+            leading: Semantics(child: Icon(MdiIcons.map)),
+            title: Text('schau dich auf der Karte um'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MapPage()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Semantics(child: Icon(Icons.search)),
+            title: Text('oder verwende die Suchfunktion'),
+            onTap: () {
+              setState(() {
+                _isSearch = !_isSearch;
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   //the main Build function
   @override
   Widget build(BuildContext context) {
@@ -130,14 +172,9 @@ class _InfoPageState extends State<InfoPage> {
       body: ogL.isEmpty
           ? Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Text(
-                  _isSearch
-                      ? 'Keine Ergebnisse'
-                      : 'Du hast aktuell keine OGs abonniert. OGs lassen sich auf der Karte finden und abonnieren.',
-                  textAlign: TextAlign.center,
-                ),
-              ),
+              child: _isSearch
+                  ? Center(child: Text('Keine Ergebnisse'))
+                  : _emptyPageWidget(),
             )
           : ListView.builder(
               // a Standard List View
