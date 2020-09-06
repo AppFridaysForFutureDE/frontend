@@ -1,4 +1,5 @@
 import 'package:app/app.dart';
+import 'package:app/page/map/map.dart';
 import 'package:app/widget/og_tile.dart';
 
 class InfoPage extends StatefulWidget {
@@ -105,6 +106,16 @@ class _InfoPageState extends State<InfoPage> {
               // with no Search active
               title: Text('Ortsgruppen Infos'),
               actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.map),
+                  tooltip: 'Karte öffnen',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MapPage()),
+                    );
+                  },
+                ),
                 IconButton(
                   icon: Icon(Icons.search),
                   tooltip: 'Ortsgruppe suchen',
