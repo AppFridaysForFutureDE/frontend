@@ -82,6 +82,7 @@ class _CampaignPageState extends State<CampaignPage> {
                       Campaign campaign = campaigns[index];
                       return Center(
                         child: Padding(
+                          // TODO: improve spacing
                           padding: const EdgeInsets.all(12.0),
                           child: Column(
                             children: <Widget>[
@@ -91,11 +92,22 @@ class _CampaignPageState extends State<CampaignPage> {
                                 size: 60,
                               ),
                               Text(
+                                // TODO: fix overflow - make parent height flexible?
                                 campaign.text,
                               ),
-                              FlatButton(
-                                padding: EdgeInsets.all(0),
-                                child: Text(campaign.cta),
+                              RaisedButton(
+                                // TODO: Raised or Flat button?
+                                // TODO: Make all buttons have the same size
+                                color: Theme.of(context).primaryColor,
+                                // TODO: really use round corners?
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0)),
+                                child: Text(
+                                  campaign.cta,
+                                  // TODO: fix to one line?
+                                  // softWrap: false,
+                                ),
                                 onPressed: () {
                                   _launchURL(campaign.link);
                                 },
