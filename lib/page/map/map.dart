@@ -19,7 +19,7 @@ class _MapPageState extends State<MapPage> {
 
   Future _loadData() async {
     try {
-      ogs = await api.getOGs();
+      // ogs = await api.getOGs();
       ogs = await api.getOGs();
 
       if (mounted) setState(() {});
