@@ -10,7 +10,7 @@ class InfoPage extends StatefulWidget {
 }
 
 /*
-The Page Shows the Information to all marked OGs
+The og info page shows information for all subscribed local groups
  */
 class _InfoPageState extends State<InfoPage> {
   List<OG> ogs;
@@ -45,40 +45,6 @@ class _InfoPageState extends State<InfoPage> {
                 'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
     }
   }
-
-  /*
-  The filter function returns true if the og SCHOULD NOT be in the shown Result in first Priority
-  Else return false if the OG schould be in the REsult of the Search
-  Need to be adjusted when the OG class changes
-   */
-  // bool _removeIf(OG og) {
-  //   if (og.name != null &&
-  //       (og.name.toLowerCase().contains(searchText.toLowerCase()))) {
-  //     return false;
-  //   }
-  //   if (og.name != null &&
-  //       (og.name.toLowerCase().contains(searchText.toLowerCase()))) {
-  //     return false;
-  //   }
-  //   if (og.bundesland != null &&
-  //       (og.bundesland.toLowerCase().contains(searchText.toLowerCase()))) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
-  /*
-   * This is the second Priority Search
-   * It Searches the zusatzinfo and returns false if the zusatzinfo contains the search input
-   * Else if the string is not in the zusatzinfo it returns true
-   * this list gets appended to the first result because its less relevant then a direct match with the name/city name
-   */
-  // bool _removeSecondPriority(OG og) {
-  /*   if(og.zusatzinfo != null && (og.zusatzinfo.toLowerCase().contains(searchText.toLowerCase()))){
-      return false;
-    } */
-  //   return true;
-  // }
 
   Widget _emptyBody() {
     return Padding(
@@ -115,7 +81,7 @@ class _InfoPageState extends State<InfoPage> {
               title: Text('oder verwende die Suchfunktion'),
               onTap: () {
                 setState(() {
-                  searchActive = !searchActive;
+                  searchActive = true;
                 });
               },
             ),

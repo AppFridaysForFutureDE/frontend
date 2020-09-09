@@ -13,6 +13,7 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   List<OG> ogs;
 
+  // TODO: Use ogs loaded on info page
   Future _loadData() async {
     try {
       ogs = await api.getOGs();
