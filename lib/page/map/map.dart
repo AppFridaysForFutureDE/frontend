@@ -1,7 +1,6 @@
 import 'package:app/app.dart';
 import 'package:app/widget/og_social_buttons.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong/latlong.dart';
@@ -14,12 +13,8 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   List<OG> ogs;
 
-  bool searchActive = false;
-  String searchText = '';
-
   Future _loadData() async {
     try {
-      // ogs = await api.getOGs();
       ogs = await api.getOGs();
 
       if (mounted) setState(() {});
@@ -28,14 +23,6 @@ class _MapPageState extends State<MapPage> {
         Scaffold.of(context).showSnackBar(SnackBar(
             content: Text(
                 'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
-    }
-  }
-
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
     }
   }
 
@@ -48,140 +35,76 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<OG> filteredOGs;
-
-    if (searchActive) {
-      filteredOGs = ogs
-          .where((o) => o.name.toLowerCase().contains(searchText.toLowerCase()))
-          .take(100)
-          .toList();
-
-      filteredOGs.sort((a, b) =>
-          b.name.toLowerCase().startsWith(searchText.toLowerCase()) ? 1 : -1);
-    }
-
     return Scaffold(
       appBar: AppBar(
-        title: searchActive
-            ? TextField(
-                autofocus: true,
-                textCapitalization: TextCapitalization.words,
-                autocorrect: false,
-                cursorColor: Colors.white,
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                    hintText: 'Suchen',
-                    hintStyle: TextStyle(color: Colors.white)),
-                onChanged: (s) {
-                  setState(() {
-                    searchText = s;
-                  });
-                },
-              )
-            : Text('Karte'),
-        actions: <Widget>[
-          if (ogs != null)
-            IconButton(
-              icon: Icon(searchActive ? Icons.close : MdiIcons.magnify,
-                  semanticLabel:
-                      searchActive ? 'Suche schließen' : 'Stadt suchen'),
-              onPressed: () {
-                setState(() {
-                  if (searchActive) {
-                    searchText = '';
-                    searchActive = false;
-                  } else {
-                    searchActive = true;
-                  }
-                });
-              },
-            ),
-        ],
+        title: Text('Karte'),
       ),
       body: ogs == null
           ? LinearProgressIndicator()
-          : (searchActive
-              ? (filteredOGs.isEmpty
-                  ? Center(
-                      child: Text('Keine Ergebnisse'),
-                    )
-                  : ListView(
-                      children: <Widget>[
-                        for (var og in filteredOGs)
-                          ListTile(
-                            title: Text(og.name),
-                            onTap: () {
-                              showOGDetails(og);
-                            },
-                          )
+          : Stack(
+              alignment: Alignment.bottomRight,
+              children: <Widget>[
+                Semantics(
+                  hidden: true,
+                  enabled: false,
+                  child: FlutterMap(
+                    options: MapOptions(
+                      center: LatLng(51.3867, 9.9167),
+                      zoom: 5.7,
+                      minZoom: 4,
+                      maxZoom: 19,
+                      plugins: [
+                        MarkerClusterPlugin(),
                       ],
-                    ))
-              : Stack(
-                  alignment: Alignment.bottomRight,
-                  children: <Widget>[
-                    Semantics(
-                      hidden: true,
-                      enabled: false,
-                      child: FlutterMap(
-                        options: MapOptions(
-                          center: LatLng(51.3867, 9.9167),
-                          zoom: 5.7,
-                          minZoom: 4,
-                          maxZoom: 19,
-                          plugins: [
-                            MarkerClusterPlugin(),
-                          ],
+                    ),
+                    layers: [
+                      TileLayerOptions(
+                          urlTemplate:
+                              'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
+                          tileProvider: CachedNetworkTileProvider()),
+                      MarkerClusterLayerOptions(
+                        maxClusterRadius: 120,
+                        size: Size(40, 40),
+                        fitBoundsOptions: FitBoundsOptions(
+                          padding: EdgeInsets.all(50),
                         ),
-                        layers: [
-                          TileLayerOptions(
-                              urlTemplate:
-                                  'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
-                              tileProvider: CachedNetworkTileProvider()),
-                          MarkerClusterLayerOptions(
-                            maxClusterRadius: 120,
-                            size: Size(40, 40),
-                            fitBoundsOptions: FitBoundsOptions(
-                              padding: EdgeInsets.all(50),
+                        markers: ogs
+                            .map<Marker>((item) => _generateMarker(item))
+                            .toList(),
+                        polygonOptions: PolygonOptions(
+                            borderColor: Theme.of(context).primaryColor,
+                            color: Colors.black12,
+                            borderStrokeWidth: 3),
+                        builder: (context, markers) {
+                          return FloatingActionButton(
+                            heroTag: null,
+                            backgroundColor: Theme.of(context).primaryColor,
+                            child: Text(
+                              markers.length.toString(),
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
                             ),
-                            markers: ogs
-                                .map<Marker>((item) => _generateMarker(item))
-                                .toList(),
-                            polygonOptions: PolygonOptions(
-                                borderColor: Theme.of(context).primaryColor,
-                                color: Colors.black12,
-                                borderStrokeWidth: 3),
-                            builder: (context, markers) {
-                              return FloatingActionButton(
-                                heroTag: null,
-                                backgroundColor: Theme.of(context).primaryColor,
-                                child: Text(
-                                  markers.length.toString(),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                onPressed: null,
-                              );
-                            },
-                          ),
-                          /*    MarkerLayerOptions(
-                        ), */
-                        ],
+                            onPressed: null,
+                          );
+                        },
                       ),
+                    ],
+                  ),
+                ),
+                Semantics(
+                  hidden: true,
+                  child: Container(
+                    color: Color(0xaaffffff),
+                    padding: const EdgeInsets.all(2.0),
+                    child: Text(
+                      '© OpenStreetMap-Mitwirkende',
+                      style: TextStyle(fontSize: 11, color: Colors.black),
                     ),
-                    Semantics(
-                      hidden: true,
-                      child: Container(
-                        color: Color(0xaaffffff),
-                        padding: const EdgeInsets.all(2.0),
-                        child: Text(
-                          '© OpenStreetMap-Mitwirkende',
-                          style: TextStyle(fontSize: 11, color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  ],
-                )),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 
