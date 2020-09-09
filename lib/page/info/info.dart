@@ -206,6 +206,7 @@ class _InfoPageState extends State<InfoPage> {
                     Hive.box('subscribed_ogs').put(og.ogId, og);
                     Navigator.of(context).pop();
                     setState(() {
+                      searchActive = false;
                       refreshSubscribedOgs();
                     });
                     await FirebaseMessaging().subscribeToTopic('og_${og.ogId}');
