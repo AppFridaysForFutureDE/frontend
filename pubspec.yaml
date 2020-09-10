@@ -49,10 +49,6 @@ dependencies:
   firebase_dynamic_links: ^0.5.0+11
   video_player: ^0.10.8+1
 
-# Behebt temporären Fehler bei Flutter 1.17.1, abhängig von https://github.com/hivedb/hive/issues/247
-dependency_overrides:
-  dartx: ^0.3.0
- 
 dev_dependencies:
   flutter_test:
     sdk: flutter
