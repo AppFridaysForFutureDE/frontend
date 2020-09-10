@@ -201,8 +201,10 @@ class _SloganItemState extends State<SloganItem> {
       child: Stack(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding:
+                const EdgeInsets.only(left: 12, right: 60, top: 12, bottom: 12),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Row(
                   children: <Widget>[
@@ -210,6 +212,7 @@ class _SloganItemState extends State<SloganItem> {
                       child: Column(
                         children: <Widget>[
                           AnimatedContainer(
+                            // height: selected ? 200 : 40,
                             duration: Duration(milliseconds: 250),
                             child: ConstrainedBox(
                               constraints: BoxConstraints(
@@ -223,17 +226,19 @@ class _SloganItemState extends State<SloganItem> {
                     ),
                   ],
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
                   children: <Widget>[
-                    Expanded(
-                      child: Wrap(
-                        spacing: 8,
-                        children: <Widget>[
-                          for (var tag in slogan.tags) Chip(label: Text(tag)),
-                        ],
+                    for (var tag in slogan.tags)
+                      Text(
+                        tag,
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor),
                       ),
-                    ),
                   ],
                 ),
               ],
@@ -245,12 +250,18 @@ class _SloganItemState extends State<SloganItem> {
               mainAxisSize: MainAxisSize.min,
               children: Platform.isAndroid
                   ? <Widget>[
-                      if (marked)
-                        Icon(
-                          MdiIcons.bookmark,
-                          color: Theme.of(context).accentColor,
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            Hive.box('slogan_mark').put(slogan.id, !marked);
+                          });
+                        },
+                        icon: Icon(
+                          marked ? MdiIcons.star : MdiIcons.starOutline,
+                          color: marked ? Theme.of(context).accentColor : null,
                           semanticLabel: 'Markierter Artikel',
                         ),
+                      ),
                       PopupMenuButton(
                         icon: Icon(
                           Icons.more_vert,
