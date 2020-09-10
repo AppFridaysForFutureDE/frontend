@@ -121,7 +121,7 @@ Future<List<Slogan>> getSlogans() async {
       if (res.statusCode == HttpStatus.ok) {
         cache.put('slogans.json', res.body);
 
-        var data = json.decode(res.body);
+        var data = json.decode(utf8.decode(res.bodyBytes));
         return data['slogans'].map<Slogan>((m) => Slogan.fromJson(m)).toList();
       } else {
         throw Exception('HTTP Status ${res.statusCode}');
