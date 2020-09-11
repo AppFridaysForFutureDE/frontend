@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:app/app.dart';
@@ -22,14 +23,15 @@ class _DemoPageState extends State<DemoPage> {
   Future _loadData() async {
     try {
       slogans = await api.getSlogans();
-
       if (mounted) setState(() {});
     } catch (e) {
       if (mounted)
-        // TODO: Handle error "no Scaffold found"
-        Scaffold.of(context).showSnackBar(SnackBar(
+        _scaffoldKey.currentState.showSnackBar(
+          SnackBar(
             content: Text(
-                'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
+                'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.'),
+          ),
+        );
     }
   }
 
@@ -39,10 +41,12 @@ class _DemoPageState extends State<DemoPage> {
   String searchText = '';
 
   var filterState = FilterState();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         centerTitle: Platform.isIOS,
         title: searchActive
@@ -202,7 +206,7 @@ class _SloganItemState extends State<SloganItem> {
         children: <Widget>[
           Padding(
             padding:
-                const EdgeInsets.only(left: 12, right: 60, top: 12, bottom: 12),
+                const EdgeInsets.only(left: 12, right: 40, top: 12, bottom: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -216,8 +220,8 @@ class _SloganItemState extends State<SloganItem> {
                             duration: Duration(milliseconds: 250),
                             child: ConstrainedBox(
                               constraints: BoxConstraints(
-                                  minHeight: 32,
-                                  maxHeight: selected ? double.infinity : 32.0),
+                                  minHeight: 36,
+                                  maxHeight: selected ? double.infinity : 36.0),
                               child: Text(slogan.text),
                             ),
                           ),
@@ -246,22 +250,9 @@ class _SloganItemState extends State<SloganItem> {
           ),
           Align(
             alignment: Alignment.topRight,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
+            child: Column(
               children: Platform.isAndroid
                   ? <Widget>[
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            Hive.box('slogan_mark').put(slogan.id, !marked);
-                          });
-                        },
-                        icon: Icon(
-                          marked ? MdiIcons.star : MdiIcons.starOutline,
-                          color: marked ? Theme.of(context).accentColor : null,
-                          semanticLabel: 'Markierter Artikel',
-                        ),
-                      ),
                       PopupMenuButton(
                         icon: Icon(
                           Icons.more_vert,
@@ -290,6 +281,18 @@ class _SloganItemState extends State<SloganItem> {
                               break;
                           }
                         },
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            Hive.box('slogan_mark').put(slogan.id, !marked);
+                          });
+                        },
+                        icon: Icon(
+                          marked ? MdiIcons.star : MdiIcons.starOutline,
+                          color: marked ? Theme.of(context).accentColor : null,
+                          semanticLabel: 'Markierter Artikel',
+                        ),
                       ),
                     ]
                   :
