@@ -22,20 +22,20 @@ class _FilterPageState extends State<FilterPage> {
   }
 
 //Used for screenreaders
-var onlyShowUnreadIsActive = 'Nur ungelesene Artikel anzeigen. Nicht aktiv';
-var onlyShowMarkedIsActive = 'Nur markierte Artikel anzeigen. Nicht aktiv';
+  var onlyShowUnreadIsActive = 'Nur ungelesene Artikel anzeigen. Nicht aktiv';
+  var onlyShowMarkedIsActive = 'Nur markierte Artikel anzeigen. Nicht aktiv';
 
-void updateUnread(){
-  if (state.onlyShowUnread) {
-    onlyShowUnreadIsActive = 'Nur ungelesene Artikel anzeigen. Aktiv';
+  void updateUnread() {
+    if (state.onlyShowUnread) {
+      onlyShowUnreadIsActive = 'Nur ungelesene Artikel anzeigen. Aktiv';
+    }
   }
-}
 
-void updateMarked(){
-  if (state.onlyShowMarked){
-    onlyShowMarkedIsActive = 'Nur markierte Artikel anzeigen. Aktiv';
+  void updateMarked() {
+    if (state.onlyShowMarked) {
+      onlyShowMarkedIsActive = 'Nur markierte Artikel anzeigen. Aktiv';
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,7 @@ void updateMarked(){
                   });
                   updateMarked();
                 }),
-                label: onlyShowMarkedIsActive,
+            label: onlyShowMarkedIsActive,
           ),
           TitleWidget('Kategorien'),
           Padding(
@@ -101,7 +101,7 @@ void updateMarked(){
   Widget _buildTag(String tag) {
     bool active = state.shownTags.contains(tag);
     var isActive = ''; //used for screenreaders
-    if(active){
+    if (active) {
       isActive = 'Aktiv';
     } else {
       isActive = 'Nicht aktiv';
@@ -124,7 +124,7 @@ void updateMarked(){
           style: TextStyle(
               //  color: Colors.black,
               ),
-          semanticsLabel: tag +'. '+ isActive,
+          semanticsLabel: tag + '. ' + isActive,
         ),
       ),
     );

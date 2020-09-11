@@ -30,6 +30,7 @@ class _MapPageState extends State<MapPage> {
                 'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
     }
   }
+
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -37,7 +38,6 @@ class _MapPageState extends State<MapPage> {
       throw 'Could not launch $url';
     }
   }
-
 
   @override
   void initState() {
@@ -49,7 +49,6 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     List<OG> filteredOGs;
-
 
     if (searchActive) {
       filteredOGs = ogs
@@ -70,7 +69,9 @@ class _MapPageState extends State<MapPage> {
                 autocorrect: false,
                 cursorColor: Colors.white,
                 style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(hintText: 'Suchen', hintStyle: TextStyle(color: Colors.white)),
+                decoration: InputDecoration(
+                    hintText: 'Suchen',
+                    hintStyle: TextStyle(color: Colors.white)),
                 onChanged: (s) {
                   setState(() {
                     searchText = s;
@@ -81,7 +82,9 @@ class _MapPageState extends State<MapPage> {
         actions: <Widget>[
           if (ogs != null)
             IconButton(
-              icon: Icon(searchActive ? Icons.close : MdiIcons.magnify, semanticLabel: searchActive ? 'Suche schließen' : 'Stadt suchen'),
+              icon: Icon(searchActive ? Icons.close : MdiIcons.magnify,
+                  semanticLabel:
+                      searchActive ? 'Suche schließen' : 'Stadt suchen'),
               onPressed: () {
                 setState(() {
                   if (searchActive) {
@@ -113,72 +116,72 @@ class _MapPageState extends State<MapPage> {
                           )
                       ],
                     ))
-            : Stack(
-                alignment: Alignment.bottomRight,
-                children: <Widget>[
-                  Semantics(
-                  hidden: true,
-                  enabled: false,
-                    child: FlutterMap(
-                      options: MapOptions(
-                        center: LatLng(51.3867, 9.9167),
-                        zoom: 5.7,
-                        minZoom: 4,
-                        maxZoom: 19,
-                        plugins: [
-                          MarkerClusterPlugin(),
+              : Stack(
+                  alignment: Alignment.bottomRight,
+                  children: <Widget>[
+                    Semantics(
+                      hidden: true,
+                      enabled: false,
+                      child: FlutterMap(
+                        options: MapOptions(
+                          center: LatLng(51.3867, 9.9167),
+                          zoom: 5.7,
+                          minZoom: 4,
+                          maxZoom: 19,
+                          plugins: [
+                            MarkerClusterPlugin(),
+                          ],
+                        ),
+                        layers: [
+                          TileLayerOptions(
+                              urlTemplate:
+                                  'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
+                              tileProvider: CachedNetworkTileProvider()),
+                          MarkerClusterLayerOptions(
+                            maxClusterRadius: 120,
+                            size: Size(40, 40),
+                            fitBoundsOptions: FitBoundsOptions(
+                              padding: EdgeInsets.all(50),
+                            ),
+                            markers: ogs
+                                .map<Marker>((item) => _generateMarker(item))
+                                .toList(),
+                            polygonOptions: PolygonOptions(
+                                borderColor: Theme.of(context).primaryColor,
+                                color: Colors.black12,
+                                borderStrokeWidth: 3),
+                            builder: (context, markers) {
+                              return FloatingActionButton(
+                                heroTag: null,
+                                backgroundColor: Theme.of(context).primaryColor,
+                                child: Text(
+                                  markers.length.toString(),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onPressed: null,
+                              );
+                            },
+                          ),
+                          /*    MarkerLayerOptions(
+                        ), */
                         ],
                       ),
-                      layers: [
-                        TileLayerOptions(
-                            urlTemplate:
-                                'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
-                            tileProvider: CachedNetworkTileProvider()),
-                        MarkerClusterLayerOptions(
-                          maxClusterRadius: 120,
-                          size: Size(40, 40),
-                          fitBoundsOptions: FitBoundsOptions(
-                            padding: EdgeInsets.all(50),
-                          ),
-                          markers: ogs
-                              .map<Marker>((item) => _generateMarker(item))
-                              .toList(),
-                          polygonOptions: PolygonOptions(
-                              borderColor: Theme.of(context).primaryColor,
-                              color: Colors.black12,
-                              borderStrokeWidth: 3),
-                          builder: (context, markers) {
-                            return FloatingActionButton(
-                              heroTag: null,
-                              backgroundColor: Theme.of(context).primaryColor,
-                              child: Text(
-                                markers.length.toString(),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              onPressed: null,
-                            );
-                          },
-                        ),
-                        /*    MarkerLayerOptions(
-                        ), */
-                      ],
                     ),
-                  ),
-                  Semantics(
-                  hidden: true,
-                    child: Container(
-                      color: Color(0xaaffffff),
-                      padding: const EdgeInsets.all(2.0),
-                      child: Text(
-                        '© OpenStreetMap-Mitwirkende',
-                        style: TextStyle(fontSize: 11, color: Colors.black),
+                    Semantics(
+                      hidden: true,
+                      child: Container(
+                        color: Color(0xaaffffff),
+                        padding: const EdgeInsets.all(2.0),
+                        child: Text(
+                          '© OpenStreetMap-Mitwirkende',
+                          style: TextStyle(fontSize: 11, color: Colors.black),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                )),
     );
   }
 

@@ -20,10 +20,9 @@ class _VideoPageState extends State<VideoPage> {
     if (mounted) {
       setState(() {
         _showButtonLoading = true;
-
       });
     }
-    await Future.delayed(Duration(seconds: 1,milliseconds: 500));
+    await Future.delayed(Duration(seconds: 1, milliseconds: 500));
     setState(() {
       _showButton = true;
     });
@@ -31,7 +30,6 @@ class _VideoPageState extends State<VideoPage> {
 
   @override
   void initState() {
-
     super.initState();
     _buttonAfterAWhile();
     _controller = VideoPlayerController.network(
