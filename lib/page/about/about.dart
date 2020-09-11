@@ -6,6 +6,7 @@ import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
 import 'package:app/widget/title.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 /*
 The About Page
@@ -24,14 +25,16 @@ class _AboutPageState extends State<AboutPage> {
     }
   }
 
+
+
 /*
 How to use this Widget: First parameter: The name of the ListTile, second: name without Emojis (used for screenreaders), third: Name which is shown on the new page (perhaps a bit shorter), fourth: Name of the linked site
 */
-  Widget _buildListTile(
-      String name, String nameWithoutEmoji, String pageShownName, String slug) {
-    return ListTile(
-      title: Text(name, semanticsLabel: nameWithoutEmoji),
-      onTap: () {
+
+  Widget _buildFlatButton(
+      String pageShownName, String slug) {
+    return FlatButton(
+      onPressed: () {
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -41,7 +44,8 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
                 name: pageShownName,
               ),
             ));
-      },
+      }, child: null,
+      padding: EdgeInsets.zero,
     );
   }
 
@@ -63,7 +67,112 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
         ],
       ),
       body: Center(
-        child: ListView(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                child: _buildFlatButton('Forderungen', 'forderungen'),
+                color: Color(0xff9ed2ea),
+                width: double.infinity,
+                height: double.infinity
+              )
+            ),
+            Expanded(
+              child: Container (
+                child: Row(
+                  children: <Widget> [
+                    Expanded (
+                      child: Container(
+                        child: _buildFlatButton('Demosprüche', 'demosprüche'),
+                        color: Colors.white,
+                        width: double.infinity,
+                        height: double.infinity,
+                      )
+                    ),
+                   Expanded (
+                      child: Container(
+                        child: _buildFlatButton('Bundesweite Arbeitsgruppen', 'bundesweite-arbeitsgruppen'),
+                        color: Colors.white,
+                        width: double.infinity,
+                        height: double.infinity,
+                      )
+                    )
+                  ],
+                ),
+                color: Color(0xff9ed2ea),
+              )
+            ),
+            Expanded(
+              child: Container(
+                child: FlatButton(
+                  onPressed: (){
+                    _launchURL('https://www.helpforfuture.org');
+                  }, 
+                  child: Text("HELP FOR FUTURE")/*Image(image: null /*Hier Bild für Spenden einfügen*/),*/
+                ),
+                color: Color(0xff9ed2ea),
+                width: double.infinity,
+                height: double.infinity
+              )
+            ),
+            Expanded(
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      child: FlatButton(
+                        onPressed: (){
+                          _launchURL('https://fridaysforfuture.de');
+                        }, 
+                        child: Text ("Website")/*Image(image: null /*Hier Bild für Website einfügen*/)*/
+                      ),
+                      color: Color(0xff4fa355),
+                      width: double.infinity,
+                      height: double.infinity
+                    )
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: FlatButton(
+                        onPressed: (){
+                          _launchURL('https://fridaysforfuture.de/spenden/');
+                        }, 
+                        child: Text("Spenden")/*Image(image: null /*Hier Bild für Spenden einfügen*/),*/
+                      ),
+                      color: Colors.white,
+                      width: double.infinity,
+                      height: double.infinity
+                    )
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: FlatButton (
+                        onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SocialMediaPage()),
+                          );/*"..\..\assets\infoicons\SocialMediaIconhell.svg"*/
+                        }, 
+                        child: SvgPicture.asset('infoicons/SocialMediaIconhell.svg')
+                      ),
+                      color: Color(0xff4fa355),
+                      width: double.infinity,
+                      height: double.infinity
+                    )
+                  )
+                ],
+              )
+            ),
+            Expanded(
+              child: Container(
+                child: _buildFlatButton('Weiteres', 'impressum'),
+                width: double.infinity,
+                height: double.infinity
+              )
+            )
+          ]
+        )
+        /*child: ListView(
           children: <Widget>[
             Semantics(
               label: 'Die Bewegung. Bereichsüberschrift',
@@ -130,7 +239,7 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
               ),
             )
           ],
-        ),
+        ),*/
       ),
     );
   }
