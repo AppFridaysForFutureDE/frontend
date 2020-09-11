@@ -31,47 +31,59 @@ class _DemoFilterPageState extends State<DemoFilterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Demospruch Filter'),
-      ),
-      body: ListView(
-        children: <Widget>[
-          TitleWidget('Markierung'),
-          Semantics(
-            child: SwitchListTile.adaptive(
-                value: state.onlyShowMarked,
-                title: Text('Nur markierte Sprüche anzeigen'),
-                onChanged: (val) {
-                  setState(() {
-                    state.onlyShowMarked = val;
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.of(context).pop(state);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Demospruch Filter'),
+        ),
+        body: ListView(
+          children: <Widget>[
+            TitleWidget('Markierung'),
+            Semantics(
+              child: SwitchListTile.adaptive(
+                  value: state.onlyShowMarked,
+                  title: Text('Nur markierte Sprüche anzeigen'),
+                  onChanged: (val) {
+                    setState(() {
+                      state.onlyShowMarked = val;
+                      updateMarked();
+                    });
                     updateMarked();
-                  });
-                  updateMarked();
-                }),
-            label: onlyShowMarkedIsActive,
-          ),
-          TitleWidget('Kategorien'),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
+                  }),
+              label: onlyShowMarkedIsActive,
             ),
-            child: Wrap(
-              spacing: 8,
-              children: <Widget>[
-                for (String tag in widget.allTags) _buildTag(tag),
-              ],
+            TitleWidget('Kategorien'),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+              child: Wrap(
+                spacing: 8,
+                children: <Widget>[
+                  for (String tag in widget.allTags) _buildTag(tag),
+                ],
+              ),
             ),
-          )
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.check),
-        tooltip: 'Filter speichern',
-        onPressed: () {
-          Navigator.of(context).pop(state);
-        },
+            // TODO: Maybe add reset button? 
+            // Currently it is too big, maybe add a save button next to it?
+            // SizedBox(height: 50),
+            // Center(
+            //   child: FlatButton(
+            //     color: Theme.of(context).primaryColor,
+            //     child: Text('Alle Filter zurücksetzen'),
+            //     onPressed: (){
+            //       state.onlyShowMarked = false;
+            //       state.shownTags = []; // List.from(widget.allTags);
+            //       Navigator.of(context).pop(state);
+            //     },
+            //   ),
+            // )
+          ],
+        ),
       ),
     );
   }
