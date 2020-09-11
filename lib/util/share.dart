@@ -12,6 +12,6 @@ class ShareUtil {
 
   static shareSlogan(Slogan slogan) {
     Share.share(
-        'Ich kenne einen Demospruch und der geht so: "${slogan.description}"');
+        'Ich kenne einen Demospruch und der geht so: "${slogan.text}"');
   }
 }
