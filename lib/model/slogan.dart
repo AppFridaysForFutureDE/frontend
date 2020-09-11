@@ -5,19 +5,17 @@ part 'slogan.g.dart';
 @JsonSerializable()
 class Slogan {
   String id;
-  String title;
-  String description;
+  String text;
   List<String> tags;
 
  
   Slogan(
       {this.id,
-      this.title,
-      this.description,
+      this.text,
       this.tags});
 
   String searchText() {
-    String searchFields = (title ?? '') + ' ' + (description ?? '') + tags.toString();
+    String searchFields = (text ?? '') + tags.toString();
     return searchFields.toLowerCase();
   }
 
