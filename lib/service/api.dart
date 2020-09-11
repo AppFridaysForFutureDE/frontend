@@ -128,6 +128,7 @@ Future<List<Slogan>> getSlogans() async {
       }
     } catch (e) {
       if (cache.exists('slogans.json')) {
+        // TODO: check for correct utf8 decoding
         var data = json.decode(cache.get('slogans.json'));
         return data['slogans'].map<Slogan>((m) => Slogan.fromJson(m)).toList();
       } else {
