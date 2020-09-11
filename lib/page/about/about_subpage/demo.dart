@@ -218,7 +218,7 @@ class _SloganItemState extends State<SloganItem> {
                               constraints: BoxConstraints(
                                   minHeight: 32,
                                   maxHeight: selected ? double.infinity : 32.0),
-                              child: Text(slogan.description),
+                              child: Text(slogan.text),
                             ),
                           ),
                         ],
