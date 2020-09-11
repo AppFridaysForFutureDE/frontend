@@ -21,28 +21,27 @@ class _DemoFilterPageState extends State<DemoFilterPage> {
   }
 
 //Used for screenreaders
-var onlyShowMarkedIsActive = 'Nur markierte Artikel anzeigen. Nicht aktiv';
+  var onlyShowMarkedIsActive = 'Nur markierte Sprüche anzeigen. Nicht aktiv';
 
-void updateMarked(){
-  if (state.onlyShowMarked){
-    onlyShowMarkedIsActive = 'Nur markierte Artikel anzeigen. Aktiv';
+  void updateMarked() {
+    if (state.onlyShowMarked) {
+      onlyShowMarkedIsActive = 'Nur markierte Sprüche anzeigen. Aktiv';
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Filter'),
+        title: Text('Demospruch Filter'),
       ),
       body: ListView(
-        children: <Widget>[          
+        children: <Widget>[
           TitleWidget('Markierung'),
           Semantics(
             child: SwitchListTile.adaptive(
                 value: state.onlyShowMarked,
-                // TODO
-                title: Text('Nur markierte Artikel anzeigen'),
+                title: Text('Nur markierte Sprüche anzeigen'),
                 onChanged: (val) {
                   setState(() {
                     state.onlyShowMarked = val;
@@ -50,7 +49,7 @@ void updateMarked(){
                   });
                   updateMarked();
                 }),
-                label: onlyShowMarkedIsActive,
+            label: onlyShowMarkedIsActive,
           ),
           TitleWidget('Kategorien'),
           Padding(
@@ -80,7 +79,7 @@ void updateMarked(){
   Widget _buildTag(String tag) {
     bool active = state.shownTags.contains(tag);
     var isActive = ''; //used for screenreaders
-    if(active){
+    if (active) {
       isActive = 'Aktiv';
     } else {
       isActive = 'Nicht aktiv';
@@ -100,10 +99,7 @@ void updateMarked(){
         backgroundColor: active ? Theme.of(context).primaryColor : null,
         label: Text(
           tag,
-          style: TextStyle(
-              //  color: Colors.black,
-              ),
-          semanticsLabel: tag +'. '+ isActive,
+          semanticsLabel: tag + '. ' + isActive,
         ),
       ),
     );
@@ -115,6 +111,5 @@ class FilterState {
 
   List<String> shownTags = [];
 
-  bool get filterActive =>
-      onlyShowMarked || shownTags.isNotEmpty;
+  bool get filterActive => onlyShowMarked || shownTags.isNotEmpty;
 }
