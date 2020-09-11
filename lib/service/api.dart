@@ -116,7 +116,7 @@ class ApiService {
 
 Future<List<Slogan>> getSlogans() async {
     try {
-      var res = await client.get('https://app.fffutu.re/slogans.json');
+      var res = await client.get('$baseUrl/slogans');
 
       if (res.statusCode == HttpStatus.ok) {
         cache.put('slogans.json', res.body);
