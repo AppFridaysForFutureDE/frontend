@@ -105,6 +105,52 @@ class _OgTileState extends State<OgTile> {
     );
   }
 
+  Widget _strikeWidget(Strike strike) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text('Datum: '),
+              Text(DateFormat('dd.MM.yyyy').format(strike.dateTime))
+            ],
+          ),
+          Row(
+            children: [
+              Text('Uhrzeit: '),
+              Text(DateFormat('HH:mm').format(strike.dateTime)),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Treffpunkt: '),
+              Flexible(child: Text(strike.location)),
+            ],
+          ),
+          if (strike.additionalInfo.isNotEmpty)
+            Row(children: [
+              Text('Zusatz Info: '),
+              Flexible(child: Text(strike.additionalInfo))
+            ]),
+          if (strike.eventLink.isNotEmpty)
+            Row(
+              children: [
+                GestureDetector(
+                  child: new Text(
+                    'Link zum Event',
+                    style: TextStyle(color: Theme.of(context).accentColor),
+                  ),
+                  onTap: () => _launchURL(strike.eventLink),
+                ),
+              ],
+            ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: Remove
@@ -114,6 +160,14 @@ class _OgTileState extends State<OgTile> {
     og.infoTitle = 'So bereiten wir uns auf dem Großstreik in München vor';
     og.infoText =
         'Sobald das Datum des Streiks steht, geht die Planung los: In einer ersten Telefonkonferenz, kurz TK, wurden sowohl 14 Uhr als Uhrzeit und Theresienwiese als Ort, wie auch die Aktionsform festgelegt. Außerdem wurden erste Ideen und Pläne für die Arbeitsweise und vorläufige Zeitpläne erstellt. Kurz nach der zweiten Telefonkonferenz stand als Arbeitsweise das Arbeiten in themenspezifischen Kleingruppen fest. So gibt es unter anderem Gruppen für Presse, Programm und Logistik. Ergebnisse der Arbeit in diesen Untergruppen, kurz UGs, werden in wöchentlichen Plena besprochen und abgesegnet. Außerdem hat jede UG mindestens einen Hutmenschen, der*die sich darum kümmert, dass die UG mit der Arbeit vorankommt, TKs stattfinden und als Ansprechpartner*in zur Verfügung steht.';
+
+    var plenumList =
+        strikes.where((strike) => strike.name == 'Nächstes Plenum:');
+
+    Strike nextPlenum = plenumList.length == 0
+        ? null
+        : plenumList.reduce(
+            (curr, next) => curr.date.compareTo(next.date) > 0 ? curr : next);
 
     return Column(
       children: <Widget>[
@@ -141,55 +195,24 @@ class _OgTileState extends State<OgTile> {
                 ],
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Nächstes Plenum: ',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text('Keine Informationen')
+                  if (nextPlenum == null) Text('Keine Informationen'),
                 ],
               ),
-              // TODO: display first strike
-              // for (var strike in strikes)
-              //   ListTile(
-              //       title: Text(strike.name),
-              //       subtitle: Semantics(
-              //         child: Text(strike.location +
-              //             ' • ' +
-              //             DateFormat('dd.MM.yyyy, HH:mm')
-              //                 .format(strike.dateTime) +
-              //             (strike.additionalInfo.isEmpty
-              //                 ? ''
-              //                 : ' • ' + strike.additionalInfo)),
-              //         label: strike.location +
-              //             ' am ' +
-              //             DateFormat('dd.MM.yyyy, HH:mm')
-              //                 .format(strike.dateTime) +
-              //             (strike.additionalInfo.isEmpty
-              //                 ? ''
-              //                 : ' Weitere Infos: ' + strike.additionalInfo),
-              //       ),
-              //       trailing: strike.eventLink.isEmpty
-              //           ? null
-              //           : IconButton(
-              //               icon: Icon(
-              //                 MdiIcons.openInNew,
-              //                 semanticLabel: 'Anzeigen',
-              //               ),
-              //               onPressed: () {
-              //                 _launchURL(strike.eventLink);
-              //               }))
-              // SizedBox(height: 20),
+              if (nextPlenum != null) _strikeWidget(nextPlenum),
               ListTileTheme(
                 contentPadding: EdgeInsets.only(left: 0, right: 12),
-                
                 child: ExpansionTile(
                   title: Text(og.infoTitle),
                   children: [
                     DropCapText(
                       og.infoText,
                       dropCap: DropCap(
-                        // TODO: fix image size
                         width: 120,
                         height: 120,
                         child: Padding(
@@ -205,7 +228,6 @@ class _OgTileState extends State<OgTile> {
           ),
         ),
         Divider(),
-      
       ],
     );
   }
