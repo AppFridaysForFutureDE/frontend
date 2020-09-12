@@ -1,5 +1,6 @@
 import 'package:app/model/strike.dart';
 import 'package:app/widget/og_social_buttons.dart';
+import 'package:drop_cap_text/drop_cap_text.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -31,6 +32,7 @@ class _OgTileState extends State<OgTile> {
   }
 
   List<Strike> strikes;
+  // Image ogImage;
 
   @override
   void initState() {
@@ -49,53 +51,95 @@ class _OgTileState extends State<OgTile> {
 
   @override
   Widget build(BuildContext context) {
+    final ogImage = Image.network(
+        'https://www.codemate.com/wp-content/uploads/2017/09/flutter-logo.png');
+    final ogTitle = 'Mein super Titel';
+    final ogText =
+        'Sobald das Datum des Streiks steht, geht die Planung los: In einer ersten Telefonkonferenz, kurz TK, wurden sowohl 14 Uhr als Uhrzeit und Theresienwiese als Ort, wie auch die Aktionsform festgelegt. Außerdem wurden erste Ideen und Pläne für die Arbeitsweise und vorläufige Zeitpläne erstellt. Kurz nach der zweiten Telefonkonferenz stand als Arbeitsweise das Arbeiten in themenspezifischen Kleingruppen fest. So gibt es unter anderem Gruppen für Presse, Programm und Logistik. Ergebnisse der Arbeit in diesen Untergruppen, kurz UGs, werden in wöchentlichen Plena besprochen und abgesegnet. Außerdem hat jede UG mindestens einen Hutmenschen, der*die sich darum kümmert, dass die UG mit der Arbeit vorankommt, TKs stattfinden und als Ansprechpartner*in zur Verfügung steht.';
     return ExpansionTile(
       initiallyExpanded: true,
-      title: Text(
-        widget.og.name +
-            ' • ' + /* BundeslandUtil.render( */ widget.og.bundesland /* ) */,
-        semanticsLabel: widget.og.name + ' in ' + widget.og.bundesland,
-        style: Theme.of(context).textTheme.title,
+      title: Padding(
+        padding: EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text(
+              widget.og.name,
+              semanticsLabel: widget.og.name,
+              style:
+                  TextStyle(color: Theme.of(context).accentColor, fontSize: 20),
+            ),
+          ],
+        ),
       ),
       children: <Widget>[
-        SizedBox(
-          width: double.infinity,
+        Padding(
+          padding: EdgeInsets.only(left: 16.0, right: 16, bottom: 16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: SocialButtons(widget.og, true),
+              Row(
+                children: [
+                  Text(
+                    'Nächste Demo: ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text('Keine Informationen')
+                ],
               ),
-              for (var strike in strikes)
-                ListTile(
-                    title: Text(strike.name),
-                    subtitle: Semantics(
-                      child: Text(strike.location +
-                          ' • ' +
-                          DateFormat('dd.MM.yyyy, HH:mm')
-                              .format(strike.dateTime) +
-                          (strike.additionalInfo.isEmpty
-                              ? ''
-                              : ' • ' + strike.additionalInfo)),
-                      label: strike.location +
-                          ' am ' +
-                          DateFormat('dd.MM.yyyy, HH:mm')
-                              .format(strike.dateTime) +
-                          (strike.additionalInfo.isEmpty
-                              ? ''
-                              : ' Weitere Infos: ' + strike.additionalInfo),
-                    ),
-                    trailing: strike.eventLink.isEmpty
-                        ? null
-                        : IconButton(
-                            icon: Icon(
-                              MdiIcons.openInNew,
-                              semanticLabel: 'Anzeigen',
-                            ),
-                            onPressed: () {
-                              _launchURL(strike.eventLink);
-                            }))
+              Row(
+                children: [
+                  Text(
+                    'Nächstes Plenum: ',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text('Keine Informationen')
+                ],
+              ),
+              // TODO: move social btns
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 8),
+              //   child: SocialButtons(widget.og, true),
+              // ),
+              // TODO: display first strike
+              // for (var strike in strikes)
+              //   ListTile(
+              //       title: Text(strike.name),
+              //       subtitle: Semantics(
+              //         child: Text(strike.location +
+              //             ' • ' +
+              //             DateFormat('dd.MM.yyyy, HH:mm')
+              //                 .format(strike.dateTime) +
+              //             (strike.additionalInfo.isEmpty
+              //                 ? ''
+              //                 : ' • ' + strike.additionalInfo)),
+              //         label: strike.location +
+              //             ' am ' +
+              //             DateFormat('dd.MM.yyyy, HH:mm')
+              //                 .format(strike.dateTime) +
+              //             (strike.additionalInfo.isEmpty
+              //                 ? ''
+              //                 : ' Weitere Infos: ' + strike.additionalInfo),
+              //       ),
+              //       trailing: strike.eventLink.isEmpty
+              //           ? null
+              //           : IconButton(
+              //               icon: Icon(
+              //                 MdiIcons.openInNew,
+              //                 semanticLabel: 'Anzeigen',
+              //               ),
+              //               onPressed: () {
+              //                 _launchURL(strike.eventLink);
+              //               }))
+              Text(ogTitle, style: TextStyle(fontSize: 16)),
+
+              DropCapText(
+                ogText,
+                dropCap: DropCap(
+                    width: ogImage.width != null ? ogImage.width : 100,
+                    height: ogImage.height != null ? ogImage.height : 100,
+                    child: ogImage),
+              ),
             ],
           ),
         )
