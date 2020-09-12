@@ -1,7 +1,6 @@
 import 'package:app/model/strike.dart';
 import 'package:app/widget/og_social_buttons.dart';
 import 'package:drop_cap_text/drop_cap_text.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -33,11 +32,30 @@ class _OgTileState extends State<OgTile> {
   }
 
   List<Strike> strikes;
+  Strike nextStrike;
+  Strike nextPlenum;
 
   @override
   void initState() {
     super.initState();
     strikes = (Hive.box('strikes').get(og.ogId) ?? []).cast<Strike>();
+
+    List<Strike> plenumList = [];
+    List<Strike> strikeList = [];
+    for (Strike strike in strikes) {
+      strike.name == 'Nächstes Plenum:'
+          ? plenumList.insert(0, strike)
+          : strikeList.insert(0, strike);
+    }
+
+    if (plenumList.length > 0)
+      nextPlenum = plenumList.reduce(
+          (curr, next) => curr.date.compareTo(next.date) > 0 ? curr : next);
+
+    if (strikeList.length > 0)
+      nextStrike = strikeList.reduce(
+          (curr, next) => curr.date.compareTo(next.date) > 0 ? curr : next);
+
     _loadData();
   }
 
@@ -85,25 +103,6 @@ class _OgTileState extends State<OgTile> {
   //     ),
   //   );
   // }
-
-  Widget socialMediaMenu() {
-    return PopupMenuButton(
-      icon: Icon(
-        Icons.more_vert,
-        semanticLabel: 'Menü anzeigen',
-      ),
-      itemBuilder: (context) => [
-        PopupMenuItem(
-          child: Text('Twitter'),
-          value: 'tweet',
-        ),
-        PopupMenuItem(
-          child: Text('Instagram'),
-          value: 'insta',
-        ),
-      ],
-    );
-  }
 
   Widget _strikeWidget(Strike strike) {
     return Padding(
@@ -157,17 +156,9 @@ class _OgTileState extends State<OgTile> {
     og.imageLink =
         'https://www.zooroyal.de/magazin/wp-content/uploads/2017/11/Kakadu-760x560.jpg';
     // 'https://www.codemate.com/wp-content/uploads/2017/09/flutter-logo.png');
-    og.infoTitle = 'So bereiten wir uns auf dem Großstreik in München vor';
+    og.infoTitle = 'So bereiten wir uns auf dem Großstreik vor';
     og.infoText =
         'Sobald das Datum des Streiks steht, geht die Planung los: In einer ersten Telefonkonferenz, kurz TK, wurden sowohl 14 Uhr als Uhrzeit und Theresienwiese als Ort, wie auch die Aktionsform festgelegt. Außerdem wurden erste Ideen und Pläne für die Arbeitsweise und vorläufige Zeitpläne erstellt. Kurz nach der zweiten Telefonkonferenz stand als Arbeitsweise das Arbeiten in themenspezifischen Kleingruppen fest. So gibt es unter anderem Gruppen für Presse, Programm und Logistik. Ergebnisse der Arbeit in diesen Untergruppen, kurz UGs, werden in wöchentlichen Plena besprochen und abgesegnet. Außerdem hat jede UG mindestens einen Hutmenschen, der*die sich darum kümmert, dass die UG mit der Arbeit vorankommt, TKs stattfinden und als Ansprechpartner*in zur Verfügung steht.';
-
-    var plenumList =
-        strikes.where((strike) => strike.name == 'Nächstes Plenum:');
-
-    Strike nextPlenum = plenumList.length == 0
-        ? null
-        : plenumList.reduce(
-            (curr, next) => curr.date.compareTo(next.date) > 0 ? curr : next);
 
     return Column(
       children: <Widget>[
@@ -191,9 +182,10 @@ class _OgTileState extends State<OgTile> {
                     'Nächste Demo: ',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text('Keine Informationen')
+                  if (nextStrike == null) Text('Keine Informationen'),
                 ],
               ),
+              if (nextStrike != null) _strikeWidget(nextStrike),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -211,6 +203,7 @@ class _OgTileState extends State<OgTile> {
                   title: Text(og.infoTitle),
                   children: [
                     DropCapText(
+                      // FIXME: Text ändert im Darkmode nicht die Farbe und verschwindet somit
                       og.infoText,
                       dropCap: DropCap(
                         width: 120,
