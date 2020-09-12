@@ -1,13 +1,14 @@
 import 'package:app/model/strike.dart';
 import 'package:app/widget/og_social_buttons.dart';
 import 'package:drop_cap_text/drop_cap_text.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:app/app.dart';
 
 /*
-A Tile wich displays a OG in  a Scroll View and is extandable
+A Tile wich displays a OG in a Scroll View and is extandable
  */
 class OgTile extends StatefulWidget {
   final OG og;
@@ -32,7 +33,6 @@ class _OgTileState extends State<OgTile> {
   }
 
   List<Strike> strikes;
-  // Image ogImage;
 
   @override
   void initState() {
@@ -49,6 +49,62 @@ class _OgTileState extends State<OgTile> {
     } catch (e) {}
   }
 
+  // showOGDetails() {
+  //   bool subscribed = Hive.box('subscribed_ogs').containsKey(og.ogId);
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       title: Text(og.name),
+  //       content: SocialButtons(og, true),
+  //       actions: <Widget>[
+  //         FlatButton(
+  //           onPressed: Navigator.of(context).pop,
+  //           child: Text('Abbrechen'),
+  //         ),
+  //         subscribed
+  //             ? FlatButton(
+  //                 onPressed: () async {
+  //                   Hive.box('subscribed_ogs').delete(og.ogId);
+  //                   Navigator.of(context).pop();
+  //                   setState(() {});
+  //                   await FirebaseMessaging()
+  //                       .unsubscribeFromTopic('og_${og.ogId}');
+  //                 },
+  //                 child: Text('Deabonnieren'),
+  //               )
+  //             : FlatButton(
+  //                 onPressed: () async {
+  //                   Hive.box('subscribed_ogs').put(og.ogId, og);
+  //                   Navigator.of(context).pop();
+  //                   setState(() {});
+  //                   await FirebaseMessaging().subscribeToTopic('og_${og.ogId}');
+  //                 },
+  //                 child: Text('Abonnieren'),
+  //               ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  Widget socialMediaMenu() {
+    return PopupMenuButton(
+      icon: Icon(
+        Icons.more_vert,
+        semanticLabel: 'Menü anzeigen',
+      ),
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          child: Text('Twitter'),
+          value: 'tweet',
+        ),
+        PopupMenuItem(
+          child: Text('Instagram'),
+          value: 'insta',
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: Remove
@@ -59,31 +115,24 @@ class _OgTileState extends State<OgTile> {
     og.infoText =
         'Sobald das Datum des Streiks steht, geht die Planung los: In einer ersten Telefonkonferenz, kurz TK, wurden sowohl 14 Uhr als Uhrzeit und Theresienwiese als Ort, wie auch die Aktionsform festgelegt. Außerdem wurden erste Ideen und Pläne für die Arbeitsweise und vorläufige Zeitpläne erstellt. Kurz nach der zweiten Telefonkonferenz stand als Arbeitsweise das Arbeiten in themenspezifischen Kleingruppen fest. So gibt es unter anderem Gruppen für Presse, Programm und Logistik. Ergebnisse der Arbeit in diesen Untergruppen, kurz UGs, werden in wöchentlichen Plena besprochen und abgesegnet. Außerdem hat jede UG mindestens einen Hutmenschen, der*die sich darum kümmert, dass die UG mit der Arbeit vorankommt, TKs stattfinden und als Ansprechpartner*in zur Verfügung steht.';
 
-    final ogImage = Image.network(og.imageLink);
-
-    return ExpansionTile(
-      initiallyExpanded: true,
-      title: Padding(
-        padding: EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text(
-              widget.og.name,
-              semanticsLabel: widget.og.name,
-              style:
-                  TextStyle(color: Theme.of(context).accentColor, fontSize: 20),
-            ),
-          ],
-        ),
-      ),
+    return Column(
+      // initiallyExpanded: true,
+      // title:
       children: <Widget>[
+        ListTile(
+          title: Text(
+            widget.og.name,
+            semanticsLabel: widget.og.name,
+            style:
+                TextStyle(color: Theme.of(context).accentColor, fontSize: 20),
+          ),
+          trailing: socialMediaMenu(),
+        ),
         Padding(
           padding: EdgeInsets.only(left: 16.0, right: 16, bottom: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              // TODO: Display dates in title of ExpansionTile
               Row(
                 children: [
                   Text(
@@ -102,6 +151,7 @@ class _OgTileState extends State<OgTile> {
                   Text('Keine Informationen')
                 ],
               ),
+
               // TODO: move social btns
               // Padding(
               //   padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -138,22 +188,32 @@ class _OgTileState extends State<OgTile> {
               //                 _launchURL(strike.eventLink);
               //               }))
               // SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.only(top: 20, bottom: 10),
-                child: Text(og.infoTitle, style: TextStyle(fontSize: 20)),
-              ),
-
-              DropCapText(
-                og.infoText,
-                dropCap: DropCap(
-                    // TODO: fix image size
-                    width: ogImage.width != null ? ogImage.width : 100,
-                    height: ogImage.height != null ? ogImage.height : 100,
-                    child: ogImage),
+              ListTileTheme(
+                contentPadding: EdgeInsets.only(left: 0, right: 12),
+                
+                child: ExpansionTile(
+                  title: Text(og.infoTitle),
+                  children: [
+                    DropCapText(
+                      og.infoText,
+                      dropCap: DropCap(
+                        // TODO: fix image size
+                        width: 120,
+                        height: 120,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8, bottom: 8),
+                          child: Image.network(og.imageLink, fit: BoxFit.cover),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
-        )
+        ),
+        Divider(),
+      
       ],
     );
   }
