@@ -116,8 +116,6 @@ class _OgTileState extends State<OgTile> {
         'Sobald das Datum des Streiks steht, geht die Planung los: In einer ersten Telefonkonferenz, kurz TK, wurden sowohl 14 Uhr als Uhrzeit und Theresienwiese als Ort, wie auch die Aktionsform festgelegt. Außerdem wurden erste Ideen und Pläne für die Arbeitsweise und vorläufige Zeitpläne erstellt. Kurz nach der zweiten Telefonkonferenz stand als Arbeitsweise das Arbeiten in themenspezifischen Kleingruppen fest. So gibt es unter anderem Gruppen für Presse, Programm und Logistik. Ergebnisse der Arbeit in diesen Untergruppen, kurz UGs, werden in wöchentlichen Plena besprochen und abgesegnet. Außerdem hat jede UG mindestens einen Hutmenschen, der*die sich darum kümmert, dass die UG mit der Arbeit vorankommt, TKs stattfinden und als Ansprechpartner*in zur Verfügung steht.';
 
     return Column(
-      // initiallyExpanded: true,
-      // title:
       children: <Widget>[
         ListTile(
           title: Text(
@@ -126,7 +124,7 @@ class _OgTileState extends State<OgTile> {
             style:
                 TextStyle(color: Theme.of(context).accentColor, fontSize: 20),
           ),
-          trailing: socialMediaMenu(),
+          trailing: SocialButtons(og, false),
         ),
         Padding(
           padding: EdgeInsets.only(left: 16.0, right: 16, bottom: 16),
@@ -151,12 +149,6 @@ class _OgTileState extends State<OgTile> {
                   Text('Keine Informationen')
                 ],
               ),
-
-              // TODO: move social btns
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 8),
-              //   child: SocialButtons(widget.og, true),
-              // ),
               // TODO: display first strike
               // for (var strike in strikes)
               //   ListTile(
