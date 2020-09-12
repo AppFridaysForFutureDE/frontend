@@ -6,33 +6,15 @@ import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong/latlong.dart';
 
 class MapPage extends StatefulWidget {
+  final List<OG> ogs;
+
+  MapPage(this.ogs);
+
   @override
   _MapPageState createState() => _MapPageState();
 }
 
 class _MapPageState extends State<MapPage> {
-  List<OG> ogs;
-
-  // TODO: Use ogs loaded on info page
-  Future _loadData() async {
-    try {
-      ogs = await api.getOGs();
-
-      if (mounted) setState(() {});
-    } catch (e) {
-      if (mounted)
-        Scaffold.of(context).showSnackBar(SnackBar(
-            content: Text(
-                'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
-    }
-  }
-
-  @override
-  void initState() {
-    _loadData();
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +22,7 @@ class _MapPageState extends State<MapPage> {
       appBar: AppBar(
         title: Text('Karte'),
       ),
-      body: ogs == null
+      body: widget.ogs == null
           ? LinearProgressIndicator()
           : Stack(
               alignment: Alignment.bottomRight,
@@ -69,7 +51,7 @@ class _MapPageState extends State<MapPage> {
                         fitBoundsOptions: FitBoundsOptions(
                           padding: EdgeInsets.all(50),
                         ),
-                        markers: ogs
+                        markers: widget.ogs
                             .map<Marker>((item) => _generateMarker(item))
                             .toList(),
                         polygonOptions: PolygonOptions(

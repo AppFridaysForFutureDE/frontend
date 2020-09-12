@@ -69,12 +69,7 @@ class _InfoPageState extends State<InfoPage> {
             ListTile(
               leading: Semantics(child: Icon(MdiIcons.map)),
               title: Text('schau dich auf der Karte um'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MapPage()),
-                );
-              },
+              onTap: _goToMap,
             ),
             ListTile(
               leading: Semantics(child: Icon(Icons.search)),
@@ -142,6 +137,15 @@ class _InfoPageState extends State<InfoPage> {
     );
   }
 
+  void _goToMap() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MapPage(ogs)),
+    ).then((_value) => setState(() {
+          refreshSubscribedOgs();
+        }));
+  }
+
   showOGDetails(OG og) {
     bool subscribed = Hive.box('subscribed_ogs').containsKey(og.ogId);
     showDialog(
@@ -207,12 +211,7 @@ class _InfoPageState extends State<InfoPage> {
                 IconButton(
                   icon: Icon(Icons.map),
                   tooltip: 'Karte öffnen',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MapPage()),
-                    );
-                  },
+                  onPressed: _goToMap,
                 ),
                 IconButton(
                   icon: Icon(Icons.search),
