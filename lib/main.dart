@@ -436,8 +436,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                 height: 80,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Image.network(
-                    'https://fridaysforfuture.de/wp-content/uploads/2019/04/cropped-icon-192x192.png', // TODO Als lokales Asset
+                  child: Image.asset(
+                    'assets/images/home_button.png',
                   ),
                 ),
               ),
