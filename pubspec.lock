@@ -120,6 +120,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.3.2+1"
+  carousel_slider:
+    dependency: "direct main"
+    description:
+      name: carousel_slider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.1"
   characters:
     dependency: transitive
     description:
@@ -281,6 +288,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.10"
+  drop_cap_text:
+    dependency: "direct main"
+    description:
+      name: drop_cap_text
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.7"
   email_validator:
     dependency: "direct main"
     description:

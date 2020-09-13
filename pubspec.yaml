@@ -44,7 +44,9 @@ dependencies:
   auto_size_text: ^2.1.0
   firebase_dynamic_links: ^0.6.0
   video_player: ^0.10.12+2
+  carousel_slider: ^2.2.1
   cached_network_image: ^2.3.2+1
+  drop_cap_text: ^1.0.7
 
 dev_dependencies:
   flutter_test:
