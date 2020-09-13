@@ -198,26 +198,35 @@ class _OgTileState extends State<OgTile> {
                 ],
               ),
               if (nextPlenum != null) _strikeWidget(nextPlenum),
-              ListTileTheme(
-                contentPadding: EdgeInsets.only(left: 0, right: 12),
-                child: ExpansionTile(
-                  title: Text(og.infoTitle),
-                  children: [
-                    DropCapText(
-                      og.infoText,
-                      style: Theme.of(context).textTheme.bodyText2,
-                      dropCap: DropCap(
-                        width: 120,
-                        height: 120,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 8, bottom: 8),
-                          child: Image.network(og.imageLink, fit: BoxFit.cover),
-                        ),
+              if (og.infoText != null)
+                ListTileTheme(
+                  contentPadding: EdgeInsets.only(left: 0, right: 12),
+                  child: ExpansionTile(
+                    title: Text(og.infoTitle ?? 'Weitere Infos'),
+                    children: [
+                      DropCapText(
+                        og.infoText,
+                        style: Theme.of(context).textTheme.bodyText2,
+                        dropCap: og.imageLink == null
+                            ? DropCap(
+                                width: 0,
+                                height: 0,
+                                child: SizedBox(),
+                              )
+                            : DropCap(
+                                width: 120,
+                                height: 120,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 8, bottom: 8),
+                                  child: Image.network(og.imageLink,
+                                      fit: BoxFit.cover),
+                                ),
+                              ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
             ],
           ),
         ),
