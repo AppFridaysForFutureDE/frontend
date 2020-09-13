@@ -32,7 +32,7 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
 */
 
   Widget _buildFlatButton(
-      String pageShownName, String slug) {
+      String pageShownName, String slug, String assetName, Color color) {
     return FlatButton(
       onPressed: () {
         Navigator.push(
@@ -44,8 +44,14 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
                 name: pageShownName,
               ),
             ));
-      }, child: null,
-      padding: EdgeInsets.zero,
+      }, 
+      child: SvgPicture.asset(
+        assetName,
+        color: color,
+        alignment: Alignment.center,
+             
+      ),
+      padding: EdgeInsets.all(10),
     );
   }
 
@@ -71,7 +77,7 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
           children: <Widget>[
             Expanded(
               child: Container(
-                child: _buildFlatButton('Forderungen', 'forderungen'),
+                child: _buildFlatButton('Forderungen', 'forderungen', 'assets/infoicons/ForderungenIconHell.svg', Colors.white),
                 color: Color(0xff9ed2ea),
                 width: double.infinity,
                 height: double.infinity
@@ -83,18 +89,20 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
                   children: <Widget> [
                     Expanded (
                       child: Container(
-                        child: _buildFlatButton('Demosprüche', 'demosprüche'),
+                        child: _buildFlatButton('Demosprüche', 'demosprüche', 'assets/infoicons/Demosprueche.svg', Color(0xff4fa355)),
                         color: Colors.white,
                         width: double.infinity,
                         height: double.infinity,
+                        margin: EdgeInsets.only(right: 2.5)
                       )
                     ),
-                   Expanded (
+                    Expanded (
                       child: Container(
-                        child: _buildFlatButton('Bundesweite Arbeitsgruppen', 'bundesweite-arbeitsgruppen'),
+                        child: _buildFlatButton('Bundesweite Arbeitsgruppen', 'bundesweite-arbeitsgruppen', 'assets/infoicons/ArbeitsgruppenIconhell.svg', Color(0xff4fa355)),
                         color: Colors.white,
                         width: double.infinity,
                         height: double.infinity,
+                        margin: EdgeInsets.only(left: 2.5)
                       )
                     )
                   ],
@@ -108,11 +116,12 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
                   onPressed: (){
                     _launchURL('https://www.helpforfuture.org');
                   }, 
-                  child: Text("HELP FOR FUTURE")/*Image(image: null /*Hier Bild für Spenden einfügen*/),*/
+                  child: SvgPicture.asset('assets/infoicons/HelpForFutureHell.svg')
                 ),
                 color: Color(0xff9ed2ea),
                 width: double.infinity,
-                height: double.infinity
+                height: double.infinity,
+                padding: EdgeInsets.all(10),
               )
             ),
             Expanded(
@@ -124,24 +133,13 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
                         onPressed: (){
                           _launchURL('https://fridaysforfuture.de');
                         }, 
-                        child: Text ("Website")/*Image(image: null /*Hier Bild für Website einfügen*/)*/
+                        child: SvgPicture.asset('assets/infoicons/WebsiteIconhell.svg')
                       ),
                       color: Color(0xff4fa355),
                       width: double.infinity,
-                      height: double.infinity
-                    )
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: FlatButton(
-                        onPressed: (){
-                          _launchURL('https://fridaysforfuture.de/spenden/');
-                        }, 
-                        child: Text("Spenden")/*Image(image: null /*Hier Bild für Spenden einfügen*/),*/
-                      ),
-                      color: Colors.white,
-                      width: double.infinity,
-                      height: double.infinity
+                      height: double.infinity,
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(right: 2.5)
                     )
                   ),
                   Expanded(
@@ -153,11 +151,13 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
                             MaterialPageRoute(builder: (context) => SocialMediaPage()),
                           );/*"..\..\assets\infoicons\SocialMediaIconhell.svg"*/
                         }, 
-                        child: SvgPicture.asset('infoicons/SocialMediaIconhell.svg')
+                        child: SvgPicture.asset('assets/infoicons/SocialMediaIconhell.svg')
                       ),
                       color: Color(0xff4fa355),
                       width: double.infinity,
-                      height: double.infinity
+                      height: double.infinity,
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(left: 2.5)
                     )
                   )
                 ],
@@ -165,7 +165,7 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
             ),
             Expanded(
               child: Container(
-                child: _buildFlatButton('Weiteres', 'impressum'),
+                child: _buildFlatButton('Weiteres', 'impressum','assets/infoicons/WeiteresIconhell.svg', Color(0xff9ed2ea)),
                 width: double.infinity,
                 height: double.infinity
               )
