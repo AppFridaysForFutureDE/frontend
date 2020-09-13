@@ -53,6 +53,13 @@ void main() async {
   runApp(App());
 }
 
+const Map<String, Color> appBarColors = {
+  'light': Colors.white,
+  'sepia': Color(0xffF7ECD5),
+  'dark': Color(0xff303030),
+  'black': Colors.black,
+};
+
 class App extends StatelessWidget {
   ThemeData _buildThemeData(String theme) {
     var _accentColor = Color(0xff70c2eb);
@@ -60,10 +67,29 @@ class App extends StatelessWidget {
     var brightness =
         ['light', 'sepia'].contains(theme) ? Brightness.light : Brightness.dark;
 
+    bool isLightAppBar = brightness == Brightness.light;
+
+    final ThemeData themeBase = isLightAppBar ? ThemeData() : ThemeData.dark();
+
+    final TextTheme appBarTextTheme =
+        themeBase.textTheme.merge(Typography.englishLike2018);
+
     var themeData = ThemeData(
       brightness: brightness,
       accentColor: _accentColor,
       primaryColor: Color(0xff1da64a),
+      appBarTheme: AppBarTheme(
+        color: appBarColors[theme],
+        iconTheme: IconThemeData(
+          color: isLightAppBar ? Colors.black : Colors.white,
+        ),
+        textTheme: appBarTextTheme,
+      ),
+
+      /*   appBarTheme: AppBarTheme(
+        //elevation: 0.0,
+        centerTitle: true,
+      ), */
       toggleableActiveColor: _accentColor,
       highlightColor: _accentColor,
       buttonColor: _accentColor,
@@ -74,10 +100,25 @@ class App extends StatelessWidget {
         textTheme: ButtonTextTheme.primary,
         buttonColor: _accentColor,
       ),
+      tabBarTheme: TabBarTheme(
+        labelColor: isLightAppBar ? Colors.black : null,
+        labelStyle: TextStyle(fontWeight: FontWeight.w400),
+        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400),
+      ),
       textTheme: TextTheme(
         button: TextStyle(color: _accentColor),
+        overline: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
+        headline5: TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
+        bodyText2: TextStyle(
+          fontWeight: FontWeight.w400,
+        ),
       ),
-      fontFamily: 'LibreFranklin',
+      fontFamily: 'Jost',
     );
 
     if (theme == 'sepia') {
@@ -142,7 +183,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with WidgetsBindingObserver {
-  int _currentIndex = 0;
+  int _currentIndex = 2;
 
   void subToAll() async {
     Box box = Hive.box('data');

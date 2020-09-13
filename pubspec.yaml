@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.2.4+124
 
 environment:
-  sdk: ">=2.5.0 <3.0.0" 
+  sdk: ">=2.5.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -27,15 +27,11 @@ dependencies:
   flutter_map: ^0.10.1+1
   intl: ^0.16.1
   expandable: ^4.1.4
-  email_validator: '^1.0.5'
+  email_validator: "^1.0.5"
   dio: ^3.0.10 #latest version
   image_gallery_saver: ^1.5.0
   permission_handler: ^5.0.1+1
   webview_flutter: ^0.3.22+1
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  # cupertino_icons: ^0.1.3
   material_design_icons_flutter: ^4.0.5555
   flutter_html: ^1.0.2
   yaml: ^2.2.1
@@ -43,12 +39,13 @@ dependencies:
   hive_flutter: ^0.3.0+2
   flutter_offline: ^0.3.0
   flutter_map_marker_cluster: ^0.3.0
-  package_info: '>=0.4.0+16 <2.0.0'
+  package_info: ">=0.4.0+16 <2.0.0"
   flip_card: ^0.4.4
   auto_size_text: ^2.1.0
   firebase_dynamic_links: ^0.6.0
   video_player: ^0.10.12+2
- 
+  cached_network_image: ^2.3.2+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -58,6 +55,7 @@ dev_dependencies:
   flutter_launcher_icons: "^0.7.0"
   test: any
   hive_generator: ^0.7.0+2
+  local_google_fonts: ^1.0.8
 
 flutter_icons:
   android: true
@@ -67,12 +65,13 @@ flutter_icons:
   adaptive_icon_background: "#ffffff"
   adaptive_icon_foreground: "assets/icon/icon_adaptive.png"
 
+google_fonts:
+  fonts:
+    - Jost
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -84,41 +83,50 @@ flutter:
     - assets/images/
 
   fonts:
-    - family: LibreFranklin
+    - family: "Jost"
       fonts:
-        - asset: assets/fonts/LibreFranklin/LibreFranklin-Regular.ttf
-        - asset: assets/fonts/LibreFranklin/LibreFranklin-Italic.ttf
-          style: italic
-    - family: Merriweather
-      fonts:
-        - asset: assets/fonts/Merriweather/Merriweather-Regular.ttf
-        - asset: assets/fonts/Merriweather/Merriweather-Italic.ttf
-          style: italic
-          
-  #   - images/a_dot_ham.jpeg
-
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware.
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+        - asset: "assets/fonts/googleFonts/Jost/Jost-100i.ttf"
+          style: "italic"
+          weight: 100
+        - asset: "assets/fonts/googleFonts/Jost/Jost-200i.ttf"
+          style: "italic"
+          weight: 200
+        - asset: "assets/fonts/googleFonts/Jost/Jost-300i.ttf"
+          style: "italic"
+          weight: 300
+        - asset: "assets/fonts/googleFonts/Jost/Jost-400i.ttf"
+          style: "italic"
+          weight: 400
+        - asset: "assets/fonts/googleFonts/Jost/Jost-500i.ttf"
+          style: "italic"
+          weight: 500
+        - asset: "assets/fonts/googleFonts/Jost/Jost-600i.ttf"
+          style: "italic"
+          weight: 600
+        - asset: "assets/fonts/googleFonts/Jost/Jost-700i.ttf"
+          style: "italic"
+          weight: 700
+        - asset: "assets/fonts/googleFonts/Jost/Jost-800i.ttf"
+          style: "italic"
+          weight: 800
+        - asset: "assets/fonts/googleFonts/Jost/Jost-900i.ttf"
+          style: "italic"
+          weight: 900
+        - asset: "assets/fonts/googleFonts/Jost/Jost-100.ttf"
+          weight: 100
+        - asset: "assets/fonts/googleFonts/Jost/Jost-200.ttf"
+          weight: 200
+        - asset: "assets/fonts/googleFonts/Jost/Jost-300.ttf"
+          weight: 300
+        - asset: "assets/fonts/googleFonts/Jost/Jost-400.ttf"
+          weight: 400
+        - asset: "assets/fonts/googleFonts/Jost/Jost-500.ttf"
+          weight: 500
+        - asset: "assets/fonts/googleFonts/Jost/Jost-600.ttf"
+          weight: 600
+        - asset: "assets/fonts/googleFonts/Jost/Jost-700.ttf"
+          weight: 700
+        - asset: "assets/fonts/googleFonts/Jost/Jost-800.ttf"
+          weight: 800
+        - asset: "assets/fonts/googleFonts/Jost/Jost-900.ttf"
+          weight: 900

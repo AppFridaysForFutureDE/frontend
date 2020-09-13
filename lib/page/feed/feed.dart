@@ -6,6 +6,7 @@ import 'package:app/page/feed/post.dart';
 import 'package:app/service/api.dart';
 import 'package:app/util/share.dart';
 import 'package:app/util/time_ago.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'filter.dart';
@@ -49,7 +50,8 @@ class _FeedPageState extends State<FeedPage> {
       initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: Platform.isIOS,
+          // backgroundColor: Colors.white,
+          // centerTitle: !Platform.isIOS,
           title: searchActive
               ? TextField(
                   autofocus: true,
@@ -180,10 +182,22 @@ class _FeedPageState extends State<FeedPage> {
       }
     }
 
+    Post highlightedArticle;
+
     if (category != null) {
       shownPosts = shownPosts
           .where((p) => p.tags.indexWhere((t) => t.name == category) != -1)
           .toList();
+
+      highlightedArticle = shownPosts.firstWhere(
+          (element) =>
+              element.tagsInternal.map((t) => t.name).contains('Highlight'),
+          orElse: () => null);
+
+      if (highlightedArticle != null) {
+        shownPosts.remove(highlightedArticle);
+        shownPosts.insert(0, null);
+      }
     } else {
       shownPosts = shownPosts
           .where((p) => ((p.title ?? '') +
@@ -202,14 +216,28 @@ class _FeedPageState extends State<FeedPage> {
           ? Center(
               child: Text('Keine Ergebnisse'),
             )
-          : ListView.separated(
-              itemCount: shownPosts.length,
-              itemBuilder: (context, index) {
-                return FeedItem(shownPosts[index]);
-              },
-              separatorBuilder: (context, index) => Container(
-                height: 0.5,
-                color: Theme.of(context).hintColor,
+          : Scrollbar(
+              child: ListView.separated(
+                itemCount: shownPosts.length,
+                itemBuilder: (context, index) {
+                  final post = shownPosts[index];
+
+                  if (post == null) {
+                    return FeedItem(
+                      highlightedArticle,
+                      highlighted: true,
+                    );
+                  }
+                  return FeedItem(
+                    post,
+                    showExcerpt: true,
+                    isImageLeftAligned: index % 2 == 0,
+                  );
+                },
+                separatorBuilder: (context, index) => Container(
+                  height: 0.5,
+                  color: Theme.of(context).hintColor,
+                ),
               ),
             ),
     );
@@ -218,7 +246,15 @@ class _FeedPageState extends State<FeedPage> {
 
 class FeedItem extends StatefulWidget {
   final Post item;
-  FeedItem(this.item);
+  final bool highlighted;
+  final bool showExcerpt;
+
+  final bool isImageLeftAligned;
+
+  FeedItem(this.item,
+      {this.highlighted = false,
+      this.showExcerpt = true,
+      this.isImageLeftAligned = true});
 
   @override
   _FeedItemState createState() => _FeedItemState();
@@ -226,6 +262,16 @@ class FeedItem extends StatefulWidget {
 
 class _FeedItemState extends State<FeedItem> {
   Post get post => widget.item;
+  bool get highlighted => widget.highlighted;
+  bool get isImageLeftAligned => widget.isImageLeftAligned;
+
+  Widget _buildCategories(TextTheme textTheme) => Text(
+        post.tags
+            .fold('',
+                (previousValue, element) => '$previousValue / ${element.name}')
+            .substring(3),
+        style: textTheme.overline,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -249,192 +295,280 @@ class _FeedItemState extends State<FeedItem> {
         );
         setState(() {});
       },
-      child: Stack(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          ConstrainedBox(
-                            constraints: BoxConstraints(minHeight: 32),
-                            child: Text(
-                              post.title,
-                              style: textTheme.subhead,
-                            ),
-                          ),
-                          if (post.customExcerpt != null)
-                            Text(
-                              post.customExcerpt,
-                              style: textTheme.body1,
-                            ),
-                        ],
-                      ),
-                    ),
-                    if (post.featureImage != null) ...[
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 32.0),
-                        child: Image.network(
-                          post.featureImage ?? '',
-                          width: 80,
-                        ),
-                      ),
-                    ]
-                  ],
+      child: Column(
+        children: [
+          if (highlighted)
+            Stack(
+              alignment: Alignment.bottomLeft,
+              children: [
+                CachedNetworkImage(
+                  imageUrl: post.featureImage ?? '',
+                  width: double.infinity,
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Expanded(
-                      child: Wrap(
-                        spacing: 8,
-                        children: <Widget>[
-                          for (var tag in post.tags)
-                            Chip(
-                              label: Text(
-                                tag.name,
-                                style: textTheme.body1,
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      'vor ' + TimeAgoUtil.render(post.publishedAt),
-                      style: textTheme.body1,
-                    ),
-                  ],
+                Material(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                    child: _buildCategories(textTheme),
+                  ),
                 ),
               ],
             ),
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: Platform.isAndroid
-                  ? <Widget>[
-                      if (marked)
-                        Icon(
-                          MdiIcons.bookmark,
-                          color: Theme.of(context).accentColor,
-                          semanticLabel: 'Markierter Artikel',
-                        ),
-                      PopupMenuButton(
-                        icon: Icon(
-                          Icons.more_vert,
-                          semanticLabel: 'Menü anzeigen',
-                        ),
-                        itemBuilder: (context) => [
-                          PopupMenuItem(
-                            child: Text(
-                                marked ? 'Markierung entfernen' : 'Markieren'),
-                            value: 'mark',
-                          ),
-                          PopupMenuItem(
-                            child: Text('Teilen...'),
-                            value: 'share',
-                          ),
-                          if (read)
-                            PopupMenuItem(
-                              child: Text('Als ungelesen kennzeichnen'),
-                              value: 'unread',
+          Stack(
+            alignment: highlighted ? Alignment.bottomLeft : Alignment.topRight,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        if (post.featureImage != null &&
+                            !highlighted &&
+                            isImageLeftAligned) ...[
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: CachedNetworkImage(
+                              imageUrl: post.featureImage ?? '',
+                              width: 80,
                             ),
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
                         ],
-                        onSelected: (value) {
-                          switch (value) {
-                            case 'mark':
-                              setState(() {
-                                Hive.box('post_mark').put(post.id, !marked);
-                              });
-                              break;
-                            case 'share':
-                              ShareUtil.sharePost(post);
-                              break;
-                            case 'unread':
-                              setState(() {
-                                Hive.box('post_read').put(post.id, false);
-                              });
-                              break;
-                          }
-                        },
-                      ),
-                    ]
-                  :
-                  //iOS adaption (action sheet)
-                  <Widget>[
-                      if (marked)
-                        Icon(
-                          MdiIcons.bookmark,
-                          semanticLabel: 'Markierter Artikel',
-                          color: Theme.of(context).accentColor,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              if (!highlighted) ...[
+                                _buildCategories(textTheme),
+                                SizedBox(
+                                  height: 2,
+                                ),
+                              ],
+                              ConstrainedBox(
+                                constraints: BoxConstraints(minHeight: 32),
+                                child: Text(
+                                  post.title,
+                                  style: textTheme.headline5,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      CupertinoButton(
-                        onPressed: () {
-                          showCupertinoModalPopup(
-                              context: context,
-                              builder: (context) {
-                                return CupertinoActionSheet(
-                                  actions: <Widget>[
-                                    CupertinoActionSheetAction(
-                                      child: Text(marked
-                                          ? 'Markierung entfernen'
-                                          : 'Markieren'),
-                                      onPressed: () {
-                                        setState(() {
-                                          Hive.box('post_mark')
-                                              .put(post.id, !marked);
-                                        });
-                                        Navigator.pop(context, 'Mark');
-                                      },
-                                    ),
-                                    CupertinoActionSheetAction(
-                                      child: const Text('Teilen...'),
-                                      onPressed: () {
-                                        ShareUtil.sharePost(post);
-                                        Navigator.pop(context, 'Share');
-                                      },
-                                    ),
-                                    if (read)
-                                      CupertinoActionSheetAction(
-                                        child: const Text(
-                                            'Als ungelesen kennzeichnen'),
-                                        onPressed: () {
-                                          setState(() {
-                                            Hive.box('post_read')
-                                                .put(post.id, false);
-                                          });
-                                          Navigator.pop(context, 'Read');
-                                        },
-                                      )
-                                  ],
-                                  //cancel button
-                                  cancelButton: CupertinoActionSheetAction(
-                                    child: const Text('Abbrechen'),
-                                    isDefaultAction: true,
-                                    onPressed: () {
-                                      Navigator.pop(context, 'Cancel');
-                                    },
-                                  ),
-                                );
-                              });
-                        },
-                        child: Icon(CupertinoIcons.ellipsis,
-                            color: Theme.of(context).hintColor),
+                        if (post.featureImage != null &&
+                            !highlighted &&
+                            !isImageLeftAligned) ...[
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: CachedNetworkImage(
+                              imageUrl: post.featureImage ?? '',
+                              width: 80,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                    if (widget.showExcerpt && post.customExcerpt != null)
+                      Text(
+                        post.customExcerpt,
+                        style: textTheme.bodyText2,
                       ),
-                    ],
-            ),
+                    if (highlighted)
+                      SizedBox(
+                        height: 32,
+                      ),
+                    /*        Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Expanded(
+                          child: Wrap(
+                            spacing: 8,
+                            children: <Widget>[
+                              for (var tag in post.tags)
+                                Chip(
+                                  label: Text(
+                                    tag.name,
+                                    style: textTheme.body1,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        Text(
+                          'vor ' + TimeAgoUtil.render(post.publishedAt),
+                          style: textTheme.body1,
+                        ),
+                      ],
+                    ), */
+                  ],
+                ),
+              ),
+              /*   Align(
+                alignment:
+                    highlighted ? Alignment.bottomLeft : Alignment.topRight,
+                child: */
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (highlighted)
+                    IconButton(
+                      icon: Icon(
+                        MdiIcons.shareVariant,
+                        semanticLabel: 'Artikel teilen',
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {
+                        ShareUtil.sharePost(post);
+                      },
+                    ),
+                  IconButton(
+                    icon: Icon(
+                      marked ? MdiIcons.bookmark : MdiIcons.bookmarkOutline,
+                      color:
+                          marked ? Theme.of(context).accentColor : Colors.grey,
+                      semanticLabel: 'Artikel markieren',
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        Hive.box('post_mark').put(post.id, !marked);
+                      });
+                    },
+                  ),
+                  if (!isImageLeftAligned)
+                    SizedBox(
+                      width: 90,
+                    ),
+                ],
+              ),
+              /*  ), */
+/*               Align(
+                alignment: Alignment.topRight,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: Platform.isAndroid
+                      ? <Widget>[
+                          if (marked)
+                            Icon(
+                              MdiIcons.bookmark,
+                              color: Theme.of(context).accentColor,
+                              semanticLabel: 'Markierter Artikel',
+                            ),
+                          PopupMenuButton(
+                            icon: Icon(
+                              Icons.more_vert,
+                              semanticLabel: 'Menü anzeigen',
+                            ),
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                child: Text(marked
+                                    ? 'Markierung entfernen'
+                                    : 'Markieren'),
+                                value: 'mark',
+                              ),
+                              PopupMenuItem(
+                                child: Text('Teilen...'),
+                                value: 'share',
+                              ),
+                              if (read)
+                                PopupMenuItem(
+                                  child: Text('Als ungelesen kennzeichnen'),
+                                  value: 'unread',
+                                ),
+                            ],
+                            onSelected: (value) {
+                              switch (value) {
+                                case 'mark':
+                                  setState(() {
+                                    Hive.box('post_mark').put(post.id, !marked);
+                                  });
+                                  break;
+                                case 'share':
+                                  ShareUtil.sharePost(post);
+                                  break;
+                                case 'unread':
+                                  setState(() {
+                                    Hive.box('post_read').put(post.id, false);
+                                  });
+                                  break;
+                              }
+                            },
+                          ),
+                        ]
+                      :
+                      //iOS adaption (action sheet)
+                      <Widget>[
+                          if (marked)
+                            Icon(
+                              MdiIcons.bookmark,
+                              semanticLabel: 'Markierter Artikel',
+                              color: Theme.of(context).accentColor,
+                            ),
+                          CupertinoButton(
+                            onPressed: () {
+                              showCupertinoModalPopup(
+                                  context: context,
+                                  builder: (context) {
+                                    return CupertinoActionSheet(
+                                      actions: <Widget>[
+                                        CupertinoActionSheetAction(
+                                          child: Text(marked
+                                              ? 'Markierung entfernen'
+                                              : 'Markieren'),
+                                          onPressed: () {
+                                            setState(() {
+                                              Hive.box('post_mark')
+                                                  .put(post.id, !marked);
+                                            });
+                                            Navigator.pop(context, 'Mark');
+                                          },
+                                        ),
+                                        CupertinoActionSheetAction(
+                                          child: const Text('Teilen...'),
+                                          onPressed: () {
+                                            ShareUtil.sharePost(post);
+                                            Navigator.pop(context, 'Share');
+                                          },
+                                        ),
+                                        if (read)
+                                          CupertinoActionSheetAction(
+                                            child: const Text(
+                                                'Als ungelesen kennzeichnen'),
+                                            onPressed: () {
+                                              setState(() {
+                                                Hive.box('post_read')
+                                                    .put(post.id, false);
+                                              });
+                                              Navigator.pop(context, 'Read');
+                                            },
+                                          )
+                                      ],
+                                      //cancel button
+                                      cancelButton: CupertinoActionSheetAction(
+                                        child: const Text('Abbrechen'),
+                                        isDefaultAction: true,
+                                        onPressed: () {
+                                          Navigator.pop(context, 'Cancel');
+                                        },
+                                      ),
+                                    );
+                                  });
+                            },
+                            child: Icon(CupertinoIcons.ellipsis,
+                                color: Theme.of(context).hintColor),
+                          ),
+                        ],
+                ),
+              ), */
+            ],
           ),
         ],
       ),
