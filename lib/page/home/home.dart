@@ -3,7 +3,7 @@ import 'package:app/model/home_page_data.dart';
 import 'package:app/util/navigation.dart';
 import 'package:app/widget/feed_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+//import 'package:carousel_slider/carousel_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
 import 'package:drop_cap_text/drop_cap_text.dart';
@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                       },
                       child: CachedNetworkImage(imageUrl: data.banner.imageUrl),
                     ),
-                    SizedBox(
+                    /*   SizedBox(
                       height: 100,
                       child: CarouselSlider(
                         options: CarouselOptions(height: 400.0),
@@ -67,9 +67,9 @@ class _HomePageState extends State<HomePage> {
                               .toList()
                               .cast<OG>())
                             Text(og.name) // TODO After Merge
-                        ],
+                        ], */
 
-                        /*      [1, 2, 3, 4, 5].map((i) {
+                    /*      [1, 2, 3, 4, 5].map((i) {
                           return Builder(
                             builder: (BuildContext context) {
                               return Container(
@@ -83,8 +83,8 @@ class _HomePageState extends State<HomePage> {
                             },
                           );
                         }).toList(), */
-                      ),
-                    ),
+                    /*     ),
+                    ), */
                     for (final feedItem in data.feed)
                       HomeFeedItem(
                         feedItem,
