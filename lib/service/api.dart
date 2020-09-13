@@ -231,8 +231,7 @@ class ApiService {
   // TODO: also retrieve banners from json
   Future<List<Campaign>> getCampaigns() async {
     try {
-      // TODO: use correct url for production '$baseUrl/campaigns'
-      var res = await client.get('http://moux.dev/campaigns.json');
+      var res = await client.get('$baseUrl/campaigns');
 
       if (res.statusCode == HttpStatus.ok) {
         cache.put('campaigns.json', res.body);
