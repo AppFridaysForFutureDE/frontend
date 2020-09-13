@@ -91,7 +91,15 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
                   children: <Widget> [
                     Expanded (
                       child: Container(
-                        child: _buildFlatButton('Demosprüche', 'demosprüche', 'assets/infoicons/Demosprueche.svg', Color(0xff4fa355)),
+                        child: FlatButton (
+                        onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => DemoPage()),
+                          );
+                        }, 
+                        child: SvgPicture.asset('assets/infoicons/Demosprueche.svg'),
+                        ),
                         color: Colors.white,
                         width: double.infinity,
                         height: double.infinity,
