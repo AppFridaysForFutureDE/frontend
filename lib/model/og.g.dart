@@ -8,13 +8,13 @@ part of 'og.dart';
 
 class OGAdapter extends TypeAdapter<OG> {
   @override
-  final typeId = 1;
+  final int typeId = 1;
 
   @override
   OG read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return OG()
       ..ogId = fields[0] as String
@@ -30,13 +30,16 @@ class OGAdapter extends TypeAdapter<OG> {
       ..website = fields[11] as String
       ..telegram = fields[12] as String
       ..youtube = fields[13] as String
-      ..other = fields[14] as String;
+      ..other = fields[14] as String
+      ..imageLink = fields[15] as String
+      ..infoTitle = fields[16] as String
+      ..infoText = fields[17] as String;
   }
 
   @override
   void write(BinaryWriter writer, OG obj) {
     writer
-      ..writeByte(14)
+      ..writeByte(17)
       ..writeByte(0)
       ..write(obj.ogId)
       ..writeByte(1)
@@ -64,8 +67,24 @@ class OGAdapter extends TypeAdapter<OG> {
       ..writeByte(13)
       ..write(obj.youtube)
       ..writeByte(14)
-      ..write(obj.other);
+      ..write(obj.other)
+      ..writeByte(15)
+      ..write(obj.imageLink)
+      ..writeByte(16)
+      ..write(obj.infoTitle)
+      ..writeByte(17)
+      ..write(obj.infoText);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is OGAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 // **************************************************************************
@@ -87,7 +106,10 @@ OG _$OGFromJson(Map<String, dynamic> json) {
     ..website = json['website'] as String
     ..telegram = json['telegram'] as String
     ..youtube = json['youtube'] as String
-    ..other = json['other'] as String;
+    ..other = json['other'] as String
+    ..imageLink = json['imageLink'] as String
+    ..infoTitle = json['infoTitle'] as String
+    ..infoText = json['infoText'] as String;
 }
 
 Map<String, dynamic> _$OGToJson(OG instance) => <String, dynamic>{
@@ -105,4 +127,7 @@ Map<String, dynamic> _$OGToJson(OG instance) => <String, dynamic>{
       'telegram': instance.telegram,
       'youtube': instance.youtube,
       'other': instance.other,
+      'imageLink': instance.imageLink,
+      'infoTitle': instance.infoTitle,
+      'infoText': instance.infoText,
     };
