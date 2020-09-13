@@ -93,7 +93,7 @@ class ApiService {
   Future<List<Post>> getPosts() async {
     try {
       var res = await client.get(
-          '$ghostBaseUrl/content/posts?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt&key=$ghostApiKey');
+          '$ghostBaseUrl/content/posts?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt&key=$ghostApiKey&limit=30'); // TODO Better pagination
 
       if (res.statusCode == HttpStatus.ok) {
         cache.put('posts.json', res.body);
