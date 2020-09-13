@@ -1,39 +1,31 @@
 import 'package:app/app.dart';
 import 'package:app/widget/title.dart';
 
-class FilterPage extends StatefulWidget {
+class DemoFilterPage extends StatefulWidget {
   final FilterState state;
   final Set allTags;
 
-  FilterPage(this.state, this.allTags);
+  DemoFilterPage(this.state, this.allTags);
 
   @override
-  _FilterPageState createState() => _FilterPageState();
+  _DemoFilterPageState createState() => _DemoFilterPageState();
 }
 
-class _FilterPageState extends State<FilterPage> {
+class _DemoFilterPageState extends State<DemoFilterPage> {
   FilterState state = FilterState();
   @override
   void initState() {
     state.onlyShowMarked = widget.state.onlyShowMarked;
-    state.onlyShowUnread = widget.state.onlyShowUnread;
     state.shownTags = List.from(widget.state.shownTags);
     super.initState();
   }
 
 //Used for screenreaders
-  var onlyShowUnreadIsActive = 'Nur ungelesene Artikel anzeigen. Nicht aktiv';
-  var onlyShowMarkedIsActive = 'Nur markierte Artikel anzeigen. Nicht aktiv';
-
-  void updateUnread() {
-    if (state.onlyShowUnread) {
-      onlyShowUnreadIsActive = 'Nur ungelesene Artikel anzeigen. Aktiv';
-    }
-  }
+  var onlyShowMarkedIsActive = 'Nur markierte Sprüche anzeigen. Nicht aktiv';
 
   void updateMarked() {
     if (state.onlyShowMarked) {
-      onlyShowMarkedIsActive = 'Nur markierte Artikel anzeigen. Aktiv';
+      onlyShowMarkedIsActive = 'Nur markierte Sprüche anzeigen. Aktiv';
     }
   }
 
@@ -45,29 +37,15 @@ class _FilterPageState extends State<FilterPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Filter'),
+          title: Text('Demospruch Filter'),
         ),
         body: ListView(
           children: <Widget>[
-            TitleWidget('Status'),
-            Semantics(
-              child: SwitchListTile.adaptive(
-                  value: state.onlyShowUnread,
-                  title: Text('Nur ungelesene Artikel anzeigen'),
-                  onChanged: (val) {
-                    setState(() {
-                      state.onlyShowUnread = val;
-                      updateUnread();
-                    });
-                    updateUnread();
-                  }),
-              label: onlyShowUnreadIsActive,
-            ),
             TitleWidget('Markierung'),
             Semantics(
               child: SwitchListTile.adaptive(
                   value: state.onlyShowMarked,
-                  title: Text('Nur markierte Artikel anzeigen'),
+                  title: Text('Nur markierte Sprüche anzeigen'),
                   onChanged: (val) {
                     setState(() {
                       state.onlyShowMarked = val;
@@ -89,15 +67,22 @@ class _FilterPageState extends State<FilterPage> {
                   for (String tag in widget.allTags) _buildTag(tag),
                 ],
               ),
-            )
+            ),
+            // TODO: Maybe add reset button? 
+            // Currently it is too big, maybe add a save button next to it?
+            // SizedBox(height: 50),
+            // Center(
+            //   child: FlatButton(
+            //     color: Theme.of(context).primaryColor,
+            //     child: Text('Alle Filter zurücksetzen'),
+            //     onPressed: (){
+            //       state.onlyShowMarked = false;
+            //       state.shownTags = []; // List.from(widget.allTags);
+            //       Navigator.of(context).pop(state);
+            //     },
+            //   ),
+            // )
           ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.check),
-          tooltip: 'Filter speichern',
-          onPressed: () {
-            Navigator.of(context).pop(state);
-          },
         ),
       ),
     );
@@ -126,9 +111,6 @@ class _FilterPageState extends State<FilterPage> {
         backgroundColor: active ? Theme.of(context).primaryColor : null,
         label: Text(
           tag,
-          style: TextStyle(
-              //  color: Colors.black,
-              ),
           semanticsLabel: tag + '. ' + isActive,
         ),
       ),
@@ -139,10 +121,7 @@ class _FilterPageState extends State<FilterPage> {
 class FilterState {
   bool onlyShowMarked = false;
 
-  bool onlyShowUnread = false;
-
   List<String> shownTags = [];
 
-  bool get filterActive =>
-      onlyShowMarked || onlyShowUnread || shownTags.isNotEmpty;
+  bool get filterActive => onlyShowMarked || shownTags.isNotEmpty;
 }

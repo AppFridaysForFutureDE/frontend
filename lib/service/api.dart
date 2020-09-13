@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:app/model/campaign.dart';
+import 'package:app/model/home_page_data.dart';
 import 'package:app/model/live_event.dart';
+import 'package:app/model/slogan.dart';
 import 'package:app/model/strike.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -41,6 +43,28 @@ class ApiService {
     ghostApiKey = doc['ghostApiKey'];
 
     cache = CacheService(await getTemporaryDirectory());
+  }
+
+  Future<HomePageData> getHomePageData() async {
+    try {
+      var res = await client.get('$baseUrl/home');
+
+      if (res.statusCode == HttpStatus.ok) {
+        cache.put('home.json', res.body);
+
+        var data = json.decode(utf8.decode(res.bodyBytes));
+        return HomePageData.fromJson(data);
+      } else {
+        throw Exception('HTTP Status ${res.statusCode}');
+      }
+    } catch (e) {
+      if (cache.exists('home.json')) {
+        var data = json.decode(cache.get('home.json'));
+        return HomePageData.fromJson(data);
+      } else {
+        throw Exception('Home Page Data not available online or in cache');
+      }
+    }
   }
 
   Future<List<OG>> getOGs() async {
@@ -94,7 +118,7 @@ class ApiService {
   Future<List<Post>> getPosts() async {
     try {
       var res = await client.get(
-          '$ghostBaseUrl/content/posts?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt&key=$ghostApiKey');
+          '$ghostBaseUrl/content/posts?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt&key=$ghostApiKey&limit=30'); // TODO Better pagination
 
       if (res.statusCode == HttpStatus.ok) {
         cache.put('posts.json', res.body);
@@ -114,10 +138,33 @@ class ApiService {
     }
   }
 
-  Future<Post> getPostById(String id) async {
+Future<List<Slogan>> getSlogans() async {
     try {
-      var res = await client
-          .get('$ghostBaseUrl/content/posts/$id?fields=html&key=$ghostApiKey');
+      var res = await client.get('$baseUrl/slogans');
+
+      if (res.statusCode == HttpStatus.ok) {
+        cache.put('slogans.json', res.body);
+
+        var data = json.decode((res.body));
+        return data['slogans'].map<Slogan>((m) => Slogan.fromJson(m)).toList();
+      } else {
+        throw Exception('HTTP Status ${res.statusCode}');
+      }
+    } catch (e) {
+      if (cache.exists('slogans.json')) {
+        var data = json.decode(cache.get('slogans.json'));
+        return data['slogans'].map<Slogan>((m) => Slogan.fromJson(m)).toList();
+      } else {
+        throw Exception('Slogan List not available online or in cache');
+      }
+    }
+  }
+
+
+  Future<Post> getPostById(String id, {bool metadata = false}) async {
+    try {
+      var res = await client.get(
+          '$ghostBaseUrl/content/posts/$id${metadata ? '?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt' : '?fields=html'}&key=$ghostApiKey');
 
       if (res.statusCode == HttpStatus.ok) {
         cache.put('post/$id.json', res.body);

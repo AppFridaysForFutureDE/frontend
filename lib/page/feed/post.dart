@@ -1,6 +1,7 @@
 import 'package:app/app.dart';
 import 'package:app/model/post.dart';
 import 'package:app/util/share.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
@@ -110,8 +111,8 @@ class _PostPageState extends State<PostPage> {
         child: ListView(
           children: <Widget>[
             if (post.featureImage != null)
-              Image.network(
-                post.featureImage,
+              CachedNetworkImage(
+                imageUrl: post.featureImage,
               ),
             if (html == null) LinearProgressIndicator(),
             if (html != null) ...[
@@ -136,8 +137,8 @@ class _PostPageState extends State<PostPage> {
                       Text(
                         post.title,
                         style: TextStyle(
-                          fontFamily: 'Merriweather',
-                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Jost',
+                          fontWeight: FontWeight.w400,
                           fontStyle: FontStyle.italic,
                           fontSize: 32,
                         ),

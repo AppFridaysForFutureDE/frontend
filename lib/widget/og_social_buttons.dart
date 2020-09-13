@@ -8,29 +8,38 @@ class SocialButtons extends StatelessWidget {
   bool compact;
 
   SocialButtons(this.container, this.compact);
-  Widget _buildSocialMedia(IconData icon, String tooltip, String url) {
-    if (url == null || url == '') return SizedBox();
-    return compact
-        ? InkWell(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                icon,
-                semanticLabel: tooltip,
-                size: 28,
-              ),
-            ),
-            onTap: () => _launchURL(url),
-          )
-        : ListTile(
-            leading: Icon(
-              icon,
-              semanticLabel: tooltip,
-              color: _iconColor,
-            ),
-            title: Text(url),
-            onTap: () => _launchURL(url),
-          );
+
+  Widget _buildSocialMedia(SocialLink socialLink) {
+    return InkWell(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Icon(
+          socialLink.icon,
+          semanticLabel: socialLink.label,
+          size: 28,
+        ),
+      ),
+      onTap: () => _launchURL(socialLink.link),
+    );
+  }
+
+  _buildSocialMediaPopupList() {
+    var list = [
+      for (var socialLink in _buildList())
+        PopupMenuItem(
+          child: Text(socialLink.label),
+          value: socialLink.link,
+        ),
+    ];
+
+    return list.isEmpty
+        ? [
+            PopupMenuItem(
+              child: Text('Keine Informationen'),
+              value: null,
+            )
+          ]
+        : list;
   }
 
   Color _iconColor;
@@ -47,33 +56,45 @@ class SocialButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     _iconColor = Theme.of(context).textTheme.body1.color;
     return compact
-        ? Wrap(
-            children: _buildChildren(),
-          )
-        : Column(
-            mainAxisSize: MainAxisSize.min,
-            children: _buildChildren(),
+        ? Wrap(children: [
+            for (var socialLink in _buildList()) _buildSocialMedia(socialLink)
+          ])
+        : PopupMenuButton(
+            icon: Icon(
+              Icons.more_vert,
+              semanticLabel: 'Social Media anzeigen',
+            ),
+            onSelected: (link) {
+              _launchURL(link);
+            },
+            itemBuilder: (context) => _buildSocialMediaPopupList(),
           );
   }
 
-  _buildChildren() => <Widget>[
-        _buildSocialMedia(
-            MdiIcons.telegram, 'Telegram Gruppe öffnen', container.telegram),
-        _buildSocialMedia(
-            MdiIcons.whatsapp, 'WhatsApp Gruppe öffnen', container.whatsapp),
-        _buildSocialMedia(
-            MdiIcons.instagram, 'Instagram Kanal öffnen', container.instagram),
-        _buildSocialMedia(
-            MdiIcons.youtube, 'YouTube Kanal öffnen', container.youtube),
-        _buildSocialMedia(
-            MdiIcons.twitter, 'Twitter Kanal öffnen', container.twitter),
-        _buildSocialMedia(
-            MdiIcons.facebook, 'Facebook Seite öffnen', container.facebook),
-        _buildSocialMedia(
-            MdiIcons.email, 'E-Mail an Ortsgruppe schreiben', container.email),
-        _buildSocialMedia(
-            MdiIcons.web, 'Internetseite öffnen', container.website),
-        _buildSocialMedia(
-            MdiIcons.link, 'Andere Aktion ausführen', container.other),
-      ];
+  List<SocialLink> _buildList() {
+    var list = [
+      SocialLink(
+          MdiIcons.telegram, 'Telegram Gruppe öffnen', container.telegram),
+      SocialLink(
+          MdiIcons.instagram, 'Instagram Kanal öffnen', container.instagram),
+      SocialLink(MdiIcons.youtube, 'YouTube Kanal öffnen', container.youtube),
+      SocialLink(MdiIcons.twitter, 'Twitter Kanal öffnen', container.twitter),
+      SocialLink(
+          MdiIcons.facebook, 'Facebook Seite öffnen', container.facebook),
+      SocialLink(
+          MdiIcons.email, 'E-Mail an Ortsgruppe schreiben', container.email),
+      SocialLink(MdiIcons.web, 'Internetseite öffnen', container.website),
+      SocialLink(MdiIcons.link, 'Andere Aktion ausführen', container.other),
+    ];
+    list.removeWhere((socialLink) => socialLink.link == "");
+    return list;
+  }
+}
+
+class SocialLink {
+  IconData icon;
+  String label;
+  String link;
+
+  SocialLink(this.icon, this.label, this.link);
 }
