@@ -52,11 +52,13 @@ class _FeedPageState extends State<FeedPage> {
                   autofocus: true,
                   textCapitalization: TextCapitalization.sentences,
                   autocorrect: false,
-                  cursorColor: Colors.white,
-                  style: TextStyle(color: Colors.white),
+                  cursorColor: Theme.of(context).colorScheme.onSurface,
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.onSurface),
                   decoration: InputDecoration(
                       hintText: 'Suchen',
-                      hintStyle: TextStyle(color: Colors.white)),
+                      hintStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface)),
                   onChanged: (s) {
                     setState(() {
                       searchText = s;
@@ -194,15 +196,8 @@ class _FeedPageState extends State<FeedPage> {
         shownPosts.insert(0, null);
       }
     } else {
-      shownPosts = shownPosts
-          .where((p) => ((p.title ?? '') +
-                  ' ' +
-                  (p.customExcerpt ?? '') +
-                  p.tags.map((t) => t.name).toString() +
-                  (p.primaryAuthor?.name ?? ''))
-              .toLowerCase()
-              .contains(text))
-          .toList();
+      shownPosts =
+          shownPosts.where((p) => p.searchText().contains(text)).toList();
     }
 
     return RefreshIndicator(

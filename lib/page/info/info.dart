@@ -92,10 +92,12 @@ class _InfoPageState extends State<InfoPage> {
         autofocus: true,
         textCapitalization: TextCapitalization.words,
         autocorrect: false,
-        cursorColor: Colors.white,
-        style: TextStyle(color: Colors.white),
+        cursorColor: Theme.of(context).colorScheme.onSurface,
+        style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
         decoration: InputDecoration(
-            hintText: 'Suchen', hintStyle: TextStyle(color: Colors.white)),
+            hintText: 'Suchen',
+            hintStyle:
+                TextStyle(color: Theme.of(context).colorScheme.onSurface)),
         onChanged: (s) {
           setState(() {
             searchText = s;

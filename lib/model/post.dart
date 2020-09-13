@@ -102,6 +102,16 @@ class Post {
       this.metaTitle,
       this.metaDescription});
 
+  String searchText() {
+    String searchFields = (title ?? '') +
+        ' ' +
+        (customExcerpt ?? '') +
+        tags.map((t) => t.name).toString() +
+        (primaryAuthor?.name ?? '');
+        
+    return searchFields.toLowerCase();
+  }
+
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
   Map<String, dynamic> toJson() => _$PostToJson(this);
 }

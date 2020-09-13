@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:app/model/home_page_data.dart';
 import 'package:app/model/live_event.dart';
+import 'package:app/model/slogan.dart';
 import 'package:app/model/strike.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -45,11 +46,10 @@ class ApiService {
 
   Future<HomePageData> getHomePageData() async {
     try {
-      // TODO: use correct url for production '$baseUrl/...'
-      var res = await client.get('http://10.0.2.2:8000/home_page.json');
+      var res = await client.get('$baseUrl/home');
 
       if (res.statusCode == HttpStatus.ok) {
-        cache.put('home_page.json', res.body);
+        cache.put('home.json', res.body);
 
         var data = json.decode(utf8.decode(res.bodyBytes));
         return HomePageData.fromJson(data);
@@ -57,8 +57,8 @@ class ApiService {
         throw Exception('HTTP Status ${res.statusCode}');
       }
     } catch (e) {
-      if (cache.exists('home_page.json')) {
-        var data = json.decode(cache.get('campaigns.json'));
+      if (cache.exists('home.json')) {
+        var data = json.decode(cache.get('home.json'));
         return HomePageData.fromJson(data);
       } else {
         throw Exception('Home Page Data not available online or in cache');
@@ -136,6 +136,29 @@ class ApiService {
       }
     }
   }
+
+Future<List<Slogan>> getSlogans() async {
+    try {
+      var res = await client.get('$baseUrl/slogans');
+
+      if (res.statusCode == HttpStatus.ok) {
+        cache.put('slogans.json', res.body);
+
+        var data = json.decode((res.body));
+        return data['slogans'].map<Slogan>((m) => Slogan.fromJson(m)).toList();
+      } else {
+        throw Exception('HTTP Status ${res.statusCode}');
+      }
+    } catch (e) {
+      if (cache.exists('slogans.json')) {
+        var data = json.decode(cache.get('slogans.json'));
+        return data['slogans'].map<Slogan>((m) => Slogan.fromJson(m)).toList();
+      } else {
+        throw Exception('Slogan List not available online or in cache');
+      }
+    }
+  }
+
 
   Future<Post> getPostById(String id, {bool metadata = false}) async {
     try {
