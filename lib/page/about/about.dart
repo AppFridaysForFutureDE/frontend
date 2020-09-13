@@ -6,6 +6,7 @@ import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
 import 'package:app/widget/title.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'about_subpage/demo.dart';
 
@@ -26,14 +27,16 @@ class _AboutPageState extends State<AboutPage> {
     }
   }
 
+
+
 /*
 How to use this Widget: First parameter: The name of the ListTile, second: name without Emojis (used for screenreaders), third: Name which is shown on the new page (perhaps a bit shorter), fourth: Name of the linked site
 */
-  Widget _buildListTile(
-      String name, String nameWithoutEmoji, String pageShownName, String slug) {
-    return ListTile(
-      title: Text(name, semanticsLabel: nameWithoutEmoji),
-      onTap: () {
+
+  Widget _buildFlatButton(
+      String pageShownName, String slug, String assetName, Color color) {
+    return FlatButton(
+      onPressed: () {
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -43,7 +46,14 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
                 name: pageShownName,
               ),
             ));
-      },
+      }, 
+      child: SvgPicture.asset(
+        assetName,
+        color: color,
+        alignment: Alignment.center,
+             
+      ),
+      padding: EdgeInsets.all(10),
     );
   }
 
@@ -65,7 +75,106 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
         ],
       ),
       body: Center(
-        child: ListView(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                child: _buildFlatButton('Forderungen', 'forderungen', 'assets/infoicons/Forderungen.svg', Colors.white),
+                color: Color(0xff9ed2ea),
+                width: double.infinity,
+                height: double.infinity
+              )
+            ),
+            Expanded(
+              child: Container (
+                child: Row(
+                  children: <Widget> [
+                    Expanded (
+                      child: Container(
+                        child: _buildFlatButton('Demosprüche', 'demosprüche', 'assets/infoicons/Demosprueche.svg', Color(0xff4fa355)),
+                        color: Colors.white,
+                        width: double.infinity,
+                        height: double.infinity,
+                        margin: EdgeInsets.only(right: 2.5)
+                      )
+                    ),
+                    Expanded (
+                      child: Container(
+                        child: _buildFlatButton('Bundesweite Arbeitsgruppen', 'bundesweite-arbeitsgruppen', 'assets/infoicons/Arbeitsgruppen.svg', Color(0xff4fa355)),
+                        color: Colors.white,
+                        width: double.infinity,
+                        height: double.infinity,
+                        margin: EdgeInsets.only(left: 2.5)
+                      )
+                    )
+                  ],
+                ),
+                color: Color(0xff9ed2ea),
+              )
+            ),
+            Expanded(
+              child: Container(
+                child: FlatButton(
+                  onPressed: (){
+                    _launchURL('https://www.helpforfuture.org');
+                  }, 
+                  child: SvgPicture.asset('assets/infoicons/HelpForFutureHell.svg')
+                ),
+                color: Color(0xff9ed2ea),
+                width: double.infinity,
+                height: double.infinity,
+                padding: EdgeInsets.all(10),
+              )
+            ),
+            Expanded(
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      child: FlatButton(
+                        onPressed: (){
+                          _launchURL('https://fridaysforfuture.de');
+                        }, 
+                        child: SvgPicture.asset('assets/infoicons/WebsiteIconhell.svg')
+                      ),
+                      color: Color(0xff4fa355),
+                      width: double.infinity,
+                      height: double.infinity,
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(right: 2.5)
+                    )
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: FlatButton (
+                        onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SocialMediaPage()),
+                          );/*"..\..\assets\infoicons\SocialMediaIconhell.svg"*/
+                        }, 
+                        child: SvgPicture.asset('assets/infoicons/SocialMediaIconhell.svg')
+                      ),
+                      color: Color(0xff4fa355),
+                      width: double.infinity,
+                      height: double.infinity,
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(left: 2.5)
+                    )
+                  )
+                ],
+              )
+            ),
+            Expanded(
+              child: Container(
+                child: _buildFlatButton('Weiteres', 'impressum','assets/infoicons/WeiteresIconhell.svg', Color(0xff9ed2ea)),
+                width: double.infinity,
+                height: double.infinity
+              )
+            )
+          ]
+        )
+        /*child: ListView(
           children: <Widget>[
             Semantics(
               label: 'Die Bewegung. Bereichsüberschrift',
@@ -139,7 +248,7 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
               ),
             )
           ],
-        ),
+        ),*/
       ),
     );
   }

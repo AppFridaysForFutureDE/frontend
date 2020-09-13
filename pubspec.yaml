@@ -32,6 +32,7 @@ dependencies:
   image_gallery_saver: ^1.5.0
   permission_handler: ^5.0.1+1
   webview_flutter: ^0.3.22+1
+  flutter_svg: ^0.18.1
   material_design_icons_flutter: ^4.0.5555
   flutter_html: ^1.0.2
   yaml: ^2.2.1
@@ -84,6 +85,7 @@ flutter:
   assets:
     - assets/config.yaml
     - assets/images/
+    - assets/infoicons/
 
   fonts:
     - family: "Jost"
