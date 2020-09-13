@@ -1,5 +1,4 @@
 import 'package:app/app.dart';
-import 'package:app/widget/og_social_buttons.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
@@ -15,7 +14,6 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,34 +112,71 @@ class _MapPageState extends State<MapPage> {
     bool subscribed = Hive.box('subscribed_ogs').containsKey(og.ogId);
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(og.name),
-        content: SocialButtons(og, true),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: Navigator.of(context).pop,
-            child: Text('Abbrechen'),
-          ),
-          subscribed
-              ? FlatButton(
-                  onPressed: () async {
-                    Hive.box('subscribed_ogs').delete(og.ogId);
-                    Navigator.of(context).pop();
-                    setState(() {});
-                    await FirebaseMessaging()
-                        .unsubscribeFromTopic('og_${og.ogId}');
-                  },
-                  child: Text('Deabonnieren'),
-                )
-              : FlatButton(
-                  onPressed: () async {
-                    Hive.box('subscribed_ogs').put(og.ogId, og);
-                    Navigator.of(context).pop();
-                    setState(() {});
-                    await FirebaseMessaging().subscribeToTopic('og_${og.ogId}');
-                  },
-                  child: Text('Abonnieren'),
+      builder: (context) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 30, right: 30),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).dialogBackgroundColor,
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                border: Border.all(
+                  width: 5,
+                  color: Theme.of(context).accentColor,
+                  // style: BorderStyle.solid
                 ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      og.name,
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            fontSize: 32,
+                          ),
+                    ),
+                  ),
+                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        FlatButton(
+                          onPressed: Navigator.of(context).pop,
+                          child: Text('Abbrechen'),
+                        ),
+                        subscribed
+                            ? FlatButton(
+                                onPressed: () async {
+                                  Hive.box('subscribed_ogs').delete(og.ogId);
+                                  Navigator.of(context).pop();
+                                  setState(() {});
+                                  await FirebaseMessaging()
+                                      .unsubscribeFromTopic('og_${og.ogId}');
+                                },
+                                child: Text('Deabonnieren'),
+                              )
+                            : FlatButton(
+                                onPressed: () async {
+                                  Hive.box('subscribed_ogs').put(og.ogId, og);
+                                  Navigator.of(context).pop();
+                                  setState(() {});
+                                  await FirebaseMessaging()
+                                      .subscribeToTopic('og_${og.ogId}');
+                                },
+                                child: Text('Abonnieren'),
+                              ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
