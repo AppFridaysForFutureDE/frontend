@@ -79,7 +79,7 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
           children: <Widget>[
             Expanded(
               child: Container(
-                child: _buildFlatButton('Forderungen', 'forderungen', 'assets/infoicons/ForderungenIconHell.svg', Colors.white),
+                child: _buildFlatButton('Forderungen', 'forderungen', 'assets/infoicons/Forderungen.svg', Colors.white),
                 color: Color(0xff9ed2ea),
                 width: double.infinity,
                 height: double.infinity
@@ -100,7 +100,7 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
                     ),
                     Expanded (
                       child: Container(
-                        child: _buildFlatButton('Bundesweite Arbeitsgruppen', 'bundesweite-arbeitsgruppen', 'assets/infoicons/ArbeitsgruppenIconhell.svg', Color(0xff4fa355)),
+                        child: _buildFlatButton('Bundesweite Arbeitsgruppen', 'bundesweite-arbeitsgruppen', 'assets/infoicons/Arbeitsgruppen.svg', Color(0xff4fa355)),
                         color: Colors.white,
                         width: double.infinity,
                         height: double.infinity,
