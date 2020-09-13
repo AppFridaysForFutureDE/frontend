@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app/model/campaign.dart';
 import 'package:app/model/home_page_data.dart';
 import 'package:app/model/live_event.dart';
 import 'package:app/model/slogan.dart';
@@ -271,6 +272,33 @@ Future<List<Slogan>> getSlogans() async {
       print("Could not load the liveevent data");
       return LiveEvent(false, false, null, null);
       //throw Exception('Could not load the live Event Data');
+    }
+  }
+
+  // TODO: also retrieve banners from json
+  Future<List<Campaign>> getCampaigns() async {
+    try {
+      var res = await client.get('$baseUrl/campaigns');
+
+      if (res.statusCode == HttpStatus.ok) {
+        cache.put('campaigns.json', res.body);
+
+        var data = json.decode(utf8.decode(res.bodyBytes));
+        return data['campaigns']
+            .map<Campaign>((m) => Campaign.fromJson(m))
+            .toList();
+      } else {
+        throw Exception('HTTP Status ${res.statusCode}');
+      }
+    } catch (e) {
+      if (cache.exists('campaigns.json')) {
+        var data = json.decode(cache.get('campaigns.json'));
+        return data['campaigns']
+            .map<Campaign>((m) => Campaign.fromJson(m))
+            .toList();
+      } else {
+        throw Exception('Campaign List not available online or in cache');
+      }
     }
   }
 }

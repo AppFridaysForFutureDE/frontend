@@ -22,6 +22,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'model/live_event.dart';
+import 'page/campaign/campaign.dart';
 import 'page/intro/video.dart';
 
 void main() async {
@@ -501,7 +502,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
       case 2:
         return HomePage();
       case 3:
-        return StrikePage(); // TODO Neue Aktionen Page
+        return CampaignPage();
       case 4:
         return AboutPage();
       default:

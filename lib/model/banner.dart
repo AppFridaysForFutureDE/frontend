@@ -1,4 +1,3 @@
-
 class Banner {
   String imageUrl;
   String link;
