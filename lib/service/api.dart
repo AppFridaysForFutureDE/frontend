@@ -46,11 +46,10 @@ class ApiService {
 
   Future<HomePageData> getHomePageData() async {
     try {
-      // TODO: use correct url for production '$baseUrl/...'
-      var res = await client.get('http://10.0.2.2:8000/home_page.json');
+      var res = await client.get('$baseUrl/home');
 
       if (res.statusCode == HttpStatus.ok) {
-        cache.put('home_page.json', res.body);
+        cache.put('home.json', res.body);
 
         var data = json.decode(utf8.decode(res.bodyBytes));
         return HomePageData.fromJson(data);
@@ -58,8 +57,8 @@ class ApiService {
         throw Exception('HTTP Status ${res.statusCode}');
       }
     } catch (e) {
-      if (cache.exists('home_page.json')) {
-        var data = json.decode(cache.get('campaigns.json'));
+      if (cache.exists('home.json')) {
+        var data = json.decode(cache.get('home.json'));
         return HomePageData.fromJson(data);
       } else {
         throw Exception('Home Page Data not available online or in cache');
