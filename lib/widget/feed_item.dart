@@ -1,4 +1,3 @@
-
 import 'package:app/app.dart';
 import 'package:app/model/post.dart';
 import 'package:app/page/feed/post.dart';
@@ -31,7 +30,7 @@ class _FeedItemWidgetState extends State<FeedItemWidget> {
             .fold('',
                 (previousValue, element) => '$previousValue / ${element.name}')
             .substring(3),
-        style: textTheme.overline,
+        style: textTheme.overline.copyWith(fontSize: 14),
       );
 
   @override
@@ -60,17 +59,20 @@ class _FeedItemWidgetState extends State<FeedItemWidget> {
         children: [
           if (highlighted)
             Stack(
-              alignment: Alignment.bottomLeft,
+              alignment: Alignment.bottomRight,
               children: [
                 CachedNetworkImage(
                   imageUrl: post.featureImage ?? '',
                   width: double.infinity,
                 ),
-                Material(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                    child: _buildCategories(textTheme),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 50,
+                  child: Material(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                      child: _buildCategories(textTheme),
+                    ),
                   ),
                 ),
               ],

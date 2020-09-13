@@ -39,61 +39,66 @@ class _FilterPageState extends State<FilterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Filter'),
-      ),
-      body: ListView(
-        children: <Widget>[
-          TitleWidget('Status'),
-          Semantics(
-            child: SwitchListTile.adaptive(
-                value: state.onlyShowUnread,
-                title: Text('Nur ungelesene Artikel anzeigen'),
-                onChanged: (val) {
-                  setState(() {
-                    state.onlyShowUnread = val;
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.of(context).pop(state);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Filter'),
+        ),
+        body: ListView(
+          children: <Widget>[
+            TitleWidget('Status'),
+            Semantics(
+              child: SwitchListTile.adaptive(
+                  value: state.onlyShowUnread,
+                  title: Text('Nur ungelesene Artikel anzeigen'),
+                  onChanged: (val) {
+                    setState(() {
+                      state.onlyShowUnread = val;
+                      updateUnread();
+                    });
                     updateUnread();
-                  });
-                  updateUnread();
-                }),
-            label: onlyShowUnreadIsActive,
-          ),
-          TitleWidget('Markierung'),
-          Semantics(
-            child: SwitchListTile.adaptive(
-                value: state.onlyShowMarked,
-                title: Text('Nur markierte Artikel anzeigen'),
-                onChanged: (val) {
-                  setState(() {
-                    state.onlyShowMarked = val;
+                  }),
+              label: onlyShowUnreadIsActive,
+            ),
+            TitleWidget('Markierung'),
+            Semantics(
+              child: SwitchListTile.adaptive(
+                  value: state.onlyShowMarked,
+                  title: Text('Nur markierte Artikel anzeigen'),
+                  onChanged: (val) {
+                    setState(() {
+                      state.onlyShowMarked = val;
+                      updateMarked();
+                    });
                     updateMarked();
-                  });
-                  updateMarked();
-                }),
-            label: onlyShowMarkedIsActive,
-          ),
-          TitleWidget('Kategorien'),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
+                  }),
+              label: onlyShowMarkedIsActive,
             ),
-            child: Wrap(
-              spacing: 8,
-              children: <Widget>[
-                for (String tag in widget.allTags) _buildTag(tag),
-              ],
-            ),
-          )
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.check),
-        tooltip: 'Filter speichern',
-        onPressed: () {
-          Navigator.of(context).pop(state);
-        },
+            TitleWidget('Kategorien'),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+              child: Wrap(
+                spacing: 8,
+                children: <Widget>[
+                  for (String tag in widget.allTags) _buildTag(tag),
+                ],
+              ),
+            )
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.check),
+          tooltip: 'Filter speichern',
+          onPressed: () {
+            Navigator.of(context).pop(state);
+          },
+        ),
       ),
     );
   }
