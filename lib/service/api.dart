@@ -138,7 +138,7 @@ class ApiService {
     }
   }
 
-Future<List<Slogan>> getSlogans() async {
+  Future<List<Slogan>> getSlogans() async {
     try {
       var res = await client.get('$baseUrl/slogans');
 
