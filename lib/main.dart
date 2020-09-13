@@ -5,6 +5,7 @@ import 'package:app/model/strike.dart';
 import 'package:app/page/about/about.dart';
 import 'package:app/page/feed/feed.dart';
 import 'package:app/page/feed/post.dart';
+import 'package:app/page/home/home.dart';
 import 'package:app/page/info/info.dart';
 import 'package:app/page/map/map.dart';
 import 'package:app/page/strike/html_strike_page.dart';
@@ -21,6 +22,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'model/live_event.dart';
+import 'page/campaign/campaign.dart';
 import 'page/intro/video.dart';
 
 void main() async {
@@ -35,6 +37,8 @@ void main() async {
 
   await Hive.openBox('post_read');
   await Hive.openBox('post_mark');
+
+  await Hive.openBox('slogan_mark');
 
   await Hive.openBox('subscribed_ogs');
 
@@ -53,6 +57,13 @@ void main() async {
   runApp(App());
 }
 
+const Map<String, Color> appBarColors = {
+  'light': Colors.white,
+  'sepia': Color(0xffF7ECD5),
+  'dark': Color(0xff303030),
+  'black': Colors.black,
+};
+
 class App extends StatelessWidget {
   ThemeData _buildThemeData(String theme) {
     var _accentColor = Color(0xff70c2eb);
@@ -60,10 +71,30 @@ class App extends StatelessWidget {
     var brightness =
         ['light', 'sepia'].contains(theme) ? Brightness.light : Brightness.dark;
 
+    bool isLightAppBar = brightness == Brightness.light;
+
+    final ThemeData themeBase = isLightAppBar ? ThemeData() : ThemeData.dark();
+
+    TextTheme appBarTextTheme =
+        themeBase.textTheme.merge(Typography.englishLike2018);
+
+    final primaryColor = Color(0xff1da64a);
+
+    appBarTextTheme = appBarTextTheme.copyWith(
+        headline6: appBarTextTheme.headline6.copyWith(color: primaryColor));
+
     var themeData = ThemeData(
       brightness: brightness,
       accentColor: _accentColor,
-      primaryColor: Color(0xff1da64a),
+      primaryColor: primaryColor,
+      appBarTheme: AppBarTheme(
+        color: appBarColors[theme],
+        iconTheme: IconThemeData(
+          color: primaryColor /* isLightAppBar ? Colors.black : Colors.white */,
+        ),
+        textTheme: appBarTextTheme,
+        centerTitle: true,
+      ),
       toggleableActiveColor: _accentColor,
       highlightColor: _accentColor,
       buttonColor: _accentColor,
@@ -74,10 +105,25 @@ class App extends StatelessWidget {
         textTheme: ButtonTextTheme.primary,
         buttonColor: _accentColor,
       ),
+      tabBarTheme: TabBarTheme(
+        labelColor: isLightAppBar ? Colors.black : null,
+        labelStyle: TextStyle(fontWeight: FontWeight.w400),
+        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400),
+      ),
       textTheme: TextTheme(
         button: TextStyle(color: _accentColor),
+        overline: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
+        headline5: TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
+        bodyText2: TextStyle(
+          fontWeight: FontWeight.w400,
+        ),
       ),
-      fontFamily: 'LibreFranklin',
+      fontFamily: 'Jost',
     );
 
     if (theme == 'sepia') {
@@ -142,7 +188,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with WidgetsBindingObserver {
-  int _currentIndex = 0;
+  int _currentIndex = 2;
 
   void subToAll() async {
     Box box = Hive.box('data');
@@ -436,8 +482,8 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                 height: 80,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Image.network(
-                    'https://fridaysforfuture.de/wp-content/uploads/2019/04/cropped-icon-192x192.png', // TODO Als lokales Asset
+                  child: Image.asset(
+                    'assets/images/home_button.png',
                   ),
                 ),
               ),
@@ -454,9 +500,9 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
       case 1:
         return InfoPage(); // MapPage();
       case 2:
-        return StrikePage(); // TODO Neue Feed Page
+        return HomePage();
       case 3:
-        return StrikePage(); // TODO Neue Aktionen Page
+        return CampaignPage();
       case 4:
         return AboutPage();
       default:
