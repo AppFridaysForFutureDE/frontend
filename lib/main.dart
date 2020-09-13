@@ -5,6 +5,7 @@ import 'package:app/model/strike.dart';
 import 'package:app/page/about/about.dart';
 import 'package:app/page/feed/feed.dart';
 import 'package:app/page/feed/post.dart';
+import 'package:app/page/home/home.dart';
 import 'package:app/page/info/info.dart';
 import 'package:app/page/map/map.dart';
 import 'package:app/page/strike/html_strike_page.dart';
@@ -84,12 +85,8 @@ class App extends StatelessWidget {
           color: isLightAppBar ? Colors.black : Colors.white,
         ),
         textTheme: appBarTextTheme,
-      ),
-
-      /*   appBarTheme: AppBarTheme(
-        //elevation: 0.0,
         centerTitle: true,
-      ), */
+      ),
       toggleableActiveColor: _accentColor,
       highlightColor: _accentColor,
       buttonColor: _accentColor,
@@ -495,7 +492,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
       case 1:
         return InfoPage(); // MapPage();
       case 2:
-        return StrikePage(); // TODO Neue Feed Page
+        return HomePage();
       case 3:
         return StrikePage(); // TODO Neue Aktionen Page
       case 4:
