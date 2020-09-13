@@ -53,7 +53,9 @@ class _OgTileState extends State<OgTile> {
 
   @override
   Widget build(BuildContext context) {
-    nextStrike = strikes.first;
+    if(strikes.isNotEmpty){
+      this.nextStrike = strikes.first;
+    }
     return ExpansionTile(
       initiallyExpanded: true,
       title: Text(
@@ -101,6 +103,7 @@ class _OgTileState extends State<OgTile> {
                             onPressed: () {
                               _launchURL(strike.eventLink);
                             })),
+              if(strikes.isNotEmpty)
               IconButton(
                 icon: Platform.isIOS?(
                           Icon(CupertinoIcons.share))
@@ -109,7 +112,7 @@ class _OgTileState extends State<OgTile> {
                     onPressed: () {
                       ShareUtil.shareStrike(this.nextStrike);
                     },
-              )
+              ),
             ],
           ),
         )
