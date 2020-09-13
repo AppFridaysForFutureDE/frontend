@@ -203,8 +203,8 @@ class _OgTileState extends State<OgTile> {
                   title: Text(og.infoTitle),
                   children: [
                     DropCapText(
-                      // FIXME: Text ändert im Darkmode nicht die Farbe und verschwindet somit
                       og.infoText,
+                      style: Theme.of(context).textTheme.bodyText2,
                       dropCap: DropCap(
                         width: 120,
                         height: 120,
