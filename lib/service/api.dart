@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app/model/home_page_data.dart';
 import 'package:app/model/live_event.dart';
 import 'package:app/model/slogan.dart';
 import 'package:app/model/strike.dart';
@@ -41,6 +42,29 @@ class ApiService {
     ghostApiKey = doc['ghostApiKey'];
 
     cache = CacheService(await getTemporaryDirectory());
+  }
+
+  Future<HomePageData> getHomePageData() async {
+    try {
+      // TODO: use correct url for production '$baseUrl/...'
+      var res = await client.get('http://10.0.2.2:8000/home_page.json');
+
+      if (res.statusCode == HttpStatus.ok) {
+        cache.put('home_page.json', res.body);
+
+        var data = json.decode(utf8.decode(res.bodyBytes));
+        return HomePageData.fromJson(data);
+      } else {
+        throw Exception('HTTP Status ${res.statusCode}');
+      }
+    } catch (e) {
+      if (cache.exists('home_page.json')) {
+        var data = json.decode(cache.get('campaigns.json'));
+        return HomePageData.fromJson(data);
+      } else {
+        throw Exception('Home Page Data not available online or in cache');
+      }
+    }
   }
 
   Future<List<OG>> getOGs() async {
@@ -94,7 +118,7 @@ class ApiService {
   Future<List<Post>> getPosts() async {
     try {
       var res = await client.get(
-          '$ghostBaseUrl/content/posts?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt&key=$ghostApiKey');
+          '$ghostBaseUrl/content/posts?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt&key=$ghostApiKey&limit=30'); // TODO Better pagination
 
       if (res.statusCode == HttpStatus.ok) {
         cache.put('posts.json', res.body);
@@ -136,10 +160,11 @@ Future<List<Slogan>> getSlogans() async {
     }
   }
 
-  Future<Post> getPostById(String id) async {
+
+  Future<Post> getPostById(String id, {bool metadata = false}) async {
     try {
-      var res = await client
-          .get('$ghostBaseUrl/content/posts/$id?fields=html&key=$ghostApiKey');
+      var res = await client.get(
+          '$ghostBaseUrl/content/posts/$id${metadata ? '?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt' : '?fields=html'}&key=$ghostApiKey');
 
       if (res.statusCode == HttpStatus.ok) {
         cache.put('post/$id.json', res.body);

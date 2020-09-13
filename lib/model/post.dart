@@ -38,7 +38,9 @@ class Post {
   List<Tag> tagsInternal;
 
   @JsonKey(ignore: true)
-  List<Tag> get tags => tagsInternal.where((t) => t.name != 'Push').toList();
+  List<Tag> get tags => tagsInternal
+      .where((t) => !['Push', 'Highlight'].contains(t.name))
+      .toList();
 
   List<Author> authors;
   @JsonKey(name: 'primary_author')

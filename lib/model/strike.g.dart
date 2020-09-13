@@ -8,13 +8,13 @@ part of 'strike.dart';
 
 class StrikeAdapter extends TypeAdapter<Strike> {
   @override
-  final typeId = 2;
+  final int typeId = 2;
 
   @override
   Strike read(BinaryReader reader) {
-    var numOfFields = reader.readByte();
-    var fields = <int, dynamic>{
-      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Strike()
       ..ogId = fields[0] as String
@@ -42,6 +42,16 @@ class StrikeAdapter extends TypeAdapter<Strike> {
       ..writeByte(5)
       ..write(obj.additionalInfo);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StrikeAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 // **************************************************************************

@@ -40,6 +40,12 @@ class OG implements SocialLinkContainer {
   String youtube;
   @HiveField(14)
   String other;
+  @HiveField(15)
+  String imageLink;
+  @HiveField(16)
+  String infoTitle;
+  @HiveField(17)
+  String infoText;
 
   OG();
 
