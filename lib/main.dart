@@ -36,7 +36,7 @@ void main() async {
 
   await Hive.openBox('post_read');
   await Hive.openBox('post_mark');
-  
+
   await Hive.openBox('slogan_mark');
 
   await Hive.openBox('subscribed_ogs');
@@ -74,17 +74,22 @@ class App extends StatelessWidget {
 
     final ThemeData themeBase = isLightAppBar ? ThemeData() : ThemeData.dark();
 
-    final TextTheme appBarTextTheme =
+    TextTheme appBarTextTheme =
         themeBase.textTheme.merge(Typography.englishLike2018);
+
+    final primaryColor = Color(0xff1da64a);
+
+    appBarTextTheme = appBarTextTheme.copyWith(
+        headline6: appBarTextTheme.headline6.copyWith(color: primaryColor));
 
     var themeData = ThemeData(
       brightness: brightness,
       accentColor: _accentColor,
-      primaryColor: Color(0xff1da64a),
+      primaryColor: primaryColor,
       appBarTheme: AppBarTheme(
         color: appBarColors[theme],
         iconTheme: IconThemeData(
-          color: isLightAppBar ? Colors.black : Colors.white,
+          color: primaryColor /* isLightAppBar ? Colors.black : Colors.white */,
         ),
         textTheme: appBarTextTheme,
         centerTitle: true,

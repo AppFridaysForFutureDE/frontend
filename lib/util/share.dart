@@ -12,6 +12,6 @@ class ShareUtil {
 
   static shareSlogan(Slogan slogan) {
     Share.share(
-        'Ich kenne einen Demospruch und der geht so: "${slogan.text}"');
+        'Ich kenne einen Demospruch und der geht so: "${slogan.text}" Dies und viel mehr gibt\'s in der AppForFuture: https://app.fffutu.re/download/');
   }
 }

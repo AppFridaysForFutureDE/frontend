@@ -210,7 +210,7 @@ class _SloganItemState extends State<SloganItem> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Row(
+                /*   Row(
                   children: <Widget>[
                     Flexible(
                       child: Column(
@@ -222,15 +222,25 @@ class _SloganItemState extends State<SloganItem> {
                               constraints: BoxConstraints(
                                   minHeight: 36,
                                   maxHeight: selected ? double.infinity : 36.0),
-                              child: Text(slogan.text),
-                            ),
-                          ),
-                        ],
+                              child:  */
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: 36,
+                  ),
+                  child: Text(
+                    selected ? slogan.text : slogan.text.replaceAll('\n', ''),
+                    maxLines: selected ? 999 : 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                /*  ),
+                          ), */
+                /*       ],
                       ),
                     ),
                   ],
-                ),
-                SizedBox(height: 8),
+                ), */
+                SizedBox(height: 12),
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
@@ -253,8 +263,8 @@ class _SloganItemState extends State<SloganItem> {
             child: Column(
               children: Platform.isAndroid
                   ? <Widget>[
-                      PopupMenuButton(
-                        icon: Icon(
+                      /*   PopupMenuButton( */
+                      /*          icon: Icon(
                           Icons.more_vert,
                           semanticLabel: 'Menü anzeigen',
                         ),
@@ -281,7 +291,7 @@ class _SloganItemState extends State<SloganItem> {
                               break;
                           }
                         },
-                      ),
+                      ), */
                       IconButton(
                         onPressed: () {
                           setState(() {
@@ -294,16 +304,19 @@ class _SloganItemState extends State<SloganItem> {
                           semanticLabel: 'Markierter Artikel',
                         ),
                       ),
+                      IconButton(
+                        onPressed: () {
+                          ShareUtil.shareSlogan(slogan);
+                        },
+                        icon: Icon(
+                          MdiIcons.shareVariant,
+                          semanticLabel: 'Artikel teilen',
+                        ),
+                      ),
                     ]
                   :
                   //iOS adaption (action sheet)
                   <Widget>[
-                      if (marked)
-                        Icon(
-                          MdiIcons.bookmark,
-                          semanticLabel: 'Markierter Artikel',
-                          color: Theme.of(context).accentColor,
-                        ),
                       CupertinoButton(
                         onPressed: () {
                           showCupertinoModalPopup(
@@ -345,6 +358,12 @@ class _SloganItemState extends State<SloganItem> {
                         child: Icon(CupertinoIcons.ellipsis,
                             color: Theme.of(context).hintColor),
                       ),
+                      if (marked)
+                        Icon(
+                          MdiIcons.bookmark,
+                          semanticLabel: 'Markierter Artikel',
+                          color: Theme.of(context).accentColor,
+                        ),
                     ],
             ),
           ),
