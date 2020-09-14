@@ -52,7 +52,7 @@ class ApiService {
       if (res.statusCode == HttpStatus.ok) {
         cache.put('home.json', res.body);
 
-        var data = json.decode(utf8.decode(res.bodyBytes));
+        var data = json.decode(res.body);
         return HomePageData.fromJson(data);
       } else {
         throw Exception('HTTP Status ${res.statusCode}');
@@ -282,7 +282,7 @@ class ApiService {
       if (res.statusCode == HttpStatus.ok) {
         cache.put('campaigns.json', res.body);
 
-        var data = json.decode(utf8.decode(res.bodyBytes));
+        var data = json.decode(res.body);
         return data['campaigns']
             .map<Campaign>((m) => Campaign.fromJson(m))
             .toList();
