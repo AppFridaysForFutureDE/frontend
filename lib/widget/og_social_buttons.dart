@@ -27,7 +27,15 @@ class SocialButtons extends StatelessWidget {
     var list = [
       for (var socialLink in _buildList())
         PopupMenuItem(
-          child: Text(socialLink.label),
+          child: Row(
+            children: [
+              Icon(socialLink.icon),
+              SizedBox(
+                width: 8,
+              ),
+              Text(socialLink.label),
+            ],
+          ),
           value: socialLink.link,
         ),
     ];

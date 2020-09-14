@@ -24,7 +24,7 @@ class _DemoPageState extends State<DemoPage> {
     try {
       slogans = await api.getSlogans();
       if (mounted) setState(() {});
-    } catch (e) {
+    } catch (e, st) {
       if (mounted)
         _scaffoldKey.currentState.showSnackBar(
           SnackBar(
@@ -48,7 +48,6 @@ class _DemoPageState extends State<DemoPage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        centerTitle: Platform.isIOS,
         title: searchActive
             ? TextField(
                 autofocus: true,
@@ -263,10 +262,11 @@ class _SloganItemState extends State<SloganItem> {
           Align(
             alignment: Alignment.topRight,
             child: Column(
-              children: Platform.isAndroid
-                  ? <Widget>[
-                      /*   PopupMenuButton( */
-                      /*          icon: Icon(
+                children: /* Platform.isAndroid
+                  ?  */
+                    <Widget>[
+                  /*   PopupMenuButton( */
+                  /*          icon: Icon(
                           Icons.more_vert,
                           semanticLabel: 'Menü anzeigen',
                         ),
@@ -294,29 +294,29 @@ class _SloganItemState extends State<SloganItem> {
                           }
                         },
                       ), */
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            Hive.box('slogan_mark').put(slogan.id, !marked);
-                          });
-                        },
-                        icon: Icon(
-                          marked ? MdiIcons.star : MdiIcons.starOutline,
-                          color: marked ? Theme.of(context).accentColor : null,
-                          semanticLabel: 'Markierter Artikel',
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          ShareUtil.shareSlogan(slogan);
-                        },
-                        icon: Icon(
-                          MdiIcons.shareVariant,
-                          semanticLabel: 'Artikel teilen',
-                        ),
-                      ),
-                    ]
-                  :
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        Hive.box('slogan_mark').put(slogan.id, !marked);
+                      });
+                    },
+                    icon: Icon(
+                      marked ? MdiIcons.star : MdiIcons.starOutline,
+                      color: marked ? Theme.of(context).accentColor : null,
+                      semanticLabel: 'Markierter Artikel',
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      ShareUtil.shareSlogan(slogan);
+                    },
+                    icon: Icon(
+                      MdiIcons.shareVariant,
+                      semanticLabel: 'Artikel teilen',
+                    ),
+                  ),
+                ]
+                /*  :
                   //iOS adaption (action sheet)
                   <Widget>[
                       CupertinoButton(
@@ -366,8 +366,8 @@ class _SloganItemState extends State<SloganItem> {
                           semanticLabel: 'Markierter Artikel',
                           color: Theme.of(context).accentColor,
                         ),
-                    ],
-            ),
+                    ], */
+                ),
           ),
         ],
       ),
