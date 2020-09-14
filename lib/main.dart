@@ -469,8 +469,9 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             ],
           ),
         ),
-        if (true)
-          Align(
+        // if (true)
+        SafeArea(
+          child: Align(
             alignment: Alignment.bottomCenter,
             child: GestureDetector(
               onTap: () {
@@ -489,6 +490,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
               ),
             ),
           ),
+        ),
       ],
     );
   }

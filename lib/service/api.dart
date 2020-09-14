@@ -160,7 +160,6 @@ class ApiService {
     }
   }
 
-
   Future<Post> getPostById(String id, {bool metadata = false}) async {
     try {
       var res = await client.get(
