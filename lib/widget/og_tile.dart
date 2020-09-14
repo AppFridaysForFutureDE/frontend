@@ -187,6 +187,9 @@ class _OgTileState extends State<OgTile> {
                 ],
               ),
               if (nextStrike != null) _strikeWidget(nextStrike),
+              SizedBox(
+                height: 6,
+              ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
