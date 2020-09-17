@@ -43,7 +43,7 @@ class _CampaignPageState extends State<CampaignPage> {
   Widget _bannerImage(banner) {
     return GestureDetector(
       onTap: () {
-        NavUtil(context).openLink(banner.link, banner.inApp);
+        NavUtil(context).openLink(banner.link, banner.inApp, null);
       },
       child: CachedNetworkImage(imageUrl: banner.imageUrl),
     );
@@ -129,7 +129,8 @@ class _CampaignPageState extends State<CampaignPage> {
                 textAlign: TextAlign.center,
               ),
               onPressed: () {
-                NavUtil(context).openLink(campaign.link, campaign.inApp);
+                NavUtil(context)
+                    .openLink(campaign.link, campaign.inApp, campaign.cta);
               },
             ),
           ],

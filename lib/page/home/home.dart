@@ -52,11 +52,12 @@ class _HomePageState extends State<HomePage> {
                   children: <Widget>[
                     GestureDetector(
                       onTap: () {
-                        NavUtil(context)
-                            .openLink(data.banner.link, data.banner.inApp);
+                        NavUtil(context).openLink(
+                            data.banner.link, data.banner.inApp, null);
                       },
                       child: CachedNetworkImage(imageUrl: data.banner.imageUrl),
                     ),
+
                     /*   SizedBox(
                       height: 100,
                       child: CarouselSlider(
@@ -89,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                       HomeFeedItem(
                         feedItem,
                       ),
-                  /*   for (final feedItem in data.feed)
+                    /*   for (final feedItem in data.feed)
                       HomeFeedItem(
                         feedItem,
                       ), */
@@ -129,7 +130,7 @@ class HomeFeedItem extends StatelessWidget {
               child: RaisedButton(
                 child: Text(item.cta),
                 onPressed: () {
-                  NavUtil(context).openLink(item.link, item.inApp);
+                  NavUtil(context).openLink(item.link, item.inApp, item.cta);
                 },
               ),
             ),

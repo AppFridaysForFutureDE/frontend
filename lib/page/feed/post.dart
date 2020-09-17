@@ -1,5 +1,6 @@
 import 'package:app/app.dart';
 import 'package:app/model/post.dart';
+import 'package:app/util/navigation.dart';
 import 'package:app/util/share.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -167,7 +168,7 @@ class _PostPageState extends State<PostPage> {
                         fontSize: 15, height: 1.3, letterSpacing: 0.4)),
                   },
                   onLinkTap: (link) async {
-                    if (await canLaunch(link)) launch(link);
+                    NavUtil(context).openLink(link, false, null);
                   },
                 ),
               ),
