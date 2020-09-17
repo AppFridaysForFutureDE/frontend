@@ -100,7 +100,7 @@ class _CampaignPageState extends State<CampaignPage> {
             ),
             Text(
               campaign.text,
-              textAlign: TextAlign.left,
+              textAlign: TextAlign.center,
             ),
             RaisedButton(
               color: Theme.of(context).primaryColor,
