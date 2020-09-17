@@ -3,6 +3,7 @@ import 'package:app/service/api.dart';
 import 'package:app/service/theme.dart';
 import 'package:app/widget/title.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:package_info/package_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io' show Platform;
 
@@ -187,6 +188,26 @@ class _SettingsPageState extends State<SettingsPage> {
                     await FirebaseMessaging().unsubscribeFromTopic('feed_$s');
                   }
                 }),
+          Center(
+              child: FutureBuilder<PackageInfo>(
+                future: PackageInfo.fromPlatform(),
+                builder: (context, result) {
+                  if (!result.hasData) return SizedBox();
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      'Dies ist die offizielle App von Fridays for Future Deutschland in der Version ${result.data.version}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Theme.of(context).hintColor,
+                      ),
+                    ),
+                  );
+                   },
+              ),
+            )
         ],
       ),
     );

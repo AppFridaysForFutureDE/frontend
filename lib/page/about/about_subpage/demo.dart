@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'dart:io';
+import 'dart:io' show Platform;
 
 import 'package:app/app.dart';
 import 'package:app/model/slogan.dart';
@@ -310,8 +310,7 @@ class _SloganItemState extends State<SloganItem> {
                     onPressed: () {
                       ShareUtil.shareSlogan(slogan);
                     },
-                    icon: Icon(
-                      MdiIcons.shareVariant,
+                    icon: Icon(Platform.isAndroid? MdiIcons.shareVariant : CupertinoIcons.share,
                       semanticLabel: 'Artikel teilen',
                     ),
                   ),

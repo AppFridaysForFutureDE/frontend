@@ -181,7 +181,7 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             ListTile(
-                              title: Text('Impressum'),
+                              title: Text('Impressum', style: TextStyle(fontSize: 18)),
                               onTap: () {
                                 Navigator.push(
                                     context,
@@ -195,7 +195,7 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
                               },
                             ),
                             ListTile(
-                              title: Text('Datenschutz'),
+                              title: Text('Datenschutz', style: TextStyle(fontSize: 18)),
                               onTap: () {
                                 Navigator.push(
                                     context,
@@ -225,7 +225,7 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
                     color: Color(0xff9ed2ea),
                     alignment: Alignment.center,
                   ),
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(20),
                 ),
                 color: Colors.white,
                 width: double.infinity,
