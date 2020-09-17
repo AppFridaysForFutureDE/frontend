@@ -78,28 +78,10 @@ class _CampaignPageState extends State<CampaignPage> {
             );
           }).toList(),
         ),
-        dotImageIndicator(),
-      ],
-    );
-  }
-
-  Widget dotImageIndicator() {
-    final dotColor = Theme.of(context).brightness == Brightness.dark
-        ? Colors.white
-        : Colors.black;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        for (var i = 0; i < data.banners.length; i++)
-          Container(
-            width: 8.0,
-            height: 8.0,
-            margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color:
-                    currentImage == i ? dotColor : dotColor.withOpacity(0.4)),
-          ),
+        DotImageIndiciator(
+          length: data.banners.length,
+          current: currentImage,
+        ),
       ],
     );
   }
@@ -149,22 +131,51 @@ class _CampaignPageState extends State<CampaignPage> {
         onRefresh: _loadData,
         child: campaignPairs == null
             ? LinearProgressIndicator()
-            : ListView(
-                children: <Widget>[
-                  bannerCarousel(),
-                  for (var pair in campaignPairs)
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        campaignColumn(pair[0]),
-                        pair.length > 1
-                            ? campaignColumn(pair[1])
-                            : Expanded(child: Text('')),
-                      ],
-                    ),
-                ],
+            : Scrollbar(
+                child: ListView(
+                  children: <Widget>[
+                    bannerCarousel(),
+                    for (var pair in campaignPairs)
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          campaignColumn(pair[0]),
+                          pair.length > 1
+                              ? campaignColumn(pair[1])
+                              : Expanded(child: Text('')),
+                        ],
+                      ),
+                  ],
+                ),
               ),
       ),
+    );
+  }
+}
+
+class DotImageIndiciator extends StatelessWidget {
+  final int length;
+  final int current;
+  DotImageIndiciator({this.length, this.current});
+
+  @override
+  Widget build(BuildContext context) {
+    final dotColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        for (var i = 0; i < length; i++)
+          Container(
+            width: 8.0,
+            height: 8.0,
+            margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: current == i ? dotColor : dotColor.withOpacity(0.4)),
+          ),
+      ],
     );
   }
 }

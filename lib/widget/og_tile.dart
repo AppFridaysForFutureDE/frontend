@@ -192,7 +192,7 @@ class _OgTileState extends State<OgTile> {
                     ),
                     if (!_expanded && nextStrike != null)
                       Text(
-                        'Streik: ${DateFormat('dd.MM.yyyy, HH:mm').format(nextStrike.dateTime)}',
+                        'Demo: ${DateFormat('dd.MM.yyyy, HH:mm').format(nextStrike.dateTime)}',
                         style: Theme.of(context)
                             .textTheme
                             .bodyText2
