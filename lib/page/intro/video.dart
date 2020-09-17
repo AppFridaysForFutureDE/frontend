@@ -36,6 +36,7 @@ class _VideoPageState extends State<VideoPage> {
         'https://cdn.app.fffutu.re/img/fff-app-intro.mp4')
       ..initialize().then((_) {
         setState(() {});
+        _controller.setVolume(0);
         _controller.play();
       });
     _controller.addListener(() {
@@ -58,9 +59,9 @@ class _VideoPageState extends State<VideoPage> {
         child: InkWell(
           onTap: () {
             setState(() {
-              _controller.value.isPlaying
-                  ? _controller.pause()
-                  : _controller.play();
+              _controller.value.volume == 0
+                  ? _controller.setVolume(1)
+                  : _controller.setVolume(0);
             });
           },
           child: Center(
