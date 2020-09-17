@@ -1,9 +1,9 @@
 import 'package:app/model/campaign.dart';
-import 'package:app/model/banner.dart';
 import 'package:app/model/campaign_page_data.dart';
+import 'package:app/util/navigation.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:quiver/iterables.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
 
 /*
@@ -24,20 +24,10 @@ class _CampaignPageState extends State<CampaignPage> {
     super.initState();
   }
 
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
   Future _loadData() async {
     try {
       data = await api.getCampaignPageData();
       campaignPairs = partition(data.campaigns, 2);
-      //TODO:_remove
-      data.banners.add(data.banners.first);
 
       if (mounted) setState(() {});
     } catch (e) {
@@ -47,6 +37,37 @@ class _CampaignPageState extends State<CampaignPage> {
             content: Text(
                 'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
     }
+  }
+
+  Widget _bannerImage(banner) {
+    return GestureDetector(
+      onTap: () {
+        NavUtil(context).openLink(banner.link, banner.inApp);
+      },
+      child: CachedNetworkImage(imageUrl: banner.imageUrl),
+    );
+  }
+
+  Widget bannerCarousel() {
+    if (data.banners.length == 1) return _bannerImage(data.banners.first);
+
+    return CarouselSlider(
+      options: CarouselOptions(
+        height: 150.0,
+        autoPlay: true,
+        autoPlayInterval: Duration(seconds: 5),
+      ),
+      items: data.banners.map((i) {
+        return Builder(
+          builder: (BuildContext context) {
+            return Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                child: _bannerImage(i));
+          },
+        );
+      }).toList(),
+    );
   }
 
   Widget campaignColumn(Campaign campaign) {
@@ -74,7 +95,7 @@ class _CampaignPageState extends State<CampaignPage> {
                 textAlign: TextAlign.center,
               ),
               onPressed: () {
-                _launchURL(campaign.link);
+                NavUtil(context).openLink(campaign.link, campaign.inApp);
               },
             ),
           ],
@@ -96,37 +117,20 @@ class _CampaignPageState extends State<CampaignPage> {
                 child: Text('Keine Ergebnisse'),
               )
             : ListView(
-              children: <Widget>[
-                Image.network(
-                    'https://fridaysforfuture.de/wp-content/uploads/2020/08/cropped-header.jpg'),
-                // TODO: Load banners from api and fix layout
-                // CarouselSlider(
-                //   options: CarouselOptions(height: 400.0),
-                //   items: [1, 2, 3, 4, 5].map((i) {
-                //     return Builder(
-                //       builder: (BuildContext context) {
-                //         return Container(
-                //             width: MediaQuery.of(context).size.width,
-                //             margin: EdgeInsets.symmetric(horizontal: 5.0),
-                //             decoration: BoxDecoration(color: Colors.amber),
-                //             child: Text(
-                //               'text $i',
-                //               style: TextStyle(fontSize: 16.0),
-                //             ));
-                //       },
-                //     );
-                //   }).toList(),
-                // ),
-                for (var pair in campaignPairs)
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      campaignColumn(pair[0]),
-                      pair.length > 1 ? campaignColumn(pair[1]) : Expanded(child: Text('')),
-                    ],
-                  ),
-              ],
-            ),
+                children: <Widget>[
+                  bannerCarousel(),
+                  for (var pair in campaignPairs)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        campaignColumn(pair[0]),
+                        pair.length > 1
+                            ? campaignColumn(pair[1])
+                            : Expanded(child: Text('')),
+                      ],
+                    ),
+                ],
+              ),
       ),
     );
   }
