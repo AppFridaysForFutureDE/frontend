@@ -22,13 +22,14 @@ class StrikeAdapter extends TypeAdapter<Strike> {
       ..date = fields[2] as int
       ..location = fields[3] as String
       ..eventLink = fields[4] as String
-      ..additionalInfo = fields[5] as String;
+      ..additionalInfo = fields[5] as String
+      ..imageUrl = fields[6] as String;
   }
 
   @override
   void write(BinaryWriter writer, Strike obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.ogId)
       ..writeByte(1)
@@ -40,7 +41,9 @@ class StrikeAdapter extends TypeAdapter<Strike> {
       ..writeByte(4)
       ..write(obj.eventLink)
       ..writeByte(5)
-      ..write(obj.additionalInfo);
+      ..write(obj.additionalInfo)
+      ..writeByte(6)
+      ..write(obj.imageUrl);
   }
 
   @override
@@ -65,7 +68,8 @@ Strike _$StrikeFromJson(Map<String, dynamic> json) {
     ..date = json['date'] as int
     ..location = json['location'] as String
     ..eventLink = json['eventLink'] as String
-    ..additionalInfo = json['additionalInfo'] as String;
+    ..additionalInfo = json['additionalInfo'] as String
+    ..imageUrl = json['imageUrl'] as String;
 }
 
 Map<String, dynamic> _$StrikeToJson(Strike instance) => <String, dynamic>{
@@ -75,4 +79,5 @@ Map<String, dynamic> _$StrikeToJson(Strike instance) => <String, dynamic>{
       'location': instance.location,
       'eventLink': instance.eventLink,
       'additionalInfo': instance.additionalInfo,
+      'imageUrl': instance.imageUrl,
     };

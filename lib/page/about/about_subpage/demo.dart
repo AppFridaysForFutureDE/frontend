@@ -45,98 +45,147 @@ class _DemoPageState extends State<DemoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: searchActive
-            ? TextField(
-                autofocus: true,
-                textCapitalization: TextCapitalization.sentences,
-                autocorrect: false,
-                cursorColor: Theme.of(context).colorScheme.onSurface,
-                style:
-                    TextStyle(color: Theme.of(context).colorScheme.onSurface),
-                decoration: InputDecoration(
-                    hintText: 'Suchen',
-                    hintStyle: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface)),
-                onChanged: (s) {
+    return DefaultTabController(
+      length: 2,
+      initialIndex: Hive.box('slogan_mark').isEmpty ? 0 : 1,
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(
+          title: searchActive
+              ? TextField(
+                  autofocus: true,
+                  textCapitalization: TextCapitalization.sentences,
+                  autocorrect: false,
+                  cursorColor: Theme.of(context).colorScheme.onSurface,
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                  decoration: InputDecoration(
+                      hintText: 'Suchen',
+                      hintStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface)),
+                  onChanged: (s) {
+                    setState(() {
+                      searchText = s;
+                    });
+                  },
+                )
+              : Text('Demosprüche', semanticsLabel: 'Demosprüche'),
+          actions: <Widget>[
+            if (slogans != null)
+              if (!searchActive)
+                IconButton(
+                  icon: Icon(MdiIcons.filter),
+                  tooltip: 'Filter Einstellungen',
+                  onPressed: () async {
+                    var newFilterState = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => DemoFilterPage(
+                          filterState,
+                          slogans.fold<Set>(
+                              Set(), (a, b) => a..addAll(b.tags.toList())),
+                        ),
+                      ),
+                    );
+
+                    if (newFilterState != null)
+                      setState(() {
+                        filterState = newFilterState;
+                      });
+                  },
+                ),
+            if (slogans != null)
+              IconButton(
+                icon: Icon(searchActive ? Icons.close : MdiIcons.magnify,
+                    semanticLabel:
+                        searchActive ? 'Suche schließen' : 'Im Feed suchen'),
+                onPressed: () {
                   setState(() {
-                    searchText = s;
+                    if (searchActive) {
+                      searchText = '';
+                      searchActive = false;
+                    } else {
+                      searchActive = true;
+                    }
                   });
                 },
-              )
-            : Text('Demosprüche', semanticsLabel: 'Demosprüche'),
-        actions: <Widget>[
-          if (slogans != null)
-            if (!searchActive)
-              IconButton(
-                icon: Icon(MdiIcons.filter),
-                tooltip: 'Filter Einstellungen',
-                onPressed: () async {
-                  var newFilterState = await Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => DemoFilterPage(
-                        filterState,
-                        slogans.fold<Set>(
-                            Set(), (a, b) => a..addAll(b.tags.toList())),
-                      ),
-                    ),
-                  );
-
-                  if (newFilterState != null)
-                    setState(() {
-                      filterState = newFilterState;
-                    });
-                },
               ),
-          if (slogans != null)
-            IconButton(
-              icon: Icon(searchActive ? Icons.close : MdiIcons.magnify,
-                  semanticLabel:
-                      searchActive ? 'Suche schließen' : 'Im Feed suchen'),
-              onPressed: () {
-                setState(() {
-                  if (searchActive) {
-                    searchText = '';
-                    searchActive = false;
-                  } else {
-                    searchActive = true;
-                  }
-                });
-              },
-            ),
-        ],
-      ),
-      body: slogans == null
-          ? LinearProgressIndicator()
-          : Column(
-              children: <Widget>[
-                if (filterState.filterActive)
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(8),
-                    color: Colors.yellow,
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Es sind Filter aktiv',
-                      style: TextStyle(
-                        color: Colors.black,
+          ],
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                text: 'Alle Sprüche',
+              ),
+              Tab(
+                text: 'Favoriten',
+              ),
+            ],
+            indicatorWeight: 4,
+          ),
+        ),
+        body: slogans == null
+            ? LinearProgressIndicator()
+            : TabBarView(
+                children: [
+                  Column(
+                    children: <Widget>[
+                      if (filterState.filterActive)
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(8),
+                          color: Colors.yellow,
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Es sind Filter aktiv',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      Expanded(
+                        child: searchActive
+                            ? _buildListView(text: searchText.toLowerCase())
+                            : _buildListView(),
                       ),
-                    ),
+                    ],
                   ),
-                Expanded(
-                  child: searchActive
-                      ? _buildListView(text: searchText.toLowerCase())
-                      : _buildListView(),
-                ),
-              ],
-            ),
+                  Column(
+                    children: <Widget>[
+                      if (filterState.filterActive)
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(8),
+                          color: Colors.yellow,
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Es sind Filter aktiv',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      Expanded(
+                        child: searchActive
+                            ? _buildListView(
+                                text: searchText.toLowerCase(),
+                                onlyFavorites: true)
+                            : _buildListView(onlyFavorites: true),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+      ),
     );
   }
 
-  Widget _buildListView({String text}) {
+  Widget _buildListView({String text, bool onlyFavorites = false}) {
     List<Slogan> shownSlogans = List.from(slogans);
+
+    if (onlyFavorites) {
+      var markBox = Hive.box('slogan_mark');
+      shownSlogans =
+          shownSlogans.where((p) => (markBox.get(p.id) ?? false)).toList();
+    }
 
     if (filterState.filterActive) {
       if (filterState.onlyShowMarked) {
@@ -168,7 +217,7 @@ class _DemoPageState extends State<DemoPage> {
           : ListView.separated(
               itemCount: shownSlogans.length,
               itemBuilder: (context, index) {
-                return SloganItem(shownSlogans[index]);
+                return SloganItem(shownSlogans[index], setState);
               },
               separatorBuilder: (context, index) => Container(
                 height: 0.5,
@@ -181,7 +230,9 @@ class _DemoPageState extends State<DemoPage> {
 
 class SloganItem extends StatefulWidget {
   final Slogan item;
-  SloganItem(this.item);
+  final Function setParentState;
+
+  SloganItem(this.item, this.setParentState);
 
   @override
   _SloganItemState createState() => _SloganItemState();
@@ -297,8 +348,13 @@ class _SloganItemState extends State<SloganItem> {
                   IconButton(
                     onPressed: () {
                       setState(() {
-                        Hive.box('slogan_mark').put(slogan.id, !marked);
+                        if (marked) {
+                          Hive.box('slogan_mark').delete(slogan.id);
+                        } else {
+                          Hive.box('slogan_mark').put(slogan.id, !marked);
+                        }
                       });
+                      widget.setParentState(() {});
                     },
                     icon: Icon(
                       marked ? MdiIcons.star : MdiIcons.starOutline,
