@@ -84,6 +84,9 @@ class _CampaignPageState extends State<CampaignPage> {
   }
 
   Widget dotImageIndicator() {
+    final dotColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -94,9 +97,8 @@ class _CampaignPageState extends State<CampaignPage> {
             margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: currentImage == i
-                    ? Color.fromRGBO(0, 0, 0, 0.9)
-                    : Color.fromRGBO(0, 0, 0, 0.4)),
+                color:
+                    currentImage == i ? dotColor : dotColor.withOpacity(0.4)),
           ),
       ],
     );
