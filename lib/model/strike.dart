@@ -26,6 +26,10 @@ class Strike {
   @HiveField(5)
   String additionalInfo;
 
+  @HiveField(6)
+  @JsonKey(nullable: true)
+  String imageUrl;
+
   Strike();
 
   @override

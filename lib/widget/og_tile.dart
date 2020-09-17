@@ -1,5 +1,6 @@
 import 'package:app/model/strike.dart';
 import 'package:app/widget/og_social_buttons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_cap_text/drop_cap_text.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -149,6 +150,8 @@ class _OgTileState extends State<OgTile> {
                 ),
               ],
             ),
+          if (strike.imageUrl != null)
+            CachedNetworkImage(imageUrl: strike.imageUrl),
         ],
       ),
     );
