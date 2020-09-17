@@ -3,6 +3,8 @@ import 'package:app/model/post.dart';
 import 'package:app/page/feed/post.dart';
 import 'package:app/util/share.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
+import 'dart:io' show Platform;
 
 class FeedItemWidget extends StatefulWidget {
   final Post item;
@@ -184,8 +186,7 @@ class _FeedItemWidgetState extends State<FeedItemWidget> {
                 children: [
                   if (highlighted)
                     IconButton(
-                      icon: Icon(
-                        MdiIcons.shareVariant,
+                      icon: Icon(Platform.isAndroid? MdiIcons.shareVariant : CupertinoIcons.share,
                         semanticLabel: 'Artikel teilen',
                         color: Colors.grey,
                       ),
