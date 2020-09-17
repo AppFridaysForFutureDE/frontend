@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:app/model/campaign.dart';
+import 'package:app/model/campaign_page_data.dart';
 import 'package:app/model/home_page_data.dart';
 import 'package:app/model/live_event.dart';
 import 'package:app/model/slogan.dart';
@@ -274,8 +274,7 @@ class ApiService {
     }
   }
 
-  // TODO: also retrieve banners from json
-  Future<List<Campaign>> getCampaigns() async {
+  Future<CampaignPageData> getCampaignPageData() async {
     try {
       var res = await client.get('$baseUrl/campaigns');
 
@@ -283,20 +282,16 @@ class ApiService {
         cache.put('campaigns.json', res.body);
 
         var data = json.decode(res.body);
-        return data['campaigns']
-            .map<Campaign>((m) => Campaign.fromJson(m))
-            .toList();
+        return CampaignPageData.fromJson(data);
       } else {
         throw Exception('HTTP Status ${res.statusCode}');
       }
     } catch (e) {
       if (cache.exists('campaigns.json')) {
         var data = json.decode(cache.get('campaigns.json'));
-        return data['campaigns']
-            .map<Campaign>((m) => Campaign.fromJson(m))
-            .toList();
+        return CampaignPageData.fromJson(data);
       } else {
-        throw Exception('Campaign List not available online or in cache');
+        throw Exception('Campaign Page Data not available online or in cache');
       }
     }
   }
