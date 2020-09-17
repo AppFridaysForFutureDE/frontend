@@ -495,6 +495,12 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     );
   }
 
+  navigationRequest(int page) {
+    setState(() {
+      _currentIndex = page;
+    });
+  }
+
   Widget _buildPage(int index) {
     switch (index) {
       case 0:
@@ -502,7 +508,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
       case 1:
         return InfoPage(); // MapPage();
       case 2:
-        return HomePage();
+        return HomePage(navigationRequest);
       case 3:
         return CampaignPage();
       case 4:

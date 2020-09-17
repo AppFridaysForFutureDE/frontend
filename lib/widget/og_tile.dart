@@ -1,5 +1,6 @@
 import 'package:app/model/strike.dart';
 import 'package:app/widget/og_social_buttons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_cap_text/drop_cap_text.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -39,7 +40,21 @@ class _OgTileState extends State<OgTile> {
   void initState() {
     super.initState();
     strikes = (Hive.box('strikes').get(og.ogId) ?? []).cast<Strike>();
+    _processStrikes();
 
+    _loadData();
+  }
+
+  _loadData() async {
+    try {
+      strikes = await api.getStrikesByOG(og.ogId);
+      _processStrikes();
+      if (mounted) setState(() {});
+      Hive.box('strikes').put(og.ogId, strikes);
+    } catch (e) {}
+  }
+
+  _processStrikes() {
     List<Strike> plenumList = [];
     List<Strike> strikeList = [];
     for (Strike strike in strikes) {
@@ -55,16 +70,6 @@ class _OgTileState extends State<OgTile> {
     if (strikeList.length > 0)
       nextStrike = strikeList.reduce(
           (curr, next) => curr.date.compareTo(next.date) > 0 ? curr : next);
-
-    _loadData();
-  }
-
-  _loadData() async {
-    try {
-      strikes = await api.getStrikesByOG(og.ogId);
-      if (mounted) setState(() {});
-      Hive.box('strikes').put(og.ogId, strikes);
-    } catch (e) {}
   }
 
   // showOGDetails() {
@@ -145,10 +150,14 @@ class _OgTileState extends State<OgTile> {
                 ),
               ],
             ),
+          if (strike.imageUrl != null)
+            CachedNetworkImage(imageUrl: strike.imageUrl),
         ],
       ),
     );
   }
+
+  bool _expanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -161,80 +170,117 @@ class _OgTileState extends State<OgTile> {
     // og.infoText =
     //     'Sobald das Datum des Streiks steht, geht die Planung los: In einer ersten Telefonkonferenz, kurz TK, wurden sowohl 14 Uhr als Uhrzeit und Theresienwiese als Ort, wie auch die Aktionsform festgelegt. Außerdem wurden erste Ideen und Pläne für die Arbeitsweise und vorläufige Zeitpläne erstellt. Kurz nach der zweiten Telefonkonferenz stand als Arbeitsweise das Arbeiten in themenspezifischen Kleingruppen fest. So gibt es unter anderem Gruppen für Presse, Programm und Logistik. Ergebnisse der Arbeit in diesen Untergruppen, kurz UGs, werden in wöchentlichen Plena besprochen und abgesegnet. Außerdem hat jede UG mindestens einen Hutmenschen, der*die sich darum kümmert, dass die UG mit der Arbeit vorankommt, TKs stattfinden und als Ansprechpartner*in zur Verfügung steht.';
 
-    return Column(
-      children: <Widget>[
-        ListTile(
-          title: Text(
-            widget.og.name,
-            semanticsLabel: widget.og.name,
-            style:
-                TextStyle(color: Theme.of(context).accentColor, fontSize: 20),
-          ),
-          trailing: SocialButtons(og, false),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 16.0, right: 16, bottom: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Row(
-                children: [
-                  Text(
-                    'Nächste Demo: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  if (nextStrike == null) Text('Keine Informationen'),
-                ],
-              ),
-              if (nextStrike != null) _strikeWidget(nextStrike),
-              SizedBox(
-                height: 6,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Nächstes Plenum: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  if (nextPlenum == null) Text('Keine Informationen'),
-                ],
-              ),
-              if (nextPlenum != null) _strikeWidget(nextPlenum),
-              if (og.infoText != null)
-                ListTileTheme(
-                  contentPadding: EdgeInsets.only(left: 0, right: 12),
-                  child: ExpansionTile(
-                    title: Text(og.infoTitle ?? 'Weitere Infos'),
-                    children: [
-                      DropCapText(
-                        og.infoText,
-                        style: Theme.of(context).textTheme.bodyText2,
-                        dropCap: og.imageLink == null
-                            ? DropCap(
-                                width: 0,
-                                height: 0,
-                                child: SizedBox(),
-                              )
-                            : DropCap(
-                                width: 120,
-                                height: 120,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 8, bottom: 8),
-                                  child: Image.network(og.imageLink,
-                                      fit: BoxFit.cover),
-                                ),
-                              ),
+    return Container(
+      child: Column(
+        children: <Widget>[
+          ExpansionTile(
+            onExpansionChanged: (value) {
+              setState(() {
+                _expanded = value;
+              });
+            },
+            title: SizedBox(
+              child: Row(children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.og.name,
+                      semanticsLabel: widget.og.name,
+                      style: TextStyle(
+                          color: Theme.of(context).accentColor, fontSize: 20),
+                    ),
+                    if (!_expanded && nextStrike != null)
+                      Text(
+                        'Demo: ${DateFormat('dd.MM.yyyy, HH:mm').format(nextStrike.dateTime)}',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            .copyWith(fontSize: 12),
                       ),
-                    ],
-                  ),
+                    if (!_expanded && nextPlenum != null)
+                      Text(
+                        'Plenum: ${DateFormat('dd.MM.yyyy, HH:mm').format(nextPlenum.dateTime)}',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2
+                            .copyWith(fontSize: 12),
+                      ),
+                  ],
                 ),
+                Spacer(),
+                SocialButtons(og, false),
+              ]),
+            ),
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 16.0, right: 16, bottom: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Row(
+                      children: [
+                        Text(
+                          'Nächste Demo: ',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        if (nextStrike == null) Text('Keine Informationen'),
+                      ],
+                    ),
+                    if (nextStrike != null) _strikeWidget(nextStrike),
+                    SizedBox(
+                      height: 6,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Nächstes Plenum: ',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        if (nextPlenum == null) Text('Keine Informationen'),
+                      ],
+                    ),
+                    if (nextPlenum != null) _strikeWidget(nextPlenum),
+                    if (og.infoText != null)
+                      ListTileTheme(
+                        contentPadding: EdgeInsets.only(left: 0, right: 12),
+                        child: ExpansionTile(
+                          title: Text(og.infoTitle ?? 'Weitere Infos'),
+                          children: [
+                            DropCapText(
+                              og.infoText,
+                              style: Theme.of(context).textTheme.bodyText2,
+                              dropCap: og.imageLink == null
+                                  ? DropCap(
+                                      width: 0,
+                                      height: 0,
+                                      child: SizedBox(),
+                                    )
+                                  : DropCap(
+                                      width: 120,
+                                      height: 120,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 8, bottom: 8),
+                                        child: Image.network(og.imageLink,
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ],
           ),
-        ),
-        Divider(),
-      ],
+          /*      Divider(
+            height: 0.5,
+          ), */
+        ],
+      ),
     );
   }
 }
