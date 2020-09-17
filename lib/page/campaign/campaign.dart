@@ -1,8 +1,8 @@
 import 'package:app/model/campaign.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:quiver/iterables.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
-import 'package:app/widget/title.dart';
 
 /*
 The Campaign Page
@@ -13,7 +13,7 @@ class CampaignPage extends StatefulWidget {
 }
 
 class _CampaignPageState extends State<CampaignPage> {
-  List<Campaign> campaigns = [];
+  Iterable<List<Campaign>> campaignPairs;
 
   @override
   void initState() {
@@ -31,16 +31,49 @@ class _CampaignPageState extends State<CampaignPage> {
 
   Future _loadData() async {
     try {
-      campaigns = await api.getCampaigns();
+      var campaigns = await api.getCampaigns();
+      campaignPairs = partition(campaigns, 2);
 
       if (mounted) setState(() {});
     } catch (e) {
       if (mounted)
-        // TODO: Handle error "no Scaffold found" ? Maybe irrelevant - todo copied from slogans
+        // TODO: Handle error "no Scaffold found": Add scaffold key and use it here
         Scaffold.of(context).showSnackBar(SnackBar(
             content: Text(
                 'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
     }
+  }
+
+  Widget campaignColumn(Campaign campaign) {
+    return Expanded(
+      child: Column(
+        // TODO align icons at top
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Icon(
+            MdiIcons.fromString(campaign.icon),
+            color: Theme.of(context).accentColor,
+            size: 60,
+          ),
+          Text(
+            campaign.text,
+            textAlign: TextAlign.center,
+          ),
+          RaisedButton(
+            color: Theme.of(context).primaryColor,
+            shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(30.0)),
+            child: Text(
+              campaign.cta,
+              textAlign: TextAlign.center,
+            ),
+            onPressed: () {
+              _launchURL(campaign.link);
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -51,7 +84,7 @@ class _CampaignPageState extends State<CampaignPage> {
       ),
       body: RefreshIndicator(
         onRefresh: _loadData,
-        child: campaigns.isEmpty
+        child: campaignPairs == null
             ? Center(
                 child: Text('Keine Ergebnisse'),
               )
@@ -78,62 +111,13 @@ class _CampaignPageState extends State<CampaignPage> {
                     //     );
                     //   }).toList(),
                     // ),
-                    GridView.count(
-                      crossAxisCount: 2,
-                      physics: ScrollPhysics(),
-                      shrinkWrap: true,
-                      childAspectRatio: 1 / 1.3,
-                      children: List.generate(campaigns.length, (index) {
-                        Campaign campaign = campaigns[index];
-                        return Center(
-                          child: Padding(
-                            // TODO: improve spacing
-                            padding: const EdgeInsets.only(
-                              top: 16,
-                              left: 4,
-                              right: 4,
-                              bottom: 16,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Icon(
-                                  MdiIcons.fromString(campaign.icon),
-                                  color: Theme.of(context).accentColor,
-                                  size: 60,
-                                ),
-                                /*   Expanded(
-                                  child: */
-                                Text(
-                                  // TODO: fix overflow - make parent height flexible?
-                                  campaign.text,
-                                  textAlign: TextAlign.center,
-                                  /* ),
-                                ), */
-                                ),
-                                RaisedButton(
-                                  // TODO: Raised or Flat button?
-                                  // TODO: Make all buttons have the same size
-                                  color: Theme.of(context).primaryColor,
-                                  // TODO: really use round corners?
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(30.0)),
-                                  child: Text(
-                                    campaign.cta,
-                                    textAlign: TextAlign.center,
-                                    // softWrap: false,
-                                  ),
-                                  onPressed: () {
-                                    _launchURL(campaign.link);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
+                    for (var pair in campaignPairs)
+                      Row(
+                        children: [
+                          campaignColumn(pair[0]),
+                          pair.length > 1 ? campaignColumn(pair[1]) : Text(''),
+                        ],
+                      ),
                   ],
                 ),
               ),
