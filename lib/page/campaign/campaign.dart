@@ -1,4 +1,6 @@
 import 'package:app/model/campaign.dart';
+import 'package:app/model/banner.dart';
+import 'package:app/model/campaign_page_data.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:quiver/iterables.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,6 +16,7 @@ class CampaignPage extends StatefulWidget {
 
 class _CampaignPageState extends State<CampaignPage> {
   Iterable<List<Campaign>> campaignPairs;
+  CampaignPageData data;
 
   @override
   void initState() {
@@ -31,8 +34,10 @@ class _CampaignPageState extends State<CampaignPage> {
 
   Future _loadData() async {
     try {
-      var campaigns = await api.getCampaigns();
-      campaignPairs = partition(campaigns, 2);
+      data = await api.getCampaignPageData();
+      campaignPairs = partition(data.campaigns, 2);
+      //TODO:_remove
+      data.banners.add(data.banners.first);
 
       if (mounted) setState(() {});
     } catch (e) {
@@ -90,40 +95,38 @@ class _CampaignPageState extends State<CampaignPage> {
             ? Center(
                 child: Text('Keine Ergebnisse'),
               )
-            : Scrollbar(
-                child: ListView(
-                  children: <Widget>[
-                    Image.network(
-                        'https://fridaysforfuture.de/wp-content/uploads/2020/08/cropped-header.jpg'),
-                    // TODO: Load banners from api and fix layout
-                    // CarouselSlider(
-                    //   options: CarouselOptions(height: 400.0),
-                    //   items: [1, 2, 3, 4, 5].map((i) {
-                    //     return Builder(
-                    //       builder: (BuildContext context) {
-                    //         return Container(
-                    //             width: MediaQuery.of(context).size.width,
-                    //             margin: EdgeInsets.symmetric(horizontal: 5.0),
-                    //             decoration: BoxDecoration(color: Colors.amber),
-                    //             child: Text(
-                    //               'text $i',
-                    //               style: TextStyle(fontSize: 16.0),
-                    //             ));
-                    //       },
-                    //     );
-                    //   }).toList(),
-                    // ),
-                    for (var pair in campaignPairs)
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          campaignColumn(pair[0]),
-                          pair.length > 1 ? campaignColumn(pair[1]) : Expanded(child: Text('')),
-                        ],
-                      ),
-                  ],
-                ),
-              ),
+            : ListView(
+              children: <Widget>[
+                Image.network(
+                    'https://fridaysforfuture.de/wp-content/uploads/2020/08/cropped-header.jpg'),
+                // TODO: Load banners from api and fix layout
+                // CarouselSlider(
+                //   options: CarouselOptions(height: 400.0),
+                //   items: [1, 2, 3, 4, 5].map((i) {
+                //     return Builder(
+                //       builder: (BuildContext context) {
+                //         return Container(
+                //             width: MediaQuery.of(context).size.width,
+                //             margin: EdgeInsets.symmetric(horizontal: 5.0),
+                //             decoration: BoxDecoration(color: Colors.amber),
+                //             child: Text(
+                //               'text $i',
+                //               style: TextStyle(fontSize: 16.0),
+                //             ));
+                //       },
+                //     );
+                //   }).toList(),
+                // ),
+                for (var pair in campaignPairs)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      campaignColumn(pair[0]),
+                      pair.length > 1 ? campaignColumn(pair[1]) : Expanded(child: Text('')),
+                    ],
+                  ),
+              ],
+            ),
       ),
     );
   }
