@@ -7,7 +7,7 @@ import 'package:quiver/iterables.dart';
 import 'package:app/app.dart';
 
 /*
-The Campaign Page
+The Campaign Page (Aktionen)
  */
 class CampaignPage extends StatefulWidget {
   @override
@@ -17,6 +17,7 @@ class CampaignPage extends StatefulWidget {
 class _CampaignPageState extends State<CampaignPage> {
   Iterable<List<Campaign>> campaignPairs;
   CampaignPageData data;
+  var currentImage = 0;
 
   @override
   void initState() {
@@ -51,22 +52,53 @@ class _CampaignPageState extends State<CampaignPage> {
   Widget bannerCarousel() {
     if (data.banners.length == 1) return _bannerImage(data.banners.first);
 
-    return CarouselSlider(
-      options: CarouselOptions(
-        height: 150.0,
-        autoPlay: true,
-        autoPlayInterval: Duration(seconds: 5),
-      ),
-      items: data.banners.map((i) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                child: _bannerImage(i));
-          },
-        );
-      }).toList(),
+    return Column(
+      children: [
+        CarouselSlider(
+          options: CarouselOptions(
+            height: 150.0,
+            autoPlay: true,
+            autoPlayInterval: Duration(seconds: 5),
+            autoPlayAnimationDuration: Duration(milliseconds: 1000),
+            enlargeCenterPage: true,
+            onPageChanged: (index, _reason) {
+              setState(() {
+                currentImage = index;
+              });
+            },
+          ),
+          items: data.banners.map((i) {
+            return Builder(
+              builder: (BuildContext context) {
+                return Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    child: _bannerImage(i));
+              },
+            );
+          }).toList(),
+        ),
+        dotImageIndicator(),
+      ],
+    );
+  }
+
+  Widget dotImageIndicator() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        for (var i = 0; i < data.banners.length; i++)
+          Container(
+            width: 8.0,
+            height: 8.0,
+            margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: currentImage == i
+                    ? Color.fromRGBO(0, 0, 0, 0.9)
+                    : Color.fromRGBO(0, 0, 0, 0.4)),
+          ),
+      ],
     );
   }
 
@@ -113,9 +145,7 @@ class _CampaignPageState extends State<CampaignPage> {
       body: RefreshIndicator(
         onRefresh: _loadData,
         child: campaignPairs == null
-            ? Center(
-                child: Text('Keine Ergebnisse'),
-              )
+            ? LinearProgressIndicator()
             : ListView(
                 children: <Widget>[
                   bannerCarousel(),
