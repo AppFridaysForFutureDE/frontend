@@ -25,10 +25,10 @@ class SocialButtons extends StatelessWidget {
     );
   }
 
+//for android
   _buildSocialMediaPopupList() {
     var list = [
       for (var socialLink in _buildList())
-      Platform.isAndroid?
         PopupMenuItem(
           child: Row(
             children: [
@@ -41,7 +41,21 @@ class SocialButtons extends StatelessWidget {
           ),
           value: socialLink.link,
         )
-      : 
+    ];
+    return list.isEmpty
+        ? [
+            PopupMenuItem(
+              child: Text('Keine Informationen'),
+              value: null,
+            )
+          ]
+        : list;
+  }
+
+//for ios
+  _buildSocialMediaPopupListIOS() {
+    var list = [
+      for (var socialLink in _buildList())
         CupertinoActionSheetAction(
           child: Row(
             children: [
@@ -57,12 +71,11 @@ class SocialButtons extends StatelessWidget {
         },
         )
     ];
-
     return list.isEmpty
         ? [
-            PopupMenuItem(
+            CupertinoActionSheetAction(
+              onPressed: () {  },
               child: Text('Keine Informationen'),
-              value: null,
             )
           ]
         : list;
@@ -85,7 +98,8 @@ class SocialButtons extends StatelessWidget {
         ? Wrap(children: [
             for (var socialLink in _buildList()) _buildSocialMedia(socialLink)
           ])
-        : Platform.isAndroid? PopupMenuButton(
+        : Platform.isAndroid?
+        PopupMenuButton(
             icon: Icon(Icons.more_vert,
               semanticLabel: 'Social Media anzeigen',
             ),
@@ -93,7 +107,8 @@ class SocialButtons extends StatelessWidget {
               _launchURL(link);
             },
             itemBuilder: (context) => _buildSocialMediaPopupList(),
-          ):
+          )
+          :
 
           //ios adaption:
           FlatButton(
@@ -102,7 +117,7 @@ class SocialButtons extends StatelessWidget {
             context: context,
             builder: (context) {
             return CupertinoActionSheet(
-            actions: _buildSocialMediaPopupList(),
+            actions: _buildSocialMediaPopupListIOS(),
           //cancel button
               cancelButton: CupertinoActionSheetAction(
               child: const Text('Abbrechen'),
