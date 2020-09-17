@@ -41,7 +41,7 @@ class _DemoFilterPageState extends State<DemoFilterPage> {
         ),
         body: ListView(
           children: <Widget>[
-            TitleWidget('Markierung'),
+            /*      TitleWidget('Markierung'),
             Semantics(
               child: SwitchListTile.adaptive(
                   value: state.onlyShowMarked,
@@ -54,7 +54,7 @@ class _DemoFilterPageState extends State<DemoFilterPage> {
                     updateMarked();
                   }),
               label: onlyShowMarkedIsActive,
-            ),
+            ), */
             TitleWidget('Kategorien'),
             Padding(
               padding: const EdgeInsets.symmetric(
@@ -68,7 +68,7 @@ class _DemoFilterPageState extends State<DemoFilterPage> {
                 ],
               ),
             ),
-            // TODO: Maybe add reset button? 
+            // TODO: Maybe add reset button?
             // Currently it is too big, maybe add a save button next to it?
             // SizedBox(height: 50),
             // Center(
