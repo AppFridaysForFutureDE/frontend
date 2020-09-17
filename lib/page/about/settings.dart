@@ -147,7 +147,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           for (OG og in Hive.box('subscribed_ogs').values)
             //Delete an og with swipe to left or right (common on iOS)
-            Dismissible(
+            /*Dismissible(
               key: Key('OGs'),
               background: Container(color: Colors.red),
               onDismissed: (direction) async {
@@ -155,7 +155,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 setState(() {});
                 await FirebaseMessaging().unsubscribeFromTopic('og_${og.ogId}');
               },
-              child: ListTile(
+              child: */ListTile(
                 title: Text(og.name),
                 leading: IconButton(
                     icon: Platform.isIOS
@@ -169,7 +169,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           .unsubscribeFromTopic('og_${og.ogId}');
                     }),
               ),
-            ),
+            //),
           Semantics(
             label: 'Newsfeed Benachrichtigungen. Bereichsüberschrift',
             child: TitleWidget('Newsfeed Benachrichtigungen'),
