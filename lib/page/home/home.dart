@@ -110,7 +110,7 @@ class HomeFeedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (item.imageUrl != null)
+        if (item.imageUrl?.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
             child: CachedNetworkImage(
