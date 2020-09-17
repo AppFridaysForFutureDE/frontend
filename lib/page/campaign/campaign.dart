@@ -46,32 +46,34 @@ class _CampaignPageState extends State<CampaignPage> {
 
   Widget campaignColumn(Campaign campaign) {
     return Expanded(
-      child: Column(
-        // TODO align icons at top
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Icon(
-            MdiIcons.fromString(campaign.icon),
-            color: Theme.of(context).accentColor,
-            size: 60,
-          ),
-          Text(
-            campaign.text,
-            textAlign: TextAlign.center,
-          ),
-          RaisedButton(
-            color: Theme.of(context).primaryColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(30.0)),
-            child: Text(
-              campaign.cta,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Icon(
+              MdiIcons.fromString(campaign.icon),
+              color: Theme.of(context).accentColor,
+              size: 60,
+            ),
+            Text(
+              campaign.text,
               textAlign: TextAlign.center,
             ),
-            onPressed: () {
-              _launchURL(campaign.link);
-            },
-          ),
-        ],
+            RaisedButton(
+              color: Theme.of(context).primaryColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0)),
+              child: Text(
+                campaign.cta,
+                textAlign: TextAlign.center,
+              ),
+              onPressed: () {
+                _launchURL(campaign.link);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -113,9 +115,10 @@ class _CampaignPageState extends State<CampaignPage> {
                     // ),
                     for (var pair in campaignPairs)
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           campaignColumn(pair[0]),
-                          pair.length > 1 ? campaignColumn(pair[1]) : Text(''),
+                          pair.length > 1 ? campaignColumn(pair[1]) : Expanded(child: Text('')),
                         ],
                       ),
                   ],
