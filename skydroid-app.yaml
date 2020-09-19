@@ -1,0 +1,61 @@
+categories:
+  - Reading
+  - Science & Education
+license: GPL-3.0-only
+authorName: Fridays For Future Deutschland
+authorEmail: app@fridaysforfuture.is
+sourceCode: https://github.com/AppFridaysForFutureDE/frontend
+issueTracker: https://github.com/AppFridaysForFutureDE/frontend/issues
+
+name: AppForFuture
+packageName: de.fridaysforfuture.app.official
+
+icon: https://github.com/AppFridaysForFutureDE/frontend/raw/master/assets/icon/icon.png
+
+localized:
+  en-US:
+    description: |-
+      Fridays For Future auf einen Blick!
+
+      Endlich ist es soweit und die offizielle FridaysforFuture App ist im App Store erhältlich…
+
+      Es ist wichtiger denn je etwas gegen den Klimawandel zu tun und mit der App bieten sich Euch völlig neue Möglichkeiten etwas zu bewirken. 
+      Wir brauchen Deine Hilfe, lade dir die App herunter und mach mit!
+      
+      Mit der App hast du alle aktuellen Infos zu FridaysforFuture, Klimawandel und Politik in der Tasche dabei und bleibst immer auf dem neuesten Stand.
+      Außerdem ist es super leicht die nächstgelegene Ortsgruppen zu finden, und nie wieder ein Streik oder sogar ein Plenum, falls du dich aktiv in der Planung beteiligen willst, zu verpassen.
+      
+      Auf dem Streik darf die App natürlich auch nicht fehlen. Für die Zeit zuhause, habt ihr tolle Netzstreikaktionen, mit denen ihr FridaysforFuture online vertreten könnt.
+      Lasst euch von den Challenges inspirieren und helft mit einen Impact zu schaffen! Auch wenn es wieder auf die Straße geht seid ihr mit allen Demosprüchen und eurer Streikroute auf dem Handy perfekt ausgerüstet, um es laut werden zu lassen.
+      Nach dem Streik könnt ihr Euch über aktuelle News und die neusten Erkenntnisse aus Wissenschaft und Forschung austauschen, die direkt aus der Redaktion auf eurer Handy kommen.
+    summary: Aktuelle Infos zu Demos, Politik und dem Klimawandel
+    whatsNew: |-
+      Mit den neuen Features bieten sich dir völlig neue Möglichkeiten etwas zu verändern:
+
+      - Wir haben unsere Pinsel geholt und der App ein neues Design verliehen
+      - Auf der Infoseite siehst du deine abonnierten Ortsgruppen mit allen relevanten Infos
+      - Der neue Home-Feed zeigt dir deutschlandweit alle Aktionen und deine nächsten Demos an
+      - Auf der Aktionsseite werden dir alle Kampagnen von FFF Deutschland angezeigt
+      - Du kannst dir direkt alle Forderungen und Demosprüche ansehen und sogar favorisieren
+    phoneScreenshotsBaseUrl: sia://PADxknpmxEInHC2nqW4uE-hGYi_gYztLCKhDFtSP9DN_Ew/
+    phoneScreenshots:
+      - screen1.png
+      - screen2.png
+      - screen3.png
+      - screen4.png
+      - screen5.png
+      - screen6.png
+      - screen7.png
+
+
+builds:
+  - versionName: 2.0.3
+    versionCode: 203
+    sha256: 68cf7784ad8b1e3367357c81ddbb34b411213d369410a6d526ae0544e226e034
+    apkLink: sia://AAC_4D5lwWn08tmrNWUbFzzB6HnX7CNekvdSKYiQnL_7Jw
+
+currentVersionName: 2.0.3
+currentVersionCode: 203
+
+added: 1600462035107
+lastUpdated: 1600462992223
