@@ -137,6 +137,8 @@ class SocialButtons extends StatelessWidget {
       SocialLink(
           MdiIcons.telegram, 'Telegram Gruppe öffnen', container.telegram),
       SocialLink(
+          MdiIcons.whatsapp, 'WhatsApp Gruppe öffnen', container.whatsapp),
+      SocialLink(
           MdiIcons.instagram, 'Instagram Kanal öffnen', container.instagram),
       SocialLink(MdiIcons.youtube, 'YouTube Kanal öffnen', container.youtube),
       SocialLink(MdiIcons.twitter, 'Twitter Kanal öffnen', container.twitter),
