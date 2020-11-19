@@ -134,6 +134,14 @@ class App extends StatelessWidget {
         dialogBackgroundColor: backgroundColor,
         canvasColor: backgroundColor,
       );
+    } else if (theme == 'dark') {
+      Color backgroundColor = Color(0xff303030);
+      themeData = themeData.copyWith(
+        backgroundColor: backgroundColor,
+        scaffoldBackgroundColor: backgroundColor,
+        dialogBackgroundColor: backgroundColor,
+        canvasColor: backgroundColor,
+      );
     } else if (theme == 'black') {
       Color backgroundColor = Colors.black;
       themeData = themeData.copyWith(
