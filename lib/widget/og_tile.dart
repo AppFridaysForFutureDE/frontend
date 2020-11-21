@@ -4,6 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_cap_text/drop_cap_text.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:app/util/share.dart';
+import 'dart:io' show Platform;
 
 import 'package:app/app.dart';
 
@@ -170,6 +173,11 @@ class _OgTileState extends State<OgTile> {
     // og.infoText =
     //     'Sobald das Datum des Streiks steht, geht die Planung los: In einer ersten Telefonkonferenz, kurz TK, wurden sowohl 14 Uhr als Uhrzeit und Theresienwiese als Ort, wie auch die Aktionsform festgelegt. Außerdem wurden erste Ideen und Pläne für die Arbeitsweise und vorläufige Zeitpläne erstellt. Kurz nach der zweiten Telefonkonferenz stand als Arbeitsweise das Arbeiten in themenspezifischen Kleingruppen fest. So gibt es unter anderem Gruppen für Presse, Programm und Logistik. Ergebnisse der Arbeit in diesen Untergruppen, kurz UGs, werden in wöchentlichen Plena besprochen und abgesegnet. Außerdem hat jede UG mindestens einen Hutmenschen, der*die sich darum kümmert, dass die UG mit der Arbeit vorankommt, TKs stattfinden und als Ansprechpartner*in zur Verfügung steht.';
 
+    //Update the next strike for OG
+    if(strikes.isNotEmpty){
+      this.nextStrike = strikes.first;
+    }
+
     return Container(
       child: Column(
         children: <Widget>[
@@ -271,6 +279,14 @@ class _OgTileState extends State<OgTile> {
                           ],
                         ),
                       ),
+                      if(strikes.isNotEmpty)
+                        IconButton(
+                          icon: Platform.isIOS?(Icon(CupertinoIcons.share)): Icon(Icons.share),
+                          tooltip: 'Termin teilen',
+                          onPressed: () {
+                            ShareUtil.shareStrike(this.nextStrike);
+                          },
+                    ),
                   ],
                 ),
               ),
