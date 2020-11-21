@@ -176,6 +176,7 @@ class App extends StatelessWidget {
               ? Home()
               : VideoPage(),
           theme: theme,
+          builder: (BuildContext context, Widget child) => MediaQuery( data: MediaQuery.of(context).copyWith(textScaleFactor: 1), child: child)
         );
       },
     );
@@ -404,7 +405,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: Text(
-                          "Die App ist aktuell offline",
+                          "Die App ist aktuell offline\n",
                           style: TextStyle(
                             color: Colors.black,
                           ),
