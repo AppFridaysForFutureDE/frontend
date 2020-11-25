@@ -239,6 +239,14 @@ class _OgTileState extends State<OgTile> {
                     SizedBox(
                       height: 6,
                     ),
+                    if(strikes.isNotEmpty)
+                        IconButton(
+                          icon: Platform.isIOS?(Icon(CupertinoIcons.share)): Icon(Icons.share),
+                          tooltip: 'Termin teilen',
+                          onPressed: () {
+                            ShareUtil.shareStrike(this.nextStrike);
+                          },
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -279,12 +287,12 @@ class _OgTileState extends State<OgTile> {
                           ],
                         ),
                       ),
-                      if(strikes.isNotEmpty)
+                      if(nextPlenum != null)
                         IconButton(
                           icon: Platform.isIOS?(Icon(CupertinoIcons.share)): Icon(Icons.share),
                           tooltip: 'Termin teilen',
                           onPressed: () {
-                            ShareUtil.shareStrike(this.nextStrike);
+                            ShareUtil.sharePlenum(this.nextPlenum);
                           },
                     ),
                   ],

@@ -24,4 +24,15 @@ class ShareUtil {
                             : '(${strike.additionalInfo})')
       );
   }
+
+  static sharePlenum(Strike strike){
+    Share.share(
+      'Hey, komm zum nächsten Plenum am ${DateFormat('dd.MM.yyyy, HH:mm') 
+                            .format(strike.dateTime)} ' 
+                            + 'in ${strike.location}! '
+                            + (strike.additionalInfo.isEmpty
+                            ? ''
+                            : '(${strike.additionalInfo})')
+      );
+  }
 }
