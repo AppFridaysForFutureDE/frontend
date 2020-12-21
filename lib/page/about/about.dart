@@ -27,10 +27,7 @@ class _AboutPageState extends State<AboutPage> {
     }
   }
 
-/*
-How to use this Widget: First parameter: The name of the ListTile, second: name without Emojis (used for screenreaders), third: Name which is shown on the new page (perhaps a bit shorter), fourth: Name of the linked site
-*/
-
+  // Used to display a svg which opens a new page with the content of a CMS Page
   Widget _buildFlatButton(
       String pageShownName, String slug, String assetName, Color color) {
     return FlatButton(
@@ -72,242 +69,190 @@ How to use this Widget: First parameter: The name of the ListTile, second: name 
         ],
       ),
       body: Center(
-          child: Column(children: <Widget>[
-        Expanded(
-            child: Container(
-                child: _buildFlatButton('Forderungen', 'forderungen',
-                    'assets/infoicons/Forderungen.svg', Colors.white),
-                color: Color(0xff9ed2ea),
-                width: double.infinity,
-                height: double.infinity)),
-        Expanded(
-            child: Container(
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                  child: Container(
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => DemoPage()),
-                          );
-                        },
-                        child: SvgPicture.asset(
-                          'assets/infoicons/Demosprueche.svg',
-                          color: Color(0xff4fa355),
-                          alignment: Alignment.center,
-                        ),
-                        padding: EdgeInsets.all(10),
-                      ),
-
-                      //  _buildFlatButton('Demosprüche', 'demosprüche', 'assets/infoicons/Demosprueche.svg', Color(0xff4fa355)),
-                      color: Colors.white,
-                      width: double.infinity,
-                      height: double.infinity,
-                      margin: EdgeInsets.only(right: 2.5))),
-              Expanded(
-                  child: Container(
-                      child: _buildFlatButton(
-                          'Bundesweite Arbeitsgruppen',
-                          'bundesweite-arbeitsgruppen',
-                          'assets/infoicons/Arbeitsgruppen.svg',
-                          Color(0xff4fa355)),
-                      color: Colors.white,
-                      width: double.infinity,
-                      height: double.infinity,
-                      margin: EdgeInsets.only(left: 2.5)))
-            ],
-          ),
-          color: Color(0xff9ed2ea),
-        )),
-        Expanded(
-            child: Container(
-          child: FlatButton(
-              onPressed: () {
-                _launchURL('https://www.helpforfuture.org');
-              },
-              child:
-                  SvgPicture.asset('assets/infoicons/HelpForFutureHell.svg')),
-          color: Color(0xff9ed2ea),
-          width: double.infinity,
-          height: double.infinity,
-          padding: EdgeInsets.all(10),
-        )),
-        Expanded(
-            child: Row(
+        child: Column(
           children: <Widget>[
             Expanded(
-                child: Container(
-                    child: FlatButton(
-                        onPressed: () {
-                          _launchURL('https://fridaysforfuture.de');
-                        },
-                        child: SvgPicture.asset(
-                            'assets/infoicons/WebsiteIconhell.svg')),
-                    color: Color(0xff4fa355),
-                    width: double.infinity,
-                    height: double.infinity,
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.only(right: 2.5))),
+              child: Container(
+                  child: _buildFlatButton(
+                      'Forderungen',
+                      'forderungen',
+                      'assets/infoicons/Forderungen.svg',
+                      Theme.of(context).backgroundColor),
+                  color: Theme.of(context).accentColor,
+                  width: double.infinity,
+                  height: double.infinity),
+            ),
             Expanded(
-                child: Container(
-                    child: FlatButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SocialMediaPage()),
-                          ); /*"..\..\assets\infoicons\SocialMediaIconhell.svg"*/
-                        },
-                        child: SvgPicture.asset(
-                            'assets/infoicons/SocialMediaIconhell.svg')),
-                    color: Color(0xff4fa355),
-                    width: double.infinity,
-                    height: double.infinity,
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.only(left: 2.5)))
-          ],
-        )),
-        Expanded(
-            child: Container(
-                child: FlatButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text('Weiteres...'),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ListTile(
-                              title: Text('Impressum', style: TextStyle(fontSize: 18)),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => PostPage(
-                                        Post.slug('impressum'),
-                                        isPost: false,
-                                        name: 'Impressum',
-                                      ),
-                                    ));
-                              },
-                            ),
-                            ListTile(
-                              title: Text('Datenschutz', style: TextStyle(fontSize: 18)),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => PostPage(
-                                        Post.slug('datenschutz'),
-                                        isPost: false,
-                                        name: 'Datenschutz',
-                                      ),
-                                    ));
-                              },
-                            ),
-                          ],
+              child: Container(
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        child: FlatButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DemoPage()),
+                            );
+                          },
+                          child: SvgPicture.asset(
+                            'assets/infoicons/Demosprueche.svg',
+                            color: Theme.of(context).primaryColor,
+                            alignment: Alignment.center,
+                          ),
+                          padding: EdgeInsets.all(10),
                         ),
-                        actions: [
-                          FlatButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Schließen'))
-                        ],
-                      ),
-                    );
-                  },
-                  child: SvgPicture.asset(
-                    'assets/infoicons/WeiteresIconhell.svg',
-                    color: Color(0xff9ed2ea),
-                    alignment: Alignment.center,
-                  ),
-                  padding: EdgeInsets.all(20),
-                ),
-                color: Colors.white,
-                width: double.infinity,
-                height: double.infinity,
-                margin: EdgeInsets.only(right: 2.5))),
-      ])
-          /*child: ListView(
-          children: <Widget>[
-            Semantics(
-              label: 'Die Bewegung. Bereichsüberschrift',
-              child: TitleWidget('Die Bewegung'),
-            ),
-            _buildListTile(
-                '✊ Forderungen', 'Forderungen', '✊ Forderungen', 'forderungen'),
-            _buildListTile('🌍 Selbstverständnis', 'Selbstverständnis',
-                '🌍 Selbstverständnis', 'selbstverstaendnis'),
-            _buildListTile(
-                '✍️ Bundesweite Arbeitsgruppen',
-                'Bundesweite Arbeitsgruppen',
-                '✍️ Bundesweite AGs',
-                'bundesweite-arbeitsgruppen'),
-            ListTile(
-              title: Text('🗣 Demosprüche'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DemoPage()),
-                );
-              },
-            ),
-            _buildListTile('📣 Verhalten auf Demos', 'Verhalten auf Demos',
-                '📣 Verhalten auf Demos', 'verhalten-auf-demos'),
-            Semantics(
-              label: 'Wichtige Links. Bereichsüberschrift',
-              child: TitleWidget('Wichtige Links'),
-            ),
-            ListTile(
-              title: Text('🌐 Website'),
-              onTap: () {
-                _launchURL('https://fridaysforfuture.de');
-              },
-            ),
-            ListTile(
-              title: Text('👤 Social Media'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SocialMediaPage()),
-                );
-              },
-            ),
-            Semantics(
-              label: 'Sonstige. Bereichsüberschrift',
-              child: TitleWidget('Sonstiges'),
-            ),
-            _buildListTile(
-                '📖 Impressum', 'Impressum', '📖 Impressum', 'impressum'),
-            _buildListTile('📑 Datenschutz', 'Datenschutz', '📑 Datenschutz',
-                'datenschutz'),
-            Center(
-              child: FutureBuilder<PackageInfo>(
-                future: PackageInfo.fromPlatform(),
-                builder: (context, result) {
-                  if (!result.hasData) return SizedBox();
-
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      'Dies ist die offizielle App von Fridays for Future Deutschland in der Version ${result.data.version}',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Theme.of(context).hintColor,
+                        color: Theme.of(context).backgroundColor,
+                        width: double.infinity,
+                        height: double.infinity,
+                        margin: EdgeInsets.only(right: 2.5),
                       ),
                     ),
-                  );
-                },
+                    Expanded(
+                        child: Container(
+                            child: _buildFlatButton(
+                                'Bundesweite Arbeitsgruppen',
+                                'bundesweite-arbeitsgruppen',
+                                'assets/infoicons/Arbeitsgruppen.svg',
+                                Theme.of(context).primaryColor),
+                            color: Theme.of(context).backgroundColor,
+                            width: double.infinity,
+                            height: double.infinity,
+                            margin: EdgeInsets.only(left: 2.5)))
+                  ],
+                ),
+                color: Theme.of(context).accentColor,
               ),
-            )
+            ),
+            Expanded(
+              child: Container(
+                child: FlatButton(
+                  onPressed: () {
+                    _launchURL('https://www.helpforfuture.org');
+                  },
+                  child: SvgPicture.asset(
+                      'assets/infoicons/HelpForFutureHell.svg',
+                      color: Theme.of(context).backgroundColor),
+                ),
+                color: Theme.of(context).accentColor,
+                width: double.infinity,
+                height: double.infinity,
+                padding: EdgeInsets.all(10),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                color: Theme.of(context).accentColor,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        child: FlatButton(
+                          onPressed: () {
+                            _launchURL('https://fridaysforfuture.de');
+                          },
+                          child: SvgPicture.asset(
+                              'assets/infoicons/WebsiteIconhell.svg',
+                              color: Theme.of(context).backgroundColor),
+                        ),
+                        color: Theme.of(context).primaryColor,
+                        width: double.infinity,
+                        height: double.infinity,
+                        padding: EdgeInsets.all(10),
+                        margin: EdgeInsets.only(right: 2.5),
+                      ),
+                    ),
+                    Expanded(
+                        child: Container(
+                            child: FlatButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SocialMediaPage()),
+                                );
+                              },
+                              child: SvgPicture.asset(
+                                  'assets/infoicons/SocialMediaIconhell.svg',
+                                  color: Theme.of(context).backgroundColor),
+                            ),
+                            color: Theme.of(context).primaryColor,
+                            width: double.infinity,
+                            height: double.infinity,
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.only(left: 2.5)))
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+                child: Container(
+                    child: FlatButton(
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('Weiteres...'),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ListTile(
+                                  title: Text('Impressum',
+                                      style: TextStyle(fontSize: 18)),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => PostPage(
+                                            Post.slug('impressum'),
+                                            isPost: false,
+                                            name: 'Impressum',
+                                          ),
+                                        ));
+                                  },
+                                ),
+                                ListTile(
+                                  title: Text('Datenschutz',
+                                      style: TextStyle(fontSize: 18)),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => PostPage(
+                                            Post.slug('datenschutz'),
+                                            isPost: false,
+                                            name: 'Datenschutz',
+                                          ),
+                                        ));
+                                  },
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Schließen'))
+                            ],
+                          ),
+                        );
+                      },
+                      child: SvgPicture.asset(
+                        'assets/infoicons/WeiteresIconhell.svg',
+                        color: Theme.of(context).accentColor,
+                        alignment: Alignment.center,
+                      ),
+                      padding: EdgeInsets.all(20),
+                    ),
+                    color: Theme.of(context).backgroundColor,
+                    width: double.infinity,
+                    height: double.infinity,
+                    margin: EdgeInsets.only(right: 2.5))),
           ],
-        ),*/
-          ),
+        ),
+      ),
     );
   }
 }

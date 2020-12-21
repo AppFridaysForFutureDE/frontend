@@ -126,23 +126,13 @@ class App extends StatelessWidget {
       fontFamily: 'Jost',
     );
 
-    if (theme == 'sepia') {
-      Color backgroundColor = Color(0xffF7ECD5);
-      themeData = themeData.copyWith(
-        backgroundColor: backgroundColor,
-        scaffoldBackgroundColor: backgroundColor,
-        dialogBackgroundColor: backgroundColor,
-        canvasColor: backgroundColor,
-      );
-    } else if (theme == 'black') {
-      Color backgroundColor = Colors.black;
-      themeData = themeData.copyWith(
-        backgroundColor: backgroundColor,
-        scaffoldBackgroundColor: backgroundColor,
-        dialogBackgroundColor: backgroundColor,
-        canvasColor: backgroundColor,
-      );
-    }
+    Color backgroundColor = appBarColors[theme];
+    themeData = themeData.copyWith(
+      backgroundColor: backgroundColor,
+      scaffoldBackgroundColor: backgroundColor,
+      dialogBackgroundColor: backgroundColor,
+      canvasColor: backgroundColor,
+    );
 
     //sets the Background for the IOs Subtitles depending on the theme Brightness
     if (Platform.isIOS) {
