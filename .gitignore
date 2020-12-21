@@ -42,9 +42,6 @@ coverage/
 #Ios Runner workspace
 ios/Runner.xcworkspace
 
-# App Konfiguration (Endpunkte und Keys)
-assets/config.yaml
-
 # Android Keystore
 android/key.properties
 
