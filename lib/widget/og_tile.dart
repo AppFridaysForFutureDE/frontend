@@ -116,20 +116,25 @@ class _OgTileState extends State<OgTile> {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text('Datum: '),
               Text(DateFormat('dd.MM.yyyy').format(strike.dateTime))
             ],
           ),
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text('Uhrzeit: '),
               Text(DateFormat('HH:mm').format(strike.dateTime)),
             ],
           ),
           Row(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Treffpunkt: '),
@@ -137,12 +142,13 @@ class _OgTileState extends State<OgTile> {
             ],
           ),
           if (strike.additionalInfo.isNotEmpty)
-            Row(children: [
+            Row(mainAxisSize: MainAxisSize.min, children: [
               Text('Zusatz Info: '),
               Flexible(child: Text(strike.additionalInfo))
             ]),
           if (strike.eventLink.isNotEmpty)
             Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 GestureDetector(
                   child: new Text(
@@ -174,7 +180,7 @@ class _OgTileState extends State<OgTile> {
     //     'Sobald das Datum des Streiks steht, geht die Planung los: In einer ersten Telefonkonferenz, kurz TK, wurden sowohl 14 Uhr als Uhrzeit und Theresienwiese als Ort, wie auch die Aktionsform festgelegt. Außerdem wurden erste Ideen und Pläne für die Arbeitsweise und vorläufige Zeitpläne erstellt. Kurz nach der zweiten Telefonkonferenz stand als Arbeitsweise das Arbeiten in themenspezifischen Kleingruppen fest. So gibt es unter anderem Gruppen für Presse, Programm und Logistik. Ergebnisse der Arbeit in diesen Untergruppen, kurz UGs, werden in wöchentlichen Plena besprochen und abgesegnet. Außerdem hat jede UG mindestens einen Hutmenschen, der*die sich darum kümmert, dass die UG mit der Arbeit vorankommt, TKs stattfinden und als Ansprechpartner*in zur Verfügung steht.';
 
     //Update the next strike for OG
-    if(strikes.isNotEmpty){
+    if (strikes.isNotEmpty) {
       this.nextStrike = strikes.first;
     }
 
@@ -228,36 +234,95 @@ class _OgTileState extends State<OgTile> {
                   children: <Widget>[
                     Row(
                       children: [
-                        Text(
-                          'Nächste Demo: ',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                  text: 'Nächste Demo:',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .color,
+                                  ),
+                                  children: [
+                                    if (nextStrike == null)
+                                      TextSpan(
+                                        text: ' Keine Informationen',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                  ]),
+                            ),
+                            if (nextStrike != null) _strikeWidget(nextStrike),
+                          ],
                         ),
-                        if (nextStrike == null) Text('Keine Informationen'),
+                        SizedBox(
+                          width: 16,
+                        ),
+                        if (nextStrike != null)
+                          IconButton(
+                            icon: Platform.isIOS
+                                ? (Icon(CupertinoIcons.share))
+                                : Icon(Icons.share),
+                            tooltip: 'Termin teilen',
+                            onPressed: () {
+                              ShareUtil.shareStrike(this.nextStrike);
+                            },
+                          ),
+                        Spacer(),
                       ],
                     ),
-                    if (nextStrike != null) _strikeWidget(nextStrike),
                     SizedBox(
                       height: 6,
                     ),
-                    if(strikes.isNotEmpty)
-                        IconButton(
-                          icon: Platform.isIOS?(Icon(CupertinoIcons.share)): Icon(Icons.share),
-                          tooltip: 'Termin teilen',
-                          onPressed: () {
-                            ShareUtil.shareStrike(this.nextStrike);
-                          },
-                    ),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Nächstes Plenum: ',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                  text: 'Nächstes Plenum:',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .color,
+                                  ),
+                                  children: [
+                                    if (nextPlenum == null)
+                                      TextSpan(
+                                        text: ' Keine Informationen',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                  ]),
+                            ),
+                            if (nextPlenum != null) _strikeWidget(nextPlenum),
+                          ],
                         ),
-                        if (nextPlenum == null) Text('Keine Informationen'),
+                        SizedBox(
+                          width: 16,
+                        ),
+                        if (nextPlenum != null)
+                          IconButton(
+                            icon: Platform.isIOS
+                                ? (Icon(CupertinoIcons.share))
+                                : Icon(Icons.share),
+                            tooltip: 'Termin teilen',
+                            onPressed: () {
+                              ShareUtil.sharePlenum(this.nextPlenum);
+                            },
+                          ),
+                        Spacer(),
                       ],
                     ),
-                    if (nextPlenum != null) _strikeWidget(nextPlenum),
                     if (og.infoText != null)
                       ListTileTheme(
                         contentPadding: EdgeInsets.only(left: 0, right: 12),
@@ -287,14 +352,6 @@ class _OgTileState extends State<OgTile> {
                           ],
                         ),
                       ),
-                      if(nextPlenum != null)
-                        IconButton(
-                          icon: Platform.isIOS?(Icon(CupertinoIcons.share)): Icon(Icons.share),
-                          tooltip: 'Termin teilen',
-                          onPressed: () {
-                            ShareUtil.sharePlenum(this.nextPlenum);
-                          },
-                    ),
                   ],
                 ),
               ),

@@ -18,8 +18,7 @@ class ShareUtil {
 
   static shareStrike(Strike strike){
     Share.share(
-      'Hey, mach jetzt mit beim Streik in ${strike.location} am ${DateFormat('dd.MM.yyyy, HH:mm')
-                            .format(strike.dateTime)}! ' + (strike.additionalInfo.isEmpty
+      'Hey, mach jetzt mit beim Streik in ${strike.location} am ${DateFormat('dd.MM.yyyy, HH:mm').format(strike.dateTime)}! ' + (strike.additionalInfo.isEmpty
                             ? ''
                             : '(${strike.additionalInfo})')
       );
@@ -27,8 +26,7 @@ class ShareUtil {
 
   static sharePlenum(Strike strike){
     Share.share(
-      'Hey, komm zum nächsten Plenum am ${DateFormat('dd.MM.yyyy, HH:mm') 
-                            .format(strike.dateTime)} ' 
+      'Hey, komm zum nächsten Plenum am ${DateFormat('dd.MM.yyyy, HH:mm').format(strike.dateTime)} ' 
                             + 'in ${strike.location}! '
                             + (strike.additionalInfo.isEmpty
                             ? ''
