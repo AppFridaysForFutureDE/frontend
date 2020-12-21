@@ -201,6 +201,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   Future _handleNotificationOpen(Map<String, dynamic> data) async {
+    print('_handleNotificationOpen $data');
     String type = data['data']['type'];
     String payload = data['data']['payload'];
 
@@ -221,6 +222,9 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     var box = await Hive.openBox('launched_links');
 
     String key = '$type.$payload.$source';
+
+    print('_handleLinkLaunch $key');
+
     if (box.get(key) ?? false || _launched.contains(key)) {
       return;
     }
@@ -248,7 +252,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
       }
     } else if (type == 'strike') {
       setState(() {
-        _currentIndex = 3;
+        _currentIndex = 1;
       });
     }
   }
