@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
+import 'package:app/widget/feed_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 
@@ -185,6 +186,28 @@ class _PostPageState extends State<PostPage> {
                     },
                   ),
                 ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                  Divider(color: Theme.of(context).primaryColor, thickness: 1,),
+                  Text("Hast du Anregungen, Lob oder Kritik?", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  Text("\nDann schreibe jetzt einen Leserbrief an das Lektorat:\n"),
+                  RaisedButton(
+                      color: Theme.of(context).primaryColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)),
+                      child: Text(
+                        "Leserbrief verfassen",
+                        textAlign: TextAlign.center,
+                      ),
+                      onPressed: () {
+                        //do sth
+                      },
+                    ),
+                  ],
+                ),
+              )
             ],
           ],
         ),
