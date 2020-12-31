@@ -6,10 +6,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
-import 'package:app/util/navigation.dart';
 import 'package:app/widget/feed_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
+import 'dart:convert';
 
 class PostPage extends StatefulWidget {
   final Post post;
@@ -71,6 +71,26 @@ class _PostPageState extends State<PostPage> {
         }
       }
     }
+  }
+
+  _sendLetter(){
+    String title = post.title;
+    //Adjust Title for usage in url
+    String adjustTitle = "";
+    for (int i = 0; i<title.length; i++){
+      var char = title[i];
+      if (char == "#"){
+        //append nothing
+      } else {
+        adjustTitle = adjustTitle+char;
+      }
+    }
+    //encode all other characters
+    adjustTitle = Uri.encodeFull(adjustTitle);
+    
+    String url = "https://app-for-future.de/leserbriefe?name="+adjustTitle;
+    NavUtil(context)
+    .openLink(url, true, "Leserbrief verfassen");
   }
 
   var _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -203,8 +223,7 @@ class _PostPageState extends State<PostPage> {
                         textAlign: TextAlign.center,
                       ),
                       onPressed: () {
-                        NavUtil(context)
-                          .openLink("https://app-for-future.de", true, "Leserbrief verfassen");
+                        _sendLetter();
                       },
                     ),
                   ],
