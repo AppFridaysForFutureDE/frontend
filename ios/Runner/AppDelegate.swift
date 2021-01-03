@@ -1,4 +1,5 @@
 import UIKit
+import UserNotifications
 import Flutter
 
 @UIApplicationMain
