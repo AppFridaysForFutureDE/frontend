@@ -212,8 +212,8 @@ class _PostPageState extends State<PostPage> {
                 child: Column(
                   children: [
                   Divider(color: Theme.of(context).primaryColor, thickness: 1,),
-                  Text("Wie ist deine Meinung?", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                  Text("\n Hast du inhaltliche Anregungen, Lob oder Kritik? \nDann schreibe jetzt einen Leserbrief an das Lektorat:\n"),
+                  Text("Du hast Anregungen, Lob oder Kritik?", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  Text("\n Dann schreib uns jetzt einen Leserbrief mit deiner Meinung!\n"),
                   RaisedButton(
                       color: Theme.of(context).primaryColor,
                       shape: RoundedRectangleBorder(
