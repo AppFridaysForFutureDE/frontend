@@ -8,7 +8,7 @@ class ShareUtil {
   static sharePost(Post post) {
     // TODO Teilen-Text ändern
     Share.share(
-        'Lies "${post.title}" jetzt in der neuen App For Future! https://app.fffutu.re/p/${post.id}');
+        'Lies "${post.title}" jetzt in der App For Future! https://app.fffutu.re/p/${post.id}');
   }
 
   static shareSlogan(Slogan slogan) {

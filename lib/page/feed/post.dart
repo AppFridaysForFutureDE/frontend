@@ -6,8 +6,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
+import 'package:app/widget/feed_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
+import 'dart:convert';
 
 class PostPage extends StatefulWidget {
   final Post post;
@@ -69,6 +71,24 @@ class _PostPageState extends State<PostPage> {
         }
       }
     }
+  }
+
+  _sendLetter(){
+    String title = post.title;
+    //Adjust Title for usage in url
+    String adjustTitle = "";
+    for (int i = 0; i<title.length; i++){
+      var char = title[i];
+      if (char != "#"){
+        adjustTitle = adjustTitle+char;
+      }
+    }
+    //encode all other characters
+    adjustTitle = Uri.encodeFull(adjustTitle);
+    
+    String url = "https://app-for-future.de/leserbriefe?name="+adjustTitle;
+    NavUtil(context)
+    .openLink(url, true, "Leserbrief verfassen");
   }
 
   var _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -185,6 +205,28 @@ class _PostPageState extends State<PostPage> {
                     },
                   ),
                 ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                  Divider(color: Theme.of(context).primaryColor, thickness: 1,),
+                  Text("Du hast Anregungen, Lob oder Kritik?", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  Text("\n Dann schreib uns jetzt einen Leserbrief mit deiner Meinung!\n"),
+                  RaisedButton(
+                      color: Theme.of(context).primaryColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)),
+                      child: Text(
+                        "Leserbrief verfassen",
+                        textAlign: TextAlign.center,
+                      ),
+                      onPressed: () {
+                        _sendLetter();
+                      },
+                    ),
+                  ],
+                ),
+              )
             ],
           ],
         ),

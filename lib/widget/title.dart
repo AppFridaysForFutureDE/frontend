@@ -28,18 +28,7 @@ class TitleWidget extends StatelessWidget {
       Theme.of(context).textTheme.subtitle.backgroundColor;
   @override
   Widget build(BuildContext context) {
-    return Platform.isIOS
-        ? Material(
-            color: _colorSubHeadingBackground(context),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-              child: Text(
-                title,
-                style: _styleSubHeading(context),
-              ),
-            ),
-          )
-        : Padding(
+    return Padding(
             padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: Text(
               title,
