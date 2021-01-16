@@ -79,9 +79,7 @@ class _PostPageState extends State<PostPage> {
     String adjustTitle = "";
     for (int i = 0; i<title.length; i++){
       var char = title[i];
-      if (char == "#"){
-        //append nothing
-      } else {
+      if (char != "#"){
         adjustTitle = adjustTitle+char;
       }
     }
