@@ -16,6 +16,7 @@ import 'package:app/service/api.dart';
 
 import 'package:app/app.dart';
 import 'package:app/service/theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_offline/flutter_offline.dart';
@@ -29,6 +30,8 @@ import 'page/intro/video.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  Firebase.initializeApp();
 
   await Hive.initFlutter();
 
