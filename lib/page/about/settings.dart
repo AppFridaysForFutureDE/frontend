@@ -155,21 +155,22 @@ class _SettingsPageState extends State<SettingsPage> {
                 setState(() {});
                 await FirebaseMessaging().unsubscribeFromTopic('og_${og.ogId}');
               },
-              child: */ListTile(
-                title: Text(og.name),
-                leading: IconButton(
-                    icon: Platform.isIOS
-                        ? Icon(CupertinoIcons.minus_circled)
-                        : Icon(MdiIcons.minusBox),
-                    tooltip: 'Ortsgruppe deabonnieren',
-                    onPressed: () async {
-                      Hive.box('subscribed_ogs').delete(og.ogId);
-                      setState(() {});
-                      await FirebaseMessaging()
-                          .unsubscribeFromTopic('og_${og.ogId}');
-                    }),
-              ),
-            //),
+              child: */
+            ListTile(
+              title: Text(og.name),
+              leading: IconButton(
+                  icon: Platform.isIOS
+                      ? Icon(CupertinoIcons.minus_circled)
+                      : Icon(MdiIcons.minusBox),
+                  tooltip: 'Ortsgruppe deabonnieren',
+                  onPressed: () async {
+                    Hive.box('subscribed_ogs').delete(og.ogId);
+                    setState(() {});
+                    await FirebaseMessaging.instance
+                        .unsubscribeFromTopic('og_${og.ogId}');
+                  }),
+            ),
+          //),
           Semantics(
             label: 'Newsfeed Benachrichtigungen. Bereichsüberschrift',
             child: TitleWidget('Newsfeed Benachrichtigungen'),
@@ -183,31 +184,33 @@ class _SettingsPageState extends State<SettingsPage> {
                     data.put('feed_$s', val);
                   });
                   if (val) {
-                    await FirebaseMessaging().subscribeToTopic('feed_$s');
+                    await FirebaseMessaging.instance
+                        .subscribeToTopic('feed_$s');
                   } else {
-                    await FirebaseMessaging().unsubscribeFromTopic('feed_$s');
+                    await FirebaseMessaging.instance
+                        .unsubscribeFromTopic('feed_$s');
                   }
                 }),
           Center(
-              child: FutureBuilder<PackageInfo>(
-                future: PackageInfo.fromPlatform(),
-                builder: (context, result) {
-                  if (!result.hasData) return SizedBox();
+            child: FutureBuilder<PackageInfo>(
+              future: PackageInfo.fromPlatform(),
+              builder: (context, result) {
+                if (!result.hasData) return SizedBox();
 
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      'Dies ist die offizielle App von Fridays for Future Deutschland in der Version ${result.data.version}',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Theme.of(context).hintColor,
-                      ),
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'Dies ist die offizielle App von Fridays for Future Deutschland in der Version ${result.data.version}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Theme.of(context).hintColor,
                     ),
-                  );
-                   },
-              ),
-            )
+                  ),
+                );
+              },
+            ),
+          )
         ],
       ),
     );

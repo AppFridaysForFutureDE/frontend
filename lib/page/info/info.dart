@@ -168,7 +168,7 @@ class _InfoPageState extends State<InfoPage> {
                     setState(() {
                       refreshSubscribedOgs();
                     });
-                    await FirebaseMessaging()
+                    await FirebaseMessaging.instance
                         .unsubscribeFromTopic('og_${og.ogId}');
                   },
                   child: Text('Deabonnieren'),
@@ -181,7 +181,7 @@ class _InfoPageState extends State<InfoPage> {
                       searchActive = false;
                       refreshSubscribedOgs();
                     });
-                    await FirebaseMessaging().subscribeToTopic('og_${og.ogId}');
+                    await FirebaseMessaging.instance.subscribeToTopic('og_${og.ogId}');
                   },
                   child: Text('Abonnieren'),
                 ),

@@ -167,8 +167,8 @@ class _PostPageState extends State<PostPage> {
                     "html": Style.fromTextStyle(TextStyle(
                         fontSize: 15, height: 1.3, letterSpacing: 0.4)),
                   },
-                  onLinkTap: (link) async {
-                    NavUtil(context).openLink(link, false, null);
+                  onLinkTap: (url, context2, attributes, element) async {
+                    NavUtil(context).openLink(url, false, null);
                   },
                 ),
               ),

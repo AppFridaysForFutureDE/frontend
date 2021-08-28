@@ -2,7 +2,7 @@ import 'package:app/app.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
-import 'package:latlong/latlong.dart';
+import 'package:latlong2/latlong.dart';
 
 class MapPage extends StatefulWidget {
   final List<OG> ogs;
@@ -40,9 +40,10 @@ class _MapPageState extends State<MapPage> {
                     ),
                     layers: [
                       TileLayerOptions(
-                          urlTemplate:
-                              'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
-                          tileProvider: CachedNetworkTileProvider()),
+                        urlTemplate:
+                            'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
+                        // TODO tileProvider: CachedNetworkTileProvider(),
+                      ),
                       MarkerClusterLayerOptions(
                         maxClusterRadius: 120,
                         size: Size(40, 40),
@@ -155,7 +156,7 @@ class _MapPageState extends State<MapPage> {
                                   Hive.box('subscribed_ogs').delete(og.ogId);
                                   Navigator.of(context).pop();
                                   setState(() {});
-                                  await FirebaseMessaging()
+                                  await FirebaseMessaging.instance
                                       .unsubscribeFromTopic('og_${og.ogId}');
                                 },
                                 child: Text('Deabonnieren'),
@@ -165,7 +166,7 @@ class _MapPageState extends State<MapPage> {
                                   Hive.box('subscribed_ogs').put(og.ogId, og);
                                   Navigator.of(context).pop();
                                   setState(() {});
-                                  await FirebaseMessaging()
+                                  await FirebaseMessaging.instance
                                       .subscribeToTopic('og_${og.ogId}');
                                 },
                                 child: Text('Abonnieren'),

@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'dart:io'; // used for Plattform identification
 
 import 'package:app/model/strike.dart';
@@ -161,13 +163,14 @@ class App extends StatelessWidget {
       data: (theme) => _buildThemeData(theme),
       themedWidgetBuilder: (context, theme) {
         return MaterialApp(
-          title: 'App For Future',
-          home: (Hive.box('data').get('intro_done') ?? false)
-              ? Home()
-              : VideoPage(),
-          theme: theme,
-          builder: (BuildContext context, Widget child) => MediaQuery( data: MediaQuery.of(context).copyWith(textScaleFactor: 1), child: child)
-        );
+            title: 'App For Future',
+            home: (Hive.box('data').get('intro_done') ?? false)
+                ? Home()
+                : VideoPage(),
+            theme: theme,
+            builder: (BuildContext context, Widget child) => MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+                child: child));
       },
     );
   }
@@ -184,12 +187,11 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   void subToAll() async {
     Box box = Hive.box('data');
     for (String cat in feedCategories) {
-      await FirebaseMessaging().subscribeToTopic('feed_$cat');
+      await FirebaseMessaging.instance.requestPermission();
+      await FirebaseMessaging.instance.subscribeToTopic('feed_$cat');
       box.put('feed_$cat', true);
     }
   }
-
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   Future _handleNotificationOpen(Map<String, dynamic> data) async {
     print('_handleNotificationOpen $data');
@@ -337,10 +339,21 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   @override
   initState() {
     _checkForLiveEvent();
-    _firebaseMessaging.configure(
-      onResume: _handleNotificationOpen,
-      onLaunch: _handleNotificationOpen,
+    FirebaseMessaging.onMessage.listen(
+      (RemoteMessage msg) async {
+        _handleNotificationOpen(msg.data);
+      },
     );
+
+    FirebaseMessaging.onMessageOpenedApp.listen(
+      (RemoteMessage msg) async {
+        _handleNotificationOpen(msg.data);
+      },
+    );
+
+    FirebaseMessaging.instance.getInitialMessage().then((value) {
+      _handleNotificationOpen(value.data);
+    });
 
     FirebaseDynamicLinks.instance.getInitialLink().then(_handleDynamicLink);
 
@@ -353,7 +366,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 
     if (Hive.box('data').get('firstStart') ?? true) {
       if (Platform.isIOS) {
-        _firebaseMessaging.requestNotificationPermissions();
+        FirebaseMessaging.instance.requestPermission();
       }
       subToAll();
       Hive.box('data').put('firstStart', false);
