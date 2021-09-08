@@ -6,10 +6,10 @@ import 'package:app/widget/og_social_buttons.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app.dart';
-import 'package:latlong/latlong.dart';
 
 /**
  * A map that shows all Strike points for the global Climate strike on 04/24/2020
@@ -277,9 +277,10 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
             ),
             layers: [
               TileLayerOptions(
-                  urlTemplate:
-                      'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
-                  tileProvider: CachedNetworkTileProvider()),
+                urlTemplate:
+                    'https://mapcache.fridaysforfuture.de/{z}/{x}/{y}.png',
+                // TODO tileProvider: CachedNetworkTileProvider(),
+              ),
               // all Clusters (not featured marker)
               new MarkerLayerOptions(
                 markers: this.featuredMarkerShow,

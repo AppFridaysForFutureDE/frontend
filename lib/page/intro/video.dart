@@ -65,7 +65,7 @@ class _VideoPageState extends State<VideoPage> {
             });
           },
           child: Center(
-            child: _controller.value.initialized
+            child: _controller.value.isInitialized
                 ? Stack(
                     alignment: Alignment.bottomCenter,
                     children: <Widget>[

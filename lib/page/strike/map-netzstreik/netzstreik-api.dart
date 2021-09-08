@@ -35,7 +35,7 @@ class NetzstreikApi {
 
       try {
         client = http.Client();
-        var res = await client.get(apiUrl);
+        var res = await client.get(Uri.parse(apiUrl));
         if (res.statusCode == HttpStatus.ok) {
           cache.put('netzstreikMap.json', res.body);
           print('New Strike Data put in Cache');
@@ -91,7 +91,7 @@ class NetzstreikApi {
   Future<List<StrikePoint>> getAllStrikePoints() async {
     try {
       client = http.Client();
-      var res = await client.get(apiUrl);
+      var res = await client.get(Uri.parse(apiUrl));
       if (res.statusCode == HttpStatus.ok) {
         CacheService cache = CacheService(await getTemporaryDirectory());
 
@@ -123,7 +123,7 @@ class NetzstreikApi {
   }
 
   Future<void> startUploadSession() async {
-    var res = await client.get(apiUrl);
+    var res = await client.get(Uri.parse(apiUrl));
     var header = res.headers;
     var cookieRaw = header['set-cookie'];
     if (res.statusCode != HttpStatus.ok) {
@@ -150,7 +150,7 @@ class NetzstreikApi {
 
   Future<Uint8List> getSecureImage() async {
     Map<String, String> headers = _getCookieHeader();
-    var res = await client.get(imageUrl, headers: headers);
+    var res = await client.get(Uri.parse(imageUrl), headers: headers);
     if (res.statusCode == HttpStatus.ok) {
       print("ok");
       CacheService cache = CacheService(await getTemporaryDirectory());

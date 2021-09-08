@@ -47,7 +47,7 @@ class ApiService {
 
   Future<HomePageData> getHomePageData() async {
     try {
-      var res = await client.get('$baseUrl/home');
+      var res = await client.get(Uri.parse('$baseUrl/home'));
 
       if (res.statusCode == HttpStatus.ok) {
         cache.put('home.json', res.body);
@@ -69,7 +69,7 @@ class ApiService {
 
   Future<List<OG>> getOGs() async {
     try {
-      var res = await client.get('$baseUrl/ogs');
+      var res = await client.get(Uri.parse('$baseUrl/ogs'));
 
       if (res.statusCode == HttpStatus.ok) {
         cache.put('ogs.json', res.body);
@@ -90,7 +90,7 @@ class ApiService {
   }
 
   Future<OG> getOGbyId(String id) async {
-    var res = await client.get('$baseUrl/ogs?ogId=$id');
+    var res = await client.get(Uri.parse('$baseUrl/ogs?ogId=$id'));
 
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);
@@ -105,7 +105,7 @@ class ApiService {
   }
 
   Future<List<Strike>> getStrikesByOG(String ogId) async {
-    var res = await client.get('$baseUrl/strikes?ogId=$ogId');
+    var res = await client.get(Uri.parse('$baseUrl/strikes?ogId=$ogId'));
 
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);
@@ -117,8 +117,8 @@ class ApiService {
 
   Future<List<Post>> getPosts() async {
     try {
-      var res = await client.get(
-          '$ghostBaseUrl/content/posts?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt&key=$ghostApiKey&limit=all'); // TODO Better pagination
+      var res = await client.get(Uri.parse(
+          '$ghostBaseUrl/content/posts?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt&key=$ghostApiKey&limit=all')); // TODO Better pagination
 
       if (res.statusCode == HttpStatus.ok) {
         cache.put('posts.json', res.body);
@@ -140,7 +140,7 @@ class ApiService {
 
   Future<List<Slogan>> getSlogans() async {
     try {
-      var res = await client.get('$baseUrl/slogans');
+      var res = await client.get(Uri.parse('$baseUrl/slogans'));
 
       if (res.statusCode == HttpStatus.ok) {
         cache.put('slogans.json', res.body);
@@ -162,8 +162,8 @@ class ApiService {
 
   Future<Post> getPostById(String id, {bool metadata = false}) async {
     try {
-      var res = await client.get(
-          '$ghostBaseUrl/content/posts/$id${metadata ? '?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt' : '?fields=html'}&key=$ghostApiKey');
+      var res = await client.get(Uri.parse(
+          '$ghostBaseUrl/content/posts/$id${metadata ? '?include=authors,tags&fields=slug,id,title,feature_image,updated_at,published_at,url,custom_excerpt' : '?fields=html'}&key=$ghostApiKey'));
 
       if (res.statusCode == HttpStatus.ok) {
         cache.put('post/$id.json', res.body);
@@ -188,8 +188,8 @@ class ApiService {
    * or throws a Http Status Exception if no matching Article found.
    */
   Future<String> getPageTitleBySlug(String name) async {
-    var res = await client.get(
-        '$ghostBaseUrl/content/pages/slug/$name?fields=title&key=$ghostApiKey');
+    var res = await client.get(Uri.parse(
+        '$ghostBaseUrl/content/pages/slug/$name?fields=title&key=$ghostApiKey'));
 
     if (res.statusCode == HttpStatus.ok) {
       var data = json.decode(res.body);
@@ -207,8 +207,8 @@ class ApiService {
 
   Future<Post> getPageBySlug(String name) async {
     try {
-      var res = await client.get(
-          '$ghostBaseUrl/content/pages/slug/$name?fields=html&key=$ghostApiKey');
+      var res = await client.get(Uri.parse(
+          '$ghostBaseUrl/content/pages/slug/$name?fields=html&key=$ghostApiKey'));
 
       if (res.statusCode == HttpStatus.ok) {
         cache.put('page/$name.json', res.body);
@@ -237,7 +237,7 @@ class ApiService {
         getOGbyId(id).then((og) {
           if (og == null) {
             Hive.box('subscribed_ogs').delete(id);
-            FirebaseMessaging().unsubscribeFromTopic('og_${og.ogId}');
+            FirebaseMessaging.instance.unsubscribeFromTopic('og_${og.ogId}');
           } else {
             Hive.box('subscribed_ogs').put(id, og);
           }
@@ -258,7 +258,7 @@ class ApiService {
     // 4th the url which schould be displayed if inApp == false
     //return LiveEvent(true,true, "Jetzt Live: PCS Livestream", "https://fridaysforfuture.org");
     try {
-      var res = await client.get('$baseUrl/liveevent?liveeventId=0');
+      var res = await client.get(Uri.parse('$baseUrl/liveevent?liveeventId=0'));
 
       if (res.statusCode == HttpStatus.ok) {
         var data = json.decode(res.body);
@@ -276,7 +276,7 @@ class ApiService {
 
   Future<CampaignPageData> getCampaignPageData() async {
     try {
-      var res = await client.get('$baseUrl/campaigns');
+      var res = await client.get(Uri.parse('$baseUrl/campaigns'));
 
       if (res.statusCode == HttpStatus.ok) {
         cache.put('campaigns.json', res.body);

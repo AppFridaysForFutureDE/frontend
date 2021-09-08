@@ -8,7 +8,8 @@ import 'package:permission_handler/permission_handler.dart';
 class FutureStoryPage extends StatelessWidget {
   _shareImage() async {
     if (await Permission.storage.request().isGranted) {
-      var res = await http.get('https://app.fffutu.re/img/instagram_story.jpg');
+      var res = await http
+          .get(Uri.parse('https://app.fffutu.re/img/instagram_story.jpg'));
       await ImageGallerySaver.saveImage(res.bodyBytes);
       _showSnack('Die Vorlage ist jetzt in deiner Galerie gespeichert.');
     } else {
