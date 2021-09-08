@@ -28,6 +28,10 @@ void setThemeName(data) {
       break;
     case 'black':
       themeShow = 'Schwarz';
+      break;
+    case 'system':
+      themeShow = 'System';
+      break;
   }
 }
 
@@ -75,6 +79,12 @@ class _SettingsPageState extends State<SettingsPage> {
                             'Schwarz',
                           ),
                           value: 'black',
+                        ),
+                        DropdownMenuItem(
+                          child: Text(
+                            'System',
+                          ),
+                          value: 'system',
                         ),
                       ],
                       onChanged: (val) {
@@ -125,6 +135,14 @@ class _SettingsPageState extends State<SettingsPage> {
                                       AppTheme.of(context).setTheme('black');
                                       setThemeName(data);
                                       Navigator.pop(context, 'black');
+                                    },
+                                  ),
+                                  CupertinoActionSheetAction(
+                                    child: Text('System'),
+                                    onPressed: () {
+                                      AppTheme.of(context).setTheme('system');
+                                      setThemeName(data);
+                                      Navigator.pop(context, 'system');
                                     },
                                   )
                                 ],

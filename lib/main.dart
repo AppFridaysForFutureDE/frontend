@@ -18,6 +18,7 @@ import 'package:app/app.dart';
 import 'package:app/service/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -71,6 +72,11 @@ const Map<String, Color> appBarColors = {
 
 class App extends StatelessWidget {
   ThemeData _buildThemeData(String theme) {
+    if (theme == 'system') {
+      var brightness = SchedulerBinding.instance.window.platformBrightness;
+      bool isDarkMode = brightness == Brightness.dark;
+      theme = (isDarkMode) ? 'dark' : 'light';
+    }
     var _accentColor = Color(0xff70c2eb);
 
     var brightness =
