@@ -127,22 +127,6 @@ class _AboutPageState extends State<AboutPage> {
             ),
             Expanded(
               child: Container(
-                child: FlatButton(
-                  onPressed: () {
-                    _launchURL('https://www.helpforfuture.org');
-                  },
-                  child: SvgPicture.asset(
-                      'assets/infoicons/HelpForFutureHell.svg',
-                      color: Theme.of(context).backgroundColor),
-                ),
-                color: Theme.of(context).accentColor,
-                width: double.infinity,
-                height: double.infinity,
-                padding: EdgeInsets.all(10),
-              ),
-            ),
-            Expanded(
-              child: Container(
                 color: Theme.of(context).accentColor,
                 child: Row(
                   children: <Widget>[
