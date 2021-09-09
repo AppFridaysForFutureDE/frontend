@@ -69,7 +69,7 @@ class AppThemeState extends State<AppTheme> {
   }
 
   String loadTheme() {
-    return box.get('theme') ?? 'light';
+    return box.get('theme') ?? 'system';
   }
 
   @override

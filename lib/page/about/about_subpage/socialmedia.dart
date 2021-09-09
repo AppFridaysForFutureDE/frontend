@@ -15,13 +15,13 @@ class SocialMediaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('👤 Social Media'),
+        title: Text('👤 App Kanäle'),
       ),
       body: ListView(
         children: <Widget>[
           Semantics(
-            child: TitleWidget('Social Media Kanäle'),
-            label: 'Social Media Kanäle. Bereichsüberschrift',
+            child: TitleWidget('App Kanäle'),
+            label: 'App Kanäle. Bereichsüberschrift',
           ),
           ListTile(
             leading: Semantics(
@@ -30,7 +30,7 @@ class SocialMediaPage extends StatelessWidget {
             ),
             title: Text('Twitter'),
             onTap: () {
-              _launchURL('https://fffutu.re/appTwitter');
+              _launchURL('https://twitter.com/future_app');
             },
           ),
           ListTile(
@@ -40,7 +40,7 @@ class SocialMediaPage extends StatelessWidget {
             ),
             title: Text('Instagram'),
             onTap: () {
-              _launchURL('https://fffutu.re/appInstagram');
+              _launchURL('https://www.instagram.com/appforfuture/');
             },
           ),
           ListTile(
@@ -50,61 +50,7 @@ class SocialMediaPage extends StatelessWidget {
             ),
             title: Text('Facebook'),
             onTap: () {
-              _launchURL('https://fffutu.re/appFacebook');
-            },
-          ),
-/*           ListTile(
-            leading: Semantics(
-              child: Icon(MdiIcons.flickr),
-              hidden: true,
-            ),
-            title: Text('Flickr'),
-            onTap: () {
-                _launchURL('https://fffutu.re/appFlickr');
-              },
-          ), */
-          ListTile(
-            leading: Semantics(
-              child: Icon(MdiIcons.youtube),
-              hidden: true,
-            ),
-            title: Text('YouTube'),
-            onTap: () {
-              _launchURL('https://fffutu.re/appYouTube');
-            },
-          ),
-          ListTile(
-            leading: Semantics(
-              child: Icon(MdiIcons.telegram),
-              hidden: true,
-            ),
-            title: Text('Telegram'),
-            onTap: () {
-              _launchURL('https://fffutu.re/appTelegramDE');
-            },
-          ),
-          Semantics(
-            child: TitleWidget('Diskussions- / Gruppen'),
-            label: 'Diskussionsgruppen. Bereichsüberschrift',
-          ),
-          ListTile(
-            leading: Semantics(
-              child: Icon(MdiIcons.telegram),
-              hidden: true,
-            ),
-            title: Text('Telegram'),
-            onTap: () {
-              _launchURL('https://fffutu.re/appTelegramDisk');
-            },
-          ),
-          ListTile(
-            leading: Semantics(
-              child: Icon(MdiIcons.discord),
-              hidden: true,
-            ),
-            title: Text('Discord'),
-            onTap: () {
-              _launchURL('https://fffutu.re/appDiscord');
+              _launchURL('https://www.facebook.com/appforfuture');
             },
           ),
         ],
