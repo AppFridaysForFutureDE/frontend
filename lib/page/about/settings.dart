@@ -15,7 +15,7 @@ class SettingsPage extends StatefulWidget {
 //Setting the theme to show theme name correctly in iOS action sheet
 String themeShow = '';
 void setThemeName(data) {
-  String theme = data.get('theme') ?? 'light';
+  String theme = data.get('theme') ?? 'system';
   switch (theme) {
     case 'light':
       themeShow = 'Hell';
@@ -54,7 +54,7 @@ class _SettingsPageState extends State<SettingsPage> {
               title: Text('Erscheinungsbild'),
               trailing: Platform.isAndroid
                   ? DropdownButton(
-                      value: data.get('theme') ?? 'light',
+                      value: data.get('theme') ?? 'system',
                       items: [
                         DropdownMenuItem(
                           child: Text(

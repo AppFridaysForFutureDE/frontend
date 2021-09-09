@@ -1,14 +1,12 @@
 import 'package:app/model/post.dart';
-import 'package:app/page/about/about_subpage/socialmedia.dart';
 import 'package:app/page/about/settings.dart';
 import 'package:app/page/feed/post.dart';
-import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
-import 'package:app/widget/title.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'about_subpage/demo.dart';
+import 'about_subpage/socialmedia.dart';
 
 /*
 The About Page
@@ -27,28 +25,44 @@ class _AboutPageState extends State<AboutPage> {
     }
   }
 
-  // Used to display a svg which opens a new page with the content of a CMS Page
-  Widget _buildFlatButton(
-      String pageShownName, String slug, String assetName, Color color) {
-    return FlatButton(
-      onPressed: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PostPage(
-                Post.slug(slug),
-                isPost: false,
-                name: pageShownName,
-              ),
-            ));
-      },
-      child: SvgPicture.asset(
-        assetName,
-        color: color,
-        alignment: Alignment.center,
+  Widget _buildButton(String assetName, Function click) {
+    return Expanded(
+      child: AspectRatio(
+        aspectRatio: 1 / 1,
+        child: IconButton(
+          onPressed: () {
+            click();
+          },
+          icon: SvgPicture.asset(
+            'assets/infoicons/' + assetName + '.svg',
+            color: Theme.of(context).primaryColor,
+            alignment: Alignment.center,
+          ),
+          highlightColor: Theme.of(context).backgroundColor,
+          padding: EdgeInsets.all(15),
+        ),
       ),
-      padding: EdgeInsets.all(10),
     );
+  }
+
+  Widget _buildLinkButton(String assetName, String url) {
+    return _buildButton(assetName, () => {_launchURL(url)});
+  }
+
+  Widget _buildPageButton(String assetName, String slug, String pageShownName) {
+    return _buildButton(
+        assetName,
+        () => {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PostPage(
+                      Post.slug(slug),
+                      isPost: false,
+                      name: pageShownName,
+                    ),
+                  ))
+            });
   }
 
   @override
@@ -69,171 +83,152 @@ class _AboutPageState extends State<AboutPage> {
         ],
       ),
       body: Center(
-        child: Column(
+        child: ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.all(15.0),
           children: <Widget>[
-            Expanded(
-              child: Container(
-                  child: _buildFlatButton(
-                      'Forderungen',
-                      'forderungen',
-                      'assets/infoicons/Forderungen.svg',
-                      Theme.of(context).backgroundColor),
-                  color: Theme.of(context).accentColor,
-                  width: double.infinity,
-                  height: double.infinity),
-            ),
-            Expanded(
-              child: Container(
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        child: FlatButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DemoPage()),
-                            );
-                          },
-                          child: SvgPicture.asset(
-                            'assets/infoicons/Demosprueche.svg',
-                            color: Theme.of(context).primaryColor,
-                            alignment: Alignment.center,
-                          ),
-                          padding: EdgeInsets.all(10),
-                        ),
-                        color: Theme.of(context).backgroundColor,
-                        width: double.infinity,
-                        height: double.infinity,
-                        margin: EdgeInsets.only(right: 2.5),
-                      ),
-                    ),
-                    Expanded(
-                        child: Container(
-                            child: _buildFlatButton(
-                                'Bundesweite Arbeitsgruppen',
-                                'bundesweite-arbeitsgruppen',
-                                'assets/infoicons/Arbeitsgruppen.svg',
-                                Theme.of(context).primaryColor),
-                            color: Theme.of(context).backgroundColor,
-                            width: double.infinity,
-                            height: double.infinity,
-                            margin: EdgeInsets.only(left: 2.5)))
-                  ],
-                ),
-                color: Theme.of(context).accentColor,
-              ),
-            ),
-            Expanded(
-              child: Container(
-                color: Theme.of(context).accentColor,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        child: FlatButton(
-                          onPressed: () {
-                            _launchURL('https://fridaysforfuture.de');
-                          },
-                          child: SvgPicture.asset(
-                              'assets/infoicons/WebsiteIconhell.svg',
-                              color: Theme.of(context).backgroundColor),
-                        ),
-                        color: Theme.of(context).primaryColor,
-                        width: double.infinity,
-                        height: double.infinity,
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.only(right: 2.5),
-                      ),
-                    ),
-                    Expanded(
-                        child: Container(
-                            child: FlatButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SocialMediaPage()),
-                                );
-                              },
-                              child: SvgPicture.asset(
-                                  'assets/infoicons/SocialMediaIconhell.svg',
-                                  color: Theme.of(context).backgroundColor),
-                            ),
-                            color: Theme.of(context).primaryColor,
-                            width: double.infinity,
-                            height: double.infinity,
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(left: 2.5)))
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-                child: Container(
-                    child: FlatButton(
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: AspectRatio(
+                    aspectRatio: 2 / 1,
+                    child: IconButton(
                       onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text('Weiteres...'),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ListTile(
-                                  title: Text('Impressum',
-                                      style: TextStyle(fontSize: 18)),
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => PostPage(
-                                            Post.slug('impressum'),
-                                            isPost: false,
-                                            name: 'Impressum',
-                                          ),
-                                        ));
-                                  },
-                                ),
-                                ListTile(
-                                  title: Text('Datenschutz',
-                                      style: TextStyle(fontSize: 18)),
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => PostPage(
-                                            Post.slug('datenschutz'),
-                                            isPost: false,
-                                            name: 'Datenschutz',
-                                          ),
-                                        ));
-                                  },
-                                ),
-                              ],
-                            ),
-                            actions: [
-                              FlatButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text('Schließen'))
-                            ],
-                          ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => DemoPage()),
                         );
                       },
-                      child: SvgPicture.asset(
-                        'assets/infoicons/WeiteresIconhell.svg',
-                        color: Theme.of(context).accentColor,
+                      icon: SvgPicture.asset(
+                        'assets/infoicons/Forderungen.svg',
                         alignment: Alignment.center,
                       ),
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(7.5),
                     ),
-                    color: Theme.of(context).backgroundColor,
-                    width: double.infinity,
-                    height: double.infinity,
-                    margin: EdgeInsets.only(right: 2.5))),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                _buildButton(
+                    'Demospruch',
+                    () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => DemoPage()),
+                          )
+                        }),
+                _buildPageButton(
+                  'Arbeitsgruppe',
+                  'bundesweite-arbeitsgruppen',
+                  'Bundesweite Arbeitsgruppen',
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                _buildLinkButton('Website', 'https://fridaysforfuture.de'),
+                _buildLinkButton(
+                    'Blog', 'https://fridaysforfuture.de/neuigkeiten/'),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                _buildLinkButton(
+                    'Social_Instagram', 'https://fffutu.re/appInstagram'),
+                _buildLinkButton(
+                    'Social_Twitter', 'https://fffutu.re/appTwitter'),
+                _buildLinkButton(
+                    'Social_Facebook', 'https://fffutu.re/appFacebook'),
+                _buildLinkButton(
+                    'Social_Youtube', 'https://fffutu.re/appYouTube'),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                _buildButton(
+                    'Kanale',
+                    () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SocialMediaPage()),
+                          )
+                        }),
+                _buildLinkButton(
+                    'Github', 'https://github.com/AppFridaysForFutureDE'),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: AspectRatio(
+                    aspectRatio: 2 / 1,
+                    child: IconButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Weiteres...'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ListTile(
+                                    title: Text('Impressum',
+                                        style: TextStyle(fontSize: 18)),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => PostPage(
+                                              Post.slug('impressum'),
+                                              isPost: false,
+                                              name: 'Impressum',
+                                            ),
+                                          ));
+                                    },
+                                  ),
+                                  ListTile(
+                                    title: Text('Datenschutz',
+                                        style: TextStyle(fontSize: 18)),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => PostPage(
+                                              Post.slug('datenschutz'),
+                                              isPost: false,
+                                              name: 'Datenschutz',
+                                            ),
+                                          ));
+                                    },
+                                  ),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('Schließen'))
+                              ],
+                            ),
+                          );
+                        },
+                        icon: SvgPicture.asset(
+                          'assets/infoicons/Weiteres.svg',
+                          color: Theme.of(context).primaryColor,
+                          alignment: Alignment.center,
+                        )),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
