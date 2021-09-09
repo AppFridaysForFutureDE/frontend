@@ -1,6 +1,7 @@
 import 'package:app/model/post.dart';
 import 'package:app/page/about/settings.dart';
 import 'package:app/page/feed/post.dart';
+import 'package:app/util/navigation.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -94,9 +95,10 @@ class _AboutPageState extends State<AboutPage> {
                     aspectRatio: 2 / 1,
                     child: IconButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => DemoPage()),
+                        NavUtil(context).openLink(
+                          'https://app.fffutu.re/forderungen/',
+                          true,
+                          'Forderungen',
                         );
                       },
                       icon: SvgPicture.asset(
@@ -120,10 +122,17 @@ class _AboutPageState extends State<AboutPage> {
                             MaterialPageRoute(builder: (context) => DemoPage()),
                           )
                         }),
-                _buildPageButton(
+                _buildButton(
                   'Arbeitsgruppe',
-                  'bundesweite-arbeitsgruppen',
-                  'Bundesweite Arbeitsgruppen',
+                  () {
+                    NavUtil(context).openLink(
+                      'https://app.fffutu.re/ag-liste/',
+                      true,
+                      'Arbeitsgruppen',
+                    );
+                  },
+                  /* 'bundesweite-arbeitsgruppen',
+                  'Bundesweite Arbeitsgruppen', */
                 ),
               ],
             ),
