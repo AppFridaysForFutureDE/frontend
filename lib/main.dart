@@ -361,7 +361,9 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     );
 
     FirebaseMessaging.instance.getInitialMessage().then((value) {
-      _handleNotificationOpen(value.data);
+      if (value != null) {
+        _handleNotificationOpen(value.data);
+      }
     });
 
     FirebaseDynamicLinks.instance.getInitialLink().then(_handleDynamicLink);

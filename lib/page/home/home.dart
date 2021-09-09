@@ -147,13 +147,15 @@ class _HomePageState extends State<HomePage> {
             : Scrollbar(
                 child: ListView(
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        NavUtil(context).openLink(
-                            data.banner.link, data.banner.inApp, null);
-                      },
-                      child: CachedNetworkImage(imageUrl: data.banner.imageUrl),
-                    ),
+                    if ((data?.banner?.imageUrl ?? '') != '')
+                      GestureDetector(
+                        onTap: () {
+                          NavUtil(context).openLink(
+                              data.banner.link, data.banner.inApp, null);
+                        },
+                        child:
+                            CachedNetworkImage(imageUrl: data.banner.imageUrl),
+                      ),
                     SizedBox(
                       height: 8,
                     ),
@@ -269,6 +271,7 @@ class HomeFeedItem extends StatelessWidget {
             item.text,
             style: Theme.of(context).textTheme.bodyText2,
             dropCapPosition: DropCapPosition.end,
+            textAlign: TextAlign.start,
             dropCap: DropCap(
               width: 200,
               height: 38,
