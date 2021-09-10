@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io' show Platform;
 
 import 'package:app/app.dart';
@@ -16,16 +15,17 @@ class DemoPage extends StatefulWidget {
 class _DemoPageState extends State<DemoPage> {
   @override
   void initState() {
-    _loadData();
     super.initState();
+    _loadData();
   }
 
   Future _loadData() async {
     try {
       slogans = await api.getSlogans();
       if (mounted) setState(() {});
-    } catch (e, st) {
+    } catch (e) {
       if (mounted)
+        // ignore: deprecated_member_use
         _scaffoldKey.currentState.showSnackBar(
           SnackBar(
             content: Text(
@@ -246,7 +246,7 @@ class _SloganItemState extends State<SloganItem> {
   Widget build(BuildContext context) {
     bool marked = Hive.box('slogan_mark').get(slogan.id) ?? false;
 
-    var textTheme = Theme.of(context).textTheme;
+    // var textTheme = Theme.of(context).textTheme;
 
     return InkWell(
       onTap: () async {
@@ -366,7 +366,10 @@ class _SloganItemState extends State<SloganItem> {
                     onPressed: () {
                       ShareUtil.shareSlogan(slogan);
                     },
-                    icon: Icon(Platform.isAndroid? MdiIcons.shareVariant : CupertinoIcons.share,
+                    icon: Icon(
+                      Platform.isAndroid
+                          ? MdiIcons.shareVariant
+                          : CupertinoIcons.share,
                       semanticLabel: 'Artikel teilen',
                     ),
                   ),

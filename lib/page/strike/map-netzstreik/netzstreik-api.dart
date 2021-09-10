@@ -16,9 +16,9 @@ class NetzstreikApi {
       'https://actionmap.fridaysforfuture.de/index.php?upload';
 
   static final strikeImageUrl = 'https://actionmap.fridaysforfuture.de/';
-  Uint8List secureImageDebug = null;
+  Uint8List secureImageDebug;
   http.Client client = http.Client();
-  Cookie cookie = null;
+  Cookie cookie;
 
   Future<void> makeCache() async {
     //Whait all in all 5 seconds
@@ -57,7 +57,7 @@ class NetzstreikApi {
     try {
       var body = cache.get('netzstreikMap.json');
       if (body == null) {
-        return List<StrikePoint>();
+        return <StrikePoint>[];
       }
       var data = json.decode(body);
       List<StrikePoint> resultL = data['entries']
@@ -74,7 +74,7 @@ class NetzstreikApi {
       return resultL;
     } catch (e) {
       print("Now Cache loaded jet");
-      return List<StrikePoint>();
+      return <StrikePoint>[];
     }
 
     //if (cache.exists('netzstreikMap.json')) {
@@ -153,7 +153,7 @@ class NetzstreikApi {
     var res = await client.get(Uri.parse(imageUrl), headers: headers);
     if (res.statusCode == HttpStatus.ok) {
       print("ok");
-      CacheService cache = CacheService(await getTemporaryDirectory());
+      // CacheService cache = CacheService(await getTemporaryDirectory());
       //cache.put('secureImage', res.body);
       secureImageDebug = res.bodyBytes;
       return res.bodyBytes;
@@ -237,12 +237,6 @@ class NetzstreikApi {
 
     //MediaType type = http.MediaType();
     //http.MultipartFile.fromPath('image', filePath)
-    http.MultipartFile multiFile = await http.MultipartFile.fromPath(
-      'image',
-      'assets/icon/icon.png',
-      //contentType: 'image', 'jpeg',
-      //contentType: MediaType('application', 'x-tar'),
-    );
 
     //var res = await request.send();
   }
@@ -304,7 +298,7 @@ class StrikePoint implements SocialLinkContainer {
       other = links['other'] as String ?? "";
     }
   }
-  Map<String, String> _getLinkMap(dynamic jsonMap) {
+/*   Map<String, String> _getLinkMap(dynamic jsonMap) {
     Map<String, String> resultM = Map<String, String>();
     if (jsonMap == null) {
       return resultM;
@@ -314,7 +308,7 @@ class StrikePoint implements SocialLinkContainer {
     }
 
     return resultM;
-  }
+  } */
 
   @override
   String toString() {

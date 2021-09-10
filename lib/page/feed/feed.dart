@@ -14,8 +14,8 @@ class FeedPage extends StatefulWidget {
 class _FeedPageState extends State<FeedPage> {
   @override
   void initState() {
-    _loadData();
     super.initState();
+    _loadData();
   }
 
   Future _loadData() async {
@@ -25,6 +25,7 @@ class _FeedPageState extends State<FeedPage> {
       if (mounted) setState(() {});
     } catch (e) {
       if (mounted)
+        // ignore: deprecated_member_use
         Scaffold.of(context).showSnackBar(SnackBar(
             content: Text(
                 'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));

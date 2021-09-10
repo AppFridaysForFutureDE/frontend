@@ -1,7 +1,7 @@
-import 'package:json_annotation/json_annotation.dart';
+// import 'package:json_annotation/json_annotation.dart';
 
-part 'campaign.g.dart';
-@JsonSerializable()
+// part 'campaign.g.dart';
+// @JsonSerializable()
 class Campaign {
   String icon;
   String text;

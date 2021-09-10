@@ -146,12 +146,12 @@ class _MapPageState extends State<MapPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        FlatButton(
+                        TextButton(
                           onPressed: Navigator.of(context).pop,
                           child: Text('Abbrechen'),
                         ),
                         subscribed
-                            ? FlatButton(
+                            ? TextButton(
                                 onPressed: () async {
                                   Hive.box('subscribed_ogs').delete(og.ogId);
                                   Navigator.of(context).pop();
@@ -161,7 +161,7 @@ class _MapPageState extends State<MapPage> {
                                 },
                                 child: Text('Deabonnieren'),
                               )
-                            : FlatButton(
+                            : TextButton(
                                 onPressed: () async {
                                   Hive.box('subscribed_ogs').put(og.ogId, og);
                                   Navigator.of(context).pop();

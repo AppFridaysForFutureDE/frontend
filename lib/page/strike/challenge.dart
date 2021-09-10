@@ -23,7 +23,7 @@ class _State extends State<ChallengePage> {
               'Lol die Lufthansa!',
               RichText(
                 text: TextSpan(
-                  style: Theme.of(context).textTheme.body1,
+                  style: Theme.of(context).textTheme.bodyText2,
                   children: <TextSpan>[
                     TextSpan(
                         text:
@@ -56,7 +56,7 @@ class _State extends State<ChallengePage> {
               '#WirBildenZukunft',
               RichText(
                 text: TextSpan(
-                  style: Theme.of(context).textTheme.body1,
+                  style: Theme.of(context).textTheme.bodyText2,
                   children: <TextSpan>[
                     TextSpan(
                         text:
@@ -139,8 +139,12 @@ class _State extends State<ChallengePage> {
                   children: <Widget>[
                     text,
                     if (!(Hive.box('challenges').get(id) ?? false))
-                      RaisedButton(
-                          color: Theme.of(context).primaryColor,
+                      ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              Theme.of(context).primaryColor,
+                            ),
+                          ),
                           onPressed: () {
                             setState(() {
                               Hive.box('challenges').put(id, true);

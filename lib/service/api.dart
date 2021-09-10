@@ -246,11 +246,9 @@ class ApiService {
     }
   }
 
-  /**
-   * Fetches a Liveevent from the Servers. A live event gets also returned if no event is live.
-   * In this case a Event with isLive == false
-   * A a exception is thrown.
-   */
+  /// Fetches a Liveevent from the Servers. A live event gets also returned if no event is live.
+  /// In this case a Event with isLive == false
+  /// A a exception is thrown.
   Future<LiveEvent> getLiveEvent() async {
     //DEBUG data: first true if a live event is active
     // second true if the banner schould open the first netzstrike action or the Url

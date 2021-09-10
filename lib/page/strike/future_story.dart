@@ -1,5 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/foundation.dart';
 import 'package:app/app.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +16,7 @@ class FutureStoryPage extends StatelessWidget {
   }
 
   _showSnack(text) {
+    // ignore: deprecated_member_use
     _scaffoldKey.currentState.showSnackBar(
       SnackBar(
         content: Text(text),
@@ -25,7 +24,7 @@ class FutureStoryPage extends StatelessWidget {
     );
   }
 
-  var _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +72,12 @@ Fülle die Vorlage aus. Tagge unsere Regierung, um ihr die Präsenz der Klimakri
                   'assets/images/download.png',
                   width: 48,
                 ),
-                RaisedButton(
-                    color: Theme.of(context).primaryColor,
+                ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                        Theme.of(context).primaryColor,
+                      ),
+                    ),
                     onPressed: _shareImage,
                     child: Text('Vorlage herunterladen')),
                 Image.asset(

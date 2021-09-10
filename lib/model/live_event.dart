@@ -1,26 +1,16 @@
-/**
- * A class that represents a Event which is live at the Moment. The url points to a livestream.
- */
+/// A class that represents a Event which is live at the Moment. The url points to a livestream.
 class LiveEvent {
-  /**
-   * Indicates if there is a current liveevent
-   */
+  /// Indicates if there is a current liveevent
   bool isActive;
 
-  /**
-   * Indicates if the app schould launch the first Strike Action from the Netzstrike section in the app or
-   * open the url
-   */
+  /// Indicates if the app schould launch the first Strike Action from the Netzstrike section in the app or
+  /// open the url
   bool inApp;
 
-  /**
-   * The title of the Live event.
-   */
+  /// The title of the Live event.
   String actionText;
 
-  /**
-   * The url of the live event. Only relevant if inApp == false
-   */
+  /// The url of the live event. Only relevant if inApp == false
   String actionUrl;
   LiveEvent(this.isActive, this.inApp, this.actionText, this.actionUrl);
   LiveEvent.fromJSON(Map<String, dynamic> json) {

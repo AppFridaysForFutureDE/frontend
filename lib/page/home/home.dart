@@ -3,12 +3,10 @@ import 'package:app/model/home_page_data.dart';
 import 'package:app/model/strike.dart';
 import 'package:app/page/campaign/campaign.dart';
 import 'package:app/util/navigation.dart';
-import 'package:app/widget/feed_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:intl/intl.dart';
 //import 'package:carousel_slider/carousel_slider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:app/app.dart';
 import 'package:drop_cap_text/drop_cap_text.dart';
 
@@ -28,12 +26,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    super.initState();
     subscribedOgs = Hive.box('subscribed_ogs').values.toList().cast<OG>();
 /*     if (subscribedOgs.isNotEmpty) {
       _currentOGId = subscribedOgs.first.ogId;
     } */
     _loadData();
-    super.initState();
   }
 
   Future _loadData() async {
@@ -51,6 +49,7 @@ class _HomePageState extends State<HomePage> {
       print(e);
 
       if (mounted)
+        // ignore: deprecated_member_use
         Scaffold.of(context).showSnackBar(SnackBar(
             content: Text(
                 'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
@@ -275,7 +274,7 @@ class HomeFeedItem extends StatelessWidget {
             dropCap: DropCap(
               width: 200,
               height: 38,
-              child: RaisedButton(
+              child: ElevatedButton(
                 child: Text(item.cta),
                 onPressed: () {
                   NavUtil(context).openLink(item.link, item.inApp, item.cta);

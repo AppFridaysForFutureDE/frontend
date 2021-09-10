@@ -11,7 +11,7 @@ class HomePageData {
     banner =
         json['banner'] != null ? new Banner.fromJson(json['banner']) : null;
     if (json['feed'] != null) {
-      feed = new List<FeedItem>();
+      feed = <FeedItem>[];
       json['feed'].forEach((v) {
         feed.add(new FeedItem.fromJson(v));
       });

@@ -21,8 +21,8 @@ class _CampaignPageState extends State<CampaignPage> {
 
   @override
   void initState() {
-    _loadData();
     super.initState();
+    _loadData();
   }
 
   Future _loadData() async {
@@ -34,6 +34,7 @@ class _CampaignPageState extends State<CampaignPage> {
     } catch (e) {
       if (mounted)
         // TODO: Handle error "no Scaffold found": Add scaffold key and use it here
+        // ignore: deprecated_member_use
         Scaffold.of(context).showSnackBar(SnackBar(
             content: Text(
                 'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
@@ -102,10 +103,19 @@ class _CampaignPageState extends State<CampaignPage> {
               campaign.text,
               textAlign: TextAlign.center,
             ),
-            RaisedButton(
-              color: Theme.of(context).primaryColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0)),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  Theme.of(context).primaryColor,
+                ),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(
+                      30.0,
+                    ),
+                  ),
+                ),
+              ),
               child: Text(
                 campaign.cta,
                 textAlign: TextAlign.center,

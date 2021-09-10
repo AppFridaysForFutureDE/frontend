@@ -1,5 +1,3 @@
-import 'package:app/page/strike/map-netzstreik/add-iframe-page.dart';
-import 'package:app/page/strike/map-netzstreik/add-strike-page.dart';
 import 'package:app/page/strike/map-netzstreik/filterNetzStrike.dart';
 import 'package:app/page/strike/map-netzstreik/netzstreik-api.dart';
 import 'package:app/widget/og_social_buttons.dart';
@@ -11,9 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app.dart';
 
-/**
- * A map that shows all Strike points for the global Climate strike on 04/24/2020
- */
+/// A map that shows all Strike points for the global Climate strike on 04/24/2020
 class MapNetzstreik extends StatefulWidget {
   @override
   _MapNetzstreikState createState() => _MapNetzstreikState();
@@ -21,7 +17,7 @@ class MapNetzstreik extends StatefulWidget {
 
 class _MapNetzstreikState extends State<MapNetzstreik> {
   NetzstreikApi netzstreikApi = NetzstreikApi();
-  List<StrikePoint> strikePointL = List<StrikePoint>();
+  List<StrikePoint> strikePointL = <StrikePoint>[];
   bool onlyPicure = false;
   FilterStateNetz filterState = FilterStateNetz();
 
@@ -53,11 +49,10 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
     }
   }
 
-  /**
-   * The init Method Loads all strike Points.
-   */
+  /// The init Method Loads all strike Points.
   @override
   void initState() {
+    super.initState();
     loadOldData();
     netzstreikApi.getAllStrikePoints().then((list) {
       isLoadingNew = false;
@@ -71,14 +66,10 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
         });
       }
     });
-
-    super.initState();
   }
 
-  /**
-   * A Method that applays the Filter state to the List of the State.
-   * it will NOT cause a Rebuild of the Screen
-   */
+  /// A Method that applays the Filter state to the List of the State.
+  /// it will NOT cause a Rebuild of the Screen
   void applayFilter() {
     if (filterState.onlyShowImage) {
       featuredMarkerShow = this.allImageMarkerFeatured;
@@ -89,9 +80,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
     }
   }
 
-  /**
-   * Generates the Marker for one Strike Point
-   */
+  /// Generates the Marker for one Strike Point
   Marker _generateMarker(StrikePoint strikePoint) {
     if (!(strikePoint.imgStatus)) {
       if (strikePoint.isFeatured) {
@@ -145,9 +134,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
     }
   }
 
-  /**
-   * Genrates a list of Markes of not Features Strike Points and Puts them in the Lists
-   */
+  /// Genrates a list of Markes of not Features Strike Points and Puts them in the Lists
   void _generateAllMarker() {
     allFeaturedMarker = <Marker>[];
     allNotFeaturedMarker = <Marker>[];
@@ -208,9 +195,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
     return resultL;
   }*/
 
-  /**
-   * Shows a Popup for a Strike point for example if a point is tapped
-   */
+  /// Shows a Popup for a Strike point for example if a point is tapped
   void _showStrikePoint(StrikePoint strikePoint) {
     showDialog(
       context: context,
@@ -230,7 +215,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
           ),
         ),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             onPressed: Navigator.of(context).pop,
             child: Text('Abbrechen'),
           ),
@@ -368,7 +353,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                             'Wir streiken weiter',
                             style: Theme.of(context)
                                 .textTheme
-                                .title
+                                .headline6
                                 .copyWith(color: Colors.black),
                           ),
                           Text(
@@ -400,7 +385,7 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                               'Wir streiken weiter',
                               style: Theme.of(context)
                                   .textTheme
-                                  .title
+                                  .headline6
                                   .copyWith(color: Colors.black),
                             ),
                             Text(
@@ -420,13 +405,17 @@ class _MapNetzstreikState extends State<MapNetzstreik> {
                 ]),
               ),
             ),
-            FlatButton(
+            TextButton(
               child: Text("Jetzt mitstreiken",
                   style: Theme.of(context)
                       .textTheme
-                      .title
+                      .headline6
                       .copyWith(color: Colors.white)),
-              color: Theme.of(context).primaryColor,
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  Theme.of(context).primaryColor,
+                ),
+              ),
               onPressed: () {
                 const url = 'https://actionmap.fridaysforfuture.de/iframe.html';
 
