@@ -103,6 +103,7 @@ class _AboutPageState extends State<AboutPage> {
                       },
                       icon: SvgPicture.asset(
                         'assets/infoicons/Forderungen.svg',
+                        color: Theme.of(context).accentColor,
                         alignment: Alignment.center,
                       ),
                       padding: EdgeInsets.all(7.5),
