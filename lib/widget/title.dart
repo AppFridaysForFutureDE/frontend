@@ -17,7 +17,7 @@ class TitleWidget extends StatelessWidget {
   );*/
   TextStyle _styleSubHeading(BuildContext context) => TextStyle(
         letterSpacing: 3,
-        color: Theme.of(context).textTheme.title.color,
+        color: Theme.of(context).textTheme.headline6.color,
       );
 
   /*
@@ -25,7 +25,7 @@ class TitleWidget extends StatelessWidget {
    */
   //final Color _colorSubHeadingBackground = Colors.grey[100];
   Color _colorSubHeadingBackground(BuildContext context) =>
-      Theme.of(context).textTheme.subtitle.backgroundColor;
+      Theme.of(context).textTheme.subtitle2.backgroundColor;
   @override
   Widget build(BuildContext context) {
     return Platform.isIOS
@@ -43,7 +43,7 @@ class TitleWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: Text(
               title,
-              style: Theme.of(context).textTheme.title,
+              style: Theme.of(context).textTheme.headline6,
             ),
           );
   }

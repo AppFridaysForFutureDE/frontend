@@ -101,7 +101,8 @@ class App extends StatelessWidget {
         iconTheme: IconThemeData(
           color: primaryColor /* isLightAppBar ? Colors.black : Colors.white */,
         ),
-        textTheme: appBarTextTheme,
+        titleTextStyle: appBarTextTheme.headline6.copyWith(color: primaryColor),
+        // textTheme: appBarTextTheme,
         centerTitle: true,
       ),
       toggleableActiveColor: _accentColor,

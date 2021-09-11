@@ -1,9 +1,7 @@
 import 'package:app/app.dart';
 import 'package:app/page/feed/post.dart';
 import 'package:app/page/strike/map-netzstreik/add-iframe-page.dart';
-import 'package:share/share.dart';
 
-import 'package:app/model/post.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NavUtil {

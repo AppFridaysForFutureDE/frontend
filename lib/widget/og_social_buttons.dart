@@ -1,13 +1,12 @@
 import 'package:app/app.dart';
 import 'package:app/model/SocialLinkContainer.dart';
-import 'package:app/page/strike/map-netzstreik/netzstreik-api.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io' show Platform;
 
 class SocialButtons extends StatelessWidget {
-  SocialLinkContainer container;
-  bool compact;
+  final SocialLinkContainer container;
+  final bool compact;
 
   SocialButtons(this.container, this.compact);
 
@@ -68,20 +67,20 @@ class SocialButtons extends StatelessWidget {
           ),
           onPressed: () {
             _launchURL(socialLink.link);
-        },
+          },
         )
     ];
     return list.isEmpty
         ? [
             CupertinoActionSheetAction(
-              onPressed: () {  },
+              onPressed: () {},
               child: Text('Keine Informationen'),
             )
           ]
         : list;
   }
 
-  Color _iconColor;
+  // Color _iconColor;
 
   _launchURL(String url) async {
     if (await canLaunch(url)) {
@@ -93,43 +92,45 @@ class SocialButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _iconColor = Theme.of(context).textTheme.body1.color;
+    // _iconColor = Theme.of(context).textTheme.body1.color;
     return compact
         ? Wrap(children: [
             for (var socialLink in _buildList()) _buildSocialMedia(socialLink)
           ])
-        : Platform.isAndroid?
-        PopupMenuButton(
-            icon: Icon(Icons.more_vert,
-              semanticLabel: 'Social Media anzeigen',
-            ),
-            onSelected: (link) {
-              _launchURL(link);
-            },
-            itemBuilder: (context) => _buildSocialMediaPopupList(),
-          )
-          :
+        : Platform.isAndroid
+            ? PopupMenuButton(
+                icon: Icon(
+                  Icons.more_vert,
+                  semanticLabel: 'Social Media anzeigen',
+                ),
+                onSelected: (link) {
+                  _launchURL(link);
+                },
+                itemBuilder: (context) => _buildSocialMediaPopupList(),
+              )
+            :
 
-          //ios adaption:
-          FlatButton(
-          onPressed: () { 
-            showCupertinoModalPopup(
-            context: context,
-            builder: (context) {
-            return CupertinoActionSheet(
-            actions: _buildSocialMediaPopupListIOS(),
-          //cancel button
-              cancelButton: CupertinoActionSheetAction(
-              child: const Text('Abbrechen'),
-              isDefaultAction: true,
-              onPressed: () {
-                Navigator.pop(context, 'Cancel');
-              },
-              ),
-          );
-        });
-      },
-      child: Icon(CupertinoIcons.ellipsis, semanticLabel: 'Social Media anzeigen'));
+            //ios adaption:
+            TextButton(
+                onPressed: () {
+                  showCupertinoModalPopup(
+                      context: context,
+                      builder: (context) {
+                        return CupertinoActionSheet(
+                          actions: _buildSocialMediaPopupListIOS(),
+                          //cancel button
+                          cancelButton: CupertinoActionSheetAction(
+                            child: const Text('Abbrechen'),
+                            isDefaultAction: true,
+                            onPressed: () {
+                              Navigator.pop(context, 'Cancel');
+                            },
+                          ),
+                        );
+                      });
+                },
+                child: Icon(CupertinoIcons.ellipsis,
+                    semanticLabel: 'Social Media anzeigen'));
   }
 
   List<SocialLink> _buildList() {
