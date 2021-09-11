@@ -5,13 +5,14 @@ import '../../../app.dart';
 class FilterNetzStrikePage extends StatefulWidget {
   @override
   _FilterNetzStrikePageState createState() => _FilterNetzStrikePageState();
-  FilterStateNetz state;
+  final FilterStateNetz state;
   FilterNetzStrikePage(this.state);
 }
 
 class _FilterNetzStrikePageState extends State<FilterNetzStrikePage> {
   FilterStateNetz state = FilterStateNetz();
   void initState() {
+    super.initState();
     state.onlyShowImage = widget.state.onlyShowImage;
     state.onlyShowFeatured = widget.state.onlyShowFeatured;
   }

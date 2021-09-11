@@ -50,7 +50,7 @@ class _AboutPageState extends State<AboutPage> {
     return _buildButton(assetName, () => {_launchURL(url)});
   }
 
-  Widget _buildPageButton(String assetName, String slug, String pageShownName) {
+/*   Widget _buildPageButton(String assetName, String slug, String pageShownName) {
     return _buildButton(
         assetName,
         () => {
@@ -64,7 +64,7 @@ class _AboutPageState extends State<AboutPage> {
                     ),
                   ))
             });
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {

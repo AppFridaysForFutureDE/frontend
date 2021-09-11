@@ -5,7 +5,7 @@ import 'package:email_validator/email_validator.dart';
 import 'dart:typed_data';
 
 class AddStrikePage extends StatefulWidget {
-  NetzstreikApi apiNetz;
+  final NetzstreikApi apiNetz;
   AddStrikePage(this.apiNetz);
   @override
   _AddStrikePageState createState() => _AddStrikePageState();
@@ -24,9 +24,10 @@ class _AddStrikePageState extends State<AddStrikePage> {
   final captchaC = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  Uint8List imageData = null;
+  Uint8List imageData;
   @override
   initState() {
+    super.initState();
     _getCaptcha();
   }
 
@@ -41,7 +42,7 @@ class _AddStrikePageState extends State<AddStrikePage> {
       if (accept) {
         print(nameC.text + " " + plzC.text + " " + emailC.text);
         hasToAccept = false;
-        Future<ResultUpload> resultF = apiNetz.finishUpload(nameC.text,
+        /* Future<ResultUpload> resultF = */ apiNetz.finishUpload(nameC.text,
             showName, emailC.text, plzC.text, newsletter, captchaC.text);
       } else {
         setState(() {
@@ -89,7 +90,7 @@ class _AddStrikePageState extends State<AddStrikePage> {
                     SwitchListTile.adaptive(
                       title: Text(
                         "Soll dein Name auf der Karte angezeigt werden ",
-                        style: Theme.of(context).textTheme.body1,
+                        style: Theme.of(context).textTheme.bodyText2,
                       ),
                       value: showName,
                       onChanged: (val) {
@@ -145,7 +146,7 @@ class _AddStrikePageState extends State<AddStrikePage> {
                           style: TextStyle(
                             color: hasToAccept
                                 ? Colors.red
-                                : Theme.of(context).textTheme.body1.color,
+                                : Theme.of(context).textTheme.bodyText2.color,
                           )),
                       value: accept,
                       onChanged: (val) {
@@ -165,13 +166,17 @@ class _AddStrikePageState extends State<AddStrikePage> {
                       },
                     ),
                   ])),
-          FlatButton(
+          TextButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                Theme.of(context).primaryColor,
+              ),
+            ),
             child: Text("Jetzt mitstreiken",
                 style: Theme.of(context)
                     .textTheme
-                    .title
+                    .headline6
                     .copyWith(color: Colors.white)),
-            color: Theme.of(context).primaryColor,
             onPressed: _submitButton,
           )
         ],

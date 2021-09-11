@@ -15,10 +15,10 @@ class _FilterPageState extends State<FilterPage> {
   FilterState state = FilterState();
   @override
   void initState() {
+    super.initState();
     state.onlyShowMarked = widget.state.onlyShowMarked;
     state.onlyShowUnread = widget.state.onlyShowUnread;
     state.shownTags = List.from(widget.state.shownTags);
-    super.initState();
   }
 
 //Used for screenreaders
@@ -40,8 +40,9 @@ class _FilterPageState extends State<FilterPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () {
+      onWillPop: () async {
         Navigator.of(context).pop(state);
+        return false;
       },
       child: Scaffold(
         appBar: AppBar(

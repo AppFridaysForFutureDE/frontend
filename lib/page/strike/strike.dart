@@ -1,8 +1,5 @@
 import 'package:app/app.dart';
 import 'package:app/page/strike/html_strike_page.dart';
-import 'package:app/page/strike/map-netzstreik/add-iframe-page.dart';
-
-import 'package:app/page/strike/map-netzstreik/map-netzstreik.dart';
 
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/rendering.dart';
@@ -10,11 +7,7 @@ import 'future_story.dart';
 
 import 'challenge.dart';
 
-import 'package:app/model/post.dart';
-import 'package:app/page/feed/post.dart';
-
 import 'package:flutter/cupertino.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class StrikePage extends StatefulWidget {
   @override
@@ -147,8 +140,11 @@ class _StrikePageState extends State<StrikePage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 16.0),
-                    child: FlatButton(
-                      padding: const EdgeInsets.all(0),
+                    child: TextButton(
+                      style: ButtonStyle(
+                          padding: MaterialStateProperty.all(
+                        const EdgeInsets.all(0),
+                      )),
                       child: const Text('JETZT MITMACHEN'),
                       onPressed: onClickStart,
                     ),

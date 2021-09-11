@@ -27,7 +27,7 @@ class Strike {
   String additionalInfo;
 
   @HiveField(6)
-  @JsonKey(nullable: true)
+  @JsonKey()
   String imageUrl;
 
   Strike();

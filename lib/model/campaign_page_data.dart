@@ -9,13 +9,13 @@ class CampaignPageData {
 
   CampaignPageData.fromJson(Map<String, dynamic> json) {
     if (json['banners'] != null) {
-      banners = new List<Banner>();
+      banners = <Banner>[];
       json['banners'].forEach((v) {
         banners.add(new Banner.fromJson(v));
       });
     }
     if (json['campaigns'] != null) {
-      campaigns = new List<Campaign>();
+      campaigns = <Campaign>[];
       json['campaigns'].forEach((v) {
         campaigns.add(new Campaign.fromJson(v));
       });

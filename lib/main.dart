@@ -9,9 +9,7 @@ import 'package:app/page/feed/feed.dart';
 import 'package:app/page/feed/post.dart';
 import 'package:app/page/home/home.dart';
 import 'package:app/page/info/info.dart';
-import 'package:app/page/map/map.dart';
 import 'package:app/page/strike/html_strike_page.dart';
-import 'package:app/page/strike/strike.dart';
 import 'package:app/service/api.dart';
 
 import 'package:app/app.dart';
@@ -103,7 +101,8 @@ class App extends StatelessWidget {
         iconTheme: IconThemeData(
           color: primaryColor /* isLightAppBar ? Colors.black : Colors.white */,
         ),
-        textTheme: appBarTextTheme,
+        titleTextStyle: appBarTextTheme.headline6.copyWith(color: primaryColor),
+        // textTheme: appBarTextTheme,
         centerTitle: true,
       ),
       toggleableActiveColor: _accentColor,
@@ -150,12 +149,12 @@ class App extends StatelessWidget {
       if (brightness == Brightness.dark) {
         themeData = themeData.copyWith(
             textTheme: themeData.textTheme.copyWith(
-                subtitle: themeData.textTheme.subtitle
+                subtitle2: themeData.textTheme.subtitle2
                     .copyWith(backgroundColor: Colors.grey[800])));
       } else {
         themeData = themeData.copyWith(
             textTheme: themeData.textTheme.copyWith(
-                subtitle: themeData.textTheme.subtitle
+                subtitle2: themeData.textTheme.subtitle2
                     .copyWith(backgroundColor: Colors.grey[100])));
       }
     }
@@ -172,6 +171,7 @@ class App extends StatelessWidget {
       data: (theme) => _buildThemeData(theme),
       themedWidgetBuilder: (context, theme) {
         return MaterialApp(
+            // debugShowCheckedModeBanner: false,
             title: 'App For Future',
             home: (Hive.box('data').get('intro_done') ?? false)
                 ? Home()
@@ -243,6 +243,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
       var post = posts.firstWhere((p) => p.id == payload, orElse: () => null);
 
       if (post == null) {
+        // ignore: deprecated_member_use
         _scaffoldKey.currentState.showSnackBar(SnackBar(
             content: Text('Der Artikel konnte nicht gefunden werden.')));
       } else {
@@ -308,10 +309,16 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                RaisedButton(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child: Text("Anschauen",
-                      style: Theme.of(context).textTheme.title),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      Theme.of(context).scaffoldBackgroundColor,
+                    ),
+                  ),
+                  child: Text(
+                    "Anschauen",
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
                   onPressed: () {
                     Navigator.pop(context);
                     if (liveEvent.inApp) {
@@ -328,10 +335,16 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
                 SizedBox(
                   width: 16,
                 ),
-                RaisedButton(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  child:
-                      Text("Später", style: Theme.of(context).textTheme.title),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      Theme.of(context).scaffoldBackgroundColor,
+                    ),
+                  ),
+                  child: Text(
+                    "Später",
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -347,6 +360,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 
   @override
   initState() {
+    super.initState();
     _checkForLiveEvent();
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage msg) async {
@@ -386,8 +400,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     Adds a observer importent for the AppLifecycleState
      */
     WidgetsBinding.instance.addObserver(this);
-
-    super.initState();
   }
 
   @override
@@ -467,23 +479,23 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
               ), */
               BottomNavigationBarItem(
                 icon: Icon(MdiIcons.newspaper),
-                title: Text('News'),
+                label: 'News',
               ),
               BottomNavigationBarItem(
                 icon: Icon(MdiIcons.mapMarkerRadius),
-                title: Text('Infos'),
+                label: 'Infos',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                title: Text(''),
+                label: '',
               ),
               BottomNavigationBarItem(
                 icon: Icon(MdiIcons.bullhorn),
-                title: Text('Aktionen'),
+                label: 'Aktionen',
               ),
               BottomNavigationBarItem(
                 icon: Icon(MdiIcons.accountGroup),
-                title: Text('Über uns'),
+                label: 'Über uns',
               ),
             ],
           ),

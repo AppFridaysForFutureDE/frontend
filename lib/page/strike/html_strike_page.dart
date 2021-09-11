@@ -1,8 +1,6 @@
 import 'package:app/app.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
-import 'package:yaml/yaml.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 class HtmlStrikePage extends StatefulWidget {
   @override
@@ -14,7 +12,6 @@ class _HtmlStrikePageState extends State<HtmlStrikePage> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
   bool _isLoading = true;
-  String _startUrl;
 
   @override
   Widget build(BuildContext context) {

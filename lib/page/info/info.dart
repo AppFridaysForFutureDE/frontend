@@ -22,10 +22,9 @@ class _InfoPageState extends State<InfoPage> {
 
   @override
   void initState() {
+    super.initState();
     refreshSubscribedOgs();
     _loadData();
-
-    super.initState();
   }
 
   void refreshSubscribedOgs() {
@@ -40,6 +39,7 @@ class _InfoPageState extends State<InfoPage> {
       if (mounted) setState(() {});
     } catch (e) {
       if (mounted)
+        // ignore: deprecated_member_use
         Scaffold.of(context).showSnackBar(SnackBar(
             content: Text(
                 'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
@@ -156,12 +156,12 @@ class _InfoPageState extends State<InfoPage> {
         title: Text(og.name),
         content: SocialButtons(og, true),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             onPressed: Navigator.of(context).pop,
             child: Text('Abbrechen'),
           ),
           subscribed
-              ? FlatButton(
+              ? TextButton(
                   onPressed: () async {
                     Hive.box('subscribed_ogs').delete(og.ogId);
                     Navigator.of(context).pop();
@@ -173,7 +173,7 @@ class _InfoPageState extends State<InfoPage> {
                   },
                   child: Text('Deabonnieren'),
                 )
-              : FlatButton(
+              : TextButton(
                   onPressed: () async {
                     Hive.box('subscribed_ogs').put(og.ogId, og);
                     Navigator.of(context).pop();
@@ -181,7 +181,8 @@ class _InfoPageState extends State<InfoPage> {
                       searchActive = false;
                       refreshSubscribedOgs();
                     });
-                    await FirebaseMessaging.instance.subscribeToTopic('og_${og.ogId}');
+                    await FirebaseMessaging.instance
+                        .subscribeToTopic('og_${og.ogId}');
                   },
                   child: Text('Abonnieren'),
                 ),

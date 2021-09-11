@@ -1,4 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
+/* // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'campaign.dart';
 
@@ -23,3 +23,4 @@ Map<String, dynamic> _$CampaignToJson(Campaign instance) => <String, dynamic>{
       'link': instance.link,
       'inApp': instance.inApp,
     };
+ */

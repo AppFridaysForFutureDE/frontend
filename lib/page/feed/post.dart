@@ -6,7 +6,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 
 class PostPage extends StatefulWidget {
@@ -49,6 +48,7 @@ class _PostPageState extends State<PostPage> {
         }
       } catch (e) {
         if (mounted)
+          // ignore: deprecated_member_use
           _scaffoldKey.currentState.showSnackBar(SnackBar(
               content: Text(
                   'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));
@@ -63,6 +63,7 @@ class _PostPageState extends State<PostPage> {
             });
         } catch (e) {
           if (mounted)
+            // ignore: deprecated_member_use
             _scaffoldKey.currentState.showSnackBar(SnackBar(
                 content: Text(
                     'Der Inhalt konnte nicht geladen werden, bitte prüfe deine Internetverbindung.')));

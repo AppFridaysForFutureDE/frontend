@@ -81,8 +81,12 @@ class _VideoPageState extends State<VideoPage> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              RaisedButton(
-                                color: Color(0xff1da64a),
+                              ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                    Color(0xff1da64a),
+                                  ),
+                                ),
                                 child: Text('LOS GEHT\'S!'),
                                 onPressed: () {
                                   Hive.box('data').put('intro_done', true);
@@ -141,8 +145,12 @@ class _VideoPageState extends State<VideoPage> {
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                RaisedButton(
-                                  color: Color(0xff1da64a),
+                                ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                      Color(0xff1da64a),
+                                    ),
+                                  ),
                                   child: Text('LOS GEHT\'S!'),
                                   onPressed: () {
                                     Hive.box('data').put('intro_done', true);

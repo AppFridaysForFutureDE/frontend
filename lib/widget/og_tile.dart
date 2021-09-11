@@ -170,15 +170,6 @@ class _OgTileState extends State<OgTile> {
 
   @override
   Widget build(BuildContext context) {
-    // This code can be used for testing until the data is available in the backend
-    // TODO: Remove
-    // og.imageLink =
-    //     'https://www.zooroyal.de/magazin/wp-content/uploads/2017/11/Kakadu-760x560.jpg';
-    // // 'https://www.codemate.com/wp-content/uploads/2017/09/flutter-logo.png');
-    // og.infoTitle = 'So bereiten wir uns auf dem Großstreik vor';
-    // og.infoText =
-    //     'Sobald das Datum des Streiks steht, geht die Planung los: In einer ersten Telefonkonferenz, kurz TK, wurden sowohl 14 Uhr als Uhrzeit und Theresienwiese als Ort, wie auch die Aktionsform festgelegt. Außerdem wurden erste Ideen und Pläne für die Arbeitsweise und vorläufige Zeitpläne erstellt. Kurz nach der zweiten Telefonkonferenz stand als Arbeitsweise das Arbeiten in themenspezifischen Kleingruppen fest. So gibt es unter anderem Gruppen für Presse, Programm und Logistik. Ergebnisse der Arbeit in diesen Untergruppen, kurz UGs, werden in wöchentlichen Plena besprochen und abgesegnet. Außerdem hat jede UG mindestens einen Hutmenschen, der*die sich darum kümmert, dass die UG mit der Arbeit vorankommt, TKs stattfinden und als Ansprechpartner*in zur Verfügung steht.';
-
     //Update the next strike for OG
     if (strikes.isNotEmpty) {
       this.nextStrike = strikes.first;
