@@ -171,7 +171,7 @@ class App extends StatelessWidget {
       data: (theme) => _buildThemeData(theme),
       themedWidgetBuilder: (context, theme) {
         return MaterialApp(
-            // debugShowCheckedModeBanner: false,
+            debugShowCheckedModeBanner: false,
             title: 'App For Future',
             home: (Hive.box('data').get('intro_done') ?? false)
                 ? Home()

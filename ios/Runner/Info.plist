@@ -1,86 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>NSMotionUsageDescription</key>
-	<string>Wird nur aus teschnischen Gründen angezeigt</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Wird nur aus teschnischen Gründen angezeigt</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Wird nur aus teschnischen Gründen angezeigt</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Wird nur aus teschnischen Gründen angezeigt</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>Wird nur aus teschnischen Gründen angezeigt</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>Wird nur aus teschnischen Gründen angezeigt</string>
-	<key>NSContactsUsageDescription</key>
-	<string>Wird nur aus teschnischen Gründen angezeigt</string>
-	<key>io.flutter.embedded_views_preview</key>
-	<true/>
-	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
+		<key>NSMotionUsageDescription</key>
+		<string>Wird nur aus teschnischen Gründen angezeigt</string>
+		<key>NSSpeechRecognitionUsageDescription</key>
+		<string>Wird nur aus teschnischen Gründen angezeigt</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Wird nur aus teschnischen Gründen angezeigt</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>Wird nur aus teschnischen Gründen angezeigt</string>
+		<key>NSAppleMusicUsageDescription</key>
+		<string>Wird nur aus teschnischen Gründen angezeigt</string>
+		<key>NSCalendarsUsageDescription</key>
+		<string>Wird nur aus teschnischen Gründen angezeigt</string>
+		<key>NSContactsUsageDescription</key>
+		<string>Wird nur aus teschnischen Gründen angezeigt</string>
+		<key>io.flutter.embedded_views_preview</key>
 		<true/>
-	</dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>App For Future</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array>
+		<key>NSAppTransportSecurity</key>
 		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>de.fridaysforfuture.app.official</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>de.fridaysforfuture.app.official</string>
-			</array>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
 		</dict>
-	</array>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED</key>
-	<true/>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-		<string>remote-notification</string>
-	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Diese Berechtigung wird verwendet, um Story Vorlagen zu speichern.</string>
-</dict>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>App For Future</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(FLUTTER_BUILD_NAME)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLName</key>
+				<string>de.fridaysforfuture.app.official</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>de.fridaysforfuture.app.official</string>
+				</array>
+			</dict>
+		</array>
+		<key>CFBundleVersion</key>
+		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED</key>
+		<true/>
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIMainStoryboardFile</key>
+		<string>Main</string>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>Diese Berechtigung wird verwendet, um Story Vorlagen zu speichern.</string>
+		<key>UIStatusBarHidden</key>
+		<false/>
+	</dict>
 </plist>
