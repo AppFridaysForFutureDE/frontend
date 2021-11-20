@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../app.dart';
@@ -17,6 +19,13 @@ class AddIFramePage extends StatefulWidget {
 }
 
 class _AddIFramePageState extends State<AddIFramePage> {
+  @override
+  void initState() {
+    super.initState();
+    // Enable hybrid composition.
+    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

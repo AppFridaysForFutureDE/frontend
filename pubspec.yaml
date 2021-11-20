@@ -31,9 +31,9 @@ dependencies:
   expandable: ^4.1.4
   email_validator: "^1.0.5"
   dio: ^4.0.0 #latest version
-  image_gallery_saver: ^1.5.0
+  image_gallery_saver: ^1.6.9
   permission_handler: ^8.1.4+1
-  webview_flutter: ^2.0.10
+  webview_flutter: ^2.0.13
   flutter_svg: ^0.22.0
   material_design_icons_flutter: ^4.0.5555
   flutter_html: ^2.1.0

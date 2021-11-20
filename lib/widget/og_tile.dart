@@ -115,53 +115,58 @@ class _OgTileState extends State<OgTile> {
   Widget _strikeWidget(Strike strike) {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Datum: '),
-              Text(DateFormat('dd.MM.yyyy').format(strike.dateTime))
-            ],
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Uhrzeit: '),
-              Text(DateFormat('HH:mm').format(strike.dateTime)),
-            ],
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Treffpunkt: '),
-              Flexible(child: Text(strike.location)),
-            ],
-          ),
-          if (strike.additionalInfo.isNotEmpty)
-            Row(mainAxisSize: MainAxisSize.min, children: [
-              Text('Zusatz Info: '),
-              Flexible(child: Text(strike.additionalInfo))
-            ]),
-          if (strike.eventLink.isNotEmpty)
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width - 106,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                GestureDetector(
-                  child: new Text(
-                    'Link zum Event',
-                    style: TextStyle(color: Theme.of(context).accentColor),
-                  ),
-                  onTap: () => _launchURL(strike.eventLink),
-                ),
+                Text('Datum: '),
+                Text(DateFormat('dd.MM.yyyy').format(strike.dateTime))
               ],
             ),
-          if (strike.imageUrl != null)
-            CachedNetworkImage(imageUrl: strike.imageUrl),
-        ],
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Uhrzeit: '),
+                Text(DateFormat('HH:mm').format(strike.dateTime)),
+              ],
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                    child: SelectableText('Treffpunkt: ' + strike.location)),
+              ],
+            ),
+            if (strike.additionalInfo.isNotEmpty)
+              Row(mainAxisSize: MainAxisSize.min, children: [
+                Flexible(
+                    child:
+                        SelectableText('Zusatz Info: ' + strike.additionalInfo))
+              ]),
+            if (strike.eventLink.isNotEmpty)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GestureDetector(
+                    child: new Text(
+                      'Link zum Event',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary),
+                    ),
+                    onTap: () => _launchURL(strike.eventLink),
+                  ),
+                ],
+              ),
+            if (strike.imageUrl != null)
+              CachedNetworkImage(imageUrl: strike.imageUrl),
+          ],
+        ),
       ),
     );
   }
@@ -193,7 +198,8 @@ class _OgTileState extends State<OgTile> {
                       widget.og.name,
                       semanticsLabel: widget.og.name,
                       style: TextStyle(
-                          color: Theme.of(context).accentColor, fontSize: 20),
+                          color: Theme.of(context).colorScheme.secondary,
+                          fontSize: 20),
                     ),
                     if (!_expanded && nextStrike != null)
                       Text(
